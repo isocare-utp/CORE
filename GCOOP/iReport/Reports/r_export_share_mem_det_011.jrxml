@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_export_share_mem_det_011" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4b02af30-422c-4795-b00c-5982a4ce985c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Smember_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Emember_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="operate_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select mbmmas.member_no,
+mbupre.prename_desc,
+mbmmas.memb_name,
+mbmmas.memb_surname ,
+mbmgrp.membgroup_desc,
+mbmmas.member_date,
+shrmas.sharestk_amt,
+shrmas.periodshare_amt,
+shrmas.last_period
+from shsharemaster shrmas,shsharestatement shrstm,mbmembmaster mbmmas,mbucfmembgroup mbmgrp,mbucfprename mbupre
+where mbmmas.member_no = shrmas.member_no
+and shrmas.member_no = shrstm.member_no
+and mbmmas.membgroup_code = mbmgrp.membgroup_code
+and mbmmas.prename_code = mbupre.prename_code
+and ((shrstm.member_no between $P{Smember_no} and $P{Emember_no}) and (shrstm.operate_date = to_date($P{operate_date},'dd/mm/yyyy')))]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBER_DATE" class="java.sql.Timestamp"/>
+	<field name="SHARESTK_AMT" class="java.math.BigDecimal"/>
+	<field name="PERIODSHARE_AMT" class="java.math.BigDecimal"/>
+	<field name="LAST_PERIOD" class="java.math.BigDecimal"/>
+	<variable name="count" class="java.lang.Integer" calculation="Count"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3badc18c-d0dd-455d-94a4-4d4ff5175a6c" x="593" y="28" width="193" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์:"+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="1c09791c-fbab-4edf-b3e8-9b0d8e3bb642" x="759" y="8" width="40" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="43248849-a98e-42f9-b93b-ec09f2d6c97d" x="679" y="8" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6d7613f9-6349-4950-965d-c9fc92b6fdae" x="593" y="48" width="193" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เวลาที่พิมพ์:"+new SimpleDateFormat("HH:MM:ss",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="63ee78cd-d33e-4334-8ab7-1ef294b22481" x="179" y="28" width="414" height="40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Browallia New" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หุ้นตามทะเบียน จากวันที่ "+ $P{operate_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="81d81f60-aa6d-475f-963f-cf1ed4897ca6" x="41" y="0" width="73" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[MEMBER_NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="184ae429-858f-4549-981f-9836fa467db9" x="114" y="0" width="120" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[MEMB_NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0e02a343-fbd6-4e6e-b8df-5ace2a3b40b2" x="234" y="0" width="79" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[MEMBGROUP_DESC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="962d249e-a991-4ead-b9bb-d5b88d01705b" x="313" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[SHARESTK_AMT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dcb8c553-f130-467f-ae93-f64d690eb554" x="413" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[PERIODSHARE_AMT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7a69d8c-668b-4f40-9b8f-43dadd688ba8" x="513" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[LAST_PERIOD]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="6a936ad3-bfd2-4c61-b3e6-601ecb54f056" x="0" y="0" width="802" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="ea7a265d-4fec-4804-9ee6-e31eda2b95b7" x="0" y="19" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="ed6c7e3e-18f3-475c-942d-93ef12a9b3dd" x="0" y="0" width="41" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="871496b1-0a50-4625-99a3-f73127a13984" x="41" y="0" width="73" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2334d812-595e-44fd-8ac7-7d16871bd705" x="114" y="0" width="120" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+" "+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2fae7643-250c-4ee0-9e8b-df610e2b1832" x="234" y="0" width="79" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ebc269ec-fa81-41e6-8cf2-1a44f6ff3f01" x="313" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHARESTK_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0a619fc1-5579-4840-82dc-8c1eb03fcfe0" x="413" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIODSHARE_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="70b74748-384c-4033-9ba7-b1db5088a5e9" x="513" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LAST_PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2312523d-4066-4dce-bc55-34489e2729d1" x="0" y="0" width="41" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{count}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

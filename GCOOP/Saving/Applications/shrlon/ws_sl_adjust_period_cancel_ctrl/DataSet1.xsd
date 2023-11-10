@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="lnreqcontadjustdetTableAdapter" GeneratorDataComponentClassName="lnreqcontadjustdetTableAdapter" Name="lnreqcontadjustdet" UserDataComponentName="lnreqcontadjustdetTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select lnreqcontadjust.member_no ,
+	mbucfprename.prename_desc ,
+	mbmembmaster.memb_name ,
+	mbmembmaster.memb_surname ,
+	lnreqcontadjust.loancontract_no ,
+	lnreqcontadjust.contadjust_status ,
+	lncontmaster.loanapprove_amt ,
+	lncontmaster.last_periodpay ,
+	lnreqcontadjust.bfprnbal_amt ,
+	lnreqcontadjust.bfperiod ,
+	lnreqcontadjustdet.coop_id ,
+	lnreqcontadjustdet.contadjust_docno ,
+	lnreqcontadjustdet.contadjust_code ,
+	lnreqcontadjustdet.oldperiod_payamt ,
+	lnreqcontadjustdet.period_payamt ,
+	lnreqcontadjust.int_contintrate
+from lnreqcontadjust ,
+	lnreqcontadjustdet ,
+	lncontmaster ,
+	mbmembmaster ,
+	mbucfprename
+where lnreqcontadjust.coop_id = lnreqcontadjustdet.coop_id
+	and lnreqcontadjust.contadjust_docno = lnreqcontadjustdet.contadjust_docno
+	and lnreqcontadjust.coop_id = lncontmaster.coop_id
+	and lnreqcontadjust.loancontract_no = lncontmaster.loancontract_no
+	and lnreqcontadjust.coop_id = mbmembmaster.coop_id
+	and lnreqcontadjust.member_no = mbmembmaster.member_no
+	and mbmembmaster.prename_code = mbucfprename.prename_code
+	and lnreqcontadjust.contadjust_status = 8
+	and lnreqcontadjustdet.contadjust_code = 'PFX'</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+              <Mapping SourceColumn="PRENAME_DESC" DataSetColumn="PRENAME_DESC" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="LOANCONTRACT_NO" DataSetColumn="LOANCONTRACT_NO" />
+              <Mapping SourceColumn="LOANAPPROVE_AMT" DataSetColumn="LOANAPPROVE_AMT" />
+              <Mapping SourceColumn="LAST_PERIODPAY" DataSetColumn="LAST_PERIODPAY" />
+              <Mapping SourceColumn="BFPRNBAL_AMT" DataSetColumn="BFPRNBAL_AMT" />
+              <Mapping SourceColumn="BFPERIOD" DataSetColumn="BFPERIOD" />
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="CONTADJUST_DOCNO" DataSetColumn="CONTADJUST_DOCNO" />
+              <Mapping SourceColumn="CONTADJUST_CODE" DataSetColumn="CONTADJUST_CODE" />
+              <Mapping SourceColumn="OLDPERIOD_PAYAMT" DataSetColumn="OLDPERIOD_PAYMENT" />
+              <Mapping SourceColumn="PERIOD_PAYAMT" DataSetColumn="PERIOD_PAYMENT" />
+              <Mapping SourceColumn="INT_CONTINTRATE" DataSetColumn="INT_CONTINTRATE" />
+              <Mapping SourceColumn="CONTADJUST_STATUS" DataSetColumn="CONTADJUST_STATUS" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="criterie" msprop:Generator_TableClassName="criterieDataTable" msprop:Generator_TableVarName="tablecriterie" msprop:Generator_RowChangedName="criterieRowChanged" msprop:Generator_TablePropName="criterie" msprop:Generator_RowDeletingName="criterieRowDeleting" msprop:Generator_RowChangingName="criterieRowChanging" msprop:Generator_RowEvHandlerName="criterieRowChangeEventHandler" msprop:Generator_RowDeletedName="criterieRowDeleted" msprop:Generator_RowClassName="criterieRow" msprop:Generator_UserTableName="criterie" msprop:Generator_RowEvArgName="criterieRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sloantype_code" msprop:Generator_ColumnVarNameInTable="columnsloantype_code" msprop:Generator_ColumnPropNameInRow="sloantype_code" msprop:Generator_ColumnPropNameInTable="sloantype_codeColumn" msprop:Generator_UserColumnName="sloantype_code" type="xs:string" minOccurs="0" />
+              <xs:element name="eloantype_code" msprop:Generator_ColumnVarNameInTable="columneloantype_code" msprop:Generator_ColumnPropNameInRow="eloantype_code" msprop:Generator_ColumnPropNameInTable="eloantype_codeColumn" msprop:Generator_UserColumnName="eloantype_code" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="lnreqcontadjustdet" msprop:Generator_TableClassName="lnreqcontadjustdetDataTable" msprop:Generator_TableVarName="tablelnreqcontadjustdet" msprop:Generator_TablePropName="lnreqcontadjustdet" msprop:Generator_RowDeletingName="lnreqcontadjustdetRowDeleting" msprop:Generator_RowChangingName="lnreqcontadjustdetRowChanging" msprop:Generator_RowEvHandlerName="lnreqcontadjustdetRowChangeEventHandler" msprop:Generator_RowDeletedName="lnreqcontadjustdetRowDeleted" msprop:Generator_UserTableName="lnreqcontadjustdet" msprop:Generator_RowChangedName="lnreqcontadjustdetRowChanged" msprop:Generator_RowEvArgName="lnreqcontadjustdetRowChangeEvent" msprop:Generator_RowClassName="lnreqcontadjustdetRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MEMBER_NO" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRENAME_DESC" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPRENAME_DESC" msprop:Generator_ColumnPropNameInRow="PRENAME_DESC" msprop:Generator_ColumnPropNameInTable="PRENAME_DESCColumn" msprop:Generator_UserColumnName="PRENAME_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LOANCONTRACT_NO" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnLOANCONTRACT_NO" msprop:Generator_ColumnPropNameInRow="LOANCONTRACT_NO" msprop:Generator_ColumnPropNameInTable="LOANCONTRACT_NOColumn" msprop:Generator_UserColumnName="LOANCONTRACT_NO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LOANAPPROVE_AMT" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnLOANAPPROVE_AMT" msprop:Generator_ColumnPropNameInRow="LOANAPPROVE_AMT" msprop:Generator_ColumnPropNameInTable="LOANAPPROVE_AMTColumn" msprop:Generator_UserColumnName="LOANAPPROVE_AMT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LAST_PERIODPAY" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnLAST_PERIODPAY" msprop:Generator_ColumnPropNameInRow="LAST_PERIODPAY" msprop:Generator_ColumnPropNameInTable="LAST_PERIODPAYColumn" msprop:Generator_UserColumnName="LAST_PERIODPAY" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BFPRNBAL_AMT" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBFPRNBAL_AMT" msprop:Generator_ColumnPropNameInRow="BFPRNBAL_AMT" msprop:Generator_ColumnPropNameInTable="BFPRNBAL_AMTColumn" msprop:Generator_UserColumnName="BFPRNBAL_AMT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BFPERIOD" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBFPERIOD" msprop:Generator_ColumnPropNameInRow="BFPERIOD" msprop:Generator_ColumnPropNameInTable="BFPERIODColumn" msprop:Generator_UserColumnName="BFPERIOD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CONTADJUST_DOCNO" msprop:Generator_ColumnVarNameInTable="columnCONTADJUST_DOCNO" msprop:Generator_ColumnPropNameInRow="CONTADJUST_DOCNO" msprop:Generator_ColumnPropNameInTable="CONTADJUST_DOCNOColumn" msprop:Generator_UserColumnName="CONTADJUST_DOCNO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CONTADJUST_CODE" msprop:Generator_ColumnVarNameInTable="columnCONTADJUST_CODE" msprop:Generator_ColumnPropNameInRow="CONTADJUST_CODE" msprop:Generator_ColumnPropNameInTable="CONTADJUST_CODEColumn" msprop:Generator_UserColumnName="CONTADJUST_CODE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OLDPERIOD_PAYMENT" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOLDPERIOD_PAYMENT" msprop:Generator_ColumnPropNameInRow="OLDPERIOD_PAYMENT" msprop:Generator_ColumnPropNameInTable="OLDPERIOD_PAYMENTColumn" msprop:Generator_UserColumnName="OLDPERIOD_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PERIOD_PAYMENT" msprop:Generator_ColumnVarNameInTable="columnPERIOD_PAYMENT" msprop:Generator_ColumnPropNameInRow="PERIOD_PAYMENT" msprop:Generator_ColumnPropNameInTable="PERIOD_PAYMENTColumn" msprop:Generator_UserColumnName="PERIOD_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="INT_CONTINTRATE" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnINT_CONTINTRATE" msprop:Generator_ColumnPropNameInRow="INT_CONTINTRATE" msprop:Generator_ColumnPropNameInTable="INT_CONTINTRATEColumn" msprop:Generator_UserColumnName="INT_CONTINTRATE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cp_name" msdata:ReadOnly="true" msdata:Expression="PRENAME_DESC+MEMB_NAME + '   ' + MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columncp_name" msprop:Generator_ColumnPropNameInRow="cp_name" msprop:Generator_ColumnPropNameInTable="cp_nameColumn" msprop:Generator_UserColumnName="cp_name" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_div" msdata:ReadOnly="true" msdata:Expression="PERIOD_PAYMENT-OLDPERIOD_PAYMENT" msprop:Generator_ColumnVarNameInTable="columncp_div" msprop:Generator_ColumnPropNameInRow="cp_div" msprop:Generator_ColumnPropNameInTable="cp_divColumn" msprop:Generator_UserColumnName="cp_div" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cp_period" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columncp_period" msprop:Generator_ColumnPropNameInRow="cp_period" msprop:Generator_ColumnPropNameInTable="cp_periodColumn" msprop:Generator_UserColumnName="cp_period" type="xs:string" minOccurs="0" />
+              <xs:element name="CONTADJUST_STATUS" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCONTADJUST_STATUS" msprop:Generator_ColumnPropNameInRow="CONTADJUST_STATUS" msprop:Generator_ColumnPropNameInTable="CONTADJUST_STATUSColumn" msprop:Generator_UserColumnName="CONTADJUST_STATUS" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:lnreqcontadjustdet" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:CONTADJUST_DOCNO" />
+      <xs:field xpath="mstns:CONTADJUST_CODE" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

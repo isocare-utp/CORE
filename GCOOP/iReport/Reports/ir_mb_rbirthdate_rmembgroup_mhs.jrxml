@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mb_rbirthdate_rmembgroup_mhs" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c214246d-4953-4410-ab07-177f648d44e0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "MBMEMBMASTER"."MEMBER_NO",
+         "MBMEMBMASTER"."PRENAME_CODE",
+         "MBMEMBMASTER"."MEMB_NAME",
+         "MBMEMBMASTER"."MEMB_SURNAME",
+         "MBMEMBMASTER"."BIRTH_DATE",
+FT_CALAGE("MBMEMBMASTER"."BIRTH_DATE",SYSDATE,4) as membage ,
+         "MBUCFPRENAME"."PRENAME_DESC",
+		mbmembmaster.membgroup_code || ' - ' ||mbucfmembgroup.membgroup_desc as groupdisp, sysdate ,mbmembmaster.membgroup_code
+    FROM "MBMEMBMASTER",
+         "MBUCFPRENAME" ,
+		mbucfmembgroup
+   WHERE ( "MBMEMBMASTER"."PRENAME_CODE" = "MBUCFPRENAME"."PRENAME_CODE" ) and
+			(mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code) and
+		(mbmembmaster.coop_id =  $P{as_coopid}) AND
+          (MBMEMBMASTER.BIRTH_DATE  between  $P{start_date} and $P{end_date})  AND
+		(mbmembmaster.membgroup_code between $P{start_membgroup}  and $P{end_membgroup} ) and
+         ( "MBMEMBMASTER"."RESIGN_STATUS" <> 1 )
+		order by mbmembmaster.membgroup_code ,"MBMEMBMASTER"."MEMBER_NO" ASC]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_CODE" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="BIRTH_DATE" class="java.sql.Timestamp"/>
+	<field name="MEMBAGE" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="GROUPDISP" class="java.lang.String"/>
+	<field name="SYSDATE" class="java.sql.Timestamp"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94"/>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

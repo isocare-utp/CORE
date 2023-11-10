@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DT_MAINTableAdapter" GeneratorDataComponentClassName="DT_MAINTableAdapter" Name="DT_MAIN" UserDataComponentName="DT_MAINTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>  SELECT "MBUCFMEMBGROUP"."MEMBGROUP_CODE",   
+         "MBUCFMEMBGROUP"."MEMBGROUP_DESC",   
+         "MBUCFPRENAME"."PRENAME_DESC",   
+         "MBMEMBMASTER"."MEMB_NAME",   
+         "MBMEMBMASTER"."MEMBER_STATUS",   
+         "MBMEMBMASTER"."MEMBER_DATE",   
+         "MBMEMBMASTER"."RESIGN_STATUS",   
+         "MBMEMBMASTER"."RESIGN_DATE",   
+         "MBUCFMEMBTYPE"."MEMBTYPE_CODE",   
+         "MBUCFMEMBTYPE"."MEMBTYPE_DESC",   
+         "MBMEMBMASTER"."COOP_ID",   
+         "MBMEMBMASTER"."MEMBER_NO",   
+         to_date( '01/01/1900' , 'dd/mm/yyyy' ) as operate_date,   
+         to_date( '01/01/1900' , 'dd/mm/yyyy' ) as slip_date,   
+         '          ' as operate_tdate,   
+         '     ' as div_year,   
+         '                                ' as entry_id,   
+         "MBMEMBMASTER"."MEMB_SURNAME",   
+         "MBMEMBMASTER"."MEMB_ENAME",   
+         "MBMEMBMASTER"."MEMB_ESURNAME"  
+    FROM "MBMEMBMASTER",   
+         "MBUCFMEMBGROUP",   
+         "MBUCFPRENAME",   
+         "MBUCFMEMBTYPE"  
+   WHERE ( mbmembmaster.coop_id = mbucfmembgroup.coop_id (+)) and  
+         ( mbmembmaster.coop_id = mbucfmembtype.coop_id (+)) and  
+         ( mbmembmaster.membtype_code = mbucfmembtype.membtype_code (+)) and  
+         ( mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code (+)) and  
+         ( mbmembmaster.prename_code = mbucfprename.prename_code (+))    
+</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MEMBGROUP_CODE" DataSetColumn="MEMBGROUP_CODE" />
+              <Mapping SourceColumn="MEMBGROUP_DESC" DataSetColumn="MEMBGROUP_DESC" />
+              <Mapping SourceColumn="PRENAME_DESC" DataSetColumn="PRENAME_DESC" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMBER_STATUS" DataSetColumn="MEMBER_STATUS" />
+              <Mapping SourceColumn="MEMBER_DATE" DataSetColumn="MEMBER_DATE" />
+              <Mapping SourceColumn="RESIGN_STATUS" DataSetColumn="RESIGN_STATUS" />
+              <Mapping SourceColumn="RESIGN_DATE" DataSetColumn="RESIGN_DATE" />
+              <Mapping SourceColumn="MEMBTYPE_CODE" DataSetColumn="MEMBTYPE_CODE" />
+              <Mapping SourceColumn="MEMBTYPE_DESC" DataSetColumn="MEMBTYPE_DESC" />
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+              <Mapping SourceColumn="OPERATE_DATE" DataSetColumn="OPERATE_DATE" />
+              <Mapping SourceColumn="SLIP_DATE" DataSetColumn="SLIP_DATE" />
+              <Mapping SourceColumn="DIV_YEAR" DataSetColumn="DIV_YEAR" />
+              <Mapping SourceColumn="ENTRY_ID" DataSetColumn="ENTRY_ID" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="MEMB_ENAME" DataSetColumn="MEMB_ENAME" />
+              <Mapping SourceColumn="MEMB_ESURNAME" DataSetColumn="MEMB_ESURNAME" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DT_LISTTableAdapter" GeneratorDataComponentClassName="DT_LISTTableAdapter" Name="DT_LIST" UserDataComponentName="DT_LISTTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="ISCOTKS.YRSLIPPAYOUT" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "YRSLIPPAYOUT" WHERE (("COOP_ID" = :Original_COOP_ID) AND ("PAYOUTSLIP_NO" = :Original_PAYOUTSLIP_NO))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="Original_COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="Original_PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>  SELECT 0 as operate_flag,   
+         "YRSLIPPAYOUT"."COOP_ID",   
+         "YRSLIPPAYOUT"."PAYOUTSLIP_NO",   
+         "YRSLIPPAYOUT"."DIV_YEAR"  
+    FROM "YRSLIPPAYOUT"</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "YRSLIPPAYOUT" SET "COOP_ID" = :COOP_ID, "PAYOUTSLIP_NO" = :PAYOUTSLIP_NO, "DIV_YEAR" = :DIV_YEAR WHERE (("COOP_ID" = :Original_COOP_ID) AND ("PAYOUTSLIP_NO" = :Original_PAYOUTSLIP_NO))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="DIV_YEAR" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="DIV_YEAR" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="Original_COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="Original_PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="OPERATE_FLAG" DataSetColumn="OPERATE_FLAG" />
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="PAYOUTSLIP_NO" DataSetColumn="PAYOUTSLIP_NO" />
+              <Mapping SourceColumn="DIV_YEAR" DataSetColumn="DIV_YEAR" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DT_DETAILTableAdapter" GeneratorDataComponentClassName="DT_DETAILTableAdapter" Name="DT_DETAIL" UserDataComponentName="DT_DETAILTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="ISCOTKS.YRSLIPPAYOUTDET" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "YRSLIPPAYOUTDET" WHERE (("COOP_ID" = :Original_COOP_ID) AND ("PAYOUTSLIP_NO" = :Original_PAYOUTSLIP_NO) AND ("SEQ_NO" = :Original_SEQ_NO))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="Original_COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="Original_PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="Original_SEQ_NO" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="SEQ_NO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO "YRSLIPPAYOUTDET" ("COOP_ID", "PAYOUTSLIP_NO", "SEQ_NO", "METHPAYTYPE_CODE", "DIV_PAYMENT", "AVG_PAYMENT", "ETC_PAYMENT", "ITEM_PAYMENT") VALUES (:COOP_ID, :PAYOUTSLIP_NO, :SEQ_NO, :METHPAYTYPE_CODE, :DIV_PAYMENT, :AVG_PAYMENT, :ETC_PAYMENT, :ITEM_PAYMENT)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="SEQ_NO" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="SEQ_NO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="METHPAYTYPE_CODE" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="METHPAYTYPE_CODE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="DIV_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="DIV_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="AVG_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="AVG_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="ETC_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="ETC_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="ITEM_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="ITEM_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>  SELECT "YRSLIPPAYOUTDET"."COOP_ID",   
+         "YRSLIPPAYOUTDET"."PAYOUTSLIP_NO",   
+         "YRSLIPPAYOUTDET"."SEQ_NO",   
+         "YRSLIPPAYOUTDET"."METHPAYTYPE_CODE",   
+         "YRSLIPPAYOUTDET"."DIV_PAYMENT",   
+         "YRSLIPPAYOUTDET"."AVG_PAYMENT",   
+         "YRSLIPPAYOUTDET"."ETC_PAYMENT",   
+         "YRSLIPPAYOUTDET"."ITEM_PAYMENT"  
+    FROM "YRSLIPPAYOUTDET"  
+   WHERE ( yrslippayoutdet.coop_id = :as_coopid ) AND  
+         ( yrslippayoutdet.payoutslip_no = :as_payoutno )    
+</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="as_coopid" ColumnName="COOP_ID" DataSourceName="ISCOTKS.YRSLIPPAYOUTDET" DataTypeServer="CHAR(6)" DbType="AnsiString" Direction="Input" ParameterName="as_coopid" Precision="0" ProviderType="Char" Scale="0" Size="6" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="as_payoutno" ColumnName="PAYOUTSLIP_NO" DataSourceName="ISCOTKS.YRSLIPPAYOUTDET" DataTypeServer="VARCHAR2(15)" DbType="AnsiString" Direction="Input" ParameterName="as_payoutno" Precision="0" ProviderType="VarChar" Scale="0" Size="15" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "YRSLIPPAYOUTDET" SET "COOP_ID" = :COOP_ID, "PAYOUTSLIP_NO" = :PAYOUTSLIP_NO, "SEQ_NO" = :SEQ_NO, "METHPAYTYPE_CODE" = :METHPAYTYPE_CODE, "DIV_PAYMENT" = :DIV_PAYMENT, "AVG_PAYMENT" = :AVG_PAYMENT, "ETC_PAYMENT" = :ETC_PAYMENT, "ITEM_PAYMENT" = :ITEM_PAYMENT WHERE (("COOP_ID" = :Original_COOP_ID) AND ("PAYOUTSLIP_NO" = :Original_PAYOUTSLIP_NO) AND ("SEQ_NO" = :Original_SEQ_NO))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="SEQ_NO" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="SEQ_NO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="METHPAYTYPE_CODE" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="METHPAYTYPE_CODE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="DIV_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="DIV_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="AVG_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="AVG_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="ETC_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="ETC_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="ITEM_PAYMENT" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="ITEM_PAYMENT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiStringFixedLength" Direction="Input" ParameterName="Original_COOP_ID" Precision="0" ProviderType="Char" Scale="0" Size="0" SourceColumn="COOP_ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="AnsiString" Direction="Input" ParameterName="Original_PAYOUTSLIP_NO" Precision="0" ProviderType="VarChar" Scale="0" Size="0" SourceColumn="PAYOUTSLIP_NO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="VarNumeric" Direction="Input" ParameterName="Original_SEQ_NO" Precision="0" ProviderType="Number" Scale="0" Size="0" SourceColumn="SEQ_NO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="PAYOUTSLIP_NO" DataSetColumn="PAYOUTSLIP_NO" />
+              <Mapping SourceColumn="SEQ_NO" DataSetColumn="SEQ_NO" />
+              <Mapping SourceColumn="METHPAYTYPE_CODE" DataSetColumn="METHPAYTYPE_CODE" />
+              <Mapping SourceColumn="DIV_PAYMENT" DataSetColumn="DIV_PAYMENT" />
+              <Mapping SourceColumn="AVG_PAYMENT" DataSetColumn="AVG_PAYMENT" />
+              <Mapping SourceColumn="ETC_PAYMENT" DataSetColumn="ETC_PAYMENT" />
+              <Mapping SourceColumn="ITEM_PAYMENT" DataSetColumn="ITEM_PAYMENT" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DT_MAIN" msprop:Generator_TableClassName="DT_MAINDataTable" msprop:Generator_TableVarName="tableDT_MAIN" msprop:Generator_TablePropName="DT_MAIN" msprop:Generator_RowDeletingName="DT_MAINRowDeleting" msprop:Generator_RowChangingName="DT_MAINRowChanging" msprop:Generator_RowEvHandlerName="DT_MAINRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_MAINRowDeleted" msprop:Generator_UserTableName="DT_MAIN" msprop:Generator_RowChangedName="DT_MAINRowChanged" msprop:Generator_RowEvArgName="DT_MAINRowChangeEvent" msprop:Generator_RowClassName="DT_MAINRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MEMBGROUP_CODE" msprop:Generator_ColumnVarNameInTable="columnMEMBGROUP_CODE" msprop:Generator_ColumnPropNameInRow="MEMBGROUP_CODE" msprop:Generator_ColumnPropNameInTable="MEMBGROUP_CODEColumn" msprop:Generator_UserColumnName="MEMBGROUP_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="14" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBGROUP_DESC" msprop:Generator_ColumnVarNameInTable="columnMEMBGROUP_DESC" msprop:Generator_ColumnPropNameInRow="MEMBGROUP_DESC" msprop:Generator_ColumnPropNameInTable="MEMBGROUP_DESCColumn" msprop:Generator_UserColumnName="MEMBGROUP_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRENAME_DESC" msprop:Generator_ColumnVarNameInTable="columnPRENAME_DESC" msprop:Generator_ColumnPropNameInRow="PRENAME_DESC" msprop:Generator_ColumnPropNameInTable="PRENAME_DESCColumn" msprop:Generator_UserColumnName="PRENAME_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBER_STATUS" msprop:Generator_ColumnVarNameInTable="columnMEMBER_STATUS" msprop:Generator_ColumnPropNameInRow="MEMBER_STATUS" msprop:Generator_ColumnPropNameInTable="MEMBER_STATUSColumn" msprop:Generator_UserColumnName="MEMBER_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MEMBER_DATE" msprop:Generator_ColumnVarNameInTable="columnMEMBER_DATE" msprop:Generator_ColumnPropNameInRow="MEMBER_DATE" msprop:Generator_ColumnPropNameInTable="MEMBER_DATEColumn" msprop:Generator_UserColumnName="MEMBER_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="RESIGN_STATUS" msprop:Generator_ColumnVarNameInTable="columnRESIGN_STATUS" msprop:Generator_ColumnPropNameInRow="RESIGN_STATUS" msprop:Generator_ColumnPropNameInTable="RESIGN_STATUSColumn" msprop:Generator_UserColumnName="RESIGN_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RESIGN_DATE" msprop:Generator_ColumnVarNameInTable="columnRESIGN_DATE" msprop:Generator_ColumnPropNameInRow="RESIGN_DATE" msprop:Generator_ColumnPropNameInTable="RESIGN_DATEColumn" msprop:Generator_UserColumnName="RESIGN_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="MEMBTYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnMEMBTYPE_CODE" msprop:Generator_ColumnPropNameInRow="MEMBTYPE_CODE" msprop:Generator_ColumnPropNameInTable="MEMBTYPE_CODEColumn" msprop:Generator_UserColumnName="MEMBTYPE_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBTYPE_DESC" msprop:Generator_ColumnVarNameInTable="columnMEMBTYPE_DESC" msprop:Generator_ColumnPropNameInRow="MEMBTYPE_DESC" msprop:Generator_ColumnPropNameInTable="MEMBTYPE_DESCColumn" msprop:Generator_UserColumnName="MEMBTYPE_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OPERATE_DATE" msprop:Generator_ColumnVarNameInTable="columnOPERATE_DATE" msprop:Generator_ColumnPropNameInRow="OPERATE_DATE" msprop:Generator_ColumnPropNameInTable="OPERATE_DATEColumn" msprop:Generator_UserColumnName="OPERATE_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SLIP_DATE" msprop:Generator_ColumnVarNameInTable="columnSLIP_DATE" msprop:Generator_ColumnPropNameInRow="SLIP_DATE" msprop:Generator_ColumnPropNameInTable="SLIP_DATEColumn" msprop:Generator_UserColumnName="SLIP_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="DIV_YEAR" msprop:Generator_ColumnVarNameInTable="columnDIV_YEAR" msprop:Generator_ColumnPropNameInRow="DIV_YEAR" msprop:Generator_ColumnPropNameInTable="DIV_YEARColumn" msprop:Generator_UserColumnName="DIV_YEAR" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ENTRY_ID" msprop:Generator_ColumnVarNameInTable="columnENTRY_ID" msprop:Generator_ColumnPropNameInRow="ENTRY_ID" msprop:Generator_ColumnPropNameInTable="ENTRY_IDColumn" msprop:Generator_UserColumnName="ENTRY_ID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="32" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_ENAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_ENAME" msprop:Generator_ColumnPropNameInRow="MEMB_ENAME" msprop:Generator_ColumnPropNameInTable="MEMB_ENAMEColumn" msprop:Generator_UserColumnName="MEMB_ENAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_ESURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_ESURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_ESURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_ESURNAMEColumn" msprop:Generator_UserColumnName="MEMB_ESURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cp_name" msdata:ReadOnly="true" msdata:Expression="prename_desc+memb_name+'  '+memb_surname" msprop:Generator_ColumnVarNameInTable="columncp_name" msprop:Generator_ColumnPropNameInRow="cp_name" msprop:Generator_ColumnPropNameInTable="cp_nameColumn" msprop:Generator_UserColumnName="cp_name" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_name_eng" msdata:ReadOnly="true" msdata:Expression="memb_ename+'  '+memb_esurname" msprop:Generator_ColumnVarNameInTable="columncp_name_eng" msprop:Generator_ColumnPropNameInRow="cp_name_eng" msprop:Generator_ColumnPropNameInTable="cp_name_engColumn" msprop:Generator_UserColumnName="cp_name_eng" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_membgroup" msdata:ReadOnly="true" msdata:Expression="membgroup_code+' : '+membgroup_desc" msprop:Generator_ColumnVarNameInTable="columncp_membgroup" msprop:Generator_ColumnPropNameInRow="cp_membgroup" msprop:Generator_ColumnPropNameInTable="cp_membgroupColumn" msprop:Generator_UserColumnName="cp_membgroup" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_membtype" msdata:ReadOnly="true" msdata:Expression="membtype_code+' : '+membtype_desc" msprop:Generator_ColumnVarNameInTable="columncp_membtype" msprop:Generator_ColumnPropNameInRow="cp_membtype" msprop:Generator_ColumnPropNameInTable="cp_membtypeColumn" msprop:Generator_UserColumnName="cp_membtype" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DT_LIST" msprop:Generator_TableClassName="DT_LISTDataTable" msprop:Generator_TableVarName="tableDT_LIST" msprop:Generator_TablePropName="DT_LIST" msprop:Generator_RowDeletingName="DT_LISTRowDeleting" msprop:Generator_RowChangingName="DT_LISTRowChanging" msprop:Generator_RowEvHandlerName="DT_LISTRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_LISTRowDeleted" msprop:Generator_UserTableName="DT_LIST" msprop:Generator_RowChangedName="DT_LISTRowChanged" msprop:Generator_RowEvArgName="DT_LISTRowChangeEvent" msprop:Generator_RowClassName="DT_LISTRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="OPERATE_FLAG" msprop:Generator_ColumnVarNameInTable="columnOPERATE_FLAG" msprop:Generator_ColumnPropNameInRow="OPERATE_FLAG" msprop:Generator_ColumnPropNameInTable="OPERATE_FLAGColumn" msprop:Generator_UserColumnName="OPERATE_FLAG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PAYOUTSLIP_NO" msprop:Generator_ColumnVarNameInTable="columnPAYOUTSLIP_NO" msprop:Generator_ColumnPropNameInRow="PAYOUTSLIP_NO" msprop:Generator_ColumnPropNameInTable="PAYOUTSLIP_NOColumn" msprop:Generator_UserColumnName="PAYOUTSLIP_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIV_YEAR" msprop:Generator_ColumnVarNameInTable="columnDIV_YEAR" msprop:Generator_ColumnPropNameInRow="DIV_YEAR" msprop:Generator_ColumnPropNameInTable="DIV_YEARColumn" msprop:Generator_UserColumnName="DIV_YEAR" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="5" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DT_DETAIL" msprop:Generator_TableClassName="DT_DETAILDataTable" msprop:Generator_TableVarName="tableDT_DETAIL" msprop:Generator_TablePropName="DT_DETAIL" msprop:Generator_RowDeletingName="DT_DETAILRowDeleting" msprop:Generator_RowChangingName="DT_DETAILRowChanging" msprop:Generator_RowEvHandlerName="DT_DETAILRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_DETAILRowDeleted" msprop:Generator_UserTableName="DT_DETAIL" msprop:Generator_RowChangedName="DT_DETAILRowChanged" msprop:Generator_RowEvArgName="DT_DETAILRowChangeEvent" msprop:Generator_RowClassName="DT_DETAILRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PAYOUTSLIP_NO" msprop:Generator_ColumnVarNameInTable="columnPAYOUTSLIP_NO" msprop:Generator_ColumnPropNameInRow="PAYOUTSLIP_NO" msprop:Generator_ColumnPropNameInTable="PAYOUTSLIP_NOColumn" msprop:Generator_UserColumnName="PAYOUTSLIP_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SEQ_NO" msprop:Generator_ColumnVarNameInTable="columnSEQ_NO" msprop:Generator_ColumnPropNameInRow="SEQ_NO" msprop:Generator_ColumnPropNameInTable="SEQ_NOColumn" msprop:Generator_UserColumnName="SEQ_NO" type="xs:decimal" />
+              <xs:element name="METHPAYTYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnMETHPAYTYPE_CODE" msprop:Generator_ColumnPropNameInRow="METHPAYTYPE_CODE" msprop:Generator_ColumnPropNameInTable="METHPAYTYPE_CODEColumn" msprop:Generator_UserColumnName="METHPAYTYPE_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIV_PAYMENT" msprop:Generator_ColumnVarNameInTable="columnDIV_PAYMENT" msprop:Generator_ColumnPropNameInRow="DIV_PAYMENT" msprop:Generator_ColumnPropNameInTable="DIV_PAYMENTColumn" msprop:Generator_UserColumnName="DIV_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AVG_PAYMENT" msprop:Generator_ColumnVarNameInTable="columnAVG_PAYMENT" msprop:Generator_ColumnPropNameInRow="AVG_PAYMENT" msprop:Generator_ColumnPropNameInTable="AVG_PAYMENTColumn" msprop:Generator_UserColumnName="AVG_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ETC_PAYMENT" msprop:Generator_ColumnVarNameInTable="columnETC_PAYMENT" msprop:Generator_ColumnPropNameInRow="ETC_PAYMENT" msprop:Generator_ColumnPropNameInTable="ETC_PAYMENTColumn" msprop:Generator_UserColumnName="ETC_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ITEM_PAYMENT" msprop:Generator_ColumnVarNameInTable="columnITEM_PAYMENT" msprop:Generator_ColumnPropNameInRow="ITEM_PAYMENT" msprop:Generator_ColumnPropNameInTable="ITEM_PAYMENTColumn" msprop:Generator_UserColumnName="ITEM_PAYMENT" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DT_MAIN" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:MEMBER_NO" />
+    </xs:unique>
+    <xs:unique name="DT_LIST_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DT_LIST" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:PAYOUTSLIP_NO" />
+    </xs:unique>
+    <xs:unique name="DT_DETAIL_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DT_DETAIL" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:PAYOUTSLIP_NO" />
+      <xs:field xpath="mstns:SEQ_NO" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

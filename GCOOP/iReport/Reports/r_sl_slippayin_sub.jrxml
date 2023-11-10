@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_slippayin_sub" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="92a0c309-0c52-47c1-87cf-9cc3e20a82fb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_payinslipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tbath" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT decode("SLSLIPPAYINDET"."LOANCONTRACT_NO",null,"SLSLIPPAYINDET"."SLIPITEM_DESC","SLSLIPPAYINDET"."SLIPITEM_DESC"||' - '||"SLSLIPPAYINDET"."LOANCONTRACT_NO") as DESCRIPTION,
+         "SLSLIPPAYINDET"."PAYINSLIP_NO",
+         "SLSLIPPAYINDET"."PERIOD",
+         "SLSLIPPAYINDET"."PRINCIPAL_PAYAMT",
+         "SLSLIPPAYINDET"."INTEREST_PAYAMT",
+         "SLSLIPPAYINDET"."ITEM_PAYAMT",
+         "SLSLIPPAYINDET"."ITEM_BALANCE" as "PRINCIPAL_BALANCE",
+         "SLSLIPPAYINDET"."SLIPITEMTYPE_CODE",
+         "SLSLIPPAYINDET"."SHRLONTYPE_CODE",
+         "LNCONTMASTER"."PERIOD_PAYAMT"
+    FROM "SLSLIPPAYINDET",
+         "SLUCFSLIPITEMTYPE",
+         "LNCONTMASTER"
+   WHERE ( SLSLIPPAYINDET.loancontract_no = lncontmaster.loancontract_no (+)) and
+         ( "SLSLIPPAYINDET"."SLIPITEMTYPE_CODE" = "SLUCFSLIPITEMTYPE"."SLIPITEMTYPE_CODE" ) and
+SLSLIPPAYINDET.PAYINSLIP_NO = $P{as_payinslipno}]]>
+	</queryString>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_BALANCE" class="java.math.BigDecimal"/>
+	<field name="SLIPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<variable name="sum" class="java.math.BigDecimal" resetType="Group" resetGroup="SLIP_NO" calculation="Sum">
+		<variableExpression><![CDATA[$F{ITEM_PAYAMT}]]></variableExpression>
+	</variable>
+	<group name="SLIP_NO">
+		<groupExpression><![CDATA[$F{PAYINSLIP_NO}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="171" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3b35b24f-bff7-497e-ad5c-a7f95998892c" x="0" y="0" width="181" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9f05dd52-6cfe-48e7-aff2-3cdfb7a136dd" x="181" y="0" width="48" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="19ef7e89-a294-432a-b84a-049161e7cb15" x="247" y="0" width="83" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="b0b689a9-a313-42cd-892f-7edc52b922fc" x="312" y="0" width="83" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="40704c3c-dede-482a-bb5c-9e72650afa0c" x="399" y="0" width="89" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="87b7b231-d9ad-476d-a32e-f355ffb9946e" x="484" y="0" width="93" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_BALANCE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="e2668f1e-b191-47d9-8223-a4941c02dfcf" x="399" y="0" width="89" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dd7578b6-a3ff-4903-8844-425aa1c8dfc9" x="0" y="0" width="330" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tbath}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_010_hr_employee" language="groovy" pageWidth="1023" pageHeight="792" orientation="Landscape" columnWidth="1023" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1f3c5d98-cf93-4305-b1cd-9f811193b1ed">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_eempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select hem.emp_no,
+hem.salary_id,
+mup.prename_desc,
+hem.emp_name,
+hem.emp_surname,
+hup.pos_desc,
+hul.deptline_desc,
+hem.birth_date,
+hem.work_date,
+hem.contain_date
+from hremployee hem,
+mbucfprename mup,
+hrucfdeptgrp hug,
+hrucfdeptline hul,
+hrucfposition hup
+where hem.prename_code = mup.prename_code
+and hem.deptgrp_code = hug.deptgrp_code
+and hug.deptline_code = hul.deptline_code
+and hem.pos_code = hup.pos_code
+and hem.coop_id = $P{as_coopid}
+and trim(hem.emp_no) between trim($P{as_sempno}) and trim($P{as_eempno})
+order by hem.emp_no]]>
+	</queryString>
+	<field name="EMP_NO" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="EMP_NAME" class="java.lang.String"/>
+	<field name="EMP_SURNAME" class="java.lang.String"/>
+	<field name="POS_DESC" class="java.lang.String"/>
+	<field name="DEPTLINE_DESC" class="java.lang.String"/>
+	<field name="BIRTH_DATE" class="java.sql.Timestamp"/>
+	<field name="WORK_DATE" class="java.sql.Timestamp"/>
+	<field name="CONTAIN_DATE" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2899c624-bffa-4d53-82c2-ab98bb9dd45c" x="14" y="27" width="301" height="15"/>
+				<textElement>
+					<font fontName="Angsana New" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="e16d7662-0640-41b6-a90f-3064c0273613" x="878" y="22" width="128" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ : " + new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format(new java.util.Date()) + "  " + new SimpleDateFormat("HH:mm:ss",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fd9cd4d4-89af-4047-9d5c-d26ce5dca299" x="936" y="5" width="58" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}+" / "]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="d3711ae2-9152-4b1b-8c86-c6948a664839" x="341" y="1" width="233" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายงานรายชื่อเจ้าหน้าที่ ลูกจ้าง"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="95e88569-7612-4199-a439-e353fed98e03" x="995" y="5" width="10" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement uuid="26259868-6b2a-4a5e-b227-94fcbb049266" x="0" y="23" width="1020" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="a5c4c7f5-4cfb-4f10-958e-54111bd2f0b4" x="0" y="1" width="1020" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="0c4ee0fd-b9b2-4c86-a8f9-b96bfe6820b9" x="48" y="2" width="70" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รหัสเจ้าหน้าที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="94250229-1382-4b1f-88a0-b8f46b52c2f0" x="14" y="2" width="34" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ลำดับที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4ba043ca-628c-4d2a-933b-bdc8ee54df31" x="118" y="2" width="70" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[เลขรับเงินเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a2013e5b-017b-4bf8-96e4-1d6a2092b8bb" x="189" y="2" width="180" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ชื่อ-นามสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b9762ddc-09ea-460f-9de0-a9a6f95358fb" x="370" y="2" width="200" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่ง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4e76c40f-3cf8-426c-9067-11a68c64c269" x="572" y="2" width="170" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ชื่อฝ่าย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9be5728c-637f-4b8c-8277-c2b1290ff41b" x="749" y="2" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[วันเกิด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="67848dfb-5ddb-44a6-8df6-91b2f4400062" x="835" y="2" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[วันเริ่มทำงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72d7d7ae-9c2b-4d3f-9b37-044164437785" x="920" y="2" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[วันบรรจุ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3c317baa-ddc6-401f-af42-a68c47ccdf32" x="14" y="1" width="34" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="af41132a-261c-4a5e-8e16-d58a47682e79" x="48" y="1" width="70" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMP_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e558002a-7881-4af9-83cb-2d1299ac1142" x="118" y="1" width="70" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="84344eba-0263-4a1c-bbd7-87eeab64d284" x="189" y="1" width="180" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{EMP_NAME}+' '+$F{EMP_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="42c06503-80b2-4b22-991f-a3f94d32b48c" x="370" y="1" width="200" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f240daf1-11ae-48dc-9859-b1ff4d075e93" x="572" y="1" width="170" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEPTLINE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0b728228-2900-4c2c-855f-f581553a2a14" x="749" y="1" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format($F{BIRTH_DATE})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f06045fb-3276-4822-89a1-13cfa278dc52" x="835" y="1" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format($F{WORK_DATE})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1f44b9fe-7b9f-405f-a83f-395459036977" x="920" y="1" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format($F{CONTAIN_DATE})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement uuid="6192bf1a-dc31-4347-b3ad-5feff6b8b0a3" x="0" y="1" width="1020" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

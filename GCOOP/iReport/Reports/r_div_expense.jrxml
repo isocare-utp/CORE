@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_div_expense" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="943bb017-677c-4f34-ad82-93a5704d5372">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select dvtp.member_no,ft_getmemname(mb.coop_id,dvtp.member_no) as fullname, dvtp.moneytype_code, dvtp.bank_code,cb.bank_desc, dvtp.bank_branch, cbb.branch_name,dvtp.bank_accid,
+		mb.membgroup_code,mb.current_coopid,ft_memgrp(mb.coop_id,mb.membgroup_code) as membgroup_desc
+from
+	(
+	select rank() over( partition by member_no order by member_no, dvtype ) as seqno, dvtype,
+			coop_id, member_no, moneytype_code, bank_code, bank_branch, bank_accid
+	from
+		(
+		select '1' as dvtype, tr.coop_id, tr.member_no, tr.moneytype_code, tr.bank_code, tr.bank_branch, tr.bank_accid
+		from mbmembmoneytr tr
+		where  tr.trtype_code = 'DVAV1'
+		union
+		select '2' as dvtype, mb.coop_id, mb.member_no, mb.expense_code, mb.expense_bank, mb.expense_branch, mb.expense_accid
+		from mbmembmaster mb
+		) tp
+	) dvtp
+	join mbmembmaster mb on dvtp.coop_id = mb.coop_id and dvtp.member_no = mb.member_no
+	left join cmucfbank cb on dvtp.bank_code = cb.bank_code
+	left join cmucfbankbranch cbb on dvtp.bank_code = cbb.bank_code and dvtp.bank_branch = cbb.branch_id
+where dvtp.seqno = 1
+and mb.resign_status = 0
+and mb.current_coopid between $P{as_coopid} and $P{as_coop}
+and mb.membgroup_code between $P{as_sgroup} and $P{as_egroup}]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULLNAME" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="BANK_CODE" class="java.lang.String"/>
+	<field name="BANK_DESC" class="java.lang.String"/>
+	<field name="BANK_BRANCH" class="java.lang.String"/>
+	<field name="BRANCH_NAME" class="java.lang.String"/>
+	<field name="BANK_ACCID" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="CURRENT_COOPID" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<sortField name="CURRENT_COOPID"/>
+	<sortField name="MEMBGROUP_CODE"/>
+	<sortField name="MEMBER_NO"/>
+	<group name="GROUP">
+		<groupExpression><![CDATA[$F{MEMBGROUP_CODE}]]></groupExpression>
+		<groupFooter>
+			<band height="45">
+				<staticText>
+					<reportElement uuid="ddc11743-0c64-4e31-b469-519cfd4d3868" x="302" y="24" width="39" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ลงชื่อ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="94b84ad4-5231-4ace-acda-4d77c8b5d519" x="471" y="24" width="243" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ผู้จัดการฝ่าย]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="39730754-9b32-4ae6-82f0-b8fbf7f99ece" x="341" y="42" width="130" height="1"/>
+				</line>
+				<break>
+					<reportElement uuid="0edaa3d7-8176-45af-9bb2-97d3fb260dec" x="0" y="44" width="100" height="1"/>
+				</break>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="90e0f3e2-5787-4167-ad15-81cf40b96b69" x="0" y="1" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ไทยน้ำทิพย์  จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38052c96-d451-46bf-82e7-9dcb23178da1" x="0" y="22" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รายงานยืนยัน เลขที่บัญชีเงินปันผล - เฉลี่ยคืน]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3c03438b-c529-4233-a98d-685c297680e2" x="0" y="43" width="458" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="21576034-426d-4768-9220-5817c72828eb" x="0" y="64" width="802" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="802005f8-7bbe-498a-a4ca-c172fe63c491" x="0" y="104" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="6f7d182f-5b11-4cfc-92d2-b7031b66cb88" x="0" y="65" width="160" height="39"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2384c010-5e5d-43df-b8c0-df46dad7247d" x="160" y="65" width="317" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อมูลปัจจุบัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aeda8c63-134b-412f-bf42-a5b8891eccfb" x="477" y="65" width="325" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อมูลที่ต้องการเปลี่ยนแปลง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1b77600b-88ec-4f89-8257-1cefc20a2a74" x="160" y="84" width="222" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สาขา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e5938ba1-d91a-4534-8efc-559975e4534c" x="382" y="84" width="95" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="488f1656-90e3-4e94-8993-07065ac6cafe" x="477" y="84" width="211" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สาขา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0245423-68ea-4dbb-bb59-dfa0f7da699e" x="688" y="84" width="114" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f5018c69-2397-4c72-b849-b49d190509c0" x="0" y="0" width="160" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}+"-"+$F{FULLNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b6a9ce2f-e027-40e9-88cd-91fcc416f286" x="160" y="0" width="222" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BRANCH_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2dd255be-bb7c-45bd-be42-62528d323718" x="382" y="0" width="95" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANK_ACCID}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="d9df244e-0e83-4030-aa9d-d9f4ac3993d2" x="477" y="18" width="211" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="5fb199b3-99d6-441b-8fb5-47dc73006cea" x="688" y="18" width="114" height="1"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

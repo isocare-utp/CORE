@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_r_ln_print_loan_req_doc_spc_gsb" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9714d6e2-078e-4efd-9935-bcf72bd586c9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loanreq" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+trim((trim(lc.description)||' '||
+decode(cm.bd_addrno,null,trim(' ระวาง '||cm.land_ravang||' หน้าสำรวจ '||cm.land_survey||' เลขที่ดิน '||cm.land_landno)||' '||'เนื้อที่'||' '||cm.size_rai||' '||'ไร่'||' '||cm.size_ngan||' '||'งาน'||' '||cm.size_wa||' '||'วา',' ')||' '||
+trim(cm.bd_addrno||' '||'ตำบล'|| cm.pos_tambol||cm.bd_tambol||' '
+||'อำเภอ'||cm.pos_amphur||cm.bd_amphur ||' '||'จังหวัด'|| cm.pos_province||cm.bd_province)||' '||
+decode(cm.desc_position,null,' ','อยู่ใกล้กับ'||' '||cm.desc_position||' '||'สาธารณูปโภค'||' '||cm.desc_utility||' '||cm.desc_travel))||' '||'ตั้งอยู่บนที่ดิน'||' '||
+CASE trim(cm.bd_onlandno)
+WHEN trim(land.land_docno)
+THEN ' '||decode(land.bd_addrno,null,trim('เลขโฉนด '||land.land_docno||' ระวาง '||land.land_ravang||' หน้าสำรวจ '||land.land_survey||' เลขที่ดิน '||land.land_landno))
+ELSE 'ไม่ระบุ'
+END
+) as addressbdps
+
+from
+lnreqloan lr,
+lnreqloancoll  lc,
+mbmembmaster mb,
+mbucfprovince pr,
+lncollmaster cm,
+mbucfdistrict md,
+mbucftambol mt,
+lnucfloanobjective lo,(
+select lncollmaster.land_docno ,lncollmaster.bd_addrno,lncollmaster.land_ravang,lncollmaster.land_survey,lncollmaster.land_landno
+from
+lnreqloan,
+lnreqloancoll,
+lncollmaster
+where  lnreqloan.loanrequest_docno = lnreqloancoll.loanrequest_docno
+and lnreqloan.coop_id = lnreqloancoll.coop_id
+and trim(lnreqloancoll.ref_collno) = lncollmaster.collmast_no
+and lnreqloan.loanrequest_docno in ($P{as_loanreq})
+and lnreqloan.coop_id = $P{as_coopid}
+and lnreqloancoll.loancolltype_code in ('04')
+) land
+where  lr.loanrequest_docno = lc.loanrequest_docno
+and mb.province_code = pr.province_code
+and mb.Amphur_Code = md.district_code
+and mb.Tambol_Code = mt.tambol_code
+and lr.loantype_code = lo.loantype_code
+and lr.loanobjective_code = lo.loanobjective_code
+and mb.member_no = cm.member_no
+and lr.coop_id = lc.coop_id
+and lr.coop_id = mb.coop_id
+and cm.bd_onlandno = land.land_docno(+)
+and trim(lc.ref_collno) = cm.collmast_no
+and lr.loanrequest_docno in ($P{as_loanreq})
+and lr.coop_id = $P{as_coopid}
+and lc.loancolltype_code in ('04')
+union
+
+select
+trim('ใช้หุ้นค้ำประกัน'||' '||TO_CHAR(lc.collactive_amt, '99G999G999G999','NLS_NUMERIC_CHARACTERS=",."')||' '||'บาท')  as addressbdps
+
+from
+lnreqloan lr,
+lnreqloancoll  lc,
+mbmembmaster mb,
+mbucfprovince pr,
+mbucfdistrict md,
+mbucftambol mt,
+lnucfloanobjective lo
+where  lr.loanrequest_docno = lc.loanrequest_docno
+and trim(lc.ref_collno) = mb.member_no
+and mb.province_code = pr.province_code
+and mb.Amphur_Code = md.district_code
+and mb.Tambol_Code = mt.tambol_code
+and lr.loantype_code = lo.loantype_code
+and lr.loanobjective_code = lo.loanobjective_code
+and lr.coop_id = lc.coop_id
+and lr.coop_id = mb.coop_id
+and lr.loanrequest_docno in ($P{as_loanreq})
+and lr.coop_id = $P{as_coopid}
+and lc.loancolltype_code in ('02')]]>
+	</queryString>
+	<field name="ADDRESSBDPS" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="50db79fa-9af0-4437-a2c2-05259621bef7" x="24" y="0" width="452" height="21"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADDRESSBDPS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dd6b901f-5c6a-449f-abcd-0dbe511fe651" x="2" y="1" width="22" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

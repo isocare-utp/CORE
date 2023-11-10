@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="06" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1948b32-e69a-4e85-a2cc-0663528fdd02">
+	<property name="ireport.zoom" value="1.5000000000000007"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "ACCSHEETMONEYREPORT"."MONEYSHEET_CODE",
+         "ACCSHEETMONEYREPORT"."MONEYSHEET_SEQ",
+         "ACCSHEETMONEYREPORT"."DATA_TYPE",
+         "ACCSHEETMONEYREPORT"."DATA_DESC",
+         "ACCSHEETMONEYREPORT"."SHOW_STATUS",
+         "ACCSHEETMONEYREPORT"."BOLD_STATUS",
+         "ACCSHEETMONEYREPORT"."LINE_STATUS",
+         "ACCSHEETMONEYREPORT"."UP_LINES",
+         "ACCSHEETMONEYREPORT"."DOWN_LINE",
+         "ACCSHEETMONEYREPORT"."REMARK",
+         "ACCSHEETMONEYREPORT"."BALANCE_1",
+         "ACCSHEETMONEYREPORT"."BALANCE_2",
+         "ACCSHEETMONEYREPORT"."PERCENT_1",
+         "ACCSHEETMONEYREPORT"."PERCENT_2",
+         "ACCSHEETMONEYREPORT"."PERCENT_STATUS",
+         "ACCSHEETMONEYREPORT"."OPERATE_NATURE",
+         "ACCSHEETMONEYREPORT"."YEAR_1",
+         "ACCSHEETMONEYREPORT"."YEAR_2",
+         "ACCSHEETMONEYREPORT"."MONTH_1",
+         "ACCSHEETMONEYREPORT"."MONTH_2",
+         "ACCSHEETMONEYREPORT"."TOTAL_SHOW" ,
+	"ACCCNTCOOP"."COOP_DESC",
+	"ACCSHEETMONEYHEAD"."MONEYSHEET_NAME"
+    FROM "ACCSHEETMONEYREPORT" ,
+	"ACCCNTCOOP",
+	"ACCSHEETMONEYHEAD"
+WHERE "ACCSHEETMONEYHEAD"."MONEYSHEET_CODE" = "ACCSHEETMONEYREPORT"."MONEYSHEET_CODE"
+ORDER BY  "ACCSHEETMONEYREPORT"."MONEYSHEET_SEQ"]]>
+	</queryString>
+	<field name="MONEYSHEET_CODE" class="java.lang.String"/>
+	<field name="MONEYSHEET_SEQ" class="java.math.BigDecimal"/>
+	<field name="DATA_TYPE" class="java.lang.String"/>
+	<field name="DATA_DESC" class="java.lang.String"/>
+	<field name="SHOW_STATUS" class="java.math.BigDecimal"/>
+	<field name="BOLD_STATUS" class="java.math.BigDecimal"/>
+	<field name="LINE_STATUS" class="java.math.BigDecimal"/>
+	<field name="UP_LINES" class="java.math.BigDecimal"/>
+	<field name="DOWN_LINE" class="java.math.BigDecimal"/>
+	<field name="REMARK" class="java.lang.String"/>
+	<field name="BALANCE_1" class="java.math.BigDecimal"/>
+	<field name="BALANCE_2" class="java.math.BigDecimal"/>
+	<field name="PERCENT_1" class="java.lang.Double"/>
+	<field name="PERCENT_2" class="java.lang.Double"/>
+	<field name="PERCENT_STATUS" class="java.math.BigDecimal"/>
+	<field name="OPERATE_NATURE" class="java.lang.String"/>
+	<field name="YEAR_1" class="java.math.BigDecimal"/>
+	<field name="YEAR_2" class="java.math.BigDecimal"/>
+	<field name="MONTH_1" class="java.math.BigDecimal"/>
+	<field name="MONTH_2" class="java.math.BigDecimal"/>
+	<field name="TOTAL_SHOW" class="java.math.BigDecimal"/>
+	<field name="COOP_DESC" class="java.lang.String"/>
+	<field name="MONEYSHEET_NAME" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="94" splitType="Stretch">
+			<textField>
+				<reportElement uuid="772f0d42-dfc0-4c89-a797-03de9f356cfc" x="0" y="1" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="83f5eaf4-c7ae-4eca-8ded-783e5126192c" x="307" y="64" width="81" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MONTH_1}==1 ? "ม.ค." : ($F{MONTH_1}==2 ? "ก.พ." : ( $F{MONTH_1}==3 ? "มี.ค."  : ( $F{MONTH_1}==4 ? "เม.ย."  : ( $F{MONTH_1}==5 ? "พ.ค."  : ( $F{MONTH_1}==6 ? "มิ.ย."  : ( $F{MONTH_1}==7 ? "ก.ค."  : ( $F{MONTH_1}==8 ? "ส.ค."  : ( $F{MONTH_1}==9 ? "ก.ย."  : ( $F{MONTH_1}==10 ? "ต.ค."  : ( $F{MONTH_1}==11 ? "พ.ย."  : ( $F{MONTH_1}==12 ? "ธ.ค."  : "" ) ) ) ) ) ) ) ) ) ) ) )+ "" + $F{YEAR_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a35d5998-39fd-499f-aec1-95a53aa0397f" x="428" y="64" width="81" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MONTH_2}==1 ? "ม.ค." : ($F{MONTH_2}==2 ? "ก.พ." : ( $F{MONTH_2}==3 ? "มี.ค."  : ( $F{MONTH_2}==4 ? "เม.ย."  : ( $F{MONTH_2}==5 ? "พ.ค."  : ( $F{MONTH_2}==6 ? "มิ.ย."  : ( $F{MONTH_2}==7 ? "ก.ค."  : ( $F{MONTH_2}==8 ? "ส.ค."  : ( $F{MONTH_2}==9 ? "ก.ย."  : ( $F{MONTH_2}==10 ? "ต.ค."  : ( $F{MONTH_2}==11 ? "พ.ย."  : ( $F{MONTH_2}==12 ? "ธ.ค."  : "" ) ) ) ) ) ) ) ) ) ) ) )+ "" + $F{YEAR_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c804106e-2830-400b-9ef3-daeb1012c290" x="0" y="21" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEYSHEET_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="15253ddf-3acd-472d-9272-644bb69ce72d" x="0" y="41" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สำหรับสิ้นสุดเดือน " + ( $F{MONTH_1}==1 ? "ม.ค." :
+($F{MONTH_1}==2 ? "ก.พ." :
+( $F{MONTH_1}==3 ? "มี.ค."  :
+( $F{MONTH_1}==4 ? "เม.ย."  :
+( $F{MONTH_1}==5 ? "พ.ค."  :
+( $F{MONTH_1}==6 ? "มิ.ย."  :
+( $F{MONTH_1}==7 ? "ก.ค."  :
+( $F{MONTH_1}==8 ? "ส.ค."  :
+( $F{MONTH_1}==9 ? "ก.ย."  :
+( $F{MONTH_1}==10 ? "ต.ค."  :
+( $F{MONTH_1}==11 ? "พ.ย."  :
+( $F{MONTH_1}==12 ? "ธ.ค."  : "" ) ) ) ) ) ) ) ) ) ) ) )+ " " + $F{YEAR_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="1abba6ad-2085-4b33-847f-10be5a681aff" x="307" y="2" width="81" height="20">
+					<printWhenExpression><![CDATA[$F{DATA_TYPE}!="TX"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{BOLD_STATUS}=='1'? "" :$F{BALANCE_1})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="8a30207a-ca0c-4281-9ee2-40b711b4cc3e" x="428" y="3" width="81" height="20">
+					<printWhenExpression><![CDATA[$F{DATA_TYPE}!="TX"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{BOLD_STATUS}=='1'? "" :$F{BALANCE_2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="beee09b9-1376-4534-8f3e-661114c70e20" x="38" y="2" width="237" height="20">
+					<printWhenExpression><![CDATA[$F{BOLD_STATUS}!=1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{DATA_DESC}==null?"":$F{DATA_DESC})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1e0e0793-54f2-4ca6-bcd6-56dbe1576ad3" x="38" y="2" width="237" height="20">
+					<printWhenExpression><![CDATA[$F{BOLD_STATUS}==1]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{DATA_DESC}==null?"":$F{DATA_DESC})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="ecb15613-3114-46e9-8883-ab9d53f582aa" x="307" y="2" width="81" height="1">
+					<printWhenExpression><![CDATA[($F{UP_LINES} == 1 ? true : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="a93e82c4-dd62-4036-baaa-8ae04ce9042f" x="428" y="2" width="81" height="1">
+					<printWhenExpression><![CDATA[($F{UP_LINES} == 1 ? true : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="f559df24-a258-427e-be37-bcf4758a3f7b" x="307" y="22" width="81" height="1">
+					<printWhenExpression><![CDATA[($F{DOWN_LINE} != 0 ? true : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="75036b4f-a9c4-4b3e-8d36-b10b393aaf5a" x="307" y="25" width="81" height="1">
+					<printWhenExpression><![CDATA[($F{DOWN_LINE} == 2 ? true : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="d7b230d1-6d35-45f6-bb81-1639dc252d0f" x="428" y="22" width="81" height="1">
+					<printWhenExpression><![CDATA[( $F{DOWN_LINE} != 0 ? true : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="f3736d07-44f5-4629-901f-f41aaa673f78" x="428" y="25" width="81" height="1">
+					<printWhenExpression><![CDATA[( $F{DOWN_LINE}== 2 ? true : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="05b1702b-dc53-4e02-aad5-2a4f1d207f21" x="391" y="3" width="34" height="20">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ( $F{DATA_TYPE} !="TX" ? true : false ) : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERCENT_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="5052fb43-b27e-4d6b-b0ba-d6b94ee384b5" x="511" y="2" width="34" height="20">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ( $F{DATA_TYPE} !="TX" ? true : false ) : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERCENT_2}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="027a7a4f-21cb-4dd4-a5cd-886da8747e6b" x="390" y="2" width="34" height="1">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ($F{UP_LINES} == 1 ? true : false ) : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="bfeea65b-f6e1-4008-a1b8-f88b3531d5ef" x="511" y="2" width="34" height="1">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ($F{UP_LINES} == 1 ? true : false ) : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="3437fb29-2e8e-48d0-8d36-5fee854f02fa" x="391" y="22" width="34" height="1">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ( $F{DOWN_LINE} != 0 ? true : false  ) : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="1ddea38c-3d88-4d6f-91a5-829862e33784" x="511" y="22" width="34" height="1">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ( $F{DOWN_LINE} != 0 ? true : false  ) : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="33560ad6-4bc4-4aa7-b4f1-e5387cf48a40" x="391" y="25" width="34" height="1">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ( $F{DOWN_LINE} ==2 ? true : false  ) : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement uuid="8f887767-5a4d-4f36-9e51-c7c8b2a76473" x="511" y="25" width="34" height="1">
+					<printWhenExpression><![CDATA[( $F{PERCENT_STATUS} ==1 ? ( $F{DOWN_LINE} ==2 ? true : false  ) : false )]]></printWhenExpression>
+				</reportElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

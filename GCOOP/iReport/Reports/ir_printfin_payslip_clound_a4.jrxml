@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report3" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7ae0ae0e-423f-49cb-8027-136660e7e1d4">
+	<property name="ireport.zoom" value="1.2100000000000077"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_slipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT	finslip.payment_desc,
+finslip.slip_no,
+		 	finslip.cash_type,
+	 		finslip.entry_date,
+	  		finslip.pay_towhom,
+	  		finslip.item_amtnet,
+			finslip.member_no,
+		 	ft_readtbaht( finslip.item_amtnet ) AS money_thaibaht,
+	  		finslipdet.slipitem_desc,
+			FINSLIPDET.ITEMPAY_AMT,
+	  		finslipdet.itempayamt_net,
+		 	amsecusers.full_name ,
+			mbucfmembgroup.membgroup_desc ,
+			 FINSLIP.PAYSLIP_NO, CMCOOPCONSTANT.COOP_NAME
+FROM 	finslip
+left join  finslipdet on finslip.coop_id = finslipdet.coop_id and finslip.slip_no = finslipdet.slip_no
+left join  amsecusers on finslip.coop_id = amsecusers.coop_id and trim(finslip.entry_id) = trim( amsecusers.user_name )
+left join  mbmembmaster on finslip.member_no = mbmembmaster.member_no
+left join  mbucfmembgroup on mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code  inner join CMCOOPCONSTANT on CMCOOPCONSTANT.coop_no=finslip.coop_id
+WHERE
+	  		( finslip.pay_recv_status = 0 ) and
+	  		( finslip.payment_status <> -9 )	and
+			trim(finslip.slip_no)  = trim($P{as_slipno}) and
+			finslip.coop_id = $P{as_coopid}]]>
+	</queryString>
+	<field name="PAYMENT_DESC" class="java.lang.String"/>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="CASH_TYPE" class="java.lang.String"/>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp"/>
+	<field name="PAY_TOWHOM" class="java.lang.String"/>
+	<field name="ITEM_AMTNET" class="java.math.BigDecimal"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MONEY_THAIBAHT" class="java.lang.String"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="ITEMPAY_AMT" class="java.math.BigDecimal"/>
+	<field name="ITEMPAYAMT_NET" class="java.math.BigDecimal"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="PAYSLIP_NO" class="java.lang.String"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="796" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6db28435-00c9-4079-b142-3041ede7e5d3" x="436" y="2" width="83" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ต้นฉบับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bfb7df13-1be3-4750-b8dd-f84f631897a5" x="395" y="71" width="48" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f0391b8a-bedf-4ea5-b62e-413b8b9c5bf2" x="38" y="92" width="99" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="795b6b1a-0e50-4efb-93f5-ba733c837f8b" x="395" y="22" width="48" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="747b8606-f695-482c-9313-7f449b1501d6" x="447" y="71" width="106" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{ENTRY_DATE})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="781f3568-207f-4d1c-a3e5-fbe251ea3e15" x="104" y="28" width="311" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ใบสำคัญจ่ายเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="ea622b1f-2a6f-44b6-877e-ddcbf13c1e59" x="379" y="141" width="1" height="191"/>
+			</line>
+			<line>
+				<reportElement uuid="5a3d2bbb-2630-41d6-a7f0-23b33907a6da" x="38" y="166" width="479" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="125d7d0a-ec62-4310-8988-bb62caa800a1" x="388" y="144" width="120" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รวมเป็นเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="34a125aa-5ce4-4322-b442-efef6d5170a6" x="517" y="141" width="1" height="191"/>
+			</line>
+			<staticText>
+				<reportElement uuid="4585773b-08df-404d-a219-268c9e0ca3f0" x="51" y="144" width="324" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f910874a-2fbe-4ca5-a9d2-73772c37b0f2" x="39" y="308" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รวมเป็นเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="4747c787-c123-4a1c-949a-b9d15a090f91" x="93" y="331" width="284" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="3f5b2e8d-3578-45d6-b3ad-dd16e0f2689b" x="37" y="140" width="1" height="165"/>
+			</line>
+			<line>
+				<reportElement uuid="8fa6baf9-ecd8-4fe9-b2e5-91a5876a1a03" x="37" y="140" width="481" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="2191c1e1-8422-433a-bdbd-2bdecfed8c0a" x="37" y="304" width="481" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="58f80033-ef6f-4a97-8bb8-044a206fb4ab" x="380" y="331" width="138" height="1"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="254b4e5a-c94c-4442-8776-558bab8c8534" x="388" y="308" width="120" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMPAY_AMT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cbf8fad8-29c6-4d12-991c-ff496ac1349d" x="48" y="345" width="43" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[คำชี้แจง]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="b458a34e-f33a-438e-b313-59b7a55a5b22" x="94" y="364" width="423" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="73e1d38f-10ef-4c7b-978e-76c845883149" x="380" y="367" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ผู้รับเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="1675bbc6-98cb-4f22-bf8a-e7fb9161a704" x="253" y="390" width="123" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="4c7b8576-cb77-477a-b88e-c55ff73cfb29" x="0" y="398" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="4002bb94-78b0-43a7-9ef7-928010883bf0" x="142" y="92" width="214" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAY_TOWHOM}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6e18ade0-a14a-47bf-bc94-ca2747a60e83" x="366" y="92" width="77" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขทะเบียนสมาชิก]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="43faf65c-9f79-4930-bf2e-db06b24aa2bd" x="447" y="92" width="106" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="bebebe32-ef05-49f8-8bfb-8f5908644722" x="91" y="732" width="284" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="1edc8cca-0a16-4f89-83e2-d64cdd25abe1" x="37" y="709" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รวมเป็นเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66641e73-c537-4903-84f4-a9d580100235" x="46" y="746" width="43" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[คำชี้แจง]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="38a532b4-d02e-41b6-9161-87ac33bca147" x="36" y="567" width="479" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="c4d4a12c-26f9-4164-a56f-d961cbcac61b" x="102" y="429" width="311" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ใบสำคัญจ่ายเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="15ba43ae-3b8f-4a47-891e-687b2e657bc5" x="92" y="765" width="423" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="637ac1e2-35a9-47f6-9020-e530905c4a51" x="378" y="768" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ผู้รับเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="e0cebbb9-e63e-4cd7-adb0-3a2551f888df" x="377" y="542" width="1" height="191"/>
+			</line>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="e7990dc6-8277-4c71-9dc0-aecd2babc852" x="386" y="709" width="120" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMPAY_AMT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="bb94ffa4-c64d-4c23-8620-37ffa42247a6" x="35" y="541" width="481" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="fa132639-99fe-44ac-998f-6c7214497f7b" x="251" y="791" width="123" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="ae33807f-df16-4f8b-b45e-6149185f4c0a" x="434" y="403" width="83" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สำเนา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bce31ffa-7f53-4609-bcb1-1675e00b639c" x="49" y="545" width="324" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="e271bc48-8ad4-4ce5-8622-ee356bbbf9af" x="378" y="732" width="138" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="d7beb428-ec17-4d0c-be0c-039848feacc9" x="515" y="542" width="1" height="191"/>
+			</line>
+			<staticText>
+				<reportElement uuid="5e4f7640-29de-4613-85b8-fae4003f4e09" x="386" y="545" width="120" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รวมเป็นเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="340db7c4-e073-4768-8079-e7675871cc88" x="35" y="705" width="481" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="ec688870-da0e-4ba8-a9bb-71c7d77be27c" x="94" y="308" width="279" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEY_THAIBAHT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="47c27f1b-87ff-49f6-a344-889fca0cdc21" x="91" y="709" width="282" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEY_THAIBAHT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="1e6430dd-823b-4b93-9141-bc98ef29ba8c" x="35" y="541" width="1" height="165"/>
+			</line>
+			<textField>
+				<reportElement uuid="dedb3156-3a6a-4d77-97d2-ac6d9ab337cb" x="447" y="22" width="106" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYSLIP_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="09385b78-c0be-4abb-b758-cecfc0b53fff" x="94" y="342" width="422" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYMENT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="87acb839-e54f-4697-b135-afbb455faf76" x="93" y="744" width="422" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYMENT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0706752f-00bf-46c5-8a8d-6a771179d899" x="104" y="3" width="330" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7b76258f-1559-4206-8f05-d3bb8a1f08ee" x="102" y="407" width="332" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3a62077a-3d0d-4390-9bff-fe03481dc279" x="37" y="113" width="516" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ได้รับเงินจาก "+$F{COOP_NAME}+" ดังรายการต่อไปนี้"]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="54e451ae-43ea-4afd-bdfe-9528d7f9242d" x="35" y="405" width="81" height="71"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\STK\\GCOOP\\Saving\\Image\\CoopLogo\\logo_stk.bmp"]]></imageExpression>
+			</image>
+			<subreport isUsingCache="true">
+				<reportElement uuid="a1dec2c2-4366-4b0c-91a3-767fce75bb91" x="51" y="177" width="453" height="117"/>
+				<subreportParameter name="as_slipno">
+					<subreportParameterExpression><![CDATA[$F{SLIP_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ir_printfin_payslip_sub2.jasper"]]></subreportExpression>
+			</subreport>
+			<image scaleImage="FillFrame">
+				<reportElement uuid="7973b78e-8ebc-420c-b95d-683d64dec90f" x="37" y="1" width="81" height="71"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\STK\\GCOOP\\Saving\\Image\\CoopLogo\\logo_stk.bmp"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="8eeb89ec-8e29-4987-b71e-c146e8ed1a5d" x="395" y="423" width="48" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ad4f8790-c863-448d-981e-b8b7300ae6ac" x="447" y="493" width="106" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c15dc8d5-3619-4a87-9370-3077d9b4a2de" x="366" y="493" width="77" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขทะเบียนสมาชิก]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="82a2fd9c-c53e-4821-a4ae-5a2d61b9b43e" x="142" y="493" width="214" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAY_TOWHOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fe4e8641-7917-44b7-95e2-c805bcdf2f8d" x="447" y="472" width="106" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{ENTRY_DATE})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f287f647-96d0-4f0f-9f3d-9e2202ca18a6" x="395" y="472" width="48" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="0a19afa4-06ac-465e-b37e-d5e10b3f94f4" x="37" y="514" width="516" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ได้รับเงินจาก "+$F{COOP_NAME}+" ดังรายการต่อไปนี้"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dc113fe7-14ae-4b8d-abff-03780b42ae33" x="447" y="423" width="106" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYSLIP_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c67318ad-5e45-428a-bdb9-943cf44441a8" x="38" y="493" width="99" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้า]]></text>
+			</staticText>
+			<subreport isUsingCache="true">
+				<reportElement uuid="26387993-a4e7-4a48-96a9-b7f03887ac90" x="51" y="578" width="453" height="117"/>
+				<subreportParameter name="as_slipno">
+					<subreportParameterExpression><![CDATA[$F{SLIP_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ir_printfin_payslip_sub2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

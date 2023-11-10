@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_loan_receive_rdate_2" language="groovy" pageWidth="1224" pageHeight="792" orientation="Landscape" columnWidth="1184" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a174adf9-7259-479a-80ec-5aad57f35b68">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String"/>
+	<parameter name="adtm_start" class="java.util.Date"/>
+	<parameter name="adtm_end" class="java.util.Date"/>
+	<parameter name="as_startlntype" class="java.lang.String"/>
+	<parameter name="as_endlntype" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Gcoop_all\\CEN\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+distinct slslippayout .member_no,
+ (mbucfprename.prename_desc||mbmembmaster.memb_name||' '||mbmembmaster.memb_surname)as memb_name ,
+		mbucfmembgroup.membgroup_code,mbucfmembgroup.membgroup_desc,
+		slslippayout .loancontract_no,
+		slslippayout .payout_amt,
+slslippayout.slipclear_no,
+		( select sum(principal_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'LON'  ) as clrloan_amt,
+		( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'AGC'  ) as clragc_amt,
+		nvl(( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'SHR'  ),0) as clrshr_amt,
+		nvl(( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'DEP'and slslippayindet.shrlontype_code <> 'FN'   ),0) as clrdep_amt,
+		nvl(( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'PKN'  ),0) as clrins_amt,
+		( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'BJN'  ) as clrbrij_amt,
+		( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code = 'INF'  ) as clrbinf_amt,
+		( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code in( 'VAT','MFE', 'EMS', 'ONL', 'MTR' )  ) as clrmoneyorder_amt,
+		( select sum(item_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slipitemtype_code in( 'BFE','BTR' )  ) as clrmoneybank_amt,
+		( select sum(interest_payamt) from slslippayindet where slslippayindet.payinslip_no = slslippayout.slipclear_no and slslippayout.slip_status <> -9 ) as interest_amt,
+        (select  sum(intestimate_amt) from lnreqloan where lnreqloan.loancontract_no=slslippayout.loancontract_no and slslippayout.slip_status <> -9 and lnreqloan.loanrequest_status<>-9 )as intestimate_amt,
+(select  period_payment  from lncontmaster where lncontmaster.loancontract_no=slslippayout.loancontract_no and slslippayout.slip_status <> -9 and lncontmaster.contract_status<>-1 )as period_payment,
+(select  period_payamt  from lncontmaster where lncontmaster.loancontract_no=slslippayout.loancontract_no and slslippayout.slip_status <> -9 and lncontmaster.contract_status<>-1 )as period_payamt,
+		slslippayout .payoutnet_amt,
+		cmucfmoneytype.moneytype_desc,
+		slslippayout .entry_id,
+			slslippayout.shrlontype_code,
+		slslippayout.moneytype_code,
+		slslippayout.expense_bank,
+		lnloantype.loangroup_code,lnloantype.loantype_desc
+from slslippayout ,mbmembmaster,mbucfmembgroup,mbucfprename,cmucfmoneytype,lnloantype
+where slslippayout.member_no =mbmembmaster.member_no and
+		 slslippayout.memcoop_id =mbmembmaster.coop_id and
+		slslippayout.shrlontype_code =lnloantype.loantype_code and
+		slslippayout.coop_id =lnloantype.coop_id and
+		mbmembmaster.membgroup_code =mbucfmembgroup.membgroup_code and
+		mbmembmaster.coop_id = mbucfmembgroup.coop_id and
+		mbmembmaster.prename_code =mbucfprename.prename_code	and
+		slslippayout.moneytype_code = cmucfmoneytype.moneytype_code (+) and
+		slslippayout.slip_date between $P{adtm_start}  and $P{adtm_end}  and
+		slslippayout.slip_status <>-9 and slslippayout.rcv_period > 1 and
+		slslippayout.shrlontype_code between $P{as_startlntype}  and  $P{as_endlntype} and
+		 slslippayout.sliptype_code ='LWD'
+
+order by 	slslippayout .loancontract_no asc]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PAYOUT_AMT" class="java.math.BigDecimal"/>
+	<field name="SLIPCLEAR_NO" class="java.lang.String"/>
+	<field name="CLRLOAN_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRAGC_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRSHR_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRDEP_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRINS_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRBRIJ_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRBINF_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRMONEYORDER_AMT" class="java.math.BigDecimal"/>
+	<field name="CLRMONEYBANK_AMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_AMT" class="java.math.BigDecimal"/>
+	<field name="INTESTIMATE_AMT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<field name="MONEYTYPE_DESC" class="java.lang.String"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="EXPENSE_BANK" class="java.lang.String"/>
+	<field name="LOANGROUP_CODE" class="java.lang.String"/>
+	<field name="LOANTYPE_DESC" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6cb4d1b7-91a3-40d6-9fe1-c7cf1be9aef7" x="0" y="59" width="63" height="20"/>
+				<textElement/>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="565acf3c-eee3-4e5c-b85b-51d662687f4a" x="63" y="59" width="135" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a53c3f83-6055-4495-ba7a-036d555dfc70" x="198" y="59" width="56" height="20"/>
+				<textElement/>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="16008eb7-86ed-4ec0-88b7-e56824f1b4fd" x="254" y="59" width="88" height="20"/>
+				<textElement/>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d261cb97-47f4-4c36-a3f2-11fb3c1e7d9f" x="342" y="59" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[เงินกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f7c32ec6-8b52-4187-8ea8-e144d10f849a" x="397" y="59" width="57" height="20"/>
+				<textElement/>
+				<text><![CDATA[เลขที่สัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="057034a8-a13a-43bb-98b9-858c8a81925f" x="454" y="59" width="49" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[ยอดขอกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="646a6d0b-6c3e-4d05-8579-1c06123ab6cd" x="705" y="59" width="52" height="20"/>
+				<textElement/>
+				<text><![CDATA[หักซื้อหุ้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="abd8424d-a068-4225-9c36-5b90bfe49d62" x="758" y="59" width="59" height="20"/>
+				<textElement/>
+				<text><![CDATA[หักเข้าฝาก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8c7ebc16-404f-4744-b044-8d7df4fd1e77" x="817" y="59" width="46" height="20"/>
+				<textElement/>
+				<text><![CDATA[หักประกัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="48958e89-9f71-4751-890f-60b0bcc837ab" x="863" y="59" width="59" height="20"/>
+				<textElement/>
+				<text><![CDATA[ยอดรับสุทธิ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a7b5a9a8-35fc-4708-9720-e893e875e2d2" x="0" y="0" width="555" height="20"/>
+				<textElement/>
+				<text><![CDATA[รายงานรับเงินกู้เพิ่ม]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="5d529672-28d7-4431-b529-fd82d6f354f1" x="163" y="20" width="107" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format( $P{adtm_start})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1efd0d8e-188b-4a29-8dde-61f7a2102e2c" x="63" y="20" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ตั้งแต่วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb9b3f3c-5f88-4330-8325-fd51411c5662" x="270" y="20" width="72" height="20"/>
+				<textElement/>
+				<text><![CDATA[ถึงวันที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c16210ca-619b-4200-9690-8910b20f0962" x="342" y="20" width="78" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format( $P{adtm_end})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="dc6443d7-c915-402d-a8e7-a1bd06746952" x="503" y="59" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[สัญญาเดิม]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="25a21d50-c0d7-441b-89e5-5459725bcb83" x="583" y="59" width="62" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[เงินต้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="010da163-8f69-410f-a36a-3698c15879d0" x="645" y="59" width="58" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[ดอกเบี้ย]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement uuid="703770d3-2a2e-459e-855e-872347dc5980" x="0" y="0" width="63" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f788a660-a730-45f0-9ad5-ac862f2dc8e4" x="63" y="0" width="135" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMB_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="24ff8ede-e0e8-4e16-8589-6af7775a59dd" x="198" y="0" width="56" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="377283ba-13a0-40ef-b057-bdc59fd23385" x="254" y="0" width="88" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="45fb149d-bc0d-4fb4-88a4-8e70352bb3ef" x="342" y="0" width="55" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SHRLONTYPE_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ba863a1f-c6f7-4fe4-a955-aef50ed3349b" x="397" y="0" width="57" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="afc00347-5f11-4ff9-928d-dd20dff38839" x="454" y="0" width="49" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{PAYOUT_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="76e0f653-2511-48ef-9701-3d3e064babaf" x="705" y="0" width="52" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CLRSHR_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="92d5a8cb-bccc-423d-a6c7-88dccb0082e7" x="758" y="0" width="59" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CLRDEP_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c3cef546-acc3-431f-959e-d65d8cf0a215" x="817" y="0" width="46" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CLRINS_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="047fb4f0-d6eb-477e-aa08-89b26e124bf5" x="863" y="0" width="59" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_AMT}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="33810e2e-54a6-40ac-9406-a5967138ff9b" x="503" y="0" width="200" height="20"/>
+				<subreportParameter name="as_slipclearno">
+					<subreportParameterExpression><![CDATA[$F{SLIPCLEAR_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ir_netloan_receive_rdate_2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

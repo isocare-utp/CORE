@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_kp_receive_period_37" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a03b429-0963-48e5-94c6-4475f9e451fd">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_recvperiod" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_smembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_emembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+mbucfprename.prename_desc ,
+mbmembmaster.member_no, mbmembmaster.memb_name,mbmembmaster.memb_surname,
+mbmembmaster.card_person,
+mbucfmembgroup.membgroup_code ,
+mbucfmembgroup.membgroup_desc ,
+mbucfmembgroupcontrol.membgroup_controldesc ,
+mbucfmembgroupcontrol.membgroup_control  ,
+kptempreceivedet.kpslip_no,
+substr(kptempreceivedet.recv_period, 1 , 4 ) as year,
+(case
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '01'  then 'มกราคม'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '02'  then 'กุมภาพันธ์'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '03'  then 'มีนาคม'
+             when  trim(substr(kptempreceivedet.recv_period,5,6)) = '04' then 'เมษายน'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '05'  then 'พฤษภาคม'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '06'  then 'มิถุนายน'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '07'  then 'กรกฎาคม'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '08'  then 'สิงหาคม'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '09'  then 'กันยายน'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '10' then 'ตุลาคม'
+             when  trim(substr(kptempreceivedet.recv_period,5,6))= '11'  then 'พฤศจิกายน'
+		   when  trim(substr(kptempreceivedet.recv_period,5,6))= '12'  then 'ธันวาคม'
+            else ' '
+        END) as month ,
+sum( decode(kpucfkeepitemtype.keepitemtype_grp , 'FFE' ,nvl( kptempreceivedet.item_payment ,0 ), 0) ) as sum_fee ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'MRT' , kptempreceivedet.item_payment , 0) ) as sum_mrt ,
+sum( decode(kpucfkeepitemtype.keepitemtype_grp , 'DEP' ,nvl( kptempreceivedet.item_payment ,0 ) , 0) ) as sum_dep ,
+sum( decode(kpucfkeepitemtype.keepitemtype_grp , 'SHR' ,nvl( kptempreceivedet.period , 0),0) ) as shr_period ,
+sum( decode(kpucfkeepitemtype.keepitemtype_grp , 'SHR' ,nvl( kptempreceivedet.item_payment, 0),0) ) as sum_shr ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L01' , kptempreceivedet.principal_payment, 0) ) as emer_prin ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L01' , kptempreceivedet.interest_payment, 0) ) as emer_interest ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L02' , kptempreceivedet.principal_payment, 0) ) as normal_prin ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L02' , kptempreceivedet.interest_payment, 0) ) as normal_interest ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L03' , kptempreceivedet.principal_payment, 0) ) as special_prin ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L03' , kptempreceivedet.interest_payment, 0) ) as special_interest ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L02' ,  decode(kptempreceivedet.shrlontype_code , '19' , kptempreceivedet.principal_payment, 0) , 0) ) as normal_prin_noss ,
+sum( decode(kptempreceivedet.keepitemtype_code , 'L02' ,  decode(kptempreceivedet.shrlontype_code , '19' , kptempreceivedet.interest_payment, 0) , 0) ) as normal_interest_noss ,
+sum( decode(kptempreceivedet.seq_no , 1 ,  kptempreceive.receive_amt, 0)  ) as summary,
+cmcoopconstant.coop_name
+from kptempreceive
+left join cmcoopconstant on cmcoopconstant.coop_no = kptempreceive.coop_id
+left join kptempreceivedet on kptempreceivedet.member_no = kptempreceive.member_no and kptempreceivedet.recv_period = kptempreceive.recv_period
+left join kpucfkeepitemtype on kptempreceivedet.keepitemtype_code = kpucfkeepitemtype.keepitemtype_code
+left join mbmembmaster on trim(kptempreceivedet.member_no) = trim(mbmembmaster.member_no)
+left join mbucfprename on trim(mbmembmaster.prename_code) = mbucfprename.prename_code
+left join mbucfmembgroup on trim(kptempreceive.membgroup_code) = trim(mbucfmembgroup.membgroup_code)
+left join mbucfmembgroupcontrol on trim(mbucfmembgroup.membgroup_control) = trim(mbucfmembgroupcontrol.membgroup_control)
+where kptempreceive.coop_id = $P{as_coopid}
+and kptempreceive.recv_period = $P{as_recvperiod}
+and kptempreceive.receive_amt  > 0
+and kptempreceive.keeping_status = 1
+and trim(mbucfmembgroup.membgroup_code)  between  trim($P{as_smembgroup}) and trim($P{as_emembgroup})
+group by mbucfmembgroup.membgroup_code , mbucfmembgroup.membgroup_desc , mbucfmembgroupcontrol.membgroup_controldesc,mbucfmembgroupcontrol.membgroup_control ,mbmembmaster.member_no, mbmembmaster.memb_name,memb_surname,kptempreceivedet.kpslip_no ,mbucfprename.prename_desc , mbmembmaster.card_person,kptempreceivedet.recv_period,cmcoopconstant.coop_name
+
+order by mbucfmembgroupcontrol.membgroup_control ,mbucfmembgroup.membgroup_code , NLSSORT(mbmembmaster.memb_name, 'NLS_SORT = THAI_M_AI'), NLSSORT(mbmembmaster.memb_name, 'NLS_SORT = THAI_M_AI')]]>
+	</queryString>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_CONTROLDESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_CONTROL" class="java.lang.String"/>
+	<field name="KPSLIP_NO" class="java.lang.String"/>
+	<field name="YEAR" class="java.lang.String"/>
+	<field name="MONTH" class="java.lang.String"/>
+	<field name="SUM_FEE" class="java.math.BigDecimal"/>
+	<field name="SUM_MRT" class="java.math.BigDecimal"/>
+	<field name="SUM_DEP" class="java.math.BigDecimal"/>
+	<field name="SHR_PERIOD" class="java.math.BigDecimal"/>
+	<field name="SUM_SHR" class="java.math.BigDecimal"/>
+	<field name="EMER_PRIN" class="java.math.BigDecimal"/>
+	<field name="EMER_INTEREST" class="java.math.BigDecimal"/>
+	<field name="NORMAL_PRIN" class="java.math.BigDecimal"/>
+	<field name="NORMAL_INTEREST" class="java.math.BigDecimal"/>
+	<field name="SPECIAL_PRIN" class="java.math.BigDecimal"/>
+	<field name="SPECIAL_INTEREST" class="java.math.BigDecimal"/>
+	<field name="NORMAL_PRIN_NOSS" class="java.math.BigDecimal"/>
+	<field name="NORMAL_INTEREST_NOSS" class="java.math.BigDecimal"/>
+	<field name="SUMMARY" class="java.math.BigDecimal"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<variable name="summoney" class="java.math.BigDecimal" resetType="Group" resetGroup="membgroup_code" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_FEE}-$F{SUM_MRT}+$F{SUM_DEP}+$F{SUM_SHR}+$F{EMER_PRIN}+$F{EMER_INTEREST}+$F{NORMAL_PRIN}+$F{NORMAL_INTEREST}+$F{SPECIAL_PRIN}+$F{SPECIAL_INTEREST}]]></variableExpression>
+	</variable>
+	<variable name="sumall" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_FEE}-$F{SUM_MRT}+$F{SUM_DEP}+$F{SUM_SHR}+$F{EMER_PRIN}+$F{EMER_INTEREST}+$F{NORMAL_PRIN}+$F{NORMAL_INTEREST}+$F{SPECIAL_PRIN}+$F{SPECIAL_INTEREST}]]></variableExpression>
+	</variable>
+	<variable name="rown" class="java.math.BigDecimal" resetType="Group" resetGroup="membgroup_code" calculation="Count">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<group name="membgroup_code" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{MEMBGROUP_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="493dff19-cf91-49e3-8126-ec24d19d22ef" x="0" y="0" width="555" height="20"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["หน่วย"+$F{MEMBGROUP_CODE}+ " : " +$F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField pattern="#,##0.00">
+					<reportElement uuid="f37bcb38-97bf-439a-a266-78b19260d9c2" x="254" y="0" width="71" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{membgroup_code_COUNT}+" ราย"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="8cc78289-dee3-47c2-91bf-9a2a5ba93999" x="0" y="0" width="254" height="20"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ยอดรวมหน่วย "+$F{MEMBGROUP_CODE}+$F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="bbf95577-e025-46bc-b847-62db550b8118" x="325" y="0" width="120" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{summoney}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63">
+			<staticText>
+				<reportElement uuid="baca44c8-e577-478a-9ada-95911f4b2512" x="0" y="40" width="39" height="23"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6fedb10a-9172-425d-8303-07857d5adb76" x="254" y="40" width="71" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ทะเบียน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="68f68357-756c-4dbb-8c0b-2e3d6f17fa04" x="39" y="40" width="215" height="23"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - ชื่อสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a7af7ca3-9a21-4030-9cbe-1bd586569cdd" x="445" y="40" width="110" height="23"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขประจำตัวประชาชน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="276e5418-9a6e-40fa-a0c3-4f2731416704" x="325" y="40" width="120" height="23"/>
+				<textElement textAlignment="Right">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ยอดเงินเรียกเก็บ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="85ec7907-104d-464c-8f07-21c1cad06ce6" x="0" y="20" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายชื่อสมาชิกเรียกเก็บ เดือน "+$F{MONTH}+" ประจำปี "+$F{YEAR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="88bf9456-039d-4084-b322-2ceca628f9d6" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="AngsanaUPC" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="1ceb2fa9-6634-4742-b7c9-22a099d2d9ae" x="254" y="0" width="71" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="976f22dd-9b4c-42f4-a9ac-2d39947d2c52" x="39" y="0" width="215" height="21"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+"  "+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5f8c583d-aade-4bdc-b5c4-07e3f7cd4cf9" x="-1" y="0" width="40" height="21"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{rown}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="048414e8-f4ae-4df4-a4c9-23fd08dcf2d9" x="325" y="0" width="120" height="21"/>
+				<textElement textAlignment="Right">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_FEE}-$F{SUM_MRT}+$F{SUM_DEP}+$F{SUM_SHR}+$F{EMER_PRIN}+$F{EMER_INTEREST}+$F{NORMAL_PRIN}+$F{NORMAL_INTEREST}+$F{SPECIAL_PRIN}+$F{SPECIAL_INTEREST}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="13716808-a2b3-46e6-8728-663a9e16854e" x="445" y="0" width="110" height="21"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="bee80129-76bb-4be2-81b9-a931156b52b8" x="325" y="0" width="120" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="df809236-8817-41a3-9f59-56e54d5f357c" x="39" y="0" width="286" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมทั้งหมด  "+$V{REPORT_COUNT}+" ราย"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

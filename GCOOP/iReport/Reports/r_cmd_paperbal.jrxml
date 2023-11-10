@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_cmd_paperbal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="488c06a7-745c-4597-ae04-482282dce9c5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_suppliesgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "PTINVTMAST"."INVT_NAME",
+         "PTUCFUNITCODE"."UNIT_DESC",
+         "PTINVTMAST"."QTY_BAL",
+         "PTINVTSLIPOUTDET"."INVT_QTY",
+         "PTINVTSLIPOUTDET"."UNIT_PRICE",
+         "PTINVTSLIPINDET"."UNIT_PRICE",
+         "PTINVTSLIPINDET"."INVT_QTY"
+    FROM "PTINVTMAST",
+         "PTUCFUNITCODE",
+         "PTINVTSLIPOUTDET",
+         "PTINVTSLIPINDET",
+         "PTUCFINVTGROUPCODE",
+         "PTINVTSTATEMENT"
+   WHERE ( "PTINVTMAST"."UNIT_CODE" = "PTUCFUNITCODE"."UNIT_CODE" ) and
+         ( "PTINVTMAST"."INVT_ID" = "PTINVTSLIPOUTDET"."INVT_ID" ) and
+         ( "PTINVTSLIPOUTDET"."INVT_ID" = "PTINVTSLIPINDET"."INVT_ID" ) and
+         ( "PTINVTMAST"."INVT_ID" = "PTINVTSLIPINDET"."INVT_ID" ) and
+         ( "PTINVTMAST"."INVTGRP_CODE" = "PTUCFINVTGROUPCODE"."INVTGRP_CODE" ) and
+         ( "PTINVTSLIPINDET"."INVT_ID" = "PTINVTSTATEMENT"."INVT_ID" )  and
+         ( ( "PTINVTMAST"."INVTGRP_CODE" = $P{as_suppliesgroup} ) AND
+         ( "PTINVTSTATEMENT"."SLIP_DATE" = $P{adtm_date} ) )
+]]>
+	</queryString>
+	<field name="INVT_NAME" class="java.lang.String"/>
+	<field name="UNIT_DESC" class="java.lang.String"/>
+	<field name="QTY_BAL" class="java.math.BigDecimal"/>
+	<field name="INVT_QTY" class="java.math.BigDecimal"/>
+	<field name="UNIT_PRICE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a6c67da1-53e4-4ae4-8744-7df1e87bff91" x="228" y="2" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+ $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4186e683-35c0-4c9d-9abe-531d9c84c292" x="0" y="22" width="554" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIX_COOPNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f80cc8fc-32da-49fd-b529-e7469da7e076" x="0" y="41" width="554" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เครื่องเขียนแบบพิมพ์]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="49051a8d-8d9d-43c6-bdfa-84696b472522" x="27" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7d4711a8-39ef-4108-a76a-6dfa4c1ac24d" x="127" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[หน่วยนับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fa4bb3be-7984-4b7b-96c8-547eeecc99e8" x="227" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ปริมาณคงเหลือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e1bc564c-e74b-40c7-8183-26f67ac7e04c" x="324" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ราคาต่อหน่วย]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement uuid="afb1b38a-4e08-4b2b-821a-44b03e506977" x="0" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7614607f-fff1-478e-b1a0-463f15e3caf0" x="27" y="19" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{INVT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4df7b3ab-5a36-4176-837b-d0f33db0bda2" x="127" y="20" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{UNIT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6a54788e-a77f-4813-b0bc-8263d27d88c8" x="227" y="19" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{QTY_BAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f66f34ed-cce6-4dac-ac07-0307e51cfff9" x="324" y="19" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{UNIT_PRICE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

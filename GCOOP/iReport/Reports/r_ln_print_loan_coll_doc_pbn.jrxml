@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_print_loan_coll_doc_pbn" language="groovy" pageWidth="595" pageHeight="842" columnWidth="545" leftMargin="25" rightMargin="25" topMargin="20" bottomMargin="20" uuid="a2fcca8f-9506-473d-bb80-1d4d65c18e46">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_loanreqdocno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\PBN\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_name" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select DISTINCT ft_getmbname(lc.coop_id,lr.member_no) as full_name,
+mb.member_no,
+lr.loanrequest_date,
+TO_CHAR(lr.loanrequest_date,'dd') as day,
+TO_CHAR(lr.loanrequest_date,'fmMonth') as month,
+TO_CHAR(lr.loanrequest_date,'yyyy')+543 as year,
+mb.card_person,
+mb.Addr_No,
+mb.Addr_Moo,
+mb.Addr_Soi,
+mb.Addr_Village,
+mb.Addr_Road,
+mb.Tambol_Code,
+tb.tambol_desc,
+mb.Amphur_Code,
+dt.district_desc,
+mb.Province_Code,
+mb.Addr_Postcode,
+mb.Addr_Mobilephone,
+lr.loanapprove_amt,
+mg.membgroup_desc,lr.loanrequest_docno,
+mp.position_desc,
+ftreadtbaht(lr.loanapprove_amt) as loanapprove_tbaht,
+ft_getmbname(lc.coop_id,trim(lc.ref_collno)) as coll_name ,
+lc.ref_collno,
+ft_memgrp(lc.coop_id,mb.membgroup_code) as membgroup_desc,
+lc.collactive_amt,
+ftreadtbaht(lc.collactive_amt) as collactive_tbaht,
+trunc(Ft_Calage( birth_date , sysdate , 4 )) as birth,
+pr.province_desc,
+LNUCFLOANOBJECTIVE.LOANOBJECTIVE_DESC
+from
+lnreqloan lr,
+lnreqloancoll  lc,
+mbmembmaster mb,
+mbucfmembgroup mg,
+mbucfprovince pr,
+mbucfdistrict dt,
+mbucftambol tb,
+mbucfposition mp,
+LNUCFLOANOBJECTIVE
+where  (lr."LOANOBJECTIVE_CODE" = "LNUCFLOANOBJECTIVE"."LOANOBJECTIVE_CODE")  and lr.loanrequest_docno = lc.loanrequest_docno
+and mb.province_code = pr.province_code
+and mb.amphur_code = dt.district_code
+and mb.tambol_code = tb.tambol_code
+and lr.coop_id = lc.coop_id
+and lr.coop_id = mb.coop_id
+and mb.position_code = mp.position_code
+and mb.membgroup_code = mg.membgroup_code
+and trim(lc.ref_collno) = mb.member_no
+and lr.loanrequest_docno = $P{as_loanreqdocno}
+and lr.coop_id = $P{as_coop_id}
+and lc.loancolltype_code in ('01','55','99')]]>
+	</queryString>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="LOANREQUEST_DATE" class="java.sql.Timestamp"/>
+	<field name="DAY" class="java.lang.String"/>
+	<field name="MONTH" class="java.lang.String"/>
+	<field name="YEAR" class="java.math.BigDecimal"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="ADDR_NO" class="java.lang.String"/>
+	<field name="ADDR_MOO" class="java.lang.String"/>
+	<field name="ADDR_SOI" class="java.lang.String"/>
+	<field name="ADDR_VILLAGE" class="java.lang.String"/>
+	<field name="ADDR_ROAD" class="java.lang.String"/>
+	<field name="TAMBOL_CODE" class="java.lang.String"/>
+	<field name="TAMBOL_DESC" class="java.lang.String"/>
+	<field name="AMPHUR_CODE" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<field name="PROVINCE_CODE" class="java.lang.String"/>
+	<field name="ADDR_POSTCODE" class="java.lang.String"/>
+	<field name="ADDR_MOBILEPHONE" class="java.lang.String"/>
+	<field name="LOANAPPROVE_AMT" class="java.math.BigDecimal"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="LOANREQUEST_DOCNO" class="java.lang.String"/>
+	<field name="POSITION_DESC" class="java.lang.String"/>
+	<field name="LOANAPPROVE_TBAHT" class="java.lang.String"/>
+	<field name="COLL_NAME" class="java.lang.String"/>
+	<field name="REF_COLLNO" class="java.lang.String"/>
+	<field name="COLLACTIVE_AMT" class="java.math.BigDecimal"/>
+	<field name="COLLACTIVE_TBAHT" class="java.lang.String"/>
+	<field name="BIRTH" class="java.math.BigDecimal"/>
+	<field name="PROVINCE_DESC" class="java.lang.String"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="cac35adb-7250-46a0-b185-864b84ff8868" x="36" y="273" width="509" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อที่  ๑  ตามที่ ............................................................................................. ได้กู้ยืมเงินของสหกรณ์ เพื่อ.......................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aa5a18dc-59aa-40c6-98f1-b3dc5a78e482" x="10" y="524" width="544" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่ผูกู้ผิดนัดข้าพเจ้ายินยอมชำระหนี้โดยให้ผู้บังคับบัญชาหรือเจ้าหน้าที่ผู้จ่ายเงินได้รายเดือนและเงินอื่น ใดของข้าพเจ้า หักจำนวนเงิน ณ ที่จ่าย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4148ef0f-8a9a-49ec-80d4-7c1ae3073239" x="31" y="502" width="529" height="21"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อ ๕. ในกรณีที่ข้าพเจ้าต้องชำระหนี้แก่สหกรณ์แทนผู้กู้หลังจากสหกรณ์ได้ส่งหนังสือบอกกบล่าวให้แก่ข้าพเจ้าแล้วภายในหกสิบวันนับแต่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="228cc297-9f6e-42f0-8c40-13172c5bb0ea" x="8" y="254" width="528" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เป็นหลักฐานดังต่อไปนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="925376dc-28fa-4781-baf2-fb9cdaa78184" x="32" y="604" width="518" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อ ๖. ข้าพเจ้าได้ทำหนังสือยินยอมให้ผู้บังคับบัญชาหักเงินได้รายเดือนและเงินอื่นใดของข้าพเจ้ามอบไว้  ให้ สหกรณ์เพื่อแสดงต่อหน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="62b0506b-ab1f-4b38-8cd4-b9ef248c50f8" x="31" y="461" width="511" height="22"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อที่   ๔   ข้าพเจ้ายอมรับข้อผูกพันว่า การออกจาการเป็นสมาชิกของสหกรณ์ไม่ว่าเพราะเหตุใด ๆ ไม่เป็นเหตุให้ข้าพเจ้าหลุดพ้นจากการ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7ff034b2-795b-42ef-9efa-2b4decb9fed4" x="8" y="171" width="543" height="24"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขประจำตัวประชาชน  ......................................................................................รับราชการหรือทำงานประจำในตำแหน่ง............................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fcbc0fd9-41c3-4f6a-ad0a-3c1e2cb04bfc" x="8" y="295" width="557" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เป็นจำนวน .................................... บาท (................................................................................. ) จำนวน........................งวด งวดสุดท้าย...........................บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ed85f0cb-35f2-4158-8a02-a66b2a782241" x="8" y="438" width="528" height="22"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ยินยอมให้สหกรณ์นำเินค่าหุ้นเงินปันผลและเงินเฉลี่ยคืนดังกล่าว มาหักกลบลบหนี้ของข้าพเจ้าให้แก่สหกรณ์ได้ทันที]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b0e22541-7a3c-4b52-939a-da4abd366629" x="11" y="625" width="528" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[งานต้นสังกัดของข้าพเจ้าให้หักเงิน ณ ที่จ่ายให้สหกรณ์จนกว่าสหกรณ์จะได้รับชำระหนี้จนสิ้นเชิง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b232bd65-a0af-4ce1-8c2b-bc52b060a95c" x="10" y="586" width="528" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ได้ค้ำประกันนั้น โดยสิ้นเชิงแล้ว]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="016f5aa5-c6c8-4dcf-8581-c68329b8a4a1" x="8" y="232" width="528" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จังหวัด ............................................รหัสไปรษณีย์....................ขอทำหนังสือค้ำประกันสัญญากู้ยืมเงินให้ไว้ต่อสหกรผณ์ออมทรัพย์ครูเพชรบูรณ์ จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9a83612a-ac6d-43b2-906d-4c5af97712b8" x="10" y="546" width="528" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชำระหนี้ชึ่งข้าพเจ้าต้องชำระาให้สหกรณ์จากเงินได้รายเือนและเงินอื่นใดของข้าพเจ้าส่งต่อสหกรณ์ด้วย โดยข้าพเจ้าได้ทำหนังสือยินยอมให้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8c95adb8-ff70-4cae-ba01-723a22b1fbda" x="8" y="419" width="542" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ประกันหนี้ของสัญญานี้ตลอดไป หากข้าพเจ้าผิดนัดการชำระหนี้สองงวดติดต่อกันหรือตั้งแต่สองงวดขื้นไป หรือขาดจากสมาชิกภาพ ข้าพเจ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3527cfca-178f-4c59-8d01-57a2c592df39" x="31" y="396" width="523" height="25"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อ ๓.  ข้พเจ้าตกลงยอมให้ถือว่า หุ้น เงินปันผล และ เงินเฉลี่ยคืนของข้าพเจ้า ชึ่งมือยู่ในสหกรณ์ในปัจจุบันและ อนาคดนั้น เป็นหลักทรัพย์ค้ำ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cd45f8f3-dd38-47e2-898b-cf406b4b4e46" x="185" y="0" width="139" height="31"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หนังสือค้ำประกันคู่จบับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e977430-ce30-4782-9ca6-77cf4890a3f3" x="32" y="644" width="510" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ถ้าข้าพเจ้าไม่จัดการชำระหนี้สินให้เสร็จสิ้นตามที่กล่าวในวรรคก่อนหรือในกรณีที่ข้าพเจ้าลาออกจากราชการหรือเสียชีวิดแล้ว หากมี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d033c523-3b56-4199-ae9a-30e4e6b99886" x="8" y="317" width="528" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตามหนังสือสัญญากู้ยืมเงิน เลขที่....................................วันที่....................... นั้นข้าพเจ้ายินยอมค้ำประกัน เพื่อหนี้สินเกี่ยวกับเงินกู้ยืมรายนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21dd8214-e28c-48de-88a7-0c98385eceea" x="62" y="151" width="475" height="22"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้า    ........................................................................สมาชิกสหกรณ์ออมทรัพย์ครูเพชรบูรณ์ จำกัดเลขทะเบียนที่.......................
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e682bddb-a6e9-4d22-b5a1-9a563cc50479" x="8" y="213" width="543" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่ปัจจุบัน  บ้านเลขที่.................................   หมู่ที่..........   ถนน..............................................ตำบล................................อำเภอ...................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="394a1078-cda6-460b-ad3c-5de3f13a8169" x="10" y="566" width="540" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หักเงินได้รายเดือนและเงินอื่นใดมอบไว้กรับสหกรณ์และความยินยอมนี้ให้มีอยู่ตลอดไป ทั้งนี้จนกว่าจะได้ชำระหนี้ตามหนังสือกู้เงินที่ข้าพเจ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="066bd750-1d8e-46f4-a2c7-2619a2cbc6e0" x="32" y="337" width="524" height="22"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อที่  ๒  ข้าพเจ้า ได้ทราบข้อผูกพันของผู้กู้ในเรื่องการส่งเงินงวดชำระหนี้ อัตราดอกเบี้ย และการเรียกคืน เงินกู้ก่อนถึงกำหนดตามที่กล่าว
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0887c1f8-eb00-43ad-9908-72b7b4ba7dc8" x="165" y="126" width="213" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หนังสือค้ำประกันสำหรับสัญญากู้ยืมเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d2e19ee8-9e41-47cc-837e-88333df14d71" x="8" y="195" width="543" height="20"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สังกัด.....................................................................................................................................................................................................จังหวัดเพชรบูรณ์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dcfe0cdb-388c-4b0f-8d2e-127dbfc7068c" x="9" y="482" width="528" height="19"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ค้ำประกันรายนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e2e1868-95ff-4f63-bae8-c3e4233ab5f7" x="7" y="361" width="542" height="37"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ไว้ในหนังสือสัญญากู้ยืมเงินนั้น โดยตลอดแล้ว ข้าพเจ้ายอมค้ำประกัน และปฏิบัติตามข้อผูกพันนั้นๆทุกประการจนกว่าหนี้สินและค่าสินไหมทด
+แทนตลอดจนค่าภาระติดพันจะได้ชำระครบถ้วนแล้ว]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="6d60a953-08b7-401b-b9da-4fc45d4891af" x="6" y="9" width="200" height="100"/>
+				<subreportParameter name="as_reqloandocno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "neted_ir_printcoll_pbn.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="642">
+			<staticText>
+				<reportElement uuid="9078c898-ff39-4096-a161-0640e0183322" x="16" y="-4" width="528" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หรืสหกรณ์ยังไม่มีหนังสือบอกกล่าวข้าพเจ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47cec7e2-92e8-43e8-a567-75d0406f24c2" x="185" y="53" width="206" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(..........................................................................)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3a99ba4b-ea57-4c54-98c7-e66fc4795877" x="165" y="21" width="251" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ.......................................................................ผู้ค้ำประกัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="03f7032a-62ee-4a0f-b6f7-4d0cb220dc4d" x="163" y="91" width="251" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[คำยินยอมของคู่สมรส (ใช้เฉพาะกรณีที่ผู้ค้ำประกันมีคู่สมรส)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b2e18855-76f4-48ef-8715-5a568bbff379" x="16" y="-25" width="535" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ทราบ สหกรณ์ได้มีหนังสือบอกกล่าวไปยังที่อยู่ดังกล่าวข้าต้น ข้าพเจ้ามิอาจปฏิเสธหรือโต้แย้งใด ๆ ว่าหนังสือบอกกล่าวยังไปไม่ถึง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f7507533-925a-4070-bf50-860f255a7db6" x="14" y="-79" width="528" height="34"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[แจ้งไปโดยไม่ให้คู่สมรสและทายทของข้าพเจ้ายกสิทธิที่ได้รับเงินเหล่านี้ขึ้นต่อสู้กับสหกรณ์ทายทของข้าพเจ้ายกสิทธิที่ได้รับเงินเหล่านี้ขึ้นต่อ
+สู้กับ สหกรณ์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc655c53-d5ad-4b51-a9d8-f759e516a9ac" x="31" y="-45" width="528" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อ ๗. หากข้าพเจ้าได้ย้ายที่ได้แจ้งไว้ในหนังสือค้ำประกัน ข้าพเจ้าจะแจ้งให้สหกรณ์ทราบเป็นหนังสือ โดยทันที และหากข้าพเจ้าไม่แจ้งให้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b225da18-5bdc-4790-8706-018f56063f24" x="13" y="-139" width="537" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เงินที่ทางราชการจ่ายให้ไม่ว่าจะเป็นเงินบำนาญ,เงินขวัญถุง,เงินบำเหน็จเงินบำเหน็จตกทอดหรือเงินอื่นใดที่ข้าพเจ้า,คู่สมรสหรือทายาทจะพึงได้รับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="39e69d48-1750-411d-a5f2-fb631b5c981b" x="14" y="-97" width="528" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ฯลฯให้หน่วยงานเบิกจ่ายเงินหรือผู้มีหน้าที่จ่ายเงินต่างๆเหล่านี้ให้แก่ข้าพเจ้านำเงินดังกล่าวส่งใช้หนี้ให้สหกรณ์โดยพลัน ตามจำนวนที่สหกรณ์
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb977dfd-c02a-4b74-8ba7-c63c318bc13b" x="14" y="-119" width="528" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ไม่ว่าจะเป็นเงินสวัสดิการหรือผลประโยชน์ภายในส่วนราชการหรือนอกส่วนราชการเงินค่าสินไหมทดแทนจาการประกันภัยหรือประกันชีวิต ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a6824988-648c-46ed-ade1-c5d5cafcf217" x="22" y="124" width="532" height="37"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[               ข้าพเจ้านาย/นาง.............................................................................................เป็นคู่สมรสของ นาย/นาง.........................................................................................
+ยินยอมให้คู่สมรสข้าพเจ้ากู้เงินสามัญของสหกรณ์ออมทรัพย์แห่งนี้ ตามหนังสือค้ำประกันเงินกู้ข้างต้นนี้และข้าพเจ้าได้ลงลายมือชื่อไว้เป็นสำคัญ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c1cb4092-35a7-4151-be97-5840606dd358" x="185" y="165" width="237" height="36"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[...............................................................คู่สมรสผู้ให้คำยินยอม
+(...............................................................)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a707c6f2-0a46-4201-bb64-93b4c8c3ccf6" x="86" y="197" width="159" height="70"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ................................................พยาน
+       (................................................ )
+ตำแหน่ง/สังกัด.....................................
+เลขทะเบียน........................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e560d2cb-9188-4afb-bc6b-886545cb15d7" x="337" y="197" width="159" height="70"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ................................................พยาน
+       (................................................ )
+ตำแหน่ง/สังกัด.....................................
+เลขทะเบียน........................................]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

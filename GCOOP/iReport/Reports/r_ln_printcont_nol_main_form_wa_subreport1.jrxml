@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_printcont_nol_main_form_wa_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a324d284-f58d-47d3-bfed-89894a3a2eac">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_reqdocno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{as_reqdocno}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "A"."DESCRIPTION",
+"A"."SEQ_NO",
+"A"."REF_COLLNO",
+"A"."LOANCOLLTYPE_CODE",
+"A"."COLL_AMT",
+"A"."USE_AMT",
+"A"."COLL_USEAMT"
+FROM "LNREQLOANCOLL" "A"
+WHERE a.loanrequest_docno = $P{as_reqdocno}]]>
+	</queryString>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="REF_COLLNO" class="java.lang.String"/>
+	<field name="LOANCOLLTYPE_CODE" class="java.lang.String"/>
+	<field name="COLL_AMT" class="java.math.BigDecimal"/>
+	<field name="USE_AMT" class="java.math.BigDecimal"/>
+	<field name="COLL_USEAMT" class="java.math.BigDecimal"/>
+	<variable name="SUM001" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{COLL_USEAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement uuid="8d1b2dcd-a3d0-498f-8320-28ca2ef090c3" x="45" y="0" width="200" height="19">
+					<printWhenExpression><![CDATA[($F{LOANCOLLTYPE_CODE}=="01"?true:false)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27">
+			<staticText>
+				<reportElement uuid="a96fad7e-c4e5-4ed4-8660-c29d37edf24d" x="45" y="0" width="70" height="20">
+					<printWhenExpression><![CDATA[($F{LOANCOLLTYPE_CODE}=="02"?true:false)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ใช้หุ้นค้ำประกัน]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="bfcc1aa6-b62c-4973-b493-54024754ea47" x="115" y="0" width="76" height="20">
+					<printWhenExpression><![CDATA[($F{LOANCOLLTYPE_CODE}=="02"?true:false)]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{LOANCOLLTYPE_CODE}=="02"?$F{USE_AMT}:0)]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_r_sl_mth_payloantype" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f769ed14-b8f9-4f87-9dbd-535483226b5f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loantype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_count" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+to_date($P{as_period},'yyyy/mm') as day,
+lncontmaster.coop_id,
+mbucfmembgroup.grpregion_code,
+lnucfloanobjective.loanobjective_code,
+lnucfloanobjective.loanobjective_desc,
+lnloantype.loantype_code,
+lnloantype.loantype_desc,
+ft_memgrp(lncontmaster.coop_id,mbucfmembgroup.grpregion_code) as membgroup_desc,
+count(lncontmaster.member_no),
+sum(lncontmaster.loanapprove_amt),
+sysdate
+from lncontmaster ,lnloantype,mbmembmaster,mbucfmembgroup,slslippayout,lnucfloanobjective
+where lncontmaster.coop_id = lnloantype.coop_id
+and lncontmaster.member_no = mbmembmaster.member_no
+and mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code
+and lncontmaster.loantype_code = lnloantype.loantype_code
+and lncontmaster.loancontract_no = slslippayout.loancontract_no
+and lncontmaster.loantype_code = lnucfloanobjective.loantype_code
+and lncontmaster.loanobjective_code = lnucfloanobjective.loanobjective_code
+and slslippayout.slip_status = 1
+and lncontmaster.loantype_code = $P{as_loantype}
+and lncontmaster.coop_id = $P{as_coopid}
+and to_char(lncontmaster.startcont_date,'yyyymm') = $P{as_period}
+group by lncontmaster.coop_id,
+lnloantype.loantype_code,
+lnloantype.loantype_desc,
+lnucfloanobjective.loanobjective_code,
+lnucfloanobjective.loanobjective_desc,
+mbucfmembgroup.grpregion_code
+order by mbucfmembgroup.grpregion_code]]>
+	</queryString>
+	<field name="DAY" class="java.sql.Timestamp"/>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="GRPREGION_CODE" class="java.lang.String"/>
+	<field name="LOANOBJECTIVE_CODE" class="java.lang.String"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<field name="LOANTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANTYPE_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="COUNT(LNCONTMASTER.MEMBER_NO)" class="java.math.BigDecimal"/>
+	<field name="SUM(LNCONTMASTER.LOANAPPROVE_AMT)" class="java.math.BigDecimal"/>
+	<field name="SYSDATE" class="java.sql.Timestamp"/>
+	<sortField name="LOANTYPE_CODE"/>
+	<sortField name="LOANOBJECTIVE_CODE"/>
+	<variable name="count" class="java.math.BigDecimal" resetType="Group" resetGroup="LOANGROUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT(LNCONTMASTER.MEMBER_NO)}]]></variableExpression>
+	</variable>
+	<variable name="sum" class="java.math.BigDecimal" resetType="Group" resetGroup="LOANGROUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(LNCONTMASTER.LOANAPPROVE_AMT)}]]></variableExpression>
+	</variable>
+	<variable name="count_1" class="java.math.BigDecimal" resetType="Group" resetGroup="OBJECTGROUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT(LNCONTMASTER.MEMBER_NO)}]]></variableExpression>
+	</variable>
+	<variable name="sum_1" class="java.math.BigDecimal" resetType="Group" resetGroup="OBJECTGROUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(LNCONTMASTER.LOANAPPROVE_AMT)}]]></variableExpression>
+	</variable>
+	<group name="LOANGROUP">
+		<groupExpression><![CDATA[$F{LOANTYPE_CODE}]]></groupExpression>
+		<groupFooter>
+			<band height="23">
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement uuid="3959a3eb-977d-4d3f-86ce-9bfac3c3e649" x="341" y="0" width="100" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement uuid="c747b474-d4de-4f4e-a7d5-f2e4b94ebead" x="441" y="0" width="114" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="22a24110-befa-4708-944a-c83cbefbefd5" x="341" y="0" width="214" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="23f676c8-0cce-49c4-9831-a822d325a0f4" x="341" y="20" width="214" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="2b357211-f9ac-49f4-9d5d-ba712160a5c8" x="341" y="22" width="214" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="OBJECTGROUP">
+		<groupExpression><![CDATA[$F{LOANOBJECTIVE_CODE}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="bee8cba2-4a89-4991-946f-c7324d70dbe3" x="29" y="0" width="312" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{LOANOBJECTIVE_DESC}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement uuid="532f8ea8-f3d0-4c20-8be8-5e93a8b58692" x="341" y="0" width="100" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement uuid="2e432c73-d9b8-4878-805d-c1c8fba8505c" x="441" y="0" width="114" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20">
+			<textField>
+				<reportElement uuid="c6284e24-3fe9-4156-b969-409dbaee3e81" x="29" y="0" width="312" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{as_count} == null ? 0 : $P{as_count} )+".2.  ตามเหตุผลและความจำเป็นที่ต้องขอกู้"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e8b25397-aa85-48ce-b1df-924512aad023" x="341" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[จำนวนราย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="547867e3-cc32-46ae-98a0-911e0db6c0be" x="441" y="0" width="114" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงินกู้/บาท]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+</jasperReport>

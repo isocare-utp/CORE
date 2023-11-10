@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_kp_expt__tmpreceive_mth" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="188f871e-a9af-446d-bb92-e47f72ea46b8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_recvperiod" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_smembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_emembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_smembtype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_emembtype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+mb.salary_id,mb.member_no,mg.membgroup_control,ft_memgrp(mb.coop_id,mb.membgroup_code) as membgroup,mb.membgroup_code,
+trim(pre.prename_desc||mb.memb_name||' '||mb.memb_surname) as memname,
+sum(kpdet.item_payment) as item_payment,mb.current_coopid,
+decode(mb.current_coopid,'023001','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด',
+'023002','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการปทุมธานี',
+'023003','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการขอนแก่น',
+'023004','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการลำปาง','')
+as coop
+from(	select dets.kpslip_no,sum(dets.item_payment) as item_payment
+		from kptempreceivedet dets
+		where dets.recv_period like $P{as_recvperiod}||'%'
+		and (dets.keepitemtype_code LIKE 'L%' or dets.keepitemtype_code LIKE 'S%' or dets.keepitemtype_code LIKE 'D%' or dets.keepitemtype_code LIKE 'FFE%')
+		group by dets.kpslip_no
+) kpdet
+        ,kptempreceive kp
+        ,mbmembmaster mb
+        ,mbucfmembgroup mg
+        ,mbucfprename pre
+where kpdet.kpslip_no= kp.kpslip_no
+and kp.member_no = mb.member_no
+and mb.prename_code = pre.prename_code
+and mb.membgroup_code = mg.membgroup_code
+and kp.recv_period = $P{as_recvperiod}
+and mb.member_type in (1,2)
+and mb.coop_id = $P{as_coopid}
+and kp.membtype_code between $P{as_smembtype} and $P{as_emembtype}
+and trim(kp.membgroup_code) between trim($P{as_smembgroup}) and trim($P{as_emembgroup})
+group by mb.current_coopid,mb.salary_id ,pre.prename_desc,mb.memb_name,mg.membgroup_control,mb.memb_surname,mb.member_no,mb.coop_id,mb.membgroup_code
+order by mb.current_coopid,mb.membgroup_code,mb.member_no]]>
+	</queryString>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMBGROUP_CONTROL" class="java.lang.String"/>
+	<field name="MEMBGROUP" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMNAME" class="java.lang.String"/>
+	<field name="ITEM_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="CURRENT_COOPID" class="java.lang.String"/>
+	<field name="COOP" class="java.lang.String"/>
+	<sortField name="CURRENT_COOPID"/>
+	<sortField name="MEMBGROUP_CODE"/>
+	<sortField name="MEMBER_NO"/>
+	<variable name="SUMitempay" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{ITEM_PAYMENT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e4495474-6b95-4e07-a56a-17d1a182c065" x="0" y="0" width="66" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="cc501775-d0cd-434a-ab8e-00a9e0584362" x="66" y="0" width="140" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement uuid="3aab69b2-e97d-4bf5-be25-8113c5914440" x="455" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0cdd5f79-76d5-4689-9e0b-5717b7d7e247" x="305" y="0" width="150" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}+" - "+$F{MEMBGROUP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e41d7076-b085-4dd6-b22a-8f876a71b3b9" x="206" y="0" width="68" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e07d89da-7c24-48f6-a127-52c23dfcf6fa" x="274" y="0" width="31" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CONTROL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="e835f154-c05d-42a4-b8f0-21ba046e028f" x="455" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUMitempay}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

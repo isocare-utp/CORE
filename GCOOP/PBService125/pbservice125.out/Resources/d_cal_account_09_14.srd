@@ -1,0 +1,34 @@
+$PBExportHeader$d_cal_account_09_14.srd
+release 12.5;
+datawindow(units=0 color=1073741824 processing=1 selected.mouse=yes print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=84 )
+detail(height=96 )
+summary(height=0 )
+footer(height=0 )
+table(column=(name=deptaccount_no dbname="lnloanconstant.deptaccount_no" type=char(10) updatewhereclause=yes )
+column=(name=seq_no dbname="lnloanconstant.seq_no" type=decimal(0) updatewhereclause=yes )
+column=(name=deptitemtype_code dbname="lnloanconstant.deptitemtype_code" type=char(3) updatewhereclause=yes )
+column=(name=operate_date dbname="operate_date" type=char(8) updatewhereclause=yes )
+column=(name=chk_day dbname="chk_day" type=number updatewhereclause=yes )
+retrieve="select deptaccount_no, seq_no, deptitemtype_code, to_char(operate_date,'ddmmyyyy') operate_date, case when cal_date > dayinyear then cal_date  else case when to_date(sysdate) = to_date(operate_date) then 0 else to_date(sysdate) - to_date(operate_date) end  end as chk_day 
+from
+(
+select 
+deptaccount_no, seq_no, deptitemtype_code, operate_date, deptitem_amt, balance_forward, prncbal
+, to_date(sysdate) - to_date(operate_date) cal_date, dayinyear  	
+from dpdeptstatement dp
+inner join lnloanconstant ln on dp.coop_id = ln.coop_id
+where deptaccount_no =:str_accno and substr(deptitemtype_code, 1, 1) in ('W') 
+and seq_no= (select max(seq_no) from dpdeptstatement where deptaccount_no =:str_accno and substr(deptitemtype_code, 1, 1) in ('W'))
+)" arguments=(("str_accno",string))
+)
+text(name=operate_date_t band=header x="14" y="8" height="64" width="603" alignment="2" border="0" text="Operate Date" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+text(name=chk_day_t band=header x="626" y="8" height="64" width="329" alignment="2" border="0" text="Chk Day" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+text(name=deptaccount_no_t band=header x="964" y="4" height="80" width="434" border="0" text="Deptaccount No" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=seq_no_t band=header x="1407" y="4" height="80" width="447" border="0" text="Seq No" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=deptitemtype_code_t band=header x="1863" y="4" height="80" width="517" border="0" text="Deptitemtype Code" font.face="Tahoma" font.height="-10" background.color="536870912" )
+column(name=operate_date band=detail x="14" y="8" height="76" width="603" id=4 border="0" alignment="0" format="[shortdate] [time]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=chk_day band=detail x="626" y="8" height="76" width="329" id=5 border="0" alignment="1" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=deptaccount_no band=detail x="964" y="8" height="80" width="434" id=1 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=seq_no band=detail x="1407" y="8" height="80" width="447" id=2 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=deptitemtype_code band=detail x="1863" y="8" height="80" width="517" id=3 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )

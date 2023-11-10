@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub2_slip_in_tnt" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9aad33e7-dc75-45ff-9fbe-c0e31d10c330">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_membno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select decode(depttype_code,'10','เงินฝากออมทรัพย์','20','เงินฝากพิเศษ','') as descrip,prncbal
+from dpdeptmaster
+where prncbal > 0
+and member_no = $P{as_membno}]]>
+	</queryString>
+	<field name="DESCRIP" class="java.lang.String"/>
+	<field name="PRNCBAL" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20">
+			<textField>
+				<reportElement uuid="5120f002-00fc-49a1-b542-ece0338fe48d" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เงินฝากคงเหลือ"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0d54d7c0-ca28-4e8e-8587-5fb0b8cae768" x="0" y="0" width="120" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="8f62927e-f807-4e7d-bf83-26ad6f95b13a" x="120" y="0" width="58" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRNCBAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

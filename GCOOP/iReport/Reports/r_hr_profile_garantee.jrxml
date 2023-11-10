@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_hr_profile_garantee" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aaa9c616-5f47-4688-a5da-0dc5dfad9a4c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_eempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     HRGARANTEE."COOP_ID" AS HRGARANTEE_COOP_ID,
+     HRGARANTEE."EMP_NO" AS HRGARANTEE_EMP_NO,
+     HRGARANTEE."SEQ_NO" AS HRGARANTEE_SEQ_NO,
+     HRGARANTEE."GARAN_NAME" AS HRGARANTEE_GARAN_NAME,
+     HRGARANTEE."GARAN_SURNAME" AS HRGARANTEE_GARAN_SURNAME,
+     HRGARANTEE."GARAN_BIRTH" AS HRGARANTEE_GARAN_BIRTH,
+     HRGARANTEE."GARAN_WORK" AS HRGARANTEE_GARAN_WORK,
+     HRGARANTEE."GARAN_TEL" AS HRGARANTEE_GARAN_TEL,
+     HRGARANTEE."GARAN_AGE" AS HRGARANTEE_GARAN_AGE,
+     extract (year from (sysdate - HRGARANTEE."GARAN_BIRTH") year to month) AS AGE
+FROM
+"HREMPLOYEE" HREMPLOYEE INNER JOIN "HRGARANTEE" HRGARANTEE ON HREMPLOYEE."COOP_ID" = HRGARANTEE."COOP_ID"
+     AND HREMPLOYEE."EMP_NO" = HRGARANTEE."EMP_NO"
+WHERE
+     trim(HREMPLOYEE."EMP_NO") BETWEEN trim($P{as_sempno}) AND trim($P{as_eempno})
+ORDER BY
+     HRGARANTEE."SEQ_NO" ASC]]>
+	</queryString>
+	<field name="HRGARANTEE_COOP_ID" class="java.lang.String"/>
+	<field name="HRGARANTEE_EMP_NO" class="java.lang.String"/>
+	<field name="HRGARANTEE_SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="HRGARANTEE_GARAN_NAME" class="java.lang.String"/>
+	<field name="HRGARANTEE_GARAN_SURNAME" class="java.lang.String"/>
+	<field name="HRGARANTEE_GARAN_BIRTH" class="java.sql.Timestamp"/>
+	<field name="HRGARANTEE_GARAN_WORK" class="java.lang.String"/>
+	<field name="HRGARANTEE_GARAN_TEL" class="java.lang.String"/>
+	<field name="HRGARANTEE_GARAN_AGE" class="java.lang.Double"/>
+	<field name="AGE" class="java.math.BigDecimal"/>
+	<group name="empno">
+		<groupExpression><![CDATA[$F{HRGARANTEE_EMP_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<staticText>
+					<reportElement uuid="93d2a547-bc9b-4879-afc5-0ec8dd505e7f" x="275" y="0" width="111" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<text><![CDATA[สถานที่ทำงาน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2f539277-6027-4fb5-862a-aa6de1a384d3" x="151" y="0" width="80" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<text><![CDATA[วัน/เดือน/ปีเกิด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2e1f1f71-c5c8-4da5-a74a-948c70f053c9" x="1" y="0" width="30" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<text><![CDATA[ลำดับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f2cf1fef-d571-4ad4-8032-093bdec2d2c1" x="231" y="0" width="44" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<text><![CDATA[อายุ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d4fd02a9-fb60-4b7a-b89e-45d8c6f2a5a6" x="31" y="0" width="120" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<text><![CDATA[ชื่อ - นามสกุล]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e63be371-ef34-4906-ba85-b4e27c89c9bd" x="386" y="0" width="80" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<text><![CDATA[เบอร์โทร]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="f182608e-9932-4e27-959c-a3152dddfbd8" x="1" y="0" width="30" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="de00ab42-0c08-4a93-a392-eb416863b000" x="42" y="0" width="109" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HRGARANTEE_GARAN_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="026f4ccf-8223-48c3-9855-8d26e5f86ff3" x="151" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMM yyyy",new Locale("th","TH")).format($F{HRGARANTEE_GARAN_BIRTH})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b42cfed6-c822-4ad4-bfa8-f6f939c7a126" x="231" y="0" width="44" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1bbf85b8-81f1-4c8c-9b4c-ca0ac3da2901" x="286" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HRGARANTEE_GARAN_WORK}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3a7073dc-f8f8-4d31-81f3-31346c32cd1b" x="386" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HRGARANTEE_GARAN_TEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

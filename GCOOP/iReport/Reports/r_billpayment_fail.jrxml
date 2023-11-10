@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_billpayment" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ce6d4a7d-9cfe-4c92-b265-d2cba4db9d2b">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_sdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_edate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_bankcode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CEN\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+bpm.member_no,
+bpm.customer_name,
+bpm.customer_ref1,
+bpm.customer_ref2,
+bpm.bank_code,
+bpm.transaction_amt,
+bpm.principal_payment,
+bpm.interest_payment,
+bpm.payment_date,
+bpm.imp_date,
+bpm.location_file,
+bpm.reject_status
+from billpayment bpm
+where bpm.imp_date between $P{as_sdate} and $P{as_edate}
+and bpm.bank_code = (decode($P{as_bankcode}, '0000',  bpm.bank_code , $P{as_bankcode}))
+and bpm.reject_status = 8]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="CUSTOMER_NAME" class="java.lang.String"/>
+	<field name="CUSTOMER_REF1" class="java.lang.String"/>
+	<field name="CUSTOMER_REF2" class="java.lang.String"/>
+	<field name="BANK_CODE" class="java.lang.String"/>
+	<field name="TRANSACTION_AMT" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="PAYMENT_DATE" class="java.sql.Timestamp"/>
+	<field name="IMP_DATE" class="java.sql.Timestamp"/>
+	<field name="LOCATION_FILE" class="java.lang.String"/>
+	<field name="REJECT_STATUS" class="java.math.BigDecimal"/>
+	<variable name="SUM_TRANSACTION_AMT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TRANSACTION_AMT}]]></variableExpression>
+	</variable>
+	<variable name="SUM_PRINCIPAL_PAYMENT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{PRINCIPAL_PAYMENT}]]></variableExpression>
+	</variable>
+	<variable name="SUM_INTEREST_PAYMENT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{INTEREST_PAYMENT}]]></variableExpression>
+	</variable>
+	<variable name="as_status" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[8]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="0a698492-3726-4817-880f-16357087bac9" x="324" y="55" width="31" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ตั้งแต่วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="87a20e4c-08ab-401d-87b7-aa3e4181d189" x="402" y="55" width="25" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ถึงวันที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="08c7704b-a3dc-4fee-b388-e91b5b97f37b" x="355" y="55" width="44" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{as_sdate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="09cc8d91-12f4-4b0b-b300-f7238d7db200" x="428" y="55" width="44" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{as_edate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b2a6222a-1fc2-4048-8dd4-9e52a5463b99" x="237" y="15" width="327" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สหกรณออมทรัพย์ พนักงานการไฟฟ้าส่วนภูมิภาค จำกัด สาขา สำนักงานใหญ่(001)"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="66c02f79-9a46-43a6-a2bb-926dd9f50a37" x="0" y="35" width="802" height="20"/>
+				<subreportParameter name="as_bankcode">
+					<subreportParameterExpression><![CDATA[$P{as_bankcode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_status">
+					<subreportParameterExpression><![CDATA["(รอตรวจสอบ)"]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["r_billpayment_full_sub1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23">
+			<staticText>
+				<reportElement uuid="de0b3b0a-c4ba-4ea4-92da-cf4c1c62c977" x="27" y="1" width="36" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ทะเบียน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce384580-13c0-4a8f-810f-00d4ed8f6120" x="64" y="1" width="96" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fc8b2435-f476-4c68-bc8c-9df225b7e783" x="163" y="1" width="76" height="20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[Ref.2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="43900133-24f6-466d-bcea-f244b5fe1f46" x="241" y="1" width="33" height="20"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ธนาคาร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b039cf25-ea33-4126-92d5-74fd69bcf60a" x="352" y="1" width="72" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ชำระเงินต้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="43da088c-8037-4595-9ae8-d620565a2146" x="427" y="1" width="78" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ชำระเงิน ด/บ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a35944e7-8bd2-4a5e-960c-9cc8d03d9896" x="600" y="1" width="102" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[วันที่ imp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="312383d8-0b7a-4bab-9805-a7b3a12a8d19" x="705" y="1" width="97" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ชื่อไฟล์]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="59e10e47-00f7-431f-8841-b4163c2a3d4a" x="0" y="0" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="96532ceb-1303-437a-9d93-886e6d70f3eb" x="508" y="1" width="89" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[วันที่ชำระ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e3c64864-73cf-48fc-976d-74e7b42777f9" x="0" y="1" width="25" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="96633b31-8752-41fa-8e80-4eac3399b205" x="276" y="1" width="73" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement uuid="5ac224d6-3098-462e-b7c4-6c46a22b2e4c" x="163" y="0" width="76" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{CUSTOMER_REF2} ? $F{CUSTOMER_REF2} : "" )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="4ae0c973-19c2-46ec-a371-9ff7849e7fb7" x="352" y="0" width="72" height="20">
+					<printWhenExpression><![CDATA[( $F{PRINCIPAL_PAYMENT} > 0 ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="bc45af61-4fc8-4596-bfc8-577b79c559cf" x="427" y="0" width="78" height="20">
+					<printWhenExpression><![CDATA[( $F{INTEREST_PAYMENT} > 0 ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{INTEREST_PAYMENT} > 0 ? $F{INTEREST_PAYMENT} : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="34895e9d-29ed-45f0-a0e5-651ca67653d5" x="64" y="0" width="96" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{CUSTOMER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="50b44e46-0509-4f14-b98d-a279df9bc30c" x="27" y="0" width="36" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="471f1571-f0de-40e5-b96d-62808ab6c63b" x="705" y="0" width="97" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOCATION_FILE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5ea8b6bb-45f1-42b3-a47f-72e674921b02" x="241" y="0" width="33" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{BANK_CODE} ? $F{BANK_CODE} : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="51ca49b3-df27-475c-a6e4-f96021e66d47" x="508" y="0" width="89" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{PAYMENT_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="98f45b72-ed55-4df3-adce-f3cbf75d3a77" x="600" y="0" width="102" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{IMP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="712327e2-e478-42b4-993e-a097215bb9b6" x="276" y="0" width="73" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSACTION_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3a297206-ee8c-4737-8f7c-bc46a4a08492" x="0" y="0" width="25" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="100" splitType="Stretch">
+			<line>
+				<reportElement uuid="8b19bfd1-6abe-40b4-bf62-590c43684ae1" x="0" y="1" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="487ddf1f-9932-417a-a853-ea2c30d48fe4" x="0" y="4" width="75" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[รวมรายการทั้งสิ้น]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="1ac975f7-dc09-44b2-93af-22564091e7ca" x="87" y="4" width="27" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e49145b4-c4c6-4e31-9449-8e8572b98261" x="116" y="4" width="27" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[บัญชี]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="e374332d-4720-4f37-8541-4f27e7056e03" x="276" y="4" width="73" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUM_TRANSACTION_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="58412ed6-8225-4fe6-a036-61373883104a" x="352" y="4" width="73" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUM_PRINCIPAL_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="56c09b75-82d9-4c5d-8ec2-7f1950f31a55" x="427" y="4" width="78" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUM_INTEREST_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="232acad5-f68d-432c-9cdb-ffe19ca85feb" x="27" y="37" width="470" height="63"/>
+				<subreportParameter name="as_edate">
+					<subreportParameterExpression><![CDATA[$P{as_edate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_bankcode">
+					<subreportParameterExpression><![CDATA[$P{as_bankcode}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_sdate">
+					<subreportParameterExpression><![CDATA[$P{as_sdate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_status">
+					<subreportParameterExpression><![CDATA[$V{as_status}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["r_billpayment_subfooter.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

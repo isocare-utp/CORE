@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="iscoslpConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="iscoslpConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.iscoslpConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="dm_tran_locksTableAdapter" GeneratorDataComponentClassName="dm_tran_locksTableAdapter" Name="dm_tran_locks" UserDataComponentName="dm_tran_locksTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="iscoslpConnectionString (Web.config)" DbObjectName="iscoslp.sys.dm_tran_locks" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT OBJECT_NAME(P.OBJECT_ID) AS TABLENAME
+                , RESOURCE_TYPE
+                , RESOURCE_DESCRIPTION
+                ,request_session_id
+                FROM SYS.DM_TRAN_LOCKS L
+                JOIN SYS.PARTITIONS P 
+                ON L.RESOURCE_ASSOCIATED_ENTITY_ID = P.HOBT_ID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="TABLENAME" DataSetColumn="TABLENAME" />
+              <Mapping SourceColumn="RESOURCE_TYPE" DataSetColumn="RESOURCE_TYPE" />
+              <Mapping SourceColumn="RESOURCE_DESCRIPTION" DataSetColumn="RESOURCE_DESCRIPTION" />
+              <Mapping SourceColumn="request_session_id" DataSetColumn="request_session_id" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dm_tran_locks" msprop:Generator_TableClassName="dm_tran_locksDataTable" msprop:Generator_TableVarName="tabledm_tran_locks" msprop:Generator_TablePropName="dm_tran_locks" msprop:Generator_RowDeletingName="dm_tran_locksRowDeleting" msprop:Generator_RowChangingName="dm_tran_locksRowChanging" msprop:Generator_RowEvHandlerName="dm_tran_locksRowChangeEventHandler" msprop:Generator_RowDeletedName="dm_tran_locksRowDeleted" msprop:Generator_UserTableName="dm_tran_locks" msprop:Generator_RowChangedName="dm_tran_locksRowChanged" msprop:Generator_RowEvArgName="dm_tran_locksRowChangeEvent" msprop:Generator_RowClassName="dm_tran_locksRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TABLENAME" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTABLENAME" msprop:Generator_ColumnPropNameInRow="TABLENAME" msprop:Generator_ColumnPropNameInTable="TABLENAMEColumn" msprop:Generator_UserColumnName="TABLENAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="128" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RESOURCE_TYPE" msprop:Generator_ColumnVarNameInTable="columnRESOURCE_TYPE" msprop:Generator_ColumnPropNameInRow="RESOURCE_TYPE" msprop:Generator_ColumnPropNameInTable="RESOURCE_TYPEColumn" msprop:Generator_UserColumnName="RESOURCE_TYPE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RESOURCE_DESCRIPTION" msprop:Generator_ColumnVarNameInTable="columnRESOURCE_DESCRIPTION" msprop:Generator_ColumnPropNameInRow="RESOURCE_DESCRIPTION" msprop:Generator_ColumnPropNameInTable="RESOURCE_DESCRIPTIONColumn" msprop:Generator_UserColumnName="RESOURCE_DESCRIPTION">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="256" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="request_session_id" msprop:Generator_ColumnVarNameInTable="columnrequest_session_id" msprop:Generator_ColumnPropNameInRow="request_session_id" msprop:Generator_ColumnPropNameInTable="request_session_idColumn" msprop:Generator_UserColumnName="request_session_id" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

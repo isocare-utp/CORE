@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_mb_pausepay" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd40eb46-d221-4c59-a988-33000f34adbf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="start_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select member_no,membgroup_code,ft_getmemname(coop_id,member_no) as fullmname,sysdate,ft_memgrp(coop_id,membgroup_code) as membgroup_desc,(select coop_name from cmcoopconstant) as coop_name from mbmembmaster where member_status = 1 and resign_status = 0
+and member_no not in
+( select distinct member_no from
+
+( select member_no from shsharemaster where  payment_status = 1 and periodshare_amt > 0
+union
+select distinct member_no from lncontmaster where principal_balance > 0 and payment_status not in (-1,-13) and period_payment > 0
+union
+select distinct member_no from dpdeptmaster where prncbal > 0 and deptmonth_amt > 0 and deptmonth_status = 1
+))
+and member_no <> '000T9999'
+and coop_id = $P{coop_id}
+and membgroup_code between $P{start_membgroup} and $P{end_membgroup}]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="FULLMNAME" class="java.lang.String"/>
+	<field name="SYSDATE" class="java.sql.Timestamp"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<sortField name="MEMBGROUP_CODE"/>
+	<sortField name="MEMBER_NO"/>
+	<variable name="count" class="java.math.BigDecimal" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{MEMBER_NO}]]></variableExpression>
+	</variable>
+	<group name="GROUPCODE">
+		<groupExpression><![CDATA[$F{MEMBGROUP_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="d0d01c56-32b5-4316-a7bc-8159e551293e" x="18" y="0" width="314" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}+" : "+$F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="MEMNOGROUP">
+		<groupExpression><![CDATA[$F{MEMBER_NO}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b5d0a825-61bb-4851-bf00-a92b6387870e" x="18" y="50" width="80" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ทะเบียนสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0e3b1e56-8b5f-44fc-b97a-f096b454ec84" x="98" y="50" width="162" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8ac96623-2ec3-4b10-b2b7-beb0c45fffff" x="260" y="50" width="78" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หุ้นคงเหลือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f6496d13-0f18-4fbb-ab96-ff56a0544cec" x="338" y="50" width="64" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หุ้นส่ง / เดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f3e2acab-86ef-4ab1-95af-aa2db4fd1099" x="477" y="50" width="78" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หนี้คงเหลือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c7cd651e-3789-4b85-b008-51fe50a7731e" x="0" y="27" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานงดเรียกเก็บรายเดือน]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="b3636ce6-b1bb-49e8-b242-48175236614d" x="0" y="3" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="08489da9-72a7-4355-9ff3-4358c639d9bc" x="455" y="3" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA["พิมพ์วันที่  "+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SYSDATE})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="900b02a0-e9a4-458b-94d5-0edda3cea268" x="402" y="50" width="75" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขสัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aed18091-9f7d-402d-a748-7633963bef28" x="0" y="50" width="18" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ที]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3295f679-1f3f-451c-99d6-1092b2b61a6e" isPrintRepeatedValues="false" x="18" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0cd6331a-a7af-4bcd-92f2-766517b1b47b" isPrintRepeatedValues="false" x="98" y="0" width="162" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLMNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="89c02233-c387-4adf-a589-ff70fefbc8da" isPrintRepeatedValues="false" x="0" y="0" width="18" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{count}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="0930be00-1f6e-40d4-8167-a1d2e4703934" x="260" y="0" width="142" height="20"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$P{coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_membno">
+					<subreportParameterExpression><![CDATA[$F{MEMBER_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "sub_r_mb_pausepay_shr.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="8b74f0a1-896c-4a37-8eae-3d32f372e0b8" positionType="Float" x="402" y="0" width="153" height="20"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$P{coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_membno">
+					<subreportParameterExpression><![CDATA[$F{MEMBER_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "sub_r_mb_pausepay_cont.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField>
+				<reportElement uuid="0fd65a09-280a-4556-beb5-222f2260cf11" x="98" y="0" width="162" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{count}+"  คน"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cce62980-ec56-40c2-8001-973529c5a9e3" x="0" y="0" width="98" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รวมทั้งสิ้น]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

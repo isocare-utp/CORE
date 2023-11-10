@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper_subreport2_subreport1" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="42f514d7-9633-4f63-9714-dd8dd5da2d02">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_collmastno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select lncollmastbuilding.*, (select count(*) from lncollmastbuilding where collmast_no =  $P{as_collmastno})as rowcount
+from lncollmastbuilding where collmast_no = $P{as_collmastno} order by FLOOR_NO asc]]>
+	</queryString>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="COLLMAST_NO" class="java.lang.String"/>
+	<field name="FLOOR_NO" class="java.math.BigDecimal"/>
+	<field name="FLOOR_SQUARE" class="java.math.BigDecimal"/>
+	<field name="FLOOR_PRICESQUARE" class="java.math.BigDecimal"/>
+	<field name="FLOOR_SUMPRICE" class="java.math.BigDecimal"/>
+	<field name="ROWCOUNT" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="c67fd66c-401f-4d45-bc56-18edd00f2cf7" positionType="Float" x="73" y="2" width="27" height="20">
+					<printWhenExpression><![CDATA[($F{ROWCOUNT} != 1 ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชั้นที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="379ca45e-6490-4496-b71a-8c5bb233b722" positionType="Float" x="195" y="2" width="140" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตารางเมตร ราคาตารางเมตรละ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="78748f56-4d32-405d-b0c1-8cb4090b8a2a" positionType="Float" x="387" y="2" width="76" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท คิดเป็นเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a706c6a0-5e6a-4a70-87ea-1834fad0ffcc" positionType="Float" x="524" y="2" width="31" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a4ea5423-c56a-4c52-b59e-cb22feb945d8" positionType="Float" x="122" y="2" width="30" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[เนื้อที่]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="21385deb-bf7d-495f-bbb1-96f205d17be7" positionType="Float" x="100" y="2" width="21" height="20">
+					<printWhenExpression><![CDATA[($F{ROWCOUNT} != 1 ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FLOOR_NO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="64e3773a-4053-488e-a24e-b116beb50c34" positionType="Float" x="152" y="2" width="42" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FLOOR_SQUARE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3fa48cb4-6e95-420b-b470-628a37c76b29" positionType="Float" x="335" y="2" width="50" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FLOOR_PRICESQUARE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="b06c35e8-545c-4754-b790-47c6adb31c83" positionType="Float" x="463" y="2" width="58" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FLOOR_SUMPRICE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

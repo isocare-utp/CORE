@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CoreSavingLibrary;
+using System.Data;
+
+namespace Saving.CriteriaIReport.u_cri_coopid_membno_name_assisttype
+{
+    public partial class DsMain : DataSourceFormView
+    {
+        public DataSet1.DataTable1DataTable DATA { get; set; }
+        public void InitDsMain(PageWeb pw)
+        {
+            DataSet1 ds = new DataSet1();
+            this.DATA = ds.DataTable1;
+            this.EventItemChanged = "OnDsMainItemChanged";
+            this.EventClicked = "OnDsMainClicked";
+            this.InitDataSource(pw, FormView1, this.DATA, "dsMain");
+            this.Register();
+        }
+
+        public void DdCoopId()
+        {
+            String sql = @"select coop_id, coop_name from cmcoopmaster ";
+            sql = WebUtil.SQLFormat(sql);
+            DataTable dt = WebUtil.Query(sql);
+            this.DropDownDataBind(dt, "coop_id", "coop_name", "coop_id");
+        }
+
+        public void AssistType()
+        {
+            string sql = @"select * from
+                        (
+	                        select
+		                        ASSISTTYPE_CODE, 
+		                        ASSISTTYPE_CODE||' - '||ASSISTTYPE_DESC as display, 
+		                        1 as sorter
+	                        from ASSUCFASSISTTYPE where stm_flag = 1
+	                        union
+	                        select
+		                        '00', 
+		                        'กรุณาเลือกสวัสดิการ' as display, 
+		                        1 as sorter
+	                        from ASSUCFASSISTTYPE where rownum = 1
+                        )
+                        order by sorter, assisttype_code
+                        ";
+            DataTable dt = WebUtil.Query(sql);
+            this.DropDownDataBind(dt, "assisttype_code", "display", "assisttype_code");
+
+        }
+    }
+}

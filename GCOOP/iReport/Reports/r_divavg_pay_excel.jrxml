@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_divavg_pay_excel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="57816266-1cf3-489f-86fb-ce90ef7841b5">
+	<property name="ireport.zoom" value="1.6105100000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_startmembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_endmembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_moneytype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select m.salary_id, mup.prename_desc || m.memb_name ||' '|| m.memb_surname as full_name,yspd.div_payment , yspd.avg_payment
+from yrslippayout ysp , yrslippayoutdet yspd , yrbgmaster ybm , yrucfmethpay yum , mbmembmaster m , mbucfprename mup , mbucfmembgroup mug , mbucfmembtype mut , cmucfbank cb , cmucfbankbranch cbb
+where ysp.coop_id = m.coop_id
+and ysp.member_no = m.member_no
+and ysp.coop_id = ybm.coop_id
+and ysp.member_no = ybm.member_no
+and ysp.div_year = ybm.div_year
+and ysp.coop_id = yspd.coop_id
+and ysp.payoutslip_no = yspd.payoutslip_no
+and ybm.coop_id = mug.coop_id
+and ybm.membgroup_code = mug.membgroup_code
+and yspd.coop_id = yum.coop_id
+and yspd.methpaytype_code = yum.methpaytype_code
+and ybm.coop_id = mut.coop_id(+)
+and ybm.membtype_code = mut.membtype_code(+)
+and m.prename_code = mup.prename_code(+)
+and yspd.expense_bank = cb.bank_code(+)
+and yspd.expense_bank = cbb.bank_code(+)
+and yspd.expense_branch = cbb.branch_id(+)
+and ysp.coop_id = $P{as_coopid}
+and trim(ysp.div_year) = trim($P{as_year})
+and ysp.slip_date between $P{date1} and $P{date2}
+and m.membgroup_code between $P{as_startmembgroup} and $P{as_endmembgroup}
+and yspd.methpaytype_code like '%'||$P{as_moneytype}
+and ysp.slip_status = 1]]>
+	</queryString>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="DIV_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="AVG_PAYMENT" class="java.math.BigDecimal"/>
+	<variable name="sum_divavg" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{DIV_PAYMENT}+$F{AVG_PAYMENT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="db34ff3a-dc97-4e55-bd7d-bfd4f3dd959b" x="119" y="0" width="181" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1e3c91b1-5a6c-42f2-bf20-4a4a24eab302" x="48" y="0" width="71" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="34fe6524-bcb3-406c-9816-3db8ac9b099b" x="0" y="0" width="48" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="4f53a31d-5c76-469b-862d-437a5f668cf6" x="300" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIV_PAYMENT}+$F{AVG_PAYMENT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="###0.00">
+				<reportElement uuid="0c9a5f50-5a2f-4496-b17a-a325742cfd6a" x="300" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_divavg}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

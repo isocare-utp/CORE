@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_fin_slippayout" language="groovy" pageWidth="541" pageHeight="396" orientation="Landscape" columnWidth="541" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e59216c0-4c7e-4653-a573-1b537b256eec">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="85"/>
+	<property name="ireport.y" value="71"/>
+	<parameter name="slippayout_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA["OU56002987"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+mp.prename_desc,
+mb.memb_name,
+mb.memb_surname,
+so.payoutslip_no,
+so.member_no,
+so.payout_amt,
+so.returnetc_amt ,
+so.payoutnet_amt,
+so.moneytype_code,
+so.expense_bank,
+cb.bank_desc,
+so.expense_accid,
+so.slip_date,
+si.payinslip_no,
+si.document_no,
+sum(sid.principal_payamt),
+sum(sid.interest_payamt),
+sum(CASE sid.slipitemtype_code WHEN 'LON' THEN sid.item_payamt ELSE 0 end   ) as item_lon,
+sum(CASE sid.slipitemtype_code WHEN 'MUT' THEN sid.item_payamt ELSE 0 end   ) as item_mut
+,(LN_SRV.OF_GETCONTCLR(so.payoutslip_no)) as list_cont
+,(LN_SRV.OF_GETCONTCLRDAY(so.payoutslip_no)) as list_contday
+
+from slslippayout so,slslippayin si ,slslippayindet sid,mbmembmaster mb ,mbucfprename mp,cmucfbank cb
+where so.payoutslip_no = $P{slippayout_no}
+and so.slipclear_no = si.payinslip_no(+)
+and si.payinslip_no = sid.payinslip_no(+)
+and so.coop_id = si.coop_id(+)
+and so.member_no = si.member_no(+)
+and si.coop_id = sid.coop_id (+)
+and so.member_no = mb.member_no
+and mb.prename_code = mp.prename_code
+and so.expense_bank = cb.bank_code
+group by mp.prename_desc,
+mb.memb_name,
+mb.memb_surname,
+so.payoutslip_no,
+so.member_no,
+so.payout_amt,
+so.returnetc_amt ,
+so.payoutnet_amt,
+so.moneytype_code,
+so.expense_bank,
+cb.bank_desc,
+so.expense_accid,
+so.slip_date,
+si.payinslip_no,
+si.document_no
+,(LN_SRV.OF_GETCONTCLR(so.payoutslip_no))
+,(LN_SRV.OF_GETCONTCLRDAY(so.payoutslip_no))]]>
+	</queryString>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="PAYOUTSLIP_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PAYOUT_AMT" class="java.math.BigDecimal"/>
+	<field name="RETURNETC_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="EXPENSE_BANK" class="java.lang.String"/>
+	<field name="BANK_DESC" class="java.lang.String"/>
+	<field name="EXPENSE_ACCID" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="DOCUMENT_NO" class="java.lang.String"/>
+	<field name="SUM(SID.PRINCIPAL_PAYAMT)" class="java.math.BigDecimal"/>
+	<field name="SUM(SID.INTEREST_PAYAMT)" class="java.math.BigDecimal"/>
+	<field name="ITEM_LON" class="java.math.BigDecimal"/>
+	<field name="ITEM_MUT" class="java.math.BigDecimal"/>
+	<field name="LIST_CONT" class="java.lang.String"/>
+	<field name="LIST_CONTDAY" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="396" splitType="Stretch">
+			<textField>
+				<reportElement uuid="7e4b80cd-42a4-4f63-bf40-013cda17ebf2" x="64" y="70" width="199" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+" "+$F{MEMB_SURNAME}+" ("+$F{MEMBER_NO}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="5bf14b35-fa19-40b9-95c7-3865d5ee20b3" x="374" y="88" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUT_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="f8040b9d-9a04-4ebf-96d2-399525eec14d" x="374" y="108" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{RETURNETC_AMT} ? $F{RETURNETC_AMT} : 0.00 )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="b2e3b5e7-e024-4ba3-b36f-11a8c83fa851" x="238" y="132" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{SUM(SID.PRINCIPAL_PAYAMT)} ? $F{SUM(SID.PRINCIPAL_PAYAMT)} : 0.00 )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="11849ebd-5092-4f42-8428-099a7a12f606" x="238" y="152" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{SUM(SID.INTEREST_PAYAMT)} ? $F{SUM(SID.INTEREST_PAYAMT)} : 0.00 )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="b6b83dc5-102a-403f-942a-e9aa3fde85fb" x="238" y="172" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{ITEM_MUT} ? $F{ITEM_MUT} : 0.00 )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7dbb836b-11c6-4e1a-a6f3-ad57a83846a7" x="374" y="214" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{PAYOUT_AMT}+$F{RETURNETC_AMT})-($F{ITEM_LON}+$F{ITEM_MUT})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a30fcf56-1b7e-4dec-991d-9da2021997b8" x="373" y="194" width="101" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_LON}+$F{ITEM_MUT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f8e01f44-89e3-4da4-a00a-a2b6f699ecd3" x="125" y="267" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MONEYTYPE_CODE}=="CBT" ? $F{BANK_DESC} : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6e9f2601-a45f-40b0-a072-45a15e148e64" x="292" y="268" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MONEYTYPE_CODE}=="CBT" ? $F{EXPENSE_ACCID} : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="758d2c08-b2ca-4c73-b19d-7799158204d5" x="329" y="288" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="42de9955-02f4-4567-a0d3-cec8f88712e7" x="319" y="308" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{LIST_CONT} ? $F{LIST_CONT} : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fd4cfa0d-cfa6-41ab-a56d-98ca525955b5" x="88" y="152" width="45" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{LIST_CONTDAY} ? $F{LIST_CONTDAY} : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="741883f1-be09-4669-a916-1049a7fda92d" x="125" y="328" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DOCUMENT_NO} ? $F{DOCUMENT_NO} : "" )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a4052dc3-92c0-4bdd-9faf-17af3d8241a2" x="69" y="308" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{PAYOUT_AMT}+$F{RETURNETC_AMT})-($F{ITEM_LON}+$F{ITEM_MUT})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b60013d4-021f-47fd-b58b-f96fea0cb5b4" x="319" y="328" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e55d90f9-051f-46fe-9f92-fa740f608253" x="417" y="268" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2117d241-2871-481e-b87d-ea380c541c7c" x="142" y="287" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MONEYTYPE_CODE}=="CHQ" || $F{MONEYTYPE_CODE}=="DRF" ? $F{EXPENSE_ACCID} : "" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_020_hr_payroll_invoice" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbcfc38b-357d-474b-9c18-e8047db9be9f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="338"/>
+	<subDataset name="dataset1" uuid="f3d26e6e-c396-4a21-bba4-dff61fc5ab81"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_emptype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     FTCNVTDATE(pr.payroll_date,3) AS payroll_date,
+     mpre.prename_desc||emp.emp_name||'  '||emp.emp_surname AS emp_name,
+     sum(distinct pd.salary),sum(distinct pd.pised),sum(distinct pd.pasee),sum(distinct pd.pakan),
+             sum( case when kpt.keepitemtype_code = 'S01' and kpt.shrlontype_code = '01' then kpt.item_payment else 0 end) as shr,
+sum( case when kpt.keepitemtype_code = 'D00' and kpt.shrlontype_code = '01' then kpt.item_payment else 0 end) as dep,
+			sum( case when kpt.keepitemtype_code = 'L01' and kpt.shrlontype_code = '10' then kpt.principal_payment else 0 end ) as lon_c_c,
+			sum( case when kpt.keepitemtype_code = 'L01' and kpt.shrlontype_code = '10' then kpt.interest_payment else 0 end ) as interest_c_c,
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '15' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '21' then kpt.principal_payment else 0 end ) +
+             sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '22' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '18' then kpt.principal_payment else 0 end ) as lon_s_m,
+             sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '15' then kpt.interest_payment else 0 end ) +
+		    sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '21' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '22' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '18' then kpt.interest_payment else 0 end ) as interest_s_m,
+			sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '13' then kpt.principal_payment else 0 end ) as lon_p_s,
+			sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '13' then kpt.interest_payment else 0 end ) as interest_p_s,
+		     sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '16' then kpt.principal_payment else 0 end ) as lon_s,
+		     sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '16' then kpt.interest_payment else 0 end ) as interest_s,
+		     sum( case when kpt.keepitemtype_code = 'ISF' and kpt.shrlontype_code = '00' then kpt.item_payment else 0 end ) as prakun,
+sum(distinct(pd.salary))+sum(distinct(pd.pised)) as sum_add,
+sum(distinct(pd.pasee))+sum(distinct(pd.pakan)) +
+sum( case when kpt.keepitemtype_code = 'S01' and kpt.shrlontype_code = '01' then kpt.item_payment else 0 end) +
+sum( case when kpt.keepitemtype_code = 'D00' and kpt.shrlontype_code = '01' then kpt.item_payment else 0 end) +
+			sum( case when kpt.keepitemtype_code = 'L01' and kpt.shrlontype_code = '10' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L01' and kpt.shrlontype_code = '10' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '15' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '21' then kpt.principal_payment else 0 end ) +
+             sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '22' then kpt.principal_payment else 0 end ) +
+			 sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '18' then kpt.principal_payment else 0 end ) +
+             sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '15' then kpt.interest_payment else 0 end ) +
+		    sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '21' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '22' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '18' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '13' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '13' then kpt.interest_payment else 0 end ) +
+		     sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '16' then kpt.principal_payment else 0 end ) +
+		     sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '16' then kpt.interest_payment else 0 end ) +
+		     sum( case when kpt.keepitemtype_code = 'ISF' and kpt.shrlontype_code = '00' then kpt.item_payment else 0 end ) as sum_sub,
+(sum(distinct(pd.salary))+sum(distinct(pd.pised))) - (sum(distinct(pd.pasee))+sum(distinct(pd.pakan)) +
+sum( case when kpt.keepitemtype_code = 'S01' and kpt.shrlontype_code = '01' then kpt.item_payment else 0 end) +
+sum( case when kpt.keepitemtype_code = 'D00' and kpt.shrlontype_code = '01' then kpt.item_payment else 0 end) +
+			sum( case when kpt.keepitemtype_code = 'L01' and kpt.shrlontype_code = '10' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L01' and kpt.shrlontype_code = '10' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '15' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '21' then kpt.principal_payment else 0 end ) +
+             sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '22' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '18' then kpt.principal_payment else 0 end ) +
+             sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '15' then kpt.interest_payment else 0 end ) +
+		    sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '21' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '22' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L02' and kpt.shrlontype_code = '18' then kpt.interest_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '13' then kpt.principal_payment else 0 end ) +
+			sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '13' then kpt.interest_payment else 0 end ) +
+		     sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '16' then kpt.principal_payment else 0 end ) +
+		     sum( case when kpt.keepitemtype_code = 'L03' and kpt.shrlontype_code = '16' then kpt.interest_payment else 0 end ) +
+		     sum( case when kpt.keepitemtype_code = 'ISF' and kpt.shrlontype_code = '00' then kpt.item_payment else 0 end )) as sum_total,
+(case when emp.salexp_accid IS NOT null or emp.salexp_accid <>''then trim( emp.salexp_accid ) ||' บัญชี '|| trim( dp.deptaccount_name ) else ''end) AS accid_desc
+,emp.emp_no
+FROM
+     "HRPAYROLL" pr,
+     "DPDEPTMASTER" dp,
+     "HREMPLOYEE" emp,
+     "MBUCFPRENAME" mpre,
+"KPTEMPRECEIVEDET" kpt,
+(select a.payrollslip_no, sum(decode(a.salitem_code,'R01',a.item_amt,0)) as salary,
+					sum(decode(a.salitem_code,'R03',a.item_amt,0)+decode(a.salitem_code,'R11',a.item_amt,0) ) as pised,
+					sum(decode(a.salitem_code,'P01',a.item_amt,0)) as pasee,
+					sum(decode(a.salitem_code,'P12',a.item_amt,0)) as pakan
+					from hrpayrolldet a
+					group by a.payrollslip_no
+					) pd
+WHERE
+      (pr.payrollslip_no = pd.payrollslip_no)
+     and (pr.coop_id = emp.coop_id)
+     and (pr.emp_no = emp.emp_no)
+     and (emp.prename_code = mpre.prename_code)
+and ( pr.member_no = kpt.member_no (+))
+and ( pr.payroll_period = kpt.recv_period(+))
+     and (emp.salexp_accid = dp.deptaccount_no(+))
+     and (pr.coop_id = $P{as_coopid})
+     and (pr.payroll_period = $P{as_period})
+     and (emp.emptype_code =$P{as_emptype})
+GROUP BY
+     pr.payroll_date,
+     emp.emp_no,
+     mpre.prename_desc,
+     emp.emp_name,
+     emp.emp_surname,
+     emp.salexp_accid,
+     dp.deptaccount_name
+ORDER BY
+     emp.emp_no ASC]]>
+	</queryString>
+	<field name="PAYROLL_DATE" class="java.lang.String"/>
+	<field name="EMP_NAME" class="java.lang.String"/>
+	<field name="SUM(DISTINCTPD.SALARY)" class="java.math.BigDecimal"/>
+	<field name="SUM(DISTINCTPD.PISED)" class="java.math.BigDecimal"/>
+	<field name="SUM(DISTINCTPD.PASEE)" class="java.math.BigDecimal"/>
+	<field name="SUM(DISTINCTPD.PAKAN)" class="java.math.BigDecimal"/>
+	<field name="SHR" class="java.math.BigDecimal"/>
+	<field name="DEP" class="java.math.BigDecimal"/>
+	<field name="LON_C_C" class="java.math.BigDecimal"/>
+	<field name="INTEREST_C_C" class="java.math.BigDecimal"/>
+	<field name="LON_S_M" class="java.math.BigDecimal"/>
+	<field name="INTEREST_S_M" class="java.math.BigDecimal"/>
+	<field name="LON_P_S" class="java.math.BigDecimal"/>
+	<field name="INTEREST_P_S" class="java.math.BigDecimal"/>
+	<field name="LON_S" class="java.math.BigDecimal"/>
+	<field name="INTEREST_S" class="java.math.BigDecimal"/>
+	<field name="PRAKUN" class="java.math.BigDecimal"/>
+	<field name="SUM_ADD" class="java.math.BigDecimal"/>
+	<field name="SUM_SUB" class="java.math.BigDecimal"/>
+	<field name="SUM_TOTAL" class="java.math.BigDecimal"/>
+	<field name="ACCID_DESC" class="java.lang.String"/>
+	<field name="EMP_NO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="732">
+			<staticText>
+				<reportElement uuid="9423f2ba-ffee-4aed-9fb2-cc04ec5ac3ac" x="273" y="233" width="277" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการหัก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5b5c3d96-5684-4d98-a2d3-0c41c4e1753c" x="2" y="233" width="271" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายได้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c549a8a5-bbdb-4a0d-bcff-e9361a55ebb2" x="4" y="176" width="73" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - นามสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0b3c59c3-4b8f-4f74-8ffe-135d25558393" x="4" y="196" width="73" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7af6a9a5-64a6-4c55-a2b4-60207fdc6aa7" x="348" y="124" width="73" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[รหัสพนักงาน]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement uuid="3fb50c01-68de-475d-915d-893e15344d6c" x="414" y="124" width="130" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMP_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ac872c4-0f83-47b8-a342-e67309c954c7" x="77" y="196" width="301" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCID_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="72b2c377-c6d8-4df3-8c6f-9877286ae629" x="77" y="176" width="301" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMP_NAME}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="d050d811-260c-47f3-b4e1-7958f61fc818" x="271" y="232" width="2" height="367"/>
+			</line>
+			<staticText>
+				<reportElement uuid="479488f0-3997-420f-826a-77504ceb22bd" x="4" y="253" width="95" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[เงินเดือน]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="8f97037f-d269-44f1-8fe0-ed30c8d3a823" x="127" y="558" width="143" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_ADD}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="01b869b2-6ad8-41f1-b1d3-725d8466f65e" x="1" y="233" width="1" height="366"/>
+			</line>
+			<line>
+				<reportElement uuid="3c4c07fa-a5f0-4785-ab36-751f0065ce8d" x="550" y="233" width="1" height="366"/>
+			</line>
+			<line>
+				<reportElement uuid="11d45f77-dbc1-4472-a6a3-572af810e65c" x="1" y="232" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="f197ff32-21ab-4197-a829-b06fdf496dc0" x="0" y="579" width="550" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="eb295664-56c6-45ce-a4f8-f9752b385f86" x="4" y="271" width="95" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[รายได้อื่นๆ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="46b4e4f7-0884-4410-8dee-9d55324f6137" x="1" y="251" width="550" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="f6bdddab-b4f2-47e4-b8b8-8d77d2f595f7" x="100" y="558" width="50" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[รวมเงินได้]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="f1bc2cb8-bd5e-4fe6-98cc-3f70e7b2dec4" x="125" y="253" width="143" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM(DISTINCTPD.SALARY)}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="6f895e1a-2432-424b-ab02-da1f911b1f61" x="125" y="271" width="143" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM(DISTINCTPD.PISED)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b1990e68-e8d3-4a2c-9e7e-ffe028d34ec0" x="275" y="253" width="95" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ภาษี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="31236371-9d8d-45ba-925e-fc19e0708d71" x="275" y="271" width="95" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ประกันสังคม]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2f856dcc-e784-4530-95fa-bdeb9652d12b" x="275" y="293" width="95" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[หุ้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6c58c0cd-92ed-46f9-a84e-6199c6501c5b" x="275" y="333" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[เงินกู้ฉุกเฉิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="76e05b6f-a145-4164-9b78-41aedbc6cc51" x="305" y="556" width="73" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[รวมรายการหัก]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="746cee5b-a985-4577-9e54-43468a815017" x="446" y="558" width="103" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_SUB}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="409f8281-3855-45d7-afe5-b92ff2ad6c0f" x="433" y="333" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LON_C_C}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="c7e85939-279e-4e73-800d-599195335a49" x="433" y="293" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHR}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="34fafaaa-6036-495b-a55b-341ba1e24c5c" x="433" y="271" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM(DISTINCTPD.PAKAN)}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="0290f611-9e89-471b-821c-24f440f531da" x="433" y="253" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM(DISTINCTPD.PASEE)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7e305cea-2ad0-4594-a506-907aad4cebf5" x="305" y="579" width="74" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายได้สุทธิ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="dd92dadf-cec8-472d-801e-8ed93fff62b0" x="406" y="579" width="143" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_TOTAL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="c8d45ce6-e6df-4e2d-87f9-f3f20f0def74" x="1" y="271" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="ec9c7b7c-1347-4c06-acaf-fe194b9e684d" x="1" y="291" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="77105907-c4e2-4227-9835-2800daa1c65a" x="1" y="312" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="0977b4d7-f644-4df5-bfc9-d10df17715c8" x="1" y="332" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="c470cb98-7a2d-4b1c-b34e-b94bf202838f" x="1" y="353" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="52791c86-dc0a-4e9d-892d-985e51fe197e" x="0" y="599" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="c392c323-5fd9-4c27-8b1f-62893d3da255" x="407" y="579" width="1" height="20"/>
+			</line>
+			<textField>
+				<reportElement uuid="917f3167-1aee-40ea-be86-d2ac8fac9f9c" x="323" y="90" width="123" height="23"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{as_period}.substring(4)=="01"
+  ? "มกราคม" : (
+  $P{as_period}.substring(4)=="02"
+  ? "กุมภาพันธ์" : (
+  $P{as_period}.substring(4)=="03"
+  ? "มีนาคม" : (
+  $P{as_period}.substring(4)=="04"
+  ? "เมษายน" : (
+  $P{as_period}.substring(4)=="05"
+  ? "พฤษภาคม" : (
+  $P{as_period}.substring(4)=="06"
+  ? "มิถุนายน" : (
+  $P{as_period}.substring(4)=="07"
+  ? "กรกฎาคม" : (
+  $P{as_period}.substring(4)=="08"
+  ? "สิงหาคม" : (
+  $P{as_period}.substring(4)=="09"
+  ? "กันยายน" : (
+  $P{as_period}.substring(4)=="10"
+  ? "ตุลาคม" : (
+  $P{as_period}.substring(4)=="11"
+  ? "พฤศจิกายน" : "ธันวาคม" ) ) ) ) ) ) ) ) ) ) )
++" "+$P{as_period}.substring(0,4)]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="ebd2728d-53f9-4489-9935-bcdd33604d50" x="184" y="90" width="138" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ใบสลิปเงินเดือน ประจำเดือน "]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="02954fe4-72fd-4778-ba22-acbf82095be7" x="222" y="1" width="119" height="70"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\ReportHead\\LogoPNGwhite.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="3ff65ad6-8486-4005-85e7-8b73c7ecedf7" x="140" y="67" width="291" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน  จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fdb1ce1b-b112-48b7-b3a7-5721536d8980" x="252" y="648" width="303" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="59fa6846-2d6b-4ace-8320-41093cd98133" x="348" y="668" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[นางวิไลพร วายุภาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8028cd57-5131-45b8-b926-d4834aec1ff6" x="322" y="688" width="133" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ผู้จัดการ]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="728a1e5d-9b26-4058-9b18-dcb9b86a52e2" x="254" y="662" width="88" height="50"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\ReportHead\\LogoPNGwhite.jpg"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement uuid="7cc8d27e-c8ce-41ed-82be-1dac70737cc7" x="1" y="375" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="57677b8c-da1a-44b9-9643-4a9b82a397c0" x="0" y="397" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="3fd72301-dd04-4fda-a008-d7de7f14b9c8" x="0" y="419" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="ca419e4c-7ff8-4456-8d34-761b1fd21cd5" x="0" y="442" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="8feb2cb4-8189-4635-832a-76e3e255af44" x="0" y="465" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="7dc2e8a1-6d7a-4628-b72a-e74f80240eb0" x="0" y="489" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="2c343742-e1df-4d5d-9de9-b8dd8b486d86" x="0" y="511" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="67cfe85d-0d6b-49dd-aadd-4dd92ab88919" x="0" y="533" width="550" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="7d16b8c2-7525-4827-aced-96ad27f494eb" x="0" y="555" width="550" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="0c6aac18-fd4e-4ad9-a02e-c04524189e06" x="275" y="354" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ยเงินกู้ฉุกเฉิน]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="eafc1e8d-6267-4ef4-802b-d8d129655b24" x="432" y="353" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_C_C}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1c7df0d3-eee9-478f-aa48-172171fd1f6f" x="275" y="376" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[เงินกู้สามัญ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="978ebd7b-cce8-4963-b7a9-7e0510a3a041" x="433" y="375" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LON_S_M}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a52698f3-a7b7-4903-b752-e05cee3435ea" x="275" y="396" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ยเงินกู้สามัญ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="c96e75a6-4f89-4591-9001-d9e501a4f74c" x="433" y="398" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_S_M}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c2897a85-48f6-458e-89f4-e4306f8ae770" x="275" y="418" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[เงินกู้พิเศษ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="b84e8086-5da4-4846-97a2-79651c00c871" x="433" y="420" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LON_P_S}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ca5d03c4-687b-427a-ba58-6fd214d0a9a7" x="275" y="443" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ยเงินกู้พิเศษ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="dcb45d8d-08cf-40e3-ab2b-5d0e0e73d051" x="433" y="442" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_P_S}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="13685f88-faf5-4dc9-bdcc-2025ee9b4a02" x="275" y="465" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[สวัสดิการ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="5b9f0546-afb6-4153-aa05-0e5ee7a023c1" x="433" y="463" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LON_S}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="38c36c4a-e958-45f8-b88d-5948dbb0f94c" x="274" y="489" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ยสวัสดิการ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="0a3b1e58-7edf-41ac-8c9c-18ed409bea20" x="433" y="489" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_S}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="864a6a46-1e1b-499f-8e9a-0eeff27e7ba2" x="275" y="512" width="162" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[เบี้ยประกัน]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="5d958f1b-8e88-4d1d-8802-b422a2b6f632" x="433" y="509" width="115" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRAKUN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cf917c30-eaee-483e-baee-0cff0ed641d4" x="276" y="707" width="235" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5b867a7d-2bf3-4403-b6df-a82a85e1150b" x="276" y="313" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<text><![CDATA[เงินฝาก]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="6e812c1e-f7f1-4290-9b96-26570cde886f" x="448" y="313" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEP}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

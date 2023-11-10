@@ -1,0 +1,69 @@
+$PBExportHeader$d_acc_accmaster_all_service.srd
+release 12.5;
+datawindow(units=0 color=15793151 processing=1 selected.mouse=yes print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=152 )
+detail(height=96 )
+summary(height=0 )
+footer(height=0 )
+table(column=(name=ACCOUNT_ID dbname="ACCMASTER.ACCOUNT_ID" type=char(8) key=yes update=yes updatewhereclause=yes )
+column=(name=SECTION_ID dbname="ACCMASTER.SECTION_ID" type=char(8) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_NAME dbname="ACCMASTER.ACCOUNT_NAME" type=char(100) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_TYPE_ID dbname="ACCMASTER.ACCOUNT_TYPE_ID" type=char(2) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_GROUP_ID dbname="ACCMASTER.ACCOUNT_GROUP_ID" type=char(2) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_LEVEL dbname="ACCMASTER.ACCOUNT_LEVEL" type=number update=yes updatewhereclause=yes )
+column=(name=BALANCE_BEGIN dbname="ACCMASTER.BALANCE_BEGIN" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_NATURE dbname="ACCMASTER.ACCOUNT_NATURE" type=char(2) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_CONTROL_ID dbname="ACCMASTER.ACCOUNT_CONTROL_ID" type=char(8) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_CLOSE_ID dbname="ACCMASTER.ACCOUNT_CLOSE_ID" type=char(8) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_SORT dbname="ACCMASTER.ACCOUNT_SORT" type=number update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_REV_GROUP dbname="ACCMASTER.ACCOUNT_REV_GROUP" type=char(2) update=yes updatewhereclause=yes )
+column=(name=ACCOUNT_NAME_1 dbname="ACCMASTER.ACCOUNT_NAME" type=char(100) update=yes updatewhereclause=yes )
+column=(name=COOP_ID dbname="ACCMASTER.COOP_ID" type=char(6) key=yes update=yes updatewhereclause=yes )
+retrieve="SELECT ACCOUNT_ID,   
+         SECTION_ID,   
+         ACCOUNT_NAME,   
+         ACCOUNT_TYPE_ID,   
+         ACCOUNT_GROUP_ID,   
+         ACCOUNT_LEVEL,   
+         BALANCE_BEGIN,   
+         ACCOUNT_NATURE,   
+         ACCOUNT_CONTROL_ID,   
+         ACCOUNT_CLOSE_ID,   
+         ACCOUNT_SORT,   
+         ACCOUNT_REV_GROUP,   
+         ACCOUNT_NAME,   
+         COOP_ID  
+    FROM ACCMASTER    
+
+   WHERE (active_status = 1) AND  
+         ACCOUNT_TYPE_ID = '3' AND  
+         COOP_ID = :as_coop_id  " update="ACCMASTER" updatewhere=0 arguments=(("as_coop_id",string))
+)
+text(name=ACCOUNT_ID_t band=header x="5" y="4" height="80" width="301" border="0" text="Account Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=SECTION_ID_t band=header x="12128" y="4" height="80" width="301" border="0" text="Section Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_NAME_t band=header x="315" y="4" height="80" width="3665" border="0" text="Account Name" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_TYPE_ID_t band=header x="3989" y="4" height="80" width="443" border="0" text="Account Type Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_GROUP_ID_t band=header x="4441" y="4" height="80" width="475" border="0" text="Account Group Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_LEVEL_t band=header x="4925" y="4" height="80" width="447" border="0" text="Account Level" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=BALANCE_BEGIN_t band=header x="5381" y="4" height="80" width="447" border="0" text="Balance Begin" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_NATURE_t band=header x="5837" y="4" height="80" width="416" border="0" text="Account Nature" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_CONTROL_ID_t band=header x="6262" y="4" height="80" width="503" border="0" text="Account Control Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_CLOSE_ID_t band=header x="6774" y="4" height="80" width="453" border="0" text="Account Close Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_SORT_t band=header x="7236" y="4" height="80" width="447" border="0" text="Account Sort" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_REV_GROUP_t band=header x="7692" y="4" height="80" width="517" border="0" text="Account Rev Group" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=ACCOUNT_NAME_1_t band=header x="8218" y="4" height="80" width="3665" border="0" text="Account Name 1" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=COOP_ID_t band=header x="11892" y="4" height="80" width="227" border="0" text="Coop Id" font.face="Tahoma" font.height="-10" background.color="536870912" )
+column(name=ACCOUNT_ID band=detail x="5" y="8" height="80" width="301" id=1 border="0" alignment="0" tabsequence=10 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=SECTION_ID band=detail x="12128" y="8" height="80" width="301" id=2 border="0" alignment="0" tabsequence=20 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_NAME band=detail x="315" y="8" height="80" width="3665" id=3 border="0" alignment="0" tabsequence=30 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_TYPE_ID band=detail x="3989" y="8" height="80" width="443" id=4 border="0" alignment="0" tabsequence=40 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_GROUP_ID band=detail x="4441" y="8" height="80" width="475" id=5 border="0" alignment="0" tabsequence=50 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_LEVEL band=detail x="4925" y="8" height="80" width="447" id=6 border="0" alignment="1" tabsequence=60 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=BALANCE_BEGIN band=detail x="5381" y="8" height="80" width="447" id=7 border="0" alignment="1" tabsequence=70 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_NATURE band=detail x="5837" y="8" height="80" width="416" id=8 border="0" alignment="0" tabsequence=80 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_CONTROL_ID band=detail x="6262" y="8" height="80" width="503" id=9 border="0" alignment="0" tabsequence=90 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_CLOSE_ID band=detail x="6774" y="8" height="80" width="453" id=10 border="0" alignment="0" tabsequence=100 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_SORT band=detail x="7236" y="8" height="80" width="447" id=11 border="0" alignment="1" tabsequence=110 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_REV_GROUP band=detail x="7692" y="8" height="80" width="517" id=12 border="0" alignment="0" tabsequence=120 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=ACCOUNT_NAME_1 band=detail x="8218" y="8" height="80" width="3665" id=13 border="0" alignment="0" tabsequence=130 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=COOP_ID band=detail x="11892" y="8" height="80" width="227" id=14 border="0" alignment="0" tabsequence=140 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )

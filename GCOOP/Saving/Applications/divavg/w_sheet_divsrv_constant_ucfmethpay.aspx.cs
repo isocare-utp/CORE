@@ -1,0 +1,91 @@
+﻿using System;
+using CoreSavingLibrary;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Xml.Linq;
+using Sybase.DataWindow;
+using DataLibrary;
+using CoreSavingLibrary.WcfNDivavg;
+using System.Web.Services.Protocols;
+
+namespace Saving.Applications.divavg
+{
+    public partial class w_sheet_divsrv_constant_ucfmethpay : PageWebSheet, WebSheet
+    {
+        protected String postNewClear;
+        protected String postRefresh;
+        //=======================
+        private void JspostNewClear()
+        {
+            Dw_main.Reset();
+            Dw_main.Retrieve(state.SsCoopId);
+        }
+
+        #region WebSheet Members
+
+        public void InitJsPostBack()
+        {
+            postNewClear = WebUtil.JsPostBack(this, "postNewClear");
+            postRefresh = WebUtil.JsPostBack(this, "postRefresh");
+        }
+
+        public void WebSheetLoadBegin()
+        {
+            try
+            {
+                this.ConnectSQLCA();
+            }
+            catch { LtServerMessage.Text = WebUtil.CompleteMessage("ติดต่อ Database ไม่ได้"); }
+
+            Dw_main.SetTransaction(sqlca);
+
+            if (!IsPostBack)
+            {
+                JspostNewClear();
+            }
+            else
+            {
+                this.RestoreContextDw(Dw_main);
+            }
+        }
+
+        public void CheckJsPostBack(string eventArg)
+        {
+            if (eventArg == "postNewClear")
+            {
+                JspostNewClear();
+            }
+            else if (eventArg == "postRefresh")
+            { 
+
+            }
+        }
+
+        public void SaveWebSheet()
+        {
+            try
+            {
+                DwUtil.UpdateDataWindow(Dw_main, "divsrv_constant.pbl", "yrucfmethpay");
+                LtServerMessage.Text = WebUtil.CompleteMessage("บันทึกข้อมูลเสร็จเรียบร้อยแล้ว");
+            }
+            catch (Exception ex)
+            {
+                LtServerMessage.Text = WebUtil.ErrorMessage(ex.Message);
+            }
+        }
+
+        public void WebSheetLoadEnd()
+        {
+            Dw_main.SaveDataCache();
+        }
+        #endregion
+    }
+}

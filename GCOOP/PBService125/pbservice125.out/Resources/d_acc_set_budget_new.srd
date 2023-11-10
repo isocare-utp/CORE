@@ -1,0 +1,49 @@
+$PBExportHeader$d_acc_set_budget_new.srd
+release 12.5;
+datawindow(units=0 color=1073741824 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=76 )
+detail(height=88 )
+summary(height=0 )
+footer(height=0 )
+table(column=(name=coop_id dbname="ACCBUDGET.COOP_ID" type=char(6) key=yes update=yes updatewhereclause=yes )
+column=(name=account_year dbname="ACCBUDGET.ACCOUNT_YEAR" type=decimal(0) key=yes update=yes updatewhereclause=yes )
+column=(name=account_budget dbname="ACCBUDGET.ACCOUNT_BUDGET" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=account_id_list dbname="ACCBUDGET.ACCOUNT_ID_LIST" type=char(500) update=yes updatewhereclause=yes )
+column=(name=budget_detail dbname="ACCBUDGET.BUDGET_DETAIL" type=char(255) update=yes updatewhereclause=yes )
+column=(name=budget_supergrp dbname="ACCBUDGET.BUDGET_SUPERGRP" type=char(10) update=yes updatewhereclause=yes )
+column=(name=budget_type dbname="ACCBUDGET.BUDGET_TYPE" type=char(1) update=yes updatewhereclause=yes )
+column=(name=budget_level dbname="ACCBUDGET.BUDGET_LEVEL" type=decimal(0) update=yes updatewhereclause=yes )
+column=(name=accbudgetgroup_typ dbname="ACCBUDGET.ACCBUDGETGROUP_TYP" type=char(10) update=yes updatewhereclause=yes )
+column=(name=sort_seq dbname="ACCBUDGET.SORT_SEQ" type=decimal(0) key=yes update=yes updatewhereclause=yes )
+column=(name=accrcvpay dbname="ACCBUDGET.ACCRCVPAY" type=char(2) key=yes update=yes updatewhereclause=yes )
+retrieve="  SELECT ACCBUDGET.COOP_ID,   
+         ACCBUDGET.ACCOUNT_YEAR,   
+         ACCBUDGET.ACCOUNT_BUDGET,   
+         ACCBUDGET.ACCOUNT_ID_LIST,   
+         ACCBUDGET.BUDGET_DETAIL,   
+         ACCBUDGET.BUDGET_SUPERGRP,   
+         ACCBUDGET.BUDGET_TYPE,   
+         ACCBUDGET.BUDGET_LEVEL,   
+         ACCBUDGET.ACCBUDGETGROUP_TYP,   
+         ACCBUDGET.SORT_SEQ,   
+         ACCBUDGET.ACCRCVPAY  
+    FROM ACCBUDGET  
+   WHERE ( ACCBUDGET.ACCOUNT_YEAR = :an_year ) AND  
+         ( ACCBUDGET.COOP_ID = :as_branch )    
+" update="ACCBUDGET" updatewhere=1 sort="sort_seq A " arguments=(("an_year",number), ("as_branch",string))
+)
+text(name=accbudgetgroup_typ_t band=header x="9" y="4" height="64" width="626" alignment="2" border="0" text="หมวดงบประมาณ" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+text(name=budget_detail_t band=header x="654" y="4" height="64" width="1449" alignment="2" border="0" text="ชื่องบประมาณ" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+text(name=account_budget_t band=header x="2126" y="4" height="64" width="585" alignment="2" border="0" text="จำนวนเงินงบประมาณ" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+text(name=account_id_list_t band=header x="2734" y="4" height="64" width="1728" alignment="2" border="0" text="รหัสบัญชีที่เกี่ยวข้อง" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+column(name=accbudgetgroup_typ band=detail x="9" y="4" height="76" width="626" id=9 border="2" alignment="0" format="[general]" tabsequence=10 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=2 )
+column(name=budget_detail band=detail x="654" y="4" height="76" width="1449" id=5 border="2" alignment="0" format="[general]" tabsequence=40 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=255 )
+column(name=account_budget band=detail x="2126" y="4" height="76" width="585" id=3 border="2" alignment="1" format="[general]" tabsequence=20 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=account_id_list band=detail x="2734" y="4" height="76" width="1728" id=4 border="2" alignment="0" format="[general]" tabsequence=30 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=500 )
+column(name=account_year band=detail x="4485" y="4" height="76" width="434" id=2 border="2" alignment="0" format="[general]" tabsequence=50 font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=budget_supergrp band=detail x="4942" y="4" height="76" width="270" id=6 border="2" alignment="0" format="[general]" tabsequence=60 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=budget_type band=detail x="5582" y="4" height="76" width="27" id=7 border="2" alignment="0" format="[general]" tabsequence=70 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=budget_level band=detail x="5632" y="4" height="76" width="2135" id=8 border="2" alignment="0" format="[general]" tabsequence=80 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=sort_seq band=detail x="7767" y="0" height="64" width="2135" id=10 border="0" alignment="0" format="[general]" tabsequence=90 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=accrcvpay band=detail x="9902" y="0" height="64" width="55" id=11 border="0" alignment="0" format="[general]" tabsequence=100 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=coop_id band=detail x="9957" y="0" height="64" width="165" id=1 border="0" alignment="0" format="[general]" tabsequence=110 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )

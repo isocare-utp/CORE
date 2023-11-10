@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper_subreport7" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4f454c45-fc51-4cfc-856c-f2c9d3e1ab1c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loanreq_docno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+lnreqloan.coop_id,
+lnreqloan.loanrequest_docno,
+mbmembmaster.salary_amount,
+lnreqloan.incomemonth_fixed,
+lnreqloan.incomemonth_other ,
+lnreqloan.paymonth_exp,
+lnreqloan.paymonth_other,
+lnreqloan.share_periodvalue,
+lnreqloan.incomemonth_fixed,
+lnreqloan.paymonth_coop,
+lnreqloan.period_payment,
+lnreqloan.loanrequest_amt,
+lnreqloan.paymonth_lnreq,
+sum(total.sum) as period_paymen
+from lnreqloan,mbmembmaster,
+(select
+lnreqloan.loanrequest_docno,
+decode(lnreqloanclr.loanpayment_type,0,
+decode(lnreqloanclr.loanpayment_type,0,nvl(lnreqloanclr.period_payment,0)-nvl(lnreqloanclr.intestimate_amt,0),
+decode(lnreqloanclr.loanpayment_type,1,nvl(lnreqloanclr.period_payment,0),
+decode(lnreqloanclr.loanpayment_type,2,nvl(lnreqloanclr.period_payment,0)-nvl(lnreqloanclr.intestimate_amt,0),
+decode(lnreqloanclr.loanpayment_type,3,nvl(lnreqloanclr.period_payment,0)-nvl(lnreqloanclr.intestimate_amt,0),0)))
+),nvl(lnreqloanclr.rkeep_interest,0)) +
+decode(lnreqloanclr.rkeep_interest,0,nvl(lnreqloanclr.intestimate_amt,0),nvl(lnreqloanclr.rkeep_interest,0)) as sum
+
+from
+lnreqloan ,
+lnreqloanclr ,
+lnreqloanclrother
+
+where
+lnreqloan.coop_id = lnreqloanclr.coop_id (+) and
+lnreqloan.coop_id = lnreqloanclrother.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanclr.loanrequest_docno (+) and
+lnreqloan.loanrequest_docno = lnreqloanclrother.loanrequest_docno (+) and
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno} and
+lnreqloanclr.clear_status = '0'
+union
+select lnreqloanmthexp.loanrequest_docno,
+nvl(lnreqloanmthexp.mthexp_amt,0) as mthexp_amt
+from lnreqloanmthexp
+where ( ( lnreqloanmthexp.coop_id = $P{as_coop_id} ) and
+(lnreqloanmthexp.clear_status = '0') and
+ ( lnreqloanmthexp.loanrequest_docno = $P{as_loanreq_docno} ) )) total
+where
+lnreqloan.coop_id = mbmembmaster.coop_id and
+lnreqloan.member_no = mbmembmaster.member_no and
+lnreqloan.loanrequest_docno = total.loanrequest_docno and
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno}
+group by
+lnreqloan.coop_id,
+lnreqloan.loanrequest_docno,
+mbmembmaster.salary_amount,
+lnreqloan.incomemonth_fixed,
+lnreqloan.incomemonth_other ,
+lnreqloan.paymonth_exp,
+lnreqloan.paymonth_other,
+lnreqloan.share_periodvalue,
+lnreqloan.incomemonth_fixed,
+lnreqloan.paymonth_coop,
+lnreqloan.period_payment,
+lnreqloan.loanrequest_amt,
+lnreqloan.paymonth_lnreq]]>
+	</queryString>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="LOANREQUEST_DOCNO" class="java.lang.String"/>
+	<field name="SALARY_AMOUNT" class="java.math.BigDecimal"/>
+	<field name="INCOMEMONTH_FIXED" class="java.math.BigDecimal"/>
+	<field name="INCOMEMONTH_OTHER" class="java.math.BigDecimal"/>
+	<field name="PAYMONTH_EXP" class="java.math.BigDecimal"/>
+	<field name="PAYMONTH_OTHER" class="java.math.BigDecimal"/>
+	<field name="SHARE_PERIODVALUE" class="java.math.BigDecimal"/>
+	<field name="PAYMONTH_COOP" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="LOANREQUEST_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYMONTH_LNREQ" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMEN" class="java.math.BigDecimal"/>
+	<group name="LOANGROUP">
+		<groupExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></groupExpression>
+	</group>
+	<detail>
+		<band height="124">
+			<staticText>
+				<reportElement uuid="90d8013a-c9fd-4798-9f2f-4aac59eab45a" x="13" y="0" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[เงินเดือน / เงินบำนาญ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79a7c41b-a1d4-4408-9b18-4bbaa5eb43fe" x="13" y="20" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[เงินได้อื่นๆ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c9c095aa-e8af-4347-8921-e637584c1272" x="13" y="83" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ค่าใช้จ่ายอื่นๆ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="969229ea-55c7-45e6-88f3-04e707092a11" positionType="Float" x="13" y="40" width="146" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ส่งสหกรณ์ฯ เงินกู้พิเศษเดือนละ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fc8db00d-6505-4155-a62d-b326c623e76c" positionType="Float" x="13" y="60" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ค่าหุ้นรายเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cb39cd97-024f-44a2-957b-43a20ab6a746" positionType="Float" x="13" y="104" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[คงเหลือเงินได้สุทธิ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="833b1d88-3a01-49d7-8617-a2afdc3e0c70" x="332" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4d494e36-dec6-4131-a7c4-2627bb188dc9" positionType="Float" x="332" y="60" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHARE_PERIODVALUE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="ce77ff55-ab1a-44d3-9376-39d6c01727ed" positionType="Float" x="332" y="40" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="1f5cfc7d-9b8b-4b43-b516-ca8cfccf961d" x="332" y="84" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYMEN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="6cfb8f36-a618-4bf1-9489-3e5166a24ae4" positionType="Float" x="332" y="104" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_AMOUNT}-$F{PERIOD_PAYMENT}-$F{SHARE_PERIODVALUE}-($F{PAYMONTH_COOP}+$F{PAYMONTH_OTHER}+$F{PAYMONTH_EXP}-$F{SHARE_PERIODVALUE})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="109a14fd-232b-46e1-80ea-34a4df33823f" x="440" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="10977980-aed3-4b8f-b0b1-272452b0cb51" positionType="Float" x="440" y="40" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="138d7fde-7485-401f-bf87-4886ba1dc423" x="440" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="71e35432-3469-4910-8be9-ac1b8591e1d8" positionType="Float" x="440" y="60" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b54e870-9b84-4b19-b5c2-c6184b76b290" x="440" y="84" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="37663629-e170-41e4-998e-09fd82729936" positionType="Float" x="440" y="104" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="55f3c564-cf98-49b0-9741-f3bf60091f62" positionType="Float" x="60" y="100" width="385" height="1"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_loanreq_docno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport7_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="6132c933-8315-4a37-a591-ed3c613a48c4" x="466" y="43" width="90" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{LOANREQUEST_AMT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="09e5ff7e-0052-4933-8571-68d88735c1cd" x="465" y="40" width="6" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5b41d230-6a92-4445-bdbe-3c30b7c089f7" x="549" y="40" width="6" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[)]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="42">
+			<staticText>
+				<reportElement uuid="7afa8bff-d45d-410e-9d41-31f0ee80e67b" x="13" y="21" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชำระหนี้หักกลบ]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="c90c9312-cafe-4947-a285-fa5d21ce92bd" x="60" y="41" width="385" height="1"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_loanreq_docno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport7_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement uuid="e80ed40b-1fb9-45cf-a07a-cebd9c658346" positionType="Float" x="13" y="0" width="183" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[เมื่อหักค่าใช้จ่ายอื่นๆ แล้วคิดเป็นร้อยละ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="25eace00-1891-4974-9c4f-8c5d3101a31e" positionType="Float" x="283" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ของเงินได้]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="f20691e8-1cfe-4d9b-a9fd-658193b680af" positionType="Float" x="196" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[((($F{SALARY_AMOUNT}+$F{INCOMEMONTH_FIXED}+$F{INCOMEMONTH_OTHER})-($F{PAYMONTH_COOP}+$F{PAYMONTH_EXP}+$F{PAYMONTH_OTHER}+$F{PAYMONTH_LNREQ}))*100)/$F{SALARY_AMOUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

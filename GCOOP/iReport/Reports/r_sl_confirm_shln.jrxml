@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_confirm_shln" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bfee97c1-d3e9-4367-a5c8-084b9c48159f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_operate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_membtype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+yrconfirmmaster.member_no,yrconfirmmaster.membtype_code,
+ft_getmemname(yrconfirmmaster.coop_id,yrconfirmmaster.member_no) as fullname,yrconfirmmaster.membgroup_code,
+ft_memgrp(yrconfirmmaster.coop_id,yrconfirmmaster.membgroup_code) as membgroup_desc,yrconfirmmaster.balance_date,
+TO_CHAR(yrconfirmmaster.balance_date, 'dd MONTH yyyy', 'NLS_CALENDAR=''THAI BUDDHA'' NLS_DATE_LANGUAGE=THAI') as day,
+TO_CHAR(yrconfirmmaster.balance_date, 'yyyy', 'NLS_CALENDAR=''THAI BUDDHA'' NLS_DATE_LANGUAGE=THAI') as year,
+yrconfirmstatement.balance_amt,mbmembmaster.current_coopid,
+cmcoopconstant.auditor,
+decode(mbmembmaster.current_coopid,
+'023001','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด',
+'023002','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการปทุมธานี',
+'023003','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการขอนแก่น',
+'023004','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการลำปาง')
+as coop_name
+from yrconfirmmaster,yrconfirmstatement,mbmembmaster, cmcoopconstant
+where yrconfirmmaster.coop_id = yrconfirmstatement.coop_id
+and yrconfirmmaster.member_no = mbmembmaster.member_no
+and yrconfirmmaster.member_no = yrconfirmstatement.member_no
+and yrconfirmmaster.balance_date = yrconfirmstatement.balance_date
+and yrconfirmstatement.from_system = 'SHR'
+and mbmembmaster.current_coopid between $P{as_coopid} and $P{as_coopid2}
+and yrconfirmmaster.balance_date = $P{adtm_operate}
+and trim(yrconfirmmaster.membgroup_code) between trim($P{as_sgroup}) and trim($P{as_egroup})
+and yrconfirmmaster.membtype_code like $P{as_membtype}||'%'
+and ( mbmembmaster.resign_status = 0 or  mbmembmaster.resign_status = 1 and  mbmembmaster.resign_date > $P{adtm_operate} )]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMBTYPE_CODE" class="java.lang.String"/>
+	<field name="FULLNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="BALANCE_DATE" class="java.sql.Timestamp"/>
+	<field name="DAY" class="java.lang.String"/>
+	<field name="YEAR" class="java.lang.String"/>
+	<field name="BALANCE_AMT" class="java.math.BigDecimal"/>
+	<field name="CURRENT_COOPID" class="java.lang.String"/>
+	<field name="AUDITOR" class="java.lang.String"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<sortField name="CURRENT_COOPID"/>
+	<sortField name="MEMBTYPE_CODE"/>
+	<sortField name="MEMBGROUP_CODE"/>
+	<sortField name="MEMBER_NO"/>
+	<group name="CURRENTGROUP">
+		<groupExpression><![CDATA[$F{CURRENT_COOPID}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="750787ab-8277-49bb-891b-03e25545ef47" x="63" y="630" width="18" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="2107d76c-7e43-4830-9788-bc6a8a822932" x="0" y="782" width="131" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ : ส่งคืนทั้งฉบับ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="576ac4c0-3884-4c39-b152-65f76260f6a1" x="304" y="93" width="119" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DAY}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7133803d-42e1-4f51-aca5-5aa4bf10e940" x="0" y="26" width="555" height="21"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หนังสือยืนยันยอดทุนเรือนหุ้น เงินกู้ และเงินรับฝาก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a0495254-64dc-4f7f-b6e8-07d19527ccb0" x="348" y="465" width="139" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[นางดวงพร  นุชศิริ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="7b93a6db-cda0-4122-96e3-00cf58e5698c" x="63" y="655" width="18" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="3ea6f98a-0a2c-48ba-8ba6-2955b4479a7c" x="85" y="93" width="219" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ ไทยน้ำทิพย์ จำกัด ขอเรียนว่า   ณ วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a45e2087-cea5-481f-9260-a26751d1f774" x="348" y="485" width="139" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ผู้จัดการ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="3b2f33c1-e82f-42c1-832b-2b61117e6e2f" x="371" y="742" width="151" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d4a59994-8ede-48d2-8af1-15b6035e419f" x="100" y="655" width="68" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ไม่ถูกต้อง เพราะ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="3a01441a-97e6-4d49-97c5-bcc4edef2ec1" x="371" y="738" width="151" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="3a71d342-6ae2-4b56-bc99-7add13898105" x="28" y="511" width="494" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="d9046fe2-7fd6-4e21-9437-7303f79e6f42" x="401" y="154" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BALANCE_AMT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="a09acf26-b8d6-4196-899f-db4eef4aa44d" x="168" y="672" width="354" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="97556067-30d0-4a7c-ba67-86a661daf0ec" x="348" y="402" width="139" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ขอแสดงความนับถือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ee8d2167-c261-4676-9896-55a89162bacc" x="57" y="134" width="152" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ทุนเรือนหุ้นทั้งหมด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="042b1858-15a2-4775-92e4-2db4e766acb0" x="28" y="114" width="527" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เงินกู้ค้างชำระและเงินรับฝาก ต่อสหกรณ์ตามรายการต่างๆ ดังนี้]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="49e39b51-3e9e-4faa-85c5-a4999cf73d4d" x="57" y="67" width="430" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLNAME}+"  ทะเบียน : "+$F{MEMBER_NO}+"      หน่วยงาน : "+$F{MEMBGROUP_CODE}.trim()+"  "+$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="0f273e64-6871-4702-b5d9-3acbb6bbaf01" x="97" y="154" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ทุนเรือนหุ้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d95288a-4df3-48de-893f-591a65949754" x="28" y="359" width="527" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ไปยังผู้สอบบัญชี ภายในกำหนด 7 วัน นับตั้งแต่วันที่ได้รับหนังสือนี้   และขอขอบคุณที่ให้ความร่วมมือในโอกาสนี้   และเรียนท่านว่า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38ab483e-e98a-42b1-9c42-8b65b444466a" x="28" y="379" width="407" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หนังสือนี้มิใช่ใบทวงหนี้ หากแต่ใช้ประโยชน์ในการตรวจสอบบัญชีสหกรณ์ สำหรับปีสิ้นสุดวันที่ 30 กันยายน ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2fc07760-f0be-41ad-98f3-72ed569b6372" x="85" y="339" width="450" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เมื่อท่านได้รับหนังสือฉบับนี้   ขอได้โปรดยืนยันยอดว่าถูกต้องหรือไม่ถูกต้อง พร้อมลงลายมือชื่อ และส่งกลับคืนทั้งฉบับ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="dc6862c5-c1ae-46b7-9539-0dab164b0627" x="63" y="694" width="459" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="e4c93a3e-b7ee-47da-bf7c-f8fd5d71d393" x="0" y="549" width="555" height="23"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หนังสือตอบยืนยันยอด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c88f0013-88a6-4f71-866a-500d1d42065c" x="28" y="67" width="27" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เรียน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="88045d4d-98be-4781-92c5-bce14974e5ea" x="100" y="630" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ถูกต้อง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="27092baf-968d-4ab5-8c32-ace0fb6e006d" x="55" y="608" width="500" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้าขอยืนยันยอดทุนเรือนหุ้น เงินกู้ค้างชำระ และเงินรับฝาก ตามรายการที่ทางสหกรณ์ออมทรัพย์ แจ้งให้ข้าพเจ้าทราบนั้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="01fff70e-eb49-49a4-8a31-bcbc102e8798" x="401" y="134" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน(บาท)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f930dd33-5562-4279-9638-9fccd6beea86" x="371" y="762" width="151" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เลขทะเบียน : "+$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="908f549c-7ae3-4fff-b095-9082382cca25" x="435" y="379" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{YEAR}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="11391a22-87bd-4dd1-acd0-63496650566d" positionType="Float" x="0" y="174" width="501" height="11"/>
+				<subreportParameter name="as_membno">
+					<subreportParameterExpression><![CDATA[$F{MEMBER_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_date">
+					<subreportParameterExpression><![CDATA[$P{adtm_operate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_confirm_shln_sub1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="0f41b050-49b8-4f6a-bb23-5b8b57a6bfd7" positionType="Float" x="0" y="185" width="501" height="10"/>
+				<subreportParameter name="as_membno">
+					<subreportParameterExpression><![CDATA[$F{MEMBER_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_date">
+					<subreportParameterExpression><![CDATA[$P{adtm_operate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_confirm_shln_sub2.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement uuid="065f1fc6-f43d-481a-a0c7-cec82dc1f079" x="0" y="1" width="555" height="26"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="d3a04ac0-7375-4e5c-b9fb-b5adf98f446a" x="359" y="422" width="122" height="43"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\TNT\\GCOOP\\Saving\\Image\\CoopLogo\\manager_signature.PNG"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="1073c005-1536-4c1d-81ff-5d2e4a5ba010" x="0" y="523" width="555" height="26"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0f323165-c66d-43fb-92d1-67e9cdba3ddb" x="282" y="47" width="184" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DAY}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e07cdeae-fc63-40b3-8fad-3a6d3ed45de4" x="55" y="588" width="208" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เรียน  "+$F{AUDITOR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="76e81e05-4063-4885-b797-23d6cc047bf3" x="423" y="93" width="122" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ท่านมีทุนเรือนหุ้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a3c2ddcb-633a-443b-8df4-62f6985c232a" x="269" y="588" width="218" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ผู้ตรวจสอบบัญชี  สหกรณ์ออมทรัพย์ไทยน้ำทิพย์  จำกัด]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

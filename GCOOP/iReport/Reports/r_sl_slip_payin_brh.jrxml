@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_slip_payin_brh" language="groovy" pageWidth="342" pageHeight="396" columnWidth="342" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="03bf7f59-ea0b-415b-9368-0cbddd295c63">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_payinslip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+                    a.payinslip_no,
+                    a.member_no,
+                    a.sliptype_code,
+                    a.moneytype_code,
+                    a.document_no,
+                    a.slip_date,
+                    a.operate_date,
+                    a.sharestk_value,
+                    a.intaccum_amt,
+                    a.sharestkbf_value,
+                    a.slip_amt,
+                    a.slip_status,
+                    a.entry_id,
+                    a.entry_bycoopid,
+                    b.slipitemtype_code,
+	          k.slipitemtype_desc,
+                    b.shrlontype_code,
+                    b.loancontract_no,
+                    b.slipitem_desc,
+                    b.period,
+                    b.principal_payamt,
+                    b.interest_payamt,
+                    b.item_payamt,
+                    c.addr_moo,
+                    c.addr_soi,
+                    c.addr_village,
+                    c.addr_road,
+                    j.province_code,
+				    j.province_desc,
+                    i.district_desc,
+                    c.addr_postcode,
+                    h.tambol_desc,
+                    c.addr_no,
+                    e.printreceiptaddr_type,
+                    b.item_balance,
+                    b.calint_to,
+                    d.prename_desc||c.memb_name||'  '||c.memb_surname as member_name,
+                    a.membgroup_code,
+                    e.membgroup_desc,
+                    c.membtype_code,
+                    f.membtype_desc,
+                    g.receipt_remark1 as remark_line1,
+                    g.receipt_remark2 as remark_line2,
+                    ftreadtbath( a.slip_amt ) AS  money_thaibaht
+                    from	slslippayin a, slslippayindet b, mbmembmaster c, mbucfprename d, mbucfmembgroup e, mbucfmembtype f, cmcoopmaster g, mbucftambol h, mbucfdistrict i, mbucfprovince j,slucfslipitemtype k
+                    where	a.coop_id = $P{as_coop_id}
+                    and		a.payinslip_no = $P{as_payinslip_no}
+                    and     a.coop_id		    = b.coop_id
+                    and		a.payinslip_no	    = b.payinslip_no
+                    and		a.memcoop_id	    = c.coop_id
+                    and		a.member_no			= c.member_no
+                    and		c.prename_code		= d.prename_code (+)
+                    and		a.memcoop_id	    = e.coop_id (+)
+                    and		trim(a.membgroup_code)	= e.membgroup_code (+)
+                    and		c.coop_id		    = f.coop_id (+)
+                    and		c.membtype_code		= f.membtype_code (+)
+                    and		a.coop_id		    = g.coop_id
+                    and		c.tambol_code	    = h.tambol_code (+)
+                    and		c.amphur_code	    = i.district_code (+)
+                    and		c.province_code		= j.province_code (+)
+	          and		b.slipitemtype_code		= k.slipitemtype_code (+)
+order by b.shrlontype_code,b.loancontract_no]]>
+	</queryString>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SLIPTYPE_CODE" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="DOCUMENT_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="OPERATE_DATE" class="java.sql.Timestamp"/>
+	<field name="SHARESTK_VALUE" class="java.math.BigDecimal"/>
+	<field name="INTACCUM_AMT" class="java.math.BigDecimal"/>
+	<field name="SHARESTKBF_VALUE" class="java.math.BigDecimal"/>
+	<field name="SLIP_AMT" class="java.math.BigDecimal"/>
+	<field name="SLIP_STATUS" class="java.math.BigDecimal"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="ENTRY_BYCOOPID" class="java.lang.String"/>
+	<field name="SLIPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SLIPITEMTYPE_DESC" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ADDR_MOO" class="java.lang.String"/>
+	<field name="ADDR_SOI" class="java.lang.String"/>
+	<field name="ADDR_VILLAGE" class="java.lang.String"/>
+	<field name="ADDR_ROAD" class="java.lang.String"/>
+	<field name="PROVINCE_CODE" class="java.lang.String"/>
+	<field name="PROVINCE_DESC" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<field name="ADDR_POSTCODE" class="java.lang.String"/>
+	<field name="TAMBOL_DESC" class="java.lang.String"/>
+	<field name="ADDR_NO" class="java.lang.String"/>
+	<field name="PRINTRECEIPTADDR_TYPE" class="java.math.BigDecimal"/>
+	<field name="ITEM_BALANCE" class="java.math.BigDecimal"/>
+	<field name="CALINT_TO" class="java.sql.Timestamp"/>
+	<field name="MEMBER_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBTYPE_DESC" class="java.lang.String"/>
+	<field name="REMARK_LINE1" class="java.lang.String"/>
+	<field name="REMARK_LINE2" class="java.lang.String"/>
+	<field name="MONEY_THAIBAHT" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="128">
+			<textField>
+				<reportElement uuid="de4d8b5e-6e56-4fcd-ba0d-ac12f97c9c02" x="66" y="66" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DOCUMENT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9d600d9-e55f-44bf-aaf3-5c75034292f1" x="66" y="86" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f48a81b3-ba95-4e1b-a966-f018305271e5" x="66" y="106" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="78f0c405-241a-48cb-924d-d60fe9041d7d" x="241" y="66" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("d MMMM yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6396e0be-ea87-4b73-ae29-f688099570a6" x="241" y="86" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<textField>
+				<reportElement uuid="f441e141-52c1-4e5c-b551-56caeb4d22bc" x="0" y="1" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIPITEM_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="646aae68-2e96-492c-b2d7-4b72269d9ed1" x="100" y="1" width="23" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="6e5f8f42-00a6-40dc-8cfb-d914fbefd188" x="123" y="1" width="43" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="4fdec997-ca1b-4bb5-9ffc-f63b0a48b864" x="166" y="1" width="26" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="e1f1fc2d-b274-4032-a467-5e6e556c858a" x="192" y="1" width="53" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="197c4054-9234-4480-b10e-4a9e06681498" x="245" y="1" width="96" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_BALANCE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50">
+			<textField>
+				<reportElement uuid="c77ca50c-a344-41cd-b5a2-184432b4ad27" x="0" y="0" width="192" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONEY_THAIBAHT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="6597cab8-1754-4447-b8d8-1067eef19b61" x="192" y="0" width="149" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIP_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

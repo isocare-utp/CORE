@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_keep_save_disk_surin2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cfc7c441-79af-40b1-abe6-79e1603b74a0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_start_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_end_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  b.prename_desc || a.memb_name || ' ' || a.memb_surname as full_name , a.card_person , sum( c.item_payment) , e.membgroup_desc, d.membgroup_desc as group_desc, a.membgroup_code, d.membgroup_control,a.member_no
+from mbmembmaster a, mbucfprename b , kptempreceivedet c , mbucfmembgroup d, mbucfmembgroup e
+where a.member_no = c.member_no and d.membgroup_control = e.membgroup_code and  a.prename_code = b.prename_code and a.membgroup_code = d.membgroup_code
+and  c.recv_period = $P{as_period}  and  a.membgroup_code >=  $P{as_start_membgroup} and  a.membgroup_code <= $P{as_end_membgroup}
+group by b.prename_desc, a.memb_name,  a.memb_surname, a.card_person, e.membgroup_desc, d.membgroup_desc, a.membgroup_code, d.membgroup_control,a.member_no
+order by a.memb_name,a.memb_surname]]>
+	</queryString>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="SUM(C.ITEM_PAYMENT)" class="java.math.BigDecimal"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="GROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_CONTROL" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<variable name="seq_no" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<variable name="SUM(C.ITEM_PAYMENT)_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(C.ITEM_PAYMENT)}]]></variableExpression>
+	</variable>
+	<variable name="sum_group2" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(C.ITEM_PAYMENT)}]]></variableExpression>
+	</variable>
+	<variable name="count_memall" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<title>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bb38a993-3a2d-48df-81f2-ceae806bbdb6" x="0" y="40" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a015643b-9aa9-498e-bb1e-c6ca18ec2cf4" x="57" y="40" width="144" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6c7f47db-400a-4196-85af-cf99b4cc6233" x="201" y="40" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[บัตรประชาชน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="385ce464-e7e6-495c-9bfd-7acb3e6db9b1" x="318" y="40" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ยอดเรียกเก็บ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="328bd13b-4366-47e3-b568-d9aadceb7e9e" x="39" y="0" width="291" height="20"/>
+				<textElement/>
+				<text><![CDATA[รายงานการรับเงินสมาชิกต่อสหกรณ์ 2ประจำเดือน ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="38e5cc32-8051-4b81-a32d-d58e1d7704de" x="366" y="0" width="77" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{as_period}.substring( 0, 4 )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d15f3a5b-0ac9-4843-a4ec-8a7c7ea0a1db" x="135" y="20" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4f4ff37a-301b-4b78-bd15-220ea4f313f9" x="235" y="20" width="144" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="529dce23-edad-44cb-b11c-14b424170f76" x="330" y="0" width="36" height="20"/>
+				<textElement/>
+				<text><![CDATA[ปี พ.ศ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c4359f0e-366d-4144-bff4-f711b7f6ca35" x="443" y="40" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement uuid="2b307e68-1306-4bd6-b0d0-0779ecd368d9" x="0" y="2" width="55" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="97b91c3a-d955-4ae5-a45f-6a904987da33" x="57" y="2" width="144" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="95ec433b-55eb-4cce-af25-16e37b4fb64c" x="201" y="2" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="45f1448e-a8f6-4281-8122-1b3226224a32" x="318" y="2" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{SUM(C.ITEM_PAYMENT)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3dd12d6b-6e80-413a-b56f-591b68e0d12e" x="443" y="2" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[Integer.parseInt($F{MEMBER_NO})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="24" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="686e6ecf-08fe-4e13-b9ec-033ec28657f5" x="318" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{SUM(C.ITEM_PAYMENT)_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d3521d39-10cb-4256-a463-eb106563bcbe" x="0" y="0" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[รวมทั้งหมด]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement uuid="4171e034-4ebf-4153-a569-739c1f8ef339" x="55" y="0" width="80" height="20"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$V{count_memall}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="22d1b6af-69ed-4433-8697-8f31b1133744" x="135" y="0" width="66" height="20"/>
+				<textElement/>
+				<text><![CDATA[ราย]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

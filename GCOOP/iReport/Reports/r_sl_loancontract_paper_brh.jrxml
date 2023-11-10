@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loancontract_paper_brh" language="groovy" pageWidth="1071" pageHeight="792" orientation="Landscape" columnWidth="1071" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d896c365-5445-45f0-a46e-d444a12405f5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="240"/>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_cont_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+lncontmaster.coop_id,
+lncontmaster.loancontract_no,
+ft_memname(mbmembmaster.coop_id,mbmembmaster.member_no) as memname,
+mbmembmaster.birth_date,
+ftcm_calagemth(mbmembmaster.birth_date,sysdate ) as age,
+lncontmaster.member_no,
+mbmembmaster.position_desc,
+ft_memgrp(mbmembmaster.coop_id,mbmembmaster.membgroup_code) as memgrp,
+lncontmaster.loanapprove_amt,
+ftreadtbaht(lncontmaster.loanapprove_amt) as amt_thbaht,
+lnucfloanobjective.loanobjective_desc,
+lncontmaster.period_payment,
+lncontmaster.period_payamt,
+lncfloanintratedet.interest_rate,
+lncontmaster.startkeep_date
+from lncontmaster ,
+lnucfloanobjective,
+lncfloanintratedet,
+mbmembmaster
+where
+lncontmaster.coop_id = $P{as_coop_id} and
+lncontmaster.loancontract_no = $P{as_cont_no} and
+lncontmaster.loanobjective_code = lnucfloanobjective.loanobjective_code(+) and
+lncfloanintratedet.loanintrate_code = lncontmaster.int_continttabcode and
+mbmembmaster.member_no = lncontmaster.member_no]]>
+	</queryString>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="MEMNAME" class="java.lang.String"/>
+	<field name="BIRTH_DATE" class="java.sql.Timestamp"/>
+	<field name="AGE" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="POSITION_DESC" class="java.lang.String"/>
+	<field name="MEMGRP" class="java.lang.String"/>
+	<field name="LOANAPPROVE_AMT" class="java.math.BigDecimal"/>
+	<field name="AMT_THBAHT" class="java.lang.String"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_RATE" class="java.math.BigDecimal"/>
+	<field name="STARTKEEP_DATE" class="java.sql.Timestamp"/>
+	<detail>
+		<band height="752" splitType="Stretch">
+			<textField>
+				<reportElement uuid="49ace22a-8d52-4e76-b563-efde31c5d8c5" x="368" y="88" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fd570d2b-c8cd-4b49-8027-1f66852b9131" x="71" y="102" width="181" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์สำนักพระราชวัง]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2bff6a00-dbca-4df8-9641-487bf1cee354" x="108" y="131" width="198" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="17b9359b-097e-419f-9200-00c0dfa17a62" x="108" y="149" width="198" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9e672787-5cbc-40b5-9a74-332468f3bc2d" x="354" y="149" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("d MMMMM yyyy",new Locale("th","TH")).format($F{BIRTH_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0408d632-6802-4ff0-995b-f19a371e1ef2" x="57" y="167" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1bb970cf-15a8-4362-9adb-4bc619159dfc" x="71" y="184" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f222a556-5ee4-4655-a7f7-752b4de6b06f" x="326" y="184" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POSITION_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="71a59a60-e32e-476b-a186-3374c5a37b60" x="43" y="201" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMGRP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7c2875f5-e95f-457a-ad07-fee871ea78e4" x="270" y="257" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANAPPROVE_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="07522848-e177-437f-9567-b5a72ca0bf30" x="27" y="277" width="427" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMT_THBAHT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="1ab6c03f-151b-4d9b-bad5-16b28c2fa031" x="341" y="346" width="85" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="618ef038-4a5b-4f41-bee0-f8cbc56df8e1" x="152" y="346" width="132" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_RATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="49d4d7a9-6cb6-44fd-9528-e9e73fddfc10" x="354" y="328" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0fb7af08-e39b-43f6-b65a-a8725fc2e70f" x="127" y="365" width="100" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MMMMM yyyy",new Locale("th","TH")).format($F{STARTKEEP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="578ff966-b345-40a5-96f4-644fa740e17f" x="27" y="511" width="427" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANOBJECTIVE_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

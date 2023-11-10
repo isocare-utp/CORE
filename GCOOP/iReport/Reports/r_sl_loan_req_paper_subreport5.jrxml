@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper_subreport5" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="79ab5341-a798-489b-a9a5-e9b8ee493cf0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loanreq_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+     lnreqloancoll.coop_id ,
+     lnreqloancoll.loanrequest_docno ,
+     lnreqloancoll.collbalance_amt ,
+     lnreqloancoll.collbase_amt ,
+     lnreqloancoll.collbase_percent,
+     lnreqloancoll.collactive_amt
+from
+     lnreqloancoll
+where
+     lnreqloancoll.coop_id = $P{as_coop_id}
+     and lnreqloancoll.loanrequest_docno = $P{as_loanreq_no}
+     and lnreqloancoll.loancolltype_code = '02']]>
+	</queryString>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="LOANREQUEST_DOCNO" class="java.lang.String"/>
+	<field name="COLLBALANCE_AMT" class="java.math.BigDecimal"/>
+	<field name="COLLBASE_AMT" class="java.math.BigDecimal"/>
+	<field name="COLLBASE_PERCENT" class="java.math.BigDecimal"/>
+	<field name="COLLACTIVE_AMT" class="java.math.BigDecimal"/>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="10096f5e-6e58-4957-8d5a-d298c135df81" positionType="Float" x="70" y="1" width="36" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="87ebcc71-9355-443e-9c54-780607835de8" positionType="Float" x="324" y="1" width="35" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[เป็นเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="099e1edb-e848-4508-bc6d-d9f7497a425f" positionType="Float" x="469" y="1" width="26" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="475af456-1f3f-4681-9680-8ee3ad79b15b" positionType="Float" x="206" y="1" width="81" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท คิดให้ร้อยละ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a79bf18e-932f-4931-a287-32da2f8e9a31" x="369" y="1" width="90" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLLACTIVE_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="8aaffc32-53f6-4fda-9e3e-2d781ead88b3" x="106" y="1" width="90" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLLBASE_AMT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ca2d1c8b-0c67-4c35-af63-2492312b8c32" x="287" y="1" width="35" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLLBASE_PERCENT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="be6dda66-49d8-4cd9-a219-a939a6d1153a" positionType="Float" x="1" y="1" width="70" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[5.4 ทุนเรือนหุ้น]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

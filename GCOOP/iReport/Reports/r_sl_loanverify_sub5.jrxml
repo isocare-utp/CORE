@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loanverify_sub5" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4789cb84-997f-43fa-9145-346ac0988340">
+	<property name="ireport.zoom" value="1.7715610000000022"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="member_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select cr.loancredit_max -collused_amt
+from lncreditverify cr,
+		(select ref_collno,sum(nvl(collused_amt,0)) as collused_amt
+		  from  lncontcoll
+		  where ref_collno =  $P{member_no}
+		   group by ref_collno) coll
+where  coll.ref_collno=cr.member_no
+           and cr.loantype_code = '21'
+		  and cr.member_no = $P{member_no}]]>
+	</queryString>
+	<field name="CR.LOANCREDIT_MAX-COLLUSED_AMT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="75064b05-612b-4b5b-ad38-33230205b7b3" x="104" y="0" width="441" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CR.LOANCREDIT_MAX-COLLUSED_AMT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7256841b-38a9-4586-a757-609fe705954a" x="2" y="0" width="104" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[สิทธิค้ำประกันคงเหลือ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="60c44b75-431b-4e62-833c-e988f23ee415" x="556" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="a2235e0e-4b0d-4247-89d5-cf4c376e01b4" x="-1" y="0" width="1" height="20"/>
+			</line>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="1">
+			<line>
+				<reportElement uuid="fae64214-474b-4df5-85fd-8412a7d7b05a" x="-1" y="0" width="558" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

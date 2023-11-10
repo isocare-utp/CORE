@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6dab7728-1781-4b8b-9186-90c94a6f43dd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adtm_entry_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_start_type" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_end_type" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_start_itemtype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_end_itemtype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_start_user" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_end_user" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "DPDEPTSLIP"."DEPTSLIP_NO",
+         "DPDEPTSLIP"."DEPTACCOUNT_NO",
+         "DPDEPTSLIP"."DEPTTYPE_CODE",
+         "DPDEPTSLIP"."DEPTGROUP_CODE",
+         "DPDEPTSLIP"."DEPTSLIP_DATE",
+         "DPDEPTSLIP"."RECPPAYTYPE_CODE",
+         "DPDEPTSLIP"."DEPTSLIP_AMT",
+         "DPDEPTSLIP"."CASH_TYPE",
+         "DPDEPTSLIP"."CHECK_NO",
+         "DPDEPTSLIP"."CHECKDUE_DATE",
+         "DPDEPTSLIP"."BANK_CODE",
+         "DPDEPTSLIP"."BANKBRANCH_CODE",
+         "DPDEPTSLIP"."CHECKBEGININT_DATE",
+         "DPDEPTSLIP"."CHECKCLEAR_DATE",
+         "DPDEPTSLIP"."CHECKCLEAR_STATUS",
+         "DPDEPTSLIP"."PRNCBAL",
+         "DPDEPTSLIP"."WITHDRAWABLE_AMT",
+         "DPDEPTSLIP"."CHECKPEND_AMT",
+         "DPDEPTSLIP"."LOANGARANTEE_AMT",
+         "DPDEPTSLIP"."ACCUINT_AMT",
+         "DPDEPTSLIP"."FEE_AMT",
+         "DPDEPTSLIP"."PREADJDOC_NO",
+         "DPDEPTSLIP"."PREADJDOC_DATE",
+         "DPDEPTSLIP"."PREADJITEM_TYPE",
+         "DPDEPTSLIP"."PREPRNCBAL",
+         "DPDEPTSLIP"."PREACCUINT_AMT",
+         "DPDEPTSLIP"."ENTRY_ID",
+         "DPDEPTSLIP"."ENTRY_DATE",
+         "DPDEPTSLIP"."COOP_ID",
+         "DPDEPTSLIP"."INTARREAR_AMT",
+         "DPDEPTSLIP"."DPSTM_NO",
+         "DPDEPTSLIP"."DEPTITEMTYPE_CODE",
+         "DPDEPTSLIP"."CALINT_FROM",
+         "DPDEPTSLIP"."CALINT_TO",
+         "DPDEPTSLIP"."INT_AMT",
+         "DPDEPTSLIP"."INT_RETURN",
+         "DPDEPTSLIP"."ITEM_STATUS",
+         "DPDEPTSLIP"."CLOSEDAY_STATUS",
+         "DPDEPTSLIP"."OTHER_AMT",
+         "DPDEPTSLIP"."PRNC_NO",
+         "DPDEPTSLIP"."COUNT_WTD",
+         "DPDEPTSLIP"."MACHINE_ID",
+         "DPDEPTTYPE"."DEPTTYPE_CODE",
+         "DPDEPTTYPE"."DEPTTYPE_DESC",
+         "DPDEPTMASTER"."DEPTACCOUNT_NAME",
+         "DPDEPTMASTER"."DEPTCLOSE_STATUS",
+         "DPDEPTSLIP"."AUTHORIZE_ID",
+         '                                                                                                                                                 ' as FIX_COOPNAME,
+         "DPDEPTSLIP"."REFER_SLIPNO",
+         "DPDEPTSLIPCHEQUE"."CHEQUE_NO",
+         "CMUCFBANK"."BANK_DESC",
+         "CMUCFBANKBRANCH"."BRANCH_NAME",
+         "CMUCFBANK"."BANK_SHORTNAME",
+         "DPDEPTSLIP"."TOFROM_ACCID",
+         "DPDEPTMASTER"."MEMBER_NO",
+         "DPDEPTSLIP"."REMARK",
+         "DPDEPTSLIPCHEQUE"."CHEQUE_AMT",
+         "DPUCFRECPPAYTYPE"."RECPPAYTYPE_CODE",
+         "DPUCFRECPPAYTYPE"."RECPPAYTYPE_DESC",
+         "DPUCFRECPPAYTYPE"."RECPPAYTYPE_FLAG",
+         "DPUCFRECPPAYTYPE"."MONEYTYPE_SUPPORT",
+         "DPDEPTSLIP"."DEPTSLIP_NETAMT"
+    FROM "DPDEPTSLIP",
+         "DPDEPTTYPE",
+         "DPDEPTMASTER",
+         "DPDEPTSLIPCHEQUE",
+         "CMUCFBANK",
+         "CMUCFBANKBRANCH",
+         "DPUCFRECPPAYTYPE"
+   WHERE ( dpdeptslip.coop_id = dpdeptslipcheque.coop_id (+)) and
+         ( dpdeptslipcheque.deptslip_no (+) = dpdeptslip.deptslip_no) and
+         ( dpdeptslipcheque.bank_code = cmucfbank.bank_code (+)) and
+         ( dpdeptslipcheque.bank_code = cmucfbankbranch.bank_code (+)) and
+         ( dpdeptslipcheque.bankbranch_code = cmucfbankbranch.branch_id (+)) and
+         ( "DPDEPTSLIP"."DEPTTYPE_CODE" = "DPDEPTTYPE"."DEPTTYPE_CODE" ) and
+         ( "DPDEPTSLIP"."DEPTACCOUNT_NO" = "DPDEPTMASTER"."DEPTACCOUNT_NO" ) and
+         ( "DPDEPTTYPE"."COOP_ID" = "DPDEPTSLIP"."DEPTCOOP_ID" ) and
+         ( "DPDEPTSLIP"."DEPTCOOP_ID" = "DPDEPTMASTER"."COOP_ID" ) and
+         ( "DPDEPTSLIP"."RECPPAYTYPE_CODE" = "DPUCFRECPPAYTYPE"."RECPPAYTYPE_CODE" ) and
+         ( "DPDEPTSLIP"."DEPTCOOP_ID" = "DPUCFRECPPAYTYPE"."COOP_ID" ) and
+        (( DPDEPTSLIP.ENTRY_DATE = $P{adtm_entry_date} )   AND
+         ( DPDEPTSLIP.RECPPAYTYPE_CODE between   $P{as_start_itemtype} and $P{as_end_itemtype})  AND
+         ( DPDEPTSLIP.DEPTTYPE_CODE between $P{as_start_type} and  $P{as_end_type} )    AND
+         ( DPDEPTSLIP.ENTRY_ID between  $P{as_start_user} and $P{as_end_user} )     )
+order by DPDEPTSLIP.DEPTTYPE_CODE,DPDEPTSLIP.RECPPAYTYPE_CODE,DPDEPTSLIP.DEPTACCOUNT_NO  asc]]>
+	</queryString>
+	<field name="DEPTSLIP_NO" class="java.lang.String"/>
+	<field name="DEPTACCOUNT_NO" class="java.lang.String"/>
+	<field name="DEPTTYPE_CODE" class="java.lang.String"/>
+	<field name="DEPTGROUP_CODE" class="java.lang.String"/>
+	<field name="DEPTSLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="RECPPAYTYPE_CODE" class="java.lang.String"/>
+	<field name="DEPTSLIP_AMT" class="java.math.BigDecimal"/>
+	<field name="CASH_TYPE" class="java.lang.String"/>
+	<field name="CHECK_NO" class="java.lang.String"/>
+	<field name="CHECKDUE_DATE" class="java.sql.Timestamp"/>
+	<field name="BANK_CODE" class="java.lang.String"/>
+	<field name="BANKBRANCH_CODE" class="java.lang.String"/>
+	<field name="CHECKBEGININT_DATE" class="java.sql.Timestamp"/>
+	<field name="CHECKCLEAR_DATE" class="java.sql.Timestamp"/>
+	<field name="CHECKCLEAR_STATUS" class="java.math.BigDecimal"/>
+	<field name="PRNCBAL" class="java.math.BigDecimal"/>
+	<field name="WITHDRAWABLE_AMT" class="java.math.BigDecimal"/>
+	<field name="CHECKPEND_AMT" class="java.math.BigDecimal"/>
+	<field name="LOANGARANTEE_AMT" class="java.math.BigDecimal"/>
+	<field name="ACCUINT_AMT" class="java.math.BigDecimal"/>
+	<field name="FEE_AMT" class="java.math.BigDecimal"/>
+	<field name="PREADJDOC_NO" class="java.lang.String"/>
+	<field name="PREADJDOC_DATE" class="java.sql.Timestamp"/>
+	<field name="PREADJITEM_TYPE" class="java.lang.String"/>
+	<field name="PREPRNCBAL" class="java.math.BigDecimal"/>
+	<field name="PREACCUINT_AMT" class="java.math.BigDecimal"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp"/>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="INTARREAR_AMT" class="java.math.BigDecimal"/>
+	<field name="DPSTM_NO" class="java.math.BigDecimal"/>
+	<field name="DEPTITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="CALINT_FROM" class="java.sql.Timestamp"/>
+	<field name="CALINT_TO" class="java.sql.Timestamp"/>
+	<field name="INT_AMT" class="java.math.BigDecimal"/>
+	<field name="INT_RETURN" class="java.math.BigDecimal"/>
+	<field name="ITEM_STATUS" class="java.math.BigDecimal"/>
+	<field name="CLOSEDAY_STATUS" class="java.math.BigDecimal"/>
+	<field name="OTHER_AMT" class="java.math.BigDecimal"/>
+	<field name="PRNC_NO" class="java.math.BigDecimal"/>
+	<field name="COUNT_WTD" class="java.math.BigDecimal"/>
+	<field name="MACHINE_ID" class="java.lang.String"/>
+	<field name="DEPTTYPE_DESC" class="java.lang.String"/>
+	<field name="DEPTACCOUNT_NAME" class="java.lang.String"/>
+	<field name="DEPTCLOSE_STATUS" class="java.math.BigDecimal"/>
+	<field name="AUTHORIZE_ID" class="java.lang.String"/>
+	<field name="FIX_COOPNAME" class="java.lang.String"/>
+	<field name="REFER_SLIPNO" class="java.lang.String"/>
+	<field name="CHEQUE_NO" class="java.lang.String"/>
+	<field name="BANK_DESC" class="java.lang.String"/>
+	<field name="BRANCH_NAME" class="java.lang.String"/>
+	<field name="BANK_SHORTNAME" class="java.lang.String"/>
+	<field name="TOFROM_ACCID" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="REMARK" class="java.lang.String"/>
+	<field name="CHEQUE_AMT" class="java.math.BigDecimal"/>
+	<field name="RECPPAYTYPE_DESC" class="java.lang.String"/>
+	<field name="RECPPAYTYPE_FLAG" class="java.math.BigDecimal"/>
+	<field name="MONEYTYPE_SUPPORT" class="java.lang.String"/>
+	<field name="DEPTSLIP_NETAMT" class="java.math.BigDecimal"/>
+	<variable name="variable1" class="java.lang.Number" resetType="Group" resetGroup="reppayttype" calculation="Sum">
+		<variableExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == 1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.Number" resetType="Group" resetGroup="reppayttype" calculation="Sum">
+		<variableExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == -1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></variableExpression>
+	</variable>
+	<variable name="variable3" class="java.lang.Number" calculation="Count">
+		<variableExpression><![CDATA[$F{DEPTACCOUNT_NO}]]></variableExpression>
+	</variable>
+	<variable name="variable4" class="java.lang.Number" resetType="Group" resetGroup="depttype" calculation="Count">
+		<variableExpression><![CDATA[$F{DEPTACCOUNT_NO}]]></variableExpression>
+	</variable>
+	<variable name="variable5" class="java.lang.Number" resetType="Group" resetGroup="depttype" calculation="Sum">
+		<variableExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == 1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></variableExpression>
+	</variable>
+	<variable name="variable7" class="java.lang.Number" resetType="Group" resetGroup="depttype" calculation="Sum">
+		<variableExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == -1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></variableExpression>
+	</variable>
+	<variable name="variable8" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == 1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></variableExpression>
+	</variable>
+	<variable name="variable6" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == -1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></variableExpression>
+	</variable>
+	<group name="depttype" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{DEPTTYPE_CODE}]]></groupExpression>
+		<groupFooter>
+			<band height="32">
+				<staticText>
+					<reportElement uuid="c2af5cfd-b834-4fc6-a326-a084aa6120e6" x="1" y="4" width="96" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<text><![CDATA[รวมประเภทบัญชี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="a79b1a86-9933-425a-9def-7b5029989a93" x="202" y="6" width="50" height="20"/>
+					<textElement>
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<text><![CDATA[รายการ]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="2b7836b4-7e08-4034-b837-01cc7b28f953" x="2" y="28" width="798" height="1"/>
+					<graphicElement>
+						<pen lineStyle="Dashed"/>
+					</graphicElement>
+				</line>
+				<textField pattern="###0">
+					<reportElement uuid="638f8d04-1fca-40eb-a08b-057dc7eedcc9" x="154" y="6" width="48" height="18"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{variable4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="cb3e60bf-7c70-44d8-9a21-391fc2f9eda7" x="422" y="4" width="68" height="20"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{variable5}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="87bb60b8-028c-4ebd-83cd-a6417c3368d0" x="613" y="0" width="64" height="20"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{variable7}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="reppayttype" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{RECPPAYTYPE_CODE}]]></groupExpression>
+		<groupFooter>
+			<band height="37">
+				<staticText>
+					<reportElement uuid="8db3b723-bb19-4161-b11b-b34fee22741c" x="0" y="10" width="97" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<text><![CDATA[รวมประเภทรายการ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="81b3b255-8cde-41b9-a18b-8acac35ae7d0" x="202" y="10" width="50" height="20"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<text><![CDATA[รายการ]]></text>
+				</staticText>
+				<textField pattern="###0">
+					<reportElement uuid="2aee8e1b-4e5d-49e1-99e0-649ea4ed28b9" x="154" y="10" width="48" height="20"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement uuid="e526d701-db0b-4a5d-9c0f-55539b426c42" mode="Opaque" x="516" y="10" width="67" height="20"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="ed9b411d-3854-4742-81f8-2ab87e47a103" x="607" y="17" width="65" height="20"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{variable2}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="31bf4952-e7bb-43e5-a645-c68e2955508f" x="4" y="5" width="798" height="1"/>
+					<graphicElement>
+						<pen lineStyle="Dashed"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement uuid="e8e7bd72-01a3-450c-bc37-a481cdd31c6e" x="3" y="33" width="798" height="1"/>
+					<graphicElement>
+						<pen lineStyle="Dashed"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="7ac92739-06e4-4d2d-a515-1ca8eeed0cb1" x="282" y="4" width="262" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูแม่ฮ่องสอนจำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ed028755-e5a5-4a70-b7b2-9308de41371a" x="12" y="4" width="86" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[RPT01019]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7956ffe2-33be-4eef-8402-10da012bc5d0" x="282" y="24" width="262" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายงานฝาก-ถอน ประจำวันที่ : " + new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_entry_date})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="13f5159e-4008-44ca-b305-bd085c5c7d5f" x="677" y="24" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["หน้าที่ : "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="0d9f8404-fe9d-4622-9773-0c0e5a802929" x="757" y="24" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="61a9a322-e877-480e-8fa7-5c12d6aaf687" x="12" y="22" width="86" height="20"/>
+				<textElement/>
+				<text><![CDATA[ประเภทบัญชี]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ba948793-e2e2-44a5-bc5c-8f275ad64e7f" x="98" y="22" width="221" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{DEPTTYPE_DESC}.trim()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="3f9d1304-611c-42fe-966c-d788613cd998" x="12" y="42" width="86" height="20"/>
+				<textElement/>
+				<text><![CDATA[ประเภทรายการ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f343798b-a00a-46b2-8c4b-d97bdbfb3032" x="98" y="42" width="221" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{RECPPAYTYPE_CODE}.trim()+" : "+$F{RECPPAYTYPE_DESC}.trim()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="edd239d0-9820-4e6b-bd3c-0e940052718f" x="0" y="71" width="24" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e8339cc0-15b0-413e-a13c-6163d084cd20" x="24" y="71" width="64" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5e4b3c1b-f30f-4985-a90e-d6362ac44dca" x="88" y="71" width="54" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="50bff87a-d1b2-4901-b724-0ecdc7cbf718" x="142" y="71" width="157" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[ชื่อบัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="813017fa-b9ae-4ed7-80d6-730244f36471" x="299" y="71" width="60" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[ถอน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="603a3742-849a-4776-9ee9-b9313325e6bc" x="413" y="71" width="49" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[สถาณะ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ab87f9d9-c973-4cf4-a4e7-5d7e37ac9bff" x="462" y="71" width="71" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[พนักงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="09180dfe-849b-4fb2-83c3-9944b18c4594" x="533" y="71" width="74" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[รหัสบัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bd6b5b9d-11fd-4576-849a-ceaeba2ddaf9" x="607" y="71" width="89" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c95183a-114a-415e-a92d-d910c0a959d4" x="359" y="71" width="54" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[ฝาก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="459be222-1749-4d11-987a-e0c74ae73bd3" x="696" y="71" width="104" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[รายการเช็ค]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="22c453d2-661f-432d-86fe-48030f004859" x="2" y="65" width="798" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="ed5d552b-c2ea-4782-8b39-f20fad54f584" x="3" y="93" width="798" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3157e4ab-1898-4149-8594-6c63ac8867ca" x="24" y="8" width="64" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEPTACCOUNT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8624493a-c9f7-4369-aba5-b44e118fdc02" x="88" y="8" width="54" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0f0865b9-2341-43b0-9c98-88939c0876b7" x="142" y="8" width="157" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEPTACCOUNT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="2e02ded4-7680-46d8-b54a-3d7f69167e66" x="299" y="8" width="60" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == 1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3aed443c-d58c-412b-bf34-83d25d837f16" x="413" y="9" width="49" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[( $F{ITEM_STATUS}== -9 ? "ย้อนรายการ" : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b601b7e2-5f0e-4f61-85b2-daccf14ff684" x="462" y="8" width="71" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ENTRY_ID}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="30615dd7-6f2b-4d1c-ba64-f92108d140f7" x="533" y="8" width="74" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{TOFROM_ACCID}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="842b2524-8bc7-4722-94ee-a9928201cbb7" x="607" y="9" width="89" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{REMARK}.trim()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f63d71f4-3cf2-4100-a489-c6593e8fa241" x="696" y="8" width="104" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CHECK_NO}.trim()+"  "+$F{BANK_SHORTNAME}.trim()+$F{BRANCH_NAME}.trim()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="bae5ab7c-f641-4743-9f93-33bb849d11a8" x="359" y="9" width="54" height="19"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{RECPPAYTYPE_FLAG} == -1.00 ? 0.00 :
+        ( $F{MONEYTYPE_SUPPORT} == "CHQ" ? $F{CHEQUE_AMT} :
+            $F{DEPTSLIP_NETAMT} ) )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bee208d7-2548-4b5c-9407-b54689dfe3d4" x="0" y="8" width="24" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3fbbaae4-9749-4bee-a407-a05ec6049840" x="0" y="3" width="97" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[รวมทุกประเภทบัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="03ca924b-dac3-4758-8010-b5253539b8f1" x="202" y="3" width="50" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="93c49308-9b63-4884-9f13-6821f95d7f27" x="2" y="28" width="798" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField pattern="###0">
+				<reportElement uuid="8a6fbf6c-eb1f-4301-b85d-a418e9cf212f" x="154" y="3" width="48" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{variable3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="2aaa0da0-de3f-472f-b948-8426d35e1bd0" x="264" y="3" width="67" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{variable8}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7115c7a2-12ac-4e1c-aadc-08bbc587eeeb" x="331" y="3" width="65" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{variable6}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

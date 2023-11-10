@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_acc_cashflow_cash_excel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5011417-aab5-4ffa-a808-0b2c44b7e6cd">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_start" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_end" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ai_begin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="account_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+a.movement_date,
+a.begin,
+a.cr_amt,
+a.dr_amt,
+ sum(a.begin + a.dr_amt - a.cr_amt) over (partition by '1' order by a.movement_date) as sum_to_date,
+a.coop_desc,a.acc_id,a.acc_name
+
+ from (
+
+select
+ movement_date,
+decode(row_number() over(order by movement_date asc),1,$P{ai_begin},0) as begin,
+sum(cr_amt) as cr_amt ,
+sum(dr_amt) as dr_amt,
+(select coop_desc from acccntcoop where coop_id = $P{as_coopid} ) as coop_desc ,
+(select account_id from accmaster  where account_id =$P{account_id} ) as acc_id ,
+(select account_name from accmaster  where account_id = $P{account_id} ) as acc_name
+from
+(  SELECT "VCVOUCHER"."VOUCHER_DATE" as movement_date ,
+         sum(   "VCVOUCHERDET"."DR_AMT") as dr_amt,
+         sum(   "VCVOUCHERDET"."CR_AMT") as cr_amt
+    FROM
+         "VCVOUCHER",
+         "VCVOUCHERDET",
+         "ACCMASTER"
+   WHERE
+         ( "VCVOUCHER"."COOP_ID" = "VCVOUCHERDET"."COOP_ID" ) and
+         ( "VCVOUCHER"."VOUCHER_NO" = "VCVOUCHERDET"."VOUCHER_NO" ) and
+         ( "VCVOUCHERDET"."ACCOUNT_ID" = "ACCMASTER"."ACCOUNT_ID" ) and
+         ( "VCVOUCHERDET"."COOP_ID" = "ACCMASTER"."COOP_ID" ) and
+         ( ( "VCVOUCHER"."VOUCHER_DATE" >= $P{adtm_start} ) AND
+         ( "VCVOUCHER"."VOUCHER_DATE" <= $P{adtm_end}  ) AND
+         ( "ACCMASTER"."ACCOUNT_ID" = $P{account_id} ) AND
+         ( "VCVOUCHER"."VOUCHER_STATUS" = 1 ) AND
+		"VCVOUCHER"."COOP_ID" = $P{as_coopid})
+GROUP BY "VCVOUCHER"."VOUCHER_DATE"
+
+
+union
+
+select to_date( to_char(  $P{adtm_start}  , 'MMDDYYYY' ) , 'MMDDYYYY' ) + rownum -1 , 0 , 0
+    from all_objects
+  where rownum <= to_date( to_char( $P{adtm_end} , 'MMDDYYYY' ) , 'MMDDYYYY' ) - to_date( to_char(  $P{adtm_start} , 'MMDDYYYY' ) , 'MMDDYYYY' ) + 1
+)
+group by   movement_date
+order by movement_date
+) a]]>
+	</queryString>
+	<field name="MOVEMENT_DATE" class="java.sql.Timestamp"/>
+	<field name="BEGIN" class="java.lang.String"/>
+	<field name="CR_AMT" class="java.math.BigDecimal"/>
+	<field name="DR_AMT" class="java.math.BigDecimal"/>
+	<field name="SUM_TO_DATE" class="java.math.BigDecimal"/>
+	<field name="COOP_DESC" class="java.lang.String"/>
+	<field name="ACC_ID" class="java.lang.String"/>
+	<field name="ACC_NAME" class="java.lang.String"/>
+	<variable name="sumtotal" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_TO_DATE}]]></variableExpression>
+	</variable>
+	<group name="account_id">
+		<groupExpression><![CDATA[$F{MOVEMENT_DATE}]]></groupExpression>
+		<groupFooter>
+			<band height="18">
+				<textField pattern="MM/dd/yyyy">
+					<reportElement uuid="4a202438-188a-4fdf-ad7b-832fc72f8aeb" x="109" y="0" width="129" height="18"/>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{MOVEMENT_DATE})]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="f69fd2cc-0f55-4a3d-b239-722683aae32f" x="238" y="0" width="125" height="18"/>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SUM_TO_DATE}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6f06419e-5d40-410c-a085-4395ee2d9a37" x="0" y="21" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1.  ส่วนเฉลี่ยรายเดือนของยอดสินทรัพย์สภาพคล่องในทุกสิ้นวัน (เดือนปัจจุบัน)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6e11907d-688b-45ea-8922-7ff6c5ff90ae" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4c396c98-f260-4c60-93fc-ba4bdee06551" x="109" y="42" width="446" height="18"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACC_ID} + " : " + $F{ACC_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="c4f61411-7b6b-4819-9d14-4eb7adf5ce50" x="109" y="0" width="129" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ว.ด.ป]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="629e27c2-be29-40f7-a3f9-752753ba1071" x="238" y="0" width="125" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ยอดคงเหลือ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="61" splitType="Stretch">
+			<textField>
+				<reportElement uuid="291ab4f4-061f-45e2-9ce5-c6fc21f9303d" x="0" y="21" width="238" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เฉลี่ยรายเดือนของยอดสินทรัพย์สภาพคล่องทุกสิ้นวัน " + $V{COLUMN_COUNT} + " วัน"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="3173c56e-9cb6-4ea8-a234-bfc774dcc045" x="238" y="21" width="125" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumtotal}/$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a95a31e8-bce0-4fa2-ac04-9380e1015786" x="0" y="41" width="109" height="19"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="287f5c4c-e9e2-4460-a291-31b1b3baac29" x="109" y="41" width="254" height="19"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[  เพื่อรายงานการดำรงสินทรัพย์สภาพคล่อง]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="692871bd-121c-46a7-9219-832511cb40ec" x="238" y="1" width="125" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumtotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="030ba4b1-a1e9-42c5-b380-690a15a57e08" x="109" y="1" width="129" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รวม]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

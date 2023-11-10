@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_member_payputnet_amt" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3d8ced0-9937-452b-9ab6-3557d92fce0d">
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<parameter name="as_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "MBMEMBMASTER"."EXPENSE_ACCID",
+        "MBUCFPRENAME"."PRENAME_DESC" || "MBMEMBMASTER"."MEMB_NAME" || ' ' || "MBMEMBMASTER"."MEMB_SURNAME" as full_name,
+        "SLSLIPPAYOUT"."PAYOUTNET_AMT"
+   FROM "MBMEMBMASTER",
+        "MBUCFPRENAME",
+        "SLSLIPPAYOUT"
+  WHERE ( "MBUCFPRENAME"."PRENAME_CODE" = "MBMEMBMASTER"."PRENAME_CODE" ) and
+        ( "MBMEMBMASTER"."COOP_ID" = "SLSLIPPAYOUT"."COOP_ID" ) and
+        ( "MBMEMBMASTER"."MEMBER_NO" = "SLSLIPPAYOUT"."MEMBER_NO" ) and
+        ( ( "SLSLIPPAYOUT"."SLIPTYPE_CODE" in ('SWD','LWD') ) AND
+        ( "SLSLIPPAYOUT"."MONEYTYPE_CODE" = 'CBT' ) AND  SLSLIPPAYOUT.SLIP_STATUS = 1 AND
+        ( "SLSLIPPAYOUT"."SLIP_DATE" = to_date($P{as_date},'dd/mm/yyyy' ))  )
+union
+ SELECT "DPDEPTMASTER"."EXPENSE_ACCNO",
+        "DPDEPTMASTER"."DEPTACCOUNT_NAME",
+        "DPDEPTSLIP"."DEPTSLIP_AMT"
+   FROM "DPDEPTMASTER",
+        "DPDEPTSLIP",
+        "MBMEMBMASTER"
+  WHERE ( "DPDEPTMASTER"."COOP_ID" = "DPDEPTSLIP"."COOP_ID" ) and
+        ( "DPDEPTSLIP"."DEPTACCOUNT_NO" = "DPDEPTMASTER"."DEPTACCOUNT_NO" ) and
+        ( "DPDEPTMASTER"."COOP_ID" = "MBMEMBMASTER"."COOP_ID" ) and
+        ( "DPDEPTMASTER"."MEMBER_NO" = "MBMEMBMASTER"."MEMBER_NO" ) and
+        ( ( "DPDEPTSLIP"."DEPTSLIP_DATE" = to_date($P{as_date},'dd/mm/yyyy' ) ) AND
+        ( "DPDEPTSLIP"."CASH_TYPE" = 'CBT' ) AND
+        ( "DPDEPTSLIP"."ITEM_STATUS" = 1 ) )]]>
+	</queryString>
+	<field name="EXPENSE_ACCID" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="f7e27cca-ffa0-443b-a714-31db4be5a2eb" x="182" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{EXPENSE_ACCID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3058fba1-875d-4154-befc-b71973537ed1" x="0" y="0" width="182" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="26cdd2f5-c512-4768-acde-74ef42e25578" x="282" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

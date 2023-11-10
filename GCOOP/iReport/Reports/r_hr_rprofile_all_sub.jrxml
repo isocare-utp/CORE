@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_hr_rprofile_all_sub" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="480686f8-0ad3-49b6-a76b-0e4ddeee45df">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_eempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    HREMPLOYEE.EMP_NO,
+    eu.education_desc,
+    ed.EDU_MAJOR
+FROM
+     HREMPLOYEE
+     FULL OUTER JOIN hremployeeedu ed ON HREMPLOYEE.emp_no = ed.EMP_NO
+     FULL OUTER JOIN HRUCFEDUCATION eu ON ed.EDUCATION_CODE = eu.EDUCATION_CODE
+WHERE
+     HREMPLOYEE."EMP_NO" BETWEEN $P{as_sempno} AND $P{as_eempno} and
+  HREMPLOYEE."EMP_STATUS" = 1
+ORDER BY
+     HREMPLOYEE."EMP_NO" ASC]]>
+	</queryString>
+	<field name="EMP_NO" class="java.lang.String"/>
+	<field name="EDUCATION_DESC" class="java.lang.String"/>
+	<field name="EDU_MAJOR" class="java.lang.String"/>
+	<group name="EMP_NO">
+		<groupExpression><![CDATA[$F{EMP_NO}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a3da8698-da53-4c26-875d-7926c29fb737" x="0" y="0" width="80" height="30"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{EDUCATION_DESC} == null ? " " : $V{EMP_NO_COUNT}+"."+$F{EDUCATION_DESC} )
++' '+( $F{EDU_MAJOR} == null ? " " : $F{EDU_MAJOR} )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_fin_etc_n" language="groovy" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="817eaca9-91b7-48b6-8aa8-0896028a0bd9">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="t_amt" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+ft_readtbaht($P{t_amt})
+from dual]]>
+	</queryString>
+	<field name="FT_READTBAHT(:1)" class="java.lang.String"/>
+	<detail>
+		<band height="18">
+			<textField>
+				<reportElement uuid="7b663c0c-1efd-4de0-95a7-f482145ef515" x="10" y="0" width="349" height="18"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( " + $F{FT_READTBAHT(:1)} + " )"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

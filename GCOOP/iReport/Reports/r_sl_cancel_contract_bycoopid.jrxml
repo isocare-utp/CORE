@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_cancel_contract_bycoopid" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a6168e7a-bbe4-4f24-8e06-c819a98d9296">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select coop_id,
+loancontract_no,
+loanrequest_docno,
+member_no,
+ft_getmemname(coop_id,member_no) as fullname,
+loanrequest_amt,
+loanapprove_date,
+cancel_id,
+cancel_date,
+cancel_cause,
+sysdate,lncontmaster.current_coopid,
+decode(lncontmaster.current_coopid,'023001','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด',
+'023002','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการปทุมธานี',
+'023003','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการขอนแก่น',
+'023004','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการลำปาง')
+as coop
+from lncontmaster
+where contract_status = '-9'
+and ( current_coopid between $P{as_coopid} and $P{as_coop} )
+and cancel_date between $P{date1} and $P{date2}]]>
+	</queryString>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="LOANREQUEST_DOCNO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULLNAME" class="java.lang.String"/>
+	<field name="LOANREQUEST_AMT" class="java.math.BigDecimal"/>
+	<field name="LOANAPPROVE_DATE" class="java.sql.Timestamp"/>
+	<field name="CANCEL_ID" class="java.lang.String"/>
+	<field name="CANCEL_DATE" class="java.sql.Timestamp"/>
+	<field name="CANCEL_CAUSE" class="java.lang.String"/>
+	<field name="SYSDATE" class="java.sql.Timestamp"/>
+	<field name="CURRENT_COOPID" class="java.lang.String"/>
+	<field name="COOP" class="java.lang.String"/>
+	<sortField name="CURRENT_COOPID"/>
+	<sortField name="CANCEL_DATE"/>
+	<sortField name="LOANCONTRACT_NO"/>
+	<group name="CURRENT_GROUP">
+		<groupExpression><![CDATA[$F{CURRENT_COOPID}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="ae342064-b411-41e0-bcea-5fe328319f20" x="0" y="0" width="343" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COOP}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="4">
+				<line>
+					<reportElement uuid="11ffc109-c2a7-491e-9921-33ae94bd9ae2" x="0" y="2" width="802" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="6467f656-2bf9-4641-b317-fbf74652a24d" x="0" y="0" width="802" height="1"/>
+				</line>
+				<break>
+					<reportElement uuid="0002af66-61b5-46ff-888d-4c412582f0f0" x="0" y="3" width="100" height="1"/>
+				</break>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="66735efb-9fbb-45c5-87e6-b9be7d3e8784" x="0" y="2" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รายงานสัญญาที่ถูกยกเลิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="96c6a86e-60d4-4403-ab1c-89372fae4f77" x="0" y="62" width="32" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b6b5c8fb-6241-48b0-be74-b513e5a03ef5" x="298" y="62" width="78" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่สัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="321a6684-2bb2-408c-b7e5-e1cbddfa799f" x="376" y="62" width="63" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่อนุมัติ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d51aa591-ed31-46eb-9e0b-957aef21e0ef" x="439" y="62" width="84" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="80db77cd-9f8e-4eb0-b5ca-5f8f8d001534" x="523" y="62" width="68" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ผู้ยกเลิกสัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c410a10e-d1e1-492b-84e6-f6b61464a71e" x="591" y="62" width="81" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่ยกเลิกสัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="10876a62-fee1-45ac-a9bc-71853ab2c9e6" x="672" y="62" width="130" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เหตุผลการยกเลิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6231123b-5789-49b4-a8bb-5e8cd96429da" x="32" y="62" width="72" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ทะเบียนสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="336d3d55-add8-42bb-9eec-8b9ff4b734c6" x="104" y="62" width="194" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="30fe7797-6078-4525-9832-2e8af4e72324" x="0" y="22" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตั้งแต่วันที่" + "        " + new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{date1})+ "        " + "ถึงวันที่" + "        " +  new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{date2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f4c38dd1-3ea3-445e-b282-ae8b489aac3a" x="638" y="2" width="164" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ " +  new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SYSDATE})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1bc1b49a-c8de-4804-82cc-5190280186e2" x="0" y="0" width="32" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="78210bb7-7f80-4990-8884-577785758ced" x="32" y="0" width="72" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="69ca0265-66cf-4d6f-8a51-0c4e596d4764" x="104" y="0" width="194" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="29d35f5d-78a8-4471-b8d9-7166a332ba96" x="298" y="0" width="78" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a8007e4a-438a-46b9-b386-73fe7c3b9831" x="376" y="0" width="63" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{LOANAPPROVE_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="8e325acc-d613-4534-b7c9-08f8bf85a9f1" x="439" y="0" width="84" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANREQUEST_AMT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="852faf2b-4deb-4b34-9f44-118acd8945d5" x="523" y="0" width="68" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CANCEL_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="11d125ae-2ee8-42d5-afe2-b27f2f140a34" x="591" y="0" width="81" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{CANCEL_DATE})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d25b628b-f75e-4c98-a2a5-52b15abacee3" x="672" y="0" width="130" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CANCEL_CAUSE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

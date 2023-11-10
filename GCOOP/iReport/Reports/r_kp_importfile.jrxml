@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_kp_importfile" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ce6d4a7d-9cfe-4c92-b265-d2cba4db9d2b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CEN\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_filename" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_impdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from kptempimport where file_name like '%'||$P{as_filename} and imp_date = $P{as_impdate} order by membgroup_code]]>
+	</queryString>
+	<field name="SALARY_AMOUNT" class="java.math.BigDecimal"/>
+	<field name="PERIOD" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="ITEM_AMT" class="java.math.BigDecimal"/>
+	<field name="CONTRACT_TYPE" class="java.lang.String"/>
+	<field name="ITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="ELECTRICTCITY_AMT" class="java.math.BigDecimal"/>
+	<field name="BANK_CODE" class="java.lang.String"/>
+	<field name="BANK_ACCID" class="java.lang.String"/>
+	<field name="FILE_NAME" class="java.lang.String"/>
+	<field name="IMP_DATE" class="java.sql.Timestamp"/>
+	<field name="IMP_STATUS" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="28" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23">
+			<line>
+				<reportElement uuid="59e10e47-00f7-431f-8841-b4163c2a3d4a" x="0" y="0" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="e3c64864-73cf-48fc-976d-74e7b42777f9" x="31" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[เลขพนักงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40595b99-41fb-433d-8876-47ce99d6f73c" x="74" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[เลขสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="504e47ea-4301-4702-88fa-7c2d92b0089e" x="116" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[รหัสรายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7d91b79a-b26c-4015-b9a8-dc8c8c1d5ccc" x="158" y="1" width="37" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[สถานะ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="35d4d7fb-b893-4484-b1f5-49607157160d" x="195" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[เรียกเก็บได้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="76bcea2c-9d9f-443c-94fb-4db44e38bc4c" x="250" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[สังกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b97377bf-a167-4088-9e5b-20889cc72080" x="306" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ประจำเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="db0433e7-f80c-4818-af77-b88f9e5ecf7f" x="359" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[เงินเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0f5abe61-baa6-4d53-93b1-8f41fe295433" x="415" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ค่าไฟฟ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0e136376-0051-4c4d-8129-3065ea88489b" x="458" y="1" width="42" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ธนาคาร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="af0a0284-e367-4fd7-84e6-586d26057263" x="499" y="1" width="51" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[บัญชีธนาคาร]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="731a90c1-a82d-437d-98e8-9c9b89389fdf" x="0" y="22" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="40cc28ed-7ce5-4d18-a79e-5bf4a8f1b742" x="0" y="1" width="31" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement uuid="126a045e-9aaf-4e62-8736-58b909156ead" x="38" y="2" width="53" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0a6911f7-7785-45c2-a72f-5adf3c224a80" x="82" y="2" width="53" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a2c58b03-7929-477f-935f-7275ad479441" x="135" y="2" width="24" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMTYPE_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="219b4510-1f83-4299-9672-5f88c34e8979" x="174" y="2" width="16" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTRACT_TYPE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="c8b4bf77-d70f-44ab-b650-78b753640574" x="188" y="2" width="45" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8fe4334c-778f-49ad-bb83-8896c6b7eeb6" x="242" y="2" width="64" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4515b5f8-2fa9-4ea9-8edc-989cd1502b95" x="316" y="2" width="28" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="454213f0-8b5e-46d8-a1ea-228075ec6b18" x="343" y="2" width="53" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="203f33e1-d823-4ff1-9cf4-ea3a53cdd9f8" x="399" y="2" width="53" height="14"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ELECTRICTCITY_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6baffb38-93f6-40ed-b568-0350e134dc9b" x="472" y="2" width="29" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANK_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="16b1ef3e-6b25-437c-b8ba-a65bb675c4bf" x="505" y="2" width="51" height="14"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANK_ACCID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="54577ced-03b4-482e-8a03-74074a6677bc" x="3" y="2" width="27" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement uuid="8b19bfd1-6abe-40b4-bf62-590c43684ae1" x="0" y="1" width="555" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

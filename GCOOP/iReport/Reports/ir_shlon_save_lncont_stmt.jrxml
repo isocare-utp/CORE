@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_shlon_save_lncont_stmt" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2bf3f5e8-cc20-4032-8d47-9cdf14ad47c9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adtm_startdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_enddate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String"/>
+	<parameter name="as_startlntype" class="java.lang.String"/>
+	<parameter name="as_endlntype" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select c.member_no, mp.prename_desc || mb.memb_name ||' ' || mb.memb_surname as full_name,mb.membgroup_code, a.loancontract_no, sum( a.principal_payment * b.sign_flag * -1 ), sum( a.interest_payment * b.sign_flag * -1 ) as int_payment from lncontstatement a, lnucfloanitemtype b, lncontmaster c, mbmembmaster mb, mbucfprename mp where a.loanitemtype_code = b.loanitemtype_code and c.member_no = mb.member_no and mb.prename_code = mp.prename_code and a.loancontract_no = c.loancontract_no and c.loantype_code >= $P{as_startlntype}  and c.loantype_code <= $P{as_endlntype} and mb.coop_id = $P{as_coopid}
+ and a.slip_date >=  $P{adtm_startdate}  and a.slip_date <=  $P{adtm_enddate}  and a.loanitemtype_code in ('LPX','RPX','LCL','RCL') group by c.member_no, a.loancontract_no,mp.prename_desc , mb.memb_name, mb.memb_surname ,mb.membgroup_code order by c.member_no]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="SUM(A.PRINCIPAL_PAYMENT*B.SIGN_FLAG*-1)" class="java.math.BigDecimal"/>
+	<field name="INT_PAYMENT" class="java.math.BigDecimal"/>
+	<variable name="SUM(A.PRINCIPAL_PAYMENT*B.SIGN_FLAG*-1)_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM(A.PRINCIPAL_PAYMENT*B.SIGN_FLAG*-1)}]]></variableExpression>
+	</variable>
+	<variable name="INT_PAYMENT_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{INT_PAYMENT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a04045c8-83a7-4944-ad27-40e66a3d67f7" x="43" y="0" width="158" height="20"/>
+				<textElement/>
+				<text><![CDATA[รายงานเคลือนไหวเงินกู้ ตั้งแต่วันที]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f7dee6d2-9d46-440a-8e0c-be4f90b1c479" x="201" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[ new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_startdate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="72d72dbf-0ac5-45b2-94cd-5f0f71a07ef2" x="365" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[ new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_enddate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="63bc6f28-2108-43af-b620-f2a06f150ca8" x="0" y="2" width="72" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bcc63a89-8c72-4202-8277-1f9ea87b7cbd" x="72" y="2" width="129" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4894e5a3-6daf-415a-97b8-d2870f346ff4" x="201" y="2" width="74" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9e22e575-3c8f-4610-acbf-7626ca3dbb1d" x="275" y="2" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สัญญาเงินกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8fead864-500d-4ebf-a1fe-8d19354c41b5" x="375" y="2" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ยอดชำระ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79cf35c2-adcd-4e63-a0c2-4c8e6285bae8" x="475" y="2" width="64" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชำระ ดบ.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b7de6d98-6138-4067-84c3-16ea09324b32" x="0" y="0" width="72" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b3d77597-1e5c-471d-af2b-edaeda9ba9d2" x="72" y="0" width="129" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1c9b2e9a-9fa8-403b-bac1-7e1f1701eda4" x="201" y="0" width="74" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8c3fed7a-7445-4e63-9e21-5cc376880f20" x="275" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5548778f-1859-4a3c-b00b-59a5dfa7e5d1" x="375" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM(A.PRINCIPAL_PAYMENT*B.SIGN_FLAG*-1)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a73e8a77-843d-4a6a-b602-d77e6b779e79" x="475" y="0" width="64" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INT_PAYMENT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement uuid="0a39cfac-98c4-479f-9189-03f7b655d2e7" x="346" y="0" width="129" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{SUM(A.PRINCIPAL_PAYMENT*B.SIGN_FLAG*-1)_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="3ff0a903-4cc4-4768-a173-641180313866" x="72" y="0" width="129" height="20"/>
+				<textElement/>
+				<text><![CDATA[รวม]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="bea76561-3a99-4c5b-a959-431d825d691b" x="475" y="0" width="64" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{INT_PAYMENT_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

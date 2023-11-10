@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_Receipt" language="groovy" pageWidth="326" pageHeight="397" columnWidth="326" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6fbf61de-b1f4-4a28-a40a-aab78d116c3f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="24"/>
+	<parameter name="as_payinslip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  a.payinslip_no,
+                    a.member_no,
+                    a.sliptype_code,
+                    a.moneytype_code,
+                    case a.sliptype_code when 'CLC' then substr(a.document_no,0,4) || '-' || substr(a.document_no,5,6) else  substr(a.document_no,0,3) || '-' || substr(a.document_no,4,7) end as document_no ,
+                    a.slip_date,
+                    a.operate_date,
+                    a.sharestk_value,
+                    a.intaccum_amt,
+                    a.sharestk_value as sharestkbf_value,
+                    a.slip_amt,
+                    a.slip_status,
+                    a.entry_id,
+                    b.slipitemtype_code,
+                    b.shrlontype_code,
+                    b.loancontract_no,
+                    b.slipitem_desc,
+                    case periodcount_flag when 1 then b.period else 0 end as period,
+                    b.principal_payamt,
+                    b.interest_payamt,
+                    b.item_payamt,
+                    b.item_balance,
+                    b.calint_to,
+                    d.prename_desc||c.memb_name||'  '||c.memb_surname as member_name,
+                    a.membgroup_code,
+                    e.membgroup_desc,
+                    case a.sliptype_code when 'CLC' then 'หักกลบ'  when 'CLX' then 'หักกลบ'  when 'TSL' then 'โอนหุ้นชำระหนี้' else  h.moneytype_desc end as moneytype_desc,
+                    trim(ftreadtbaht( a.slip_amt )) AS  money_thaibaht ,
+                    case b.slipitemtype_code when 'LON' then   b.item_balance else null end  as  bitem_balance,
+(select sum( case bb.slipitemtype_code when 'LON' then bb.item_balance else 0 end  ) from slslippayindet bb where a.payinslip_no = bb.payinslip_no )   as sumloan_balance
+                    from slslippayin a, slslippayindet b, mbmembmaster c, mbucfprename d, mbucfmembgroup e, mbucfmembtype f,  cmucfmoneytype h
+                    where   a.coop_id	= $P{as_coopid}
+                    and		a.payinslip_no = $P{as_payinslip_no}
+                    and     a.coop_id		    = b.coop_id
+                    and		a.payinslip_no	    = b.payinslip_no
+                    and		a.memcoop_id	    = c.coop_id
+                    and		a.member_no			= c.member_no
+                    and		c.prename_code		= d.prename_code
+                    and		a.memcoop_id	    = e.coop_id
+                    and		a.membgroup_code	= e.membgroup_code
+                    and		c.coop_id		    = f.coop_id
+                    and		c.membtype_code		= f.membtype_code
+                    and h.moneytype_code = a.moneytype_code   order by a.payinslip_no]]>
+	</queryString>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SLIPTYPE_CODE" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="DOCUMENT_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="OPERATE_DATE" class="java.sql.Timestamp"/>
+	<field name="SHARESTK_VALUE" class="java.math.BigDecimal"/>
+	<field name="INTACCUM_AMT" class="java.math.BigDecimal"/>
+	<field name="SHARESTKBF_VALUE" class="java.math.BigDecimal"/>
+	<field name="SLIP_AMT" class="java.math.BigDecimal"/>
+	<field name="SLIP_STATUS" class="java.math.BigDecimal"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="SLIPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_BALANCE" class="java.math.BigDecimal"/>
+	<field name="CALINT_TO" class="java.sql.Timestamp"/>
+	<field name="MEMBER_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MONEYTYPE_DESC" class="java.lang.String"/>
+	<field name="MONEY_THAIBAHT" class="java.lang.String"/>
+	<field name="BITEM_BALANCE" class="java.math.BigDecimal"/>
+	<field name="SUMLOAN_BALANCE" class="java.math.BigDecimal"/>
+	<variable name="PAGE_SUM_BAL" class="java.math.BigDecimal" resetType="Group" resetGroup="PS_NO_GROUP" calculation="Sum">
+		<variableExpression><![CDATA[($F{SLIPITEMTYPE_CODE}=="SHR"?0.0:$F{ITEM_BALANCE})]]></variableExpression>
+	</variable>
+	<group name="PS_NO_GROUP" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{PAYINSLIP_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="157">
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="70becd26-f5aa-4d65-b007-c76a1d53769a" x="53" y="85" width="183" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MEMBER_NAME}+"<"+ $F{MEMBGROUP_CODE}  +">"]]></textFieldExpression>
+				</textField>
+				<textField pattern="@@-@@@@@@@@@">
+					<reportElement uuid="377ce594-d024-4350-a728-afac2fbf5201" x="59" y="59" width="100" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DOCUMENT_NO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="fcda9a13-8ec7-431d-a6ee-830389a0dfa9" x="236" y="59" width="79" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="574d758c-ddd6-4d93-a330-dba9449fa0fc" x="255" y="85" width="64" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SHARESTK_VALUE}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="7770cfa1-dd46-43f1-8a4a-aa77a3b385b8" x="255" y="113" width="64" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{INTACCUM_AMT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="fe80fd94-68f0-41fd-a730-5c90b3ff9ff0" x="70" y="113" width="154" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MEMBER_NO}+" " + $F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="21f843a7-dfc6-443b-9b17-eea1a53d954c" x="8" y="1" width="59" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{SLIPITEMTYPE_CODE}== "SHR" ? ($F{SLIPITEM_DESC}?$F{SLIPITEM_DESC}:"")
+    : ( $F{SLIPITEMTYPE_CODE}== "LON" ? $F{LOANCONTRACT_NO}+" "
+        : ( $F{SLIPITEMTYPE_CODE}=="ISF" ? "เบี้ยประกันเลขที่ "+($F{SLIPITEM_DESC}?$F{SLIPITEM_DESC}:"")+"("+$F{LOANCONTRACT_NO}+")" : $F{SLIPITEM_DESC} ) ) )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4f5fdf7c-6151-4e93-9d59-d3279f8b8645" x="67" y="1" width="21" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{PERIOD} > 0?$F{PERIOD}:0)]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="80b4c155-d4f2-4614-a43a-823b7bb83cef" x="86" y="1" width="61" height="17"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="02cfef08-7d30-432c-a36e-1dafcd2aa867" x="147" y="1" width="60" height="17"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="d87a917c-7736-44cb-b22d-876a07b6245f" x="209" y="1" width="50" height="17"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="6e4e084a-ed48-46b6-94e3-2608231d428f" x="261" y="1" width="62" height="17"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BITEM_BALANCE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="96">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="4598c362-331f-4ad7-83f6-b23eba43b996" x="209" y="20" width="50" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIP_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7e5ecda0-2093-478c-93bd-3a8ddf9ee363" x="261" y="20" width="62" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMLOAN_BALANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8bbea118-610b-4398-b499-2e80f1b18ac9" x="33" y="2" width="241" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" ชำระโดย :"+$F{MONEYTYPE_DESC}+"("+ $F{MONEYTYPE_CODE} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f7ff8466-ff67-44c6-ae28-cb2dcd34af09" x="8" y="20" width="201" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA['('+$F{MONEY_THAIBAHT} + ')']]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

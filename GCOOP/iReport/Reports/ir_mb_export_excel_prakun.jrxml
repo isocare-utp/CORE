@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mb_export_excel_prakun" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5d762ea-9279-4fd5-868a-ae1163cac8b3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="65"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String"/>
+	<parameter name="as_sgroup" class="java.lang.String"/>
+	<parameter name="as_egroup" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+         ft_memname(mbmembmaster.coop_id, mbmembmaster.member_no) as membname,
+mbmembmaster.member_no,
+mbmembmaster.card_person,
+mbmembmaster.birth_date,
+shsharemaster.sharestk_amt
+from mbmembmaster, shsharemaster
+where mbmembmaster.member_no = shsharemaster.member_no
+and shsharemaster.sharestk_amt > 0 and mbmembmaster.membgroup_code between $P{as_sgroup} and $P{as_egroup} and mbmembmaster.coop_id = $P{as_coopid}]]>
+	</queryString>
+	<field name="MEMBNAME" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="BIRTH_DATE" class="java.sql.Timestamp"/>
+	<field name="SHARESTK_AMT" class="java.math.BigDecimal"/>
+	<title>
+		<band height="20" splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="05c2d7b3-0f9f-4123-83e6-b0c3923323c2" x="11" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MEMBER_NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="07fbbd5e-6467-4cd4-a540-3c137f308c19" x="122" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MEMBNAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2b5ba071-a171-4a0d-a3e3-ad67361ecc7e" x="233" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CARD_PERSON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c9d6e6ed-4a98-4930-8e37-2058afb8d096" x="340" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[BIRTH_DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c35b3631-7f38-4197-afc1-86513343be99" x="449" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[SHARESTK_AMT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement uuid="1afbfa89-40e2-4f47-b3c4-2b541f75839a" x="11" y="4" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="426cbb8b-fa77-4445-83bd-8480987dd88a" x="122" y="4" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aa0729c1-5926-492a-aed2-fbc7697f9806" x="233" y="4" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fe8d78cf-ef63-4a0b-b7cf-658128b2e43a" x="340" y="4" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{BIRTH_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f628ceec-be83-44e2-98cb-cc1237b9e777" x="449" y="4" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SHARESTK_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

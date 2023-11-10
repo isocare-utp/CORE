@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_slip_in_out_gsb" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="828" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="604b8eb1-4d52-47da-a1c9-2121d92f3880">
+	<property name="ireport.zoom" value="1.1269722013523682"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_payinslip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select si.member_no ,
+mp.prename_desc,
+mb.memb_name,
+mb.memb_surname ,
+mb.membgroup_code,mg.membgroup_desc,
+si.slip_date ,si.payinslip_no,
+sum(nvl(sid.principal_payamt,0)) as sumprn,
+sum(nvl(sid.interest_payamt,0)) as sumint,
+sum(nvl(sid.item_payamt,0)) as sumitmpay,
+sum(decode(slipitemtype_code,'SHR',item_payamt,0)) as item_shr
+from  slslippayin si ,slslippayindet sid,mbmembmaster mb,mbucfprename mp,mbucfmembgroup mg
+where si.payinslip_no=$P{as_payinslip_no}
+and si.coop_id=$P{as_coop_id}
+and si.payinslip_no = sid.payinslip_no
+and si.coop_id = sid.coop_id
+and si.member_no=mb.member_no
+and si.coop_id=mb.coop_id
+and mb.prename_code=mp.prename_code
+and mb.membgroup_code = mg.membgroup_code
+and mb.coop_id = mg.coop_id
+group by si.member_no ,
+mp.prename_desc,
+mb.memb_name,
+mb.memb_surname ,
+mb.membgroup_code,mg.membgroup_desc,
+si.slip_date ,si.payinslip_no]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="SUMPRN" class="java.math.BigDecimal"/>
+	<field name="SUMINT" class="java.math.BigDecimal"/>
+	<field name="SUMITMPAY" class="java.math.BigDecimal"/>
+	<field name="ITEM_SHR" class="java.math.BigDecimal"/>
+	<variable name="rtSumLon" class="java.lang.Double">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rtShr" class="java.lang.Double">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rtPayLon" class="java.lang.Double">
+		<variableExpression><![CDATA[( $V{rtPayLon}>0 ? $V{rtPayLon} : 0 )]]></variableExpression>
+	</variable>
+	<variable name="rtSumPncLon" class="java.lang.Double"/>
+	<variable name="rtSumIntLon" class="java.lang.Double"/>
+	<variable name="SumShrLon" class="java.lang.Double" calculation="System">
+		<variableExpression><![CDATA[$V{rtSumLon}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="65" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bbe5ac17-1551-428f-a236-8cc874aaa356" x="1" y="12" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a3fdeccd-7c33-471d-9b66-f88069bc1380" x="171" y="12" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ab7c83ad-b30c-46ad-82c8-f975197cc6b3" x="301" y="12" width="169" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9ae1a114-2ba8-4422-816e-78d010c5964f" x="189" y="35" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="531c53c8-3d41-423b-b852-4226518dd5cf" x="1" y="35" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+' '+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="210" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="82f0b828-9da8-4aa3-aa31-1aaa97d1f2ba" x="189" y="0" width="281" height="68"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$P{as_coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_payinslip_no">
+					<subreportParameterExpression><![CDATA[$P{as_payinslip_no}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="SumLon" toVariable="rtSumLon"/>
+				<returnValue subreportVariable="SumPnc" toVariable="rtSumPncLon"/>
+				<returnValue subreportVariable="SumInt" toVariable="rtSumIntLon"/>
+				<subreportExpression><![CDATA["r_sl_slipin_lon_gsb.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="21c80203-2fff-45e9-88a1-394831c0526a" x="289" y="113" width="176" height="44"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$P{as_coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_payinslip_no">
+					<subreportParameterExpression><![CDATA[$P{as_payinslip_no}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="SumShr" toVariable="rtShr"/>
+				<subreportExpression><![CDATA["r_sl_slipin_shr_gsb.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="83" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="50630d3e-1be1-4f4c-81b7-e6df8f79bff6" x="213" y="0" width="62" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMPRN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="523803fd-cbbc-43cb-b995-aa9a5cba8f30" x="279" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMINT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="2fc41f30-565f-490c-b38c-127e80d52714" x="321" y="36" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMITMPAY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="58f4796f-3353-410c-8f28-ff1e8c4c7b94" x="321" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMITMPAY}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

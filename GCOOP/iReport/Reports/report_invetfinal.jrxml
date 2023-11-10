@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_invetfinal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9673193-01f0-429f-b402-2727e514faeb">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+(select distinct(bal_date) from mssysbal where bal_date=to_date( $P{date} ,'YYYY/MM/DD')) as bal_dateshow,
+decode(b.captype_code,'01','1.ต้นทุนการจัดหาเงินทุน','02','2.ผลตอบแทนการลงทุน') as desctype,
+         decode(a.bizz_system,'DEP','เงินรับฝาก','SHR','ทุนเรือนหุ้น','LON','เงินให้กู้','PMI','เงินลงทุน','INV','เงินให้สหกรณ์อื่นกู้',' ') as bizz_systemdesc,
+				sum(a.balance_value) as sumvlue,
+		(select sum(s.balance_value) as sumtype
+											  from mssysbal s
+											  where a.bizz_system=s.bizz_system
+											            and bal_date=to_date( $P{date} ,'YYYY/MM/DD') )/
+ (select sum(ss.balance_value) from mssysbal ss ,miscapitaltype sr where ss.bizz_system=sr.system_code and b.captype_code=sr.captype_code and bal_date=to_date( $P{date} ,'YYYY/MM/DD')  ) as wage,
+
+		round(sum(a.balance_value/(select sum(s.balance_value) as sumtype
+											  from mssysbal s
+											  where a.bizz_system=s.bizz_system
+													   and bal_date=to_date( $P{date} ,'YYYY/MM/DD') )  * a.bizztype_rate),7) as rate
+,b.seq_no
+from mssysbal a,miscapitaltype b
+where a.bizz_system=b.system_code
+		 and a.coop_id like '%'
+		 and bal_date=to_date( $P{date} ,'YYYY/MM/DD')
+group by b.captype_code,a.bizz_system,b.seq_no
+order by desctype,b.seq_no]]>
+	</queryString>
+	<field name="BAL_DATESHOW" class="java.sql.Timestamp"/>
+	<field name="DESCTYPE" class="java.lang.String"/>
+	<field name="BIZZ_SYSTEMDESC" class="java.lang.String"/>
+	<field name="SUMVLUE" class="java.math.BigDecimal"/>
+	<field name="WAGE" class="java.math.BigDecimal"/>
+	<field name="RATE" class="java.math.BigDecimal"/>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<variable name="sumval" class="java.math.BigDecimal" resetType="Group" resetGroup="DESCTYPE" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUMVLUE}]]></variableExpression>
+	</variable>
+	<variable name="sumwacc" class="java.math.BigDecimal" resetType="Group" resetGroup="DESCTYPE" calculation="Sum">
+		<variableExpression><![CDATA[$F{WAGE}*$F{RATE}]]></variableExpression>
+	</variable>
+	<variable name="sumper" class="java.math.BigDecimal" resetType="Group" resetGroup="DESCTYPE" calculation="Sum">
+		<variableExpression><![CDATA[$F{WAGE}]]></variableExpression>
+	</variable>
+	<group name="DESCTYPE">
+		<groupExpression><![CDATA[$F{DESCTYPE}]]></groupExpression>
+		<groupHeader>
+			<band height="39">
+				<staticText>
+					<reportElement uuid="f430c756-a8fc-46c7-b6a1-f0a3b4a3b2a1" x="299" y="20" width="91" height="19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[สัดส่วน (%)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9461a65f-28f1-4784-a23a-834b3d03765d" x="0" y="20" width="179" height="19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[เงินทุน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8e99108d-9989-43a3-9b27-905b8e10e3a5" x="390" y="20" width="85" height="19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[อัตรา (%)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cfe21782-c539-412c-b02a-e77e94d59c77" x="179" y="20" width="120" height="19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[จำนวนเงินทุน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ce64bf0b-76b3-46a3-bc6d-edb208d59feb" x="475" y="20" width="80" height="19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ต้นทุน WACC]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="e6bce4c5-3946-4429-8459-aa72aba7918d" x="0" y="0" width="278" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESCTYPE}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="58">
+				<staticText>
+					<reportElement uuid="299f08ad-ce43-4f59-a8ae-7db80d16d423" x="0" y="0" width="179" height="19"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[รวมทั้งสิ้น  ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="233318a3-26f7-4598-b667-4d7a40ee3480" x="390" y="0" width="85" height="19"/>
+					<box rightPadding="5">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ต้นทุนเฉลี่ย
+]]></text>
+				</staticText>
+				<textField pattern="#,##0.0000 %">
+					<reportElement uuid="21f89f25-8f29-442e-81c2-30e09e444bc1" x="475" y="0" width="80" height="19"/>
+					<box rightPadding="5">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumwacc}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.0000 %">
+					<reportElement uuid="a7d4e3c0-806c-4a52-ac72-d1f78923885f" x="299" y="0" width="91" height="19"/>
+					<box rightPadding="5">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumper}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="f51b89bc-1c7c-4087-b711-ec0e65e5a61f" x="179" y="0" width="120" height="19"/>
+					<box rightPadding="5">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumval}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bbec6a03-e53c-4447-ab2c-d3c138b55ea8" x="154" y="8" width="246" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานสรุปต้นทุนทางการเงิน]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="58c2d673-300c-479f-802f-73fc6eccd797" x="0" y="28" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ณ วันที่ " + new SimpleDateFormat("d MMMMM G yyyy",new Locale("th","TH")).format($F{BAL_DATESHOW})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f38d2d98-518d-4c03-9b10-ad2882c0b806" x="454" y="20" width="45" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่พิมพ์:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement uuid="cbd75966-8465-4931-91dd-9d03c47ba9f3" x="503" y="40" width="58" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("HH:mm",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="bf035fdc-7a3c-4214-8b6c-9d942d5f47ed" x="454" y="40" width="45" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เวลาที่พิมพ์:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="120c8440-2fd4-4601-9bb8-0b344607faaf" x="472" y="0" width="27" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หน้าที่:]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="42e15bc3-45ad-4cc0-a3d3-fd2b78f99245" x="517" y="0" width="14" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9637ced0-dcf7-441c-92b4-e8a4b51e248c" x="511" y="0" width="7" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[/
+]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="66e7b095-5e42-4242-9ef9-debae987aa63" x="503" y="20" width="51" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e28c0036-bc42-4f0b-ab3a-cabed3ab2783" x="503" y="0" width="11" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bac82482-7410-468f-9af3-ddfb042a63ba" x="0" y="0" width="179" height="20"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIZZ_SYSTEMDESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="2bca36fb-89a1-43a3-bf9c-6cfc3da73ceb" x="179" y="0" width="120" height="20"/>
+				<box rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMVLUE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0000 %">
+				<reportElement uuid="a74aa99d-6d17-465e-8a24-ef48aabb44ba" x="299" y="0" width="91" height="20"/>
+				<box rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WAGE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0000 %">
+				<reportElement uuid="21895e5b-6cac-405a-ab6f-b935c7ed107f" x="390" y="0" width="85" height="20"/>
+				<box rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0000 %">
+				<reportElement uuid="a485ec87-ae3c-40c7-adf6-50383ecd8611" x="475" y="0" width="80" height="20"/>
+				<box rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WAGE}*$F{RATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="109" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="f4039e2d-e868-4937-bd07-27567d4e0731" x="0" y="0" width="554" height="23"/>
+				<subreportParameter name="date">
+					<subreportParameterExpression><![CDATA[$P{date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["report_invetfinal_2.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="60df077c-c7ec-4acf-a52a-c3403ff3568e" x="0" y="28" width="554" height="21"/>
+				<subreportParameter name="date">
+					<subreportParameterExpression><![CDATA[$P{date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["report_invetfinal_3.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="37265f30-a5b3-4fc6-ab44-cd7e3466515d" x="0" y="55" width="554" height="23"/>
+				<subreportParameter name="date">
+					<subreportParameterExpression><![CDATA[$P{date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["report_invetfinal_4.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

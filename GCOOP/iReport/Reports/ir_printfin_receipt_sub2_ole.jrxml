@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_printfin_receipt_sub2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e880175c-8a70-4127-9402-28041feb1dc0">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_slipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[
+SELECT
+	                MBUCFMEMBGROUP.MEMBGROUP_DESC,
+	                FINSLIP.PAY_TOWHOM,
+				  FINSLIP.ENTRY_DATE,
+	                FINSLIPDET.SLIPITEM_DESC,
+	                FINSLIPDET.ITEMPAY_AMT,
+	                FINSLIP.MEMBER_NO,
+	                CMCOOPCONSTANT.COOP_NAME,
+	                CMCOOPCONSTANT.COOP_ADDR,
+	                CMCOOPCONSTANT.TAMBOL,
+	                CMCOOPCONSTANT.DISTRICT_CODE,
+	                CMCOOPCONSTANT.PROVINCE_CODE,
+	                CMCOOPCONSTANT.POSTCODE,
+	                CMCOOPCONSTANT.COOP_TEL,
+	                CMCOOPCONSTANT.COOP_FAX,
+	                MBUCFDISTRICT.DISTRICT_DESC,
+	                MBUCFPROVINCE.PROVINCE_DESC,
+	                FINSLIP.CASH_TYPE,
+	                MBMEMBMASTER.PROVINCE_CODE,
+	                FINSLIPDET.SEQ_NO,
+	                FINSLIP.RECEIVE_DATE,
+	                FINSLIP.REMARK,
+	                FINSLIP.SLIP_NO,
+	                FINSLIPDET.VAT_AMT,
+	                FINSLIP.MEMBER_FLAG,
+	                AMSECUSERS.FULL_NAME,
+	                FINSLIP.RECEIPT_NO,
+	                MBUCFMEMBGROUP.MEMBGROUP_CODE
+               FROM CMCOOPCONSTANT LEFT JOIN  MBUCFDISTRICT  ON cmcoopconstant.district_code = mbucfdistrict.district_code
+				AND  cmcoopconstant.province_code = mbucfdistrict.province_code
+				LEFT JOIN  MBUCFPROVINCE ON cmcoopconstant.province_code = mbucfprovince.province_code  ,
+				finslip LEFT JOIN  FINSLIPDET ON   FINSLIP.SLIP_NO = FINSLIPDET.SLIP_NO   and FINSLIP.COOP_ID = FINSLIPDET.COOP_ID
+				LEFT JOIN AMSECUSERS ON  AMSECUSERS.USER_NAME = FINSLIP.ENTRY_ID 
+				LEFT JOIN   mbmembmaster ON finslip.member_no = mbmembmaster.member_no
+				LEFT JOIN  mbucfmembgroup  ON mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code
+				WHERE finslip.payment_status <> -9   and
+	       		(rtrim( ltrim(FINSLIP.SLIP_NO)) =$P{as_slipno})]]>
+	</queryString>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="PAY_TOWHOM" class="java.lang.String"/>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="ITEMPAY_AMT" class="java.math.BigDecimal"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<field name="COOP_ADDR" class="java.lang.String"/>
+	<field name="TAMBOL" class="java.lang.String"/>
+	<field name="DISTRICT_CODE" class="java.lang.String"/>
+	<field name="PROVINCE_CODE" class="java.lang.String"/>
+	<field name="POSTCODE" class="java.lang.String"/>
+	<field name="COOP_TEL" class="java.lang.String"/>
+	<field name="COOP_FAX" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<field name="PROVINCE_DESC" class="java.lang.String"/>
+	<field name="CASH_TYPE" class="java.lang.String"/>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="RECEIVE_DATE" class="java.sql.Timestamp"/>
+	<field name="REMARK" class="java.lang.String"/>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="VAT_AMT" class="java.math.BigDecimal"/>
+	<field name="MEMBER_FLAG" class="java.math.BigDecimal"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="RECEIPT_NO" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a18ee91f-4dc8-4893-8b37-d750c57ad834" x="0" y="0" width="320" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIPITEM_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="d2990bcc-87f3-4a9f-b16f-dc538d8a0ace" x="320" y="0" width="121" height="18"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMPAY_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

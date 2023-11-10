@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="iscoslpConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="iscoslpConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.iscoslpConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataDsListTableAdapter" GeneratorDataComponentClassName="DataDsListTableAdapter" Name="DataDsList" UserDataComponentName="DataDsListTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="iscoslpConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT DPDEPTMASTER.DEPTACCOUNT_NO, DPDEPTMASTER.DEPTACCOUNT_NAME, DPDEPTTRAN.DEPTITEM_AMT, MBMEMBMASTER.MEMB_NAME, MBMEMBMASTER.MEMB_SURNAME, ' ' AS FULLNAME, 
+                  MBMEMBMASTER.MEMBER_NO
+FROM     DPDEPTTRAN, DPDEPTMASTER, MBMEMBMASTER
+WHERE  DPDEPTTRAN.COOP_ID = DPDEPTMASTER.COOP_ID AND DPDEPTTRAN.COOP_ID = MBMEMBMASTER.COOP_ID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="DEPTACCOUNT_NO" DataSetColumn="DEPTACCOUNT_NO" />
+              <Mapping SourceColumn="DEPTACCOUNT_NAME" DataSetColumn="DEPTACCOUNT_NAME" />
+              <Mapping SourceColumn="DEPTITEM_AMT" DataSetColumn="DEPTITEM_AMT" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="FULLNAME" DataSetColumn="FULLNAME" />
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataDsMain" msprop:Generator_TableClassName="DataDsMainDataTable" msprop:Generator_TableVarName="tableDataDsMain" msprop:Generator_TablePropName="DataDsMain" msprop:Generator_RowDeletingName="DataDsMainRowDeleting" msprop:Generator_RowChangingName="DataDsMainRowChanging" msprop:Generator_RowEvHandlerName="DataDsMainRowChangeEventHandler" msprop:Generator_RowDeletedName="DataDsMainRowDeleted" msprop:Generator_UserTableName="DataDsMain" msprop:Generator_RowChangedName="DataDsMainRowChanged" msprop:Generator_RowEvArgName="DataDsMainRowChangeEvent" msprop:Generator_RowClassName="DataDsMainRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="process_tdate" msprop:Generator_ColumnVarNameInTable="columnprocess_tdate" msprop:Generator_ColumnPropNameInRow="process_tdate" msprop:Generator_ColumnPropNameInTable="process_tdateColumn" msprop:Generator_UserColumnName="process_tdate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="process_date" msprop:Generator_ColumnVarNameInTable="columnprocess_date" msprop:Generator_ColumnPropNameInRow="process_date" msprop:Generator_ColumnPropNameInTable="process_dateColumn" msprop:Generator_UserColumnName="process_date" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="system_code" msprop:Generator_ColumnVarNameInTable="columnsystem_code" msprop:Generator_ColumnPropNameInRow="system_code" msprop:Generator_ColumnPropNameInTable="system_codeColumn" msprop:Generator_UserColumnName="system_code" type="xs:string" minOccurs="0" />
+              <xs:element name="member_flag" msprop:Generator_ColumnVarNameInTable="columnmember_flag" msprop:Generator_ColumnPropNameInRow="member_flag" msprop:Generator_ColumnPropNameInTable="member_flagColumn" msprop:Generator_UserColumnName="member_flag" type="xs:decimal" default="0" minOccurs="0" />
+              <xs:element name="member_no" msprop:Generator_ColumnVarNameInTable="columnmember_no" msprop:Generator_ColumnPropNameInRow="member_no" msprop:Generator_ColumnPropNameInTable="member_noColumn" msprop:Generator_UserColumnName="member_no" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DataDsList" msprop:Generator_TableClassName="DataDsListDataTable" msprop:Generator_TableVarName="tableDataDsList" msprop:Generator_TablePropName="DataDsList" msprop:Generator_RowDeletingName="DataDsListRowDeleting" msprop:Generator_RowChangingName="DataDsListRowChanging" msprop:Generator_RowEvHandlerName="DataDsListRowChangeEventHandler" msprop:Generator_RowDeletedName="DataDsListRowDeleted" msprop:Generator_UserTableName="DataDsList" msprop:Generator_RowChangedName="DataDsListRowChanged" msprop:Generator_RowEvArgName="DataDsListRowChangeEvent" msprop:Generator_RowClassName="DataDsListRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DEPTACCOUNT_NO" msprop:Generator_ColumnVarNameInTable="columnDEPTACCOUNT_NO" msprop:Generator_ColumnPropNameInRow="DEPTACCOUNT_NO" msprop:Generator_ColumnPropNameInTable="DEPTACCOUNT_NOColumn" msprop:Generator_UserColumnName="DEPTACCOUNT_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTACCOUNT_NAME" msprop:Generator_ColumnVarNameInTable="columnDEPTACCOUNT_NAME" msprop:Generator_ColumnPropNameInRow="DEPTACCOUNT_NAME" msprop:Generator_ColumnPropNameInTable="DEPTACCOUNT_NAMEColumn" msprop:Generator_UserColumnName="DEPTACCOUNT_NAME">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTITEM_AMT" msprop:Generator_ColumnVarNameInTable="columnDEPTITEM_AMT" msprop:Generator_ColumnPropNameInRow="DEPTITEM_AMT" msprop:Generator_ColumnPropNameInTable="DEPTITEM_AMTColumn" msprop:Generator_UserColumnName="DEPTITEM_AMT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FULLNAME" msprop:Generator_ColumnVarNameInTable="columnFULLNAME" msprop:Generator_ColumnPropNameInRow="FULLNAME" msprop:Generator_ColumnPropNameInTable="FULLNAMEColumn" msprop:Generator_UserColumnName="FULLNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

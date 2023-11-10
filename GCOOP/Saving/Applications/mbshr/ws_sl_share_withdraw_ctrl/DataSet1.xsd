@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="SHSHAREMASTERTableAdapter" GeneratorDataComponentClassName="SHSHAREMASTERTableAdapter" Name="SHSHAREMASTER" UserDataComponentName="SHSHAREMASTERTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>  SELECT MBMEMBMASTER.MEMBER_NO,   
+         MBUCFPRENAME.PRENAME_DESC,   
+         MBMEMBMASTER.MEMB_NAME,   
+         MBMEMBMASTER.MEMB_SURNAME,   
+         MBMEMBMASTER.MEMBGROUP_CODE,   
+         MBMEMBMASTER.RESIGN_DATE,   
+         SHSHAREMASTER.SHARETYPE_CODE,   
+         SHSHAREMASTER.SHARESTK_AMT,   
+         SHSHAREMASTER.SHAREMASTER_STATUS,   
+         SHSHARETYPE.UNITSHARE_VALUE,   
+         0 as operate_flag  
+    FROM MBMEMBMASTER,   
+         SHSHAREMASTER,   
+         MBUCFPRENAME,   
+         SHSHARETYPE,   
+         MBREQRESIGN  
+   WHERE ( SHSHAREMASTER.MEMBER_NO = MBMEMBMASTER.MEMBER_NO ) and  
+         ( MBMEMBMASTER.PRENAME_CODE = MBUCFPRENAME.PRENAME_CODE ) and  
+         ( SHSHAREMASTER.SHARETYPE_CODE = SHSHARETYPE.SHARETYPE_CODE ) and  
+         ( MBMEMBMASTER.COOP_ID = SHSHAREMASTER.COOP_ID ) and  
+         ( SHSHAREMASTER.COOP_ID = SHSHARETYPE.COOP_ID )  </CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+              <Mapping SourceColumn="PRENAME_DESC" DataSetColumn="PRENAME_DESC" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="MEMBGROUP_CODE" DataSetColumn="MEMBGROUP_CODE" />
+              <Mapping SourceColumn="RESIGN_DATE" DataSetColumn="RESIGN_DATE" />
+              <Mapping SourceColumn="SHARETYPE_CODE" DataSetColumn="SHARETYPE_CODE" />
+              <Mapping SourceColumn="SHARESTK_AMT" DataSetColumn="SHARESTK_AMT" />
+              <Mapping SourceColumn="SHAREMASTER_STATUS" DataSetColumn="SHAREMASTER_STATUS" />
+              <Mapping SourceColumn="UNITSHARE_VALUE" DataSetColumn="UNITSHARE_VALUE" />
+              <Mapping SourceColumn="OPERATE_FLAG" DataSetColumn="OPERATE_FLAG" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SHSHAREMASTER" msprop:Generator_TableClassName="SHSHAREMASTERDataTable" msprop:Generator_TableVarName="tableSHSHAREMASTER" msprop:Generator_RowChangedName="SHSHAREMASTERRowChanged" msprop:Generator_TablePropName="SHSHAREMASTER" msprop:Generator_RowDeletingName="SHSHAREMASTERRowDeleting" msprop:Generator_RowChangingName="SHSHAREMASTERRowChanging" msprop:Generator_RowEvHandlerName="SHSHAREMASTERRowChangeEventHandler" msprop:Generator_RowDeletedName="SHSHAREMASTERRowDeleted" msprop:Generator_RowClassName="SHSHAREMASTERRow" msprop:Generator_UserTableName="SHSHAREMASTER" msprop:Generator_RowEvArgName="SHSHAREMASTERRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRENAME_DESC" msprop:Generator_ColumnVarNameInTable="columnPRENAME_DESC" msprop:Generator_ColumnPropNameInRow="PRENAME_DESC" msprop:Generator_ColumnPropNameInTable="PRENAME_DESCColumn" msprop:Generator_UserColumnName="PRENAME_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBGROUP_CODE" msprop:Generator_ColumnVarNameInTable="columnMEMBGROUP_CODE" msprop:Generator_ColumnPropNameInRow="MEMBGROUP_CODE" msprop:Generator_ColumnPropNameInTable="MEMBGROUP_CODEColumn" msprop:Generator_UserColumnName="MEMBGROUP_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RESIGN_DATE" msprop:Generator_ColumnVarNameInTable="columnRESIGN_DATE" msprop:Generator_ColumnPropNameInRow="RESIGN_DATE" msprop:Generator_ColumnPropNameInTable="RESIGN_DATEColumn" msprop:Generator_UserColumnName="RESIGN_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="SHARETYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnSHARETYPE_CODE" msprop:Generator_ColumnPropNameInRow="SHARETYPE_CODE" msprop:Generator_ColumnPropNameInTable="SHARETYPE_CODEColumn" msprop:Generator_UserColumnName="SHARETYPE_CODE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SHARESTK_AMT" msprop:Generator_ColumnVarNameInTable="columnSHARESTK_AMT" msprop:Generator_ColumnPropNameInRow="SHARESTK_AMT" msprop:Generator_ColumnPropNameInTable="SHARESTK_AMTColumn" msprop:Generator_UserColumnName="SHARESTK_AMT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SHAREMASTER_STATUS" msprop:Generator_ColumnVarNameInTable="columnSHAREMASTER_STATUS" msprop:Generator_ColumnPropNameInRow="SHAREMASTER_STATUS" msprop:Generator_ColumnPropNameInTable="SHAREMASTER_STATUSColumn" msprop:Generator_UserColumnName="SHAREMASTER_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="UNITSHARE_VALUE" msprop:Generator_ColumnVarNameInTable="columnUNITSHARE_VALUE" msprop:Generator_ColumnPropNameInRow="UNITSHARE_VALUE" msprop:Generator_ColumnPropNameInTable="UNITSHARE_VALUEColumn" msprop:Generator_UserColumnName="UNITSHARE_VALUE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OPERATE_FLAG" msprop:Generator_ColumnVarNameInTable="columnOPERATE_FLAG" msprop:Generator_ColumnPropNameInRow="OPERATE_FLAG" msprop:Generator_ColumnPropNameInTable="OPERATE_FLAGColumn" msprop:Generator_UserColumnName="OPERATE_FLAG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cp_mbname" msdata:ReadOnly="true" msdata:Expression="prename_desc + memb_name +'  '+ memb_surname " msprop:Generator_ColumnVarNameInTable="columncp_mbname" msprop:Generator_ColumnPropNameInRow="cp_mbname" msprop:Generator_ColumnPropNameInTable="cp_mbnameColumn" msprop:Generator_UserColumnName="cp_mbname" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_shareamt" msdata:ReadOnly="true" msdata:Expression="  sharestk_amt  * unitshare_value " msprop:Generator_ColumnVarNameInTable="columncp_shareamt" msprop:Generator_ColumnPropNameInRow="cp_shareamt" msprop:Generator_ColumnPropNameInTable="cp_shareamtColumn" msprop:Generator_UserColumnName="cp_shareamt" type="xs:decimal" minOccurs="0" />
+              <xs:element name="checkselect" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columncheckselect" msprop:Generator_ColumnPropNameInRow="checkselect" msprop:Generator_ColumnPropNameInTable="checkselectColumn" msprop:Generator_UserColumnName="checkselect" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cp_sharemasterstatus" msdata:ReadOnly="true" msdata:Expression="iif( SHAREMASTER_STATUS = 8 , 'รอจัดสรร' , iif( SHAREMASTER_STATUS = 5 ,'หุ้นค้าง', 'ลาออก' ) )" msprop:Generator_ColumnVarNameInTable="columncp_sharemasterstatus" msprop:Generator_ColumnPropNameInRow="cp_sharemasterstatus" msprop:Generator_ColumnPropNameInTable="cp_sharemasterstatusColumn" msprop:Generator_UserColumnName="cp_sharemasterstatus" type="xs:string" minOccurs="0" />
+              <xs:element name="coop_id" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columncoop_id" msprop:Generator_ColumnPropNameInRow="coop_id" msprop:Generator_ColumnPropNameInTable="coop_idColumn" msprop:Generator_UserColumnName="coop_id" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper_subreport7_subreport1" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bc7b4bdc-b354-40e7-b0ad-b1392043c847">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loanreq_docno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+'LON' as itemtype,
+lnreqloanclr.loancontract_no,
+lnreqloanclr.loancontract_no as description,
+lnreqloanclr.loanpayment_type,
+nvl(lnreqloanclr.rkeep_interest,0) as rkeep_interest,
+nvl(lnreqloanclr.rkeep_principal,0) as rkeep_principal,
+nvl(loan.interest_payment,0) as intestimate_amt,
+nvl(lnreqloanclr.period_payment,0) as period_payment
+from
+lnreqloan ,
+lnreqloanclr ,
+lnreqloanclrother,
+(select loancontract_no,interest_payment from kptempreceivedet where recv_period = to_char(sysdate,'yyyymm')) loan
+where
+lnreqloan.coop_id = lnreqloanclr.coop_id (+) and
+lnreqloan.coop_id = lnreqloanclrother.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanclr.loanrequest_docno (+) and
+lnreqloan.loanrequest_docno = lnreqloanclrother.loanrequest_docno (+) and
+lnreqloanclr.loancontract_no = loan.loancontract_no (+) and
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno} and
+lnreqloanclr.clear_status = '0'
+union
+select 'ETC',
+	lnreqloanmthexp.mthexp_code,
+         lnreqloanmthexp.mthexp_desc,
+         0,
+		0,
+		0,
+		0,
+		nvl(lnreqloanmthexp.mthexp_amt,0) as mthexp_amt
+from lnreqloanmthexp
+where ( ( lnreqloanmthexp.coop_id = $P{as_coop_id} ) and
+(lnreqloanmthexp.clear_status = '0') and
+ ( lnreqloanmthexp.loanrequest_docno = $P{as_loanreq_docno} ) )]]>
+	</queryString>
+	<field name="ITEMTYPE" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="LOANPAYMENT_TYPE" class="java.math.BigDecimal"/>
+	<field name="RKEEP_INTEREST" class="java.math.BigDecimal"/>
+	<field name="RKEEP_PRINCIPAL" class="java.math.BigDecimal"/>
+	<field name="INTESTIMATE_AMT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<sortField name="ITEMTYPE" order="Descending"/>
+	<sortField name="LOANCONTRACT_NO"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="f0e54550-63c8-4e05-b9da-acf5f69eea5f" x="126" y="0" width="103" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{RKEEP_INTEREST}!=0 ? $F{RKEEP_PRINCIPAL} : ( $F{LOANPAYMENT_TYPE} == 0 ? $F{PERIOD_PAYMENT}-$F{INTESTIMATE_AMT} :
+( $F{LOANPAYMENT_TYPE} == 1 ? $F{PERIOD_PAYMENT} :
+( $F{LOANPAYMENT_TYPE} == 2 ? $F{PERIOD_PAYMENT}-$F{INTESTIMATE_AMT} :
+( $F{LOANPAYMENT_TYPE} == 3 ? $F{PERIOD_PAYMENT}-$F{INTESTIMATE_AMT} : 0
+)
+)
+)
+) )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="788f5805-3523-4a9c-8df3-f48145b7c850" x="2" y="0" width="240" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a40532ac-39dd-4768-b1a7-cf9adaefbd1a" x="235" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{RKEEP_INTEREST}!=0 ? $F{RKEEP_INTEREST} : $F{INTESTIMATE_AMT} )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="259fc28b-07b2-4547-b977-5ddd63a2e62a" x="344" y="0" width="10" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c6baaf3b-1576-47da-b3aa-dc1aa8fc7caf" x="278" y="0" width="13" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[(]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

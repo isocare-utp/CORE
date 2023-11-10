@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project MSBuildVersion="2.0" ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ResolveAssemblyReferences" />
+  <PropertyGroup>
+    <Name>userservice</Name>
+    <SchemaVersion>2</SchemaVersion>
+    <ProjectGuid>{c46729bf-ec98-4db3-bb71-4c9171552a07}</ProjectGuid>
+    <Comment>
+    </Comment>
+    <CreateNewFolder>true</CreateNewFolder>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Platform>AnyCPU</Platform>
+    <AssemblyName>userservice</AssemblyName>
+    <RootNamespace>userservice</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <ProjectTypeGuids>{1e00f043-675d-11d2-bca5-000086095dda};{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{1e00f043-675a-11d2-bca5-000086095dda}</ProjectTypeGuids>
+    <PBOriginalVersion>12.5.2</PBOriginalVersion>
+    <ReferencePath>$(DevEnvDir)\DotNET\bin</ReferencePath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>.\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="app.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ItemType>ApplicationDefinition</ItemType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="d_um_apps.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_egroup.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_euser.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_group.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_groupapps.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_grouppages.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_groups.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_groupusers.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_report_useractivity.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_report_useractivity_cri.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_report_userpermiss.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_report_userpermiss_cri.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_user.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_userapps.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_userpages.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_userpermiss.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_um_users.srd">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="n_cst_user_service.sru">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sybase\PowerBuilder\12.5\PowerBuilder.targets" />
+</Project>

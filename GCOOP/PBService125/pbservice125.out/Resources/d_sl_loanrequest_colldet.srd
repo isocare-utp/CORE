@@ -1,0 +1,80 @@
+$PBExportHeader$d_sl_loanrequest_colldet.srd
+$PBExportComments$dw สำหรับแสดงรายละเอียดหลักประกันเงินกู้
+release 11;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.preview.outline=yes hidegrayline=no showbackcoloronxp=no )
+header(height=0 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=504 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes key=yes name=loanrequest_docno dbname="lnreqloancoll.loanrequest_docno" dbalias=".loanrequest_docno" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=seq_no dbname="lnreqloancoll.seq_no" dbalias=".seq_no" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=loancolltype_code dbname="lnreqloancoll.loancolltype_code" dbalias=".loancolltype_code" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=ref_collno dbname="lnreqloancoll.ref_collno" dbalias=".ref_collno" )
+ column=(type=char(500) update=yes updatewhereclause=yes name=description dbname="lnreqloancoll.description" dbalias=".description" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=coll_amt dbname="lnreqloancoll.coll_amt" dbalias=".coll_amt" )
+ column=(type=decimal(2) updatewhereclause=yes name=coll_useamt dbname="lnreqloancoll.coll_useamt" dbalias=".coll_useamt" )
+ column=(type=decimal(2) updatewhereclause=yes name=coll_lockamt dbname="lnreqloancoll.coll_lockamt" dbalias=".coll_lockamt" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=coll_balance dbname="lnreqloancoll.coll_balance" dbalias=".coll_balance" )
+ column=(type=decimal(4) updatewhereclause=yes name=base_percent dbname="lnreqloancoll.base_percent" dbalias=".base_percent" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=use_amt dbname="lnreqloancoll.use_amt" dbalias=".use_amt" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=coll_percent dbname="lnreqloancoll.coll_percent" dbalias=".coll_percent" )
+ column=(type=char(8) updatewhereclause=yes name=birth_tdate dbname="birth_tdate" )
+ column=(type=char(8) updatewhereclause=yes name=member_tdate dbname="member_tdate" )
+ column=(type=char(8) updatewhereclause=yes name=retry_tdate dbname="retry_tdate" )
+ column=(type=char(8) updatewhereclause=yes name=work_tdate dbname="work_tdate" )
+ column=(type=number updatewhereclause=yes name=birth_age dbname="birth_age" )
+ column=(type=number updatewhereclause=yes name=member_age dbname="member_age" )
+ column=(type=number updatewhereclause=yes name=retry_age dbname="retry_age" )
+ column=(type=number updatewhereclause=yes name=work_age dbname="work_age" )
+ retrieve="SELECT ~"LNREQLOANCOLL~".~"LOANREQUEST_DOCNO~",   
+         ~"LNREQLOANCOLL~".~"SEQ_NO~",   
+         ~"LNREQLOANCOLL~".~"LOANCOLLTYPE_CODE~",   
+         ~"LNREQLOANCOLL~".~"REF_COLLNO~",   
+         ~"LNREQLOANCOLL~".~"DESCRIPTION~",   
+         ~"LNREQLOANCOLL~".~"COLL_AMT~",   
+         ~"LNREQLOANCOLL~".~"COLL_USEAMT~",   
+         ~"LNREQLOANCOLL~".~"COLL_LOCKAMT~",   
+         ~"LNREQLOANCOLL~".~"COLL_BALANCE~",   
+         ~"LNREQLOANCOLL~".~"BASE_PERCENT~",   
+         ~"LNREQLOANCOLL~".~"USE_AMT~",   
+         ~"LNREQLOANCOLL~".~"COLL_PERCENT~",   
+         '        ' as birth_tdate,   
+         '        ' as member_tdate,   
+         '        ' as retry_tdate,   
+         '        ' as work_tdate,   
+         0.00 as birth_age,   
+         0.00 as member_age,   
+         0.00 as retry_age,   
+         0.00 as work_age  
+    FROM ~"LNREQLOANCOLL~"  
+   WHERE lnreqloancoll.loanrequest_docno = :as_reqno    
+" update="LNREQLOANCOLL" updatewhere=1 updatekeyinplace=no arguments=(("as_reqno", string)) )
+text(band=detail alignment="0" text="วงเงินค้ำประกัน" border="0" color="0" x="14" y="212" height="76" width="411" html.valueishtml="0"  name=t_1 visible="1"  font.face="Tahoma" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="2" color="255" x="535" y="392" height="76" width="658" format="#,##0.00" html.valueishtml="0"  name=coll_useamt visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="coll_balance / base_percent"border="2" color="65535" x="1769" y="296" height="76" width="658" format="#,##0.00" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Tahoma" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="2" color="65280" x="1769" y="392" height="76" width="658" format="#,##0.00" html.valueishtml="0"  name=coll_balance visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+text(band=detail alignment="2" text="-" border="0" color="0" x="818" y="8" height="76" width="41" html.valueishtml="0"  name=t_2 visible="1"  font.face="Tahoma" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="2" text="-" border="0" color="0" x="818" y="108" height="76" width="41" html.valueishtml="0"  name=t_4 visible="1"  font.face="Tahoma" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="878" y="8" height="76" width="1545" format="[general]" html.valueishtml="0"  name=loancolltype_code_1 visible="1" dddw.name=dddw_sl_ucf_loancolltype dddw.displaycolumn=loancolltype_desc dddw.datacolumn=loancolltype_code dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=10 border="2" color="0" x="878" y="104" height="76" width="1545" format="[general]" html.valueishtml="0"  name=description visible="1" edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="" border="0" color="16777215" x="2441" y="72" height="76" width="41" html.valueishtml="0"  name=t_3 visible="1"  font.face="Tahoma" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+text(band=detail alignment="1" text="ประเภทหลักประกัน:" border="2" color="0" x="9" y="8" height="76" width="494" html.valueishtml="0"  name=loancolltype_code_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33548243" )
+text(band=detail alignment="1" text="เลขที่อ้างอิง:" border="2" color="0" x="9" y="104" height="76" width="494" html.valueishtml="0"  name=ref_collno_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33548243" )
+text(band=detail alignment="1" text="วงเงินค้ำประกัน:" border="2" color="0" x="14" y="296" height="76" width="494" html.valueishtml="0"  name=coll_amt_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33548243" )
+text(band=detail alignment="1" text="วงเงินใช้ไป:" border="2" color="0" x="14" y="392" height="76" width="494" html.valueishtml="0"  name=t_8 visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33548243" )
+text(band=detail alignment="1" text="วงเงินค้ำคงเหลือ:" border="2" color="0" x="1248" y="296" height="76" width="494" html.valueishtml="0"  name=coll_balance_t visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33548243" )
+compute(band=detail alignment="1" expression="~"ค้ำได้ ~"+string( base_percent, ~"#,##0.00%~" )"border="2" color="0" x="1248" y="392" height="76" width="494" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Tahoma" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33548243" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="2" color="0" x="535" y="296" height="76" width="658" format="#,##0.00" html.valueishtml="0"  name=coll_amt visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="2" color="0" x="535" y="104" height="76" width="261" format="[general]" html.valueishtml="0"  name=ref_collno visible="1" edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="535" y="8" height="76" width="261" format="[general]" html.valueishtml="0"  name=loancolltype_code visible="1" edit.limit=2 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,232 @@
+$PBExportHeader$d_lnsrv_req_rqloan.srd
+release 12.5;
+datawindow(units=0 color=16777215 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=0 )
+detail(height=3200 )
+summary(height=508 )
+footer(height=284 )
+table(column=(name=loanrequest_tdate dbname="loanrequest_tdate" type=char(10) updatewhereclause=yes )
+column=(name=loanrcvfix_tdate dbname="loanrcvfix_tdate" type=char(10) updatewhereclause=yes )
+column=(name=member_name dbname="member_name" type=char(153) updatewhereclause=yes )
+column=(name=membgroup_code dbname="mbmembmaster.membgroup_code" type=char(14) updatewhereclause=yes )
+column=(name=membgroup_desc dbname="mbucfmembgroup.membgroup_desc" type=char(255) updatewhereclause=yes )
+column=(name=membtype_code dbname="mbmembmaster.membtype_code" type=char(2) updatewhereclause=yes )
+column=(name=membtype_desc dbname="mbucfmembtype.membtype_desc" type=char(60) updatewhereclause=yes )
+column=(name=member_type dbname="mbmembmaster.member_type" type=decimal(0) updatewhereclause=yes initial="1" )
+column=(name=birth_date dbname="mbmembmaster.birth_date" type=datetime updatewhereclause=yes )
+column=(name=work_date dbname="mbmembmaster.work_date" type=datetime updatewhereclause=yes )
+column=(name=member_date dbname="mbmembmaster.member_date" type=datetime updatewhereclause=yes )
+column=(name=retry_date dbname="mbmembmaster.retry_date" type=datetime updatewhereclause=yes )
+column=(name=retry_status dbname="mbmembmaster.retry_status" type=decimal(0) updatewhereclause=yes )
+column=(name=rememb_flag dbname="mbmembmaster.rememb_flag" type=decimal(0) updatewhereclause=yes )
+column=(name=loanright_type dbname="lnloantype.loanright_type" type=decimal(0) updatewhereclause=yes )
+column=(name=retryloansend_type dbname="lnloantype.retryloansend_type" type=decimal(0) updatewhereclause=yes )
+column=(name=payround_factor dbname="lnloantype.payround_factor" type=decimal(0) updatewhereclause=yes )
+column=(name=reqround_factor dbname="lnloantype.reqround_factor" type=decimal(0) updatewhereclause=yes )
+column=(name=fixpaycal_type dbname="lnloanconstant.fixpaycal_type" type=decimal(0) updatewhereclause=yes )
+column=(name=member_remark dbname="mbmembmaster.member_remark" type=char(500) updatewhereclause=yes )
+column=(name=coop_id dbname="lnreqloan.coop_id" type=char(6) key=yes update=yes updatewhereclause=yes )
+column=(name=loanrequest_docno dbname="lnreqloan.loanrequest_docno" type=char(10) key=yes update=yes updatewhereclause=yes initial="Auto" )
+column=(name=memcoop_id dbname="lnreqloan.memcoop_id" type=char(6) update=yes updatewhereclause=yes )
+column=(name=member_no dbname="lnreqloan.member_no" type=char(8) update=yes updatewhereclause=yes )
+column=(name=loantype_code dbname="lnreqloan.loantype_code" type=char(2) update=yes updatewhereclause=yes )
+column=(name=loanrequest_date dbname="lnreqloan.loanrequest_date" type=datetime update=yes updatewhereclause=yes )
+column=(name=loanrcvfix_flag dbname="lnreqloan.loanrcvfix_flag" type=decimal(0) update=yes updatewhereclause=yes initial="1" values="ระบุวันจ่าย:	1/ระบุวันจ่าย:	0/" )
+column=(name=loanrcvfix_date dbname="lnreqloan.loanrcvfix_date" type=datetime update=yes updatewhereclause=yes )
+column=(name=ref_contmastno dbname="lnreqloan.ref_contmastno" type=char(15) update=yes updatewhereclause=yes values="<ไม่มีสัญญาหลัก>	/" )
+column=(name=ref_registerno dbname="lnreqloan.ref_registerno" type=char(15) update=yes updatewhereclause=yes )
+column=(name=loanreqregis_amt dbname="lnreqloan.loanreqregis_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loancredit_amt dbname="lnreqloan.loancredit_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loangrpcredit_amt dbname="lnreqloan.loangrpcredit_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loangrpuse_amt dbname="lnreqloan.loangrpuse_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loanpermiss_amt dbname="lnreqloan.loanpermiss_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loanrequest_amt dbname="lnreqloan.loanrequest_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=maxperiod_payamt dbname="lnreqloan.maxperiod_payamt" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=maxsend_payamt dbname="lnreqloan.maxsend_payamt" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=loanpayment_type dbname="lnreqloan.loanpayment_type" type=decimal(0) update=yes updatewhereclause=yes initial="1" values="คงต้น	1/คงยอด	2/" )
+column=(name=period_payamt dbname="lnreqloan.period_payamt" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=period_payment dbname="lnreqloan.period_payment" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=period_lastpayment dbname="lnreqloan.period_lastpayment" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=custompayment_flag dbname="lnreqloan.custompayment_flag" type=decimal(0) update=yes updatewhereclause=yes initial="0" values="กำหนดงวดเอง	1/กำหนดงวดเอง	0/" )
+column=(name=lnoverretry_status dbname="lnreqloan.lnoverretry_status" type=decimal(0) updatewhereclause=yes )
+column=(name=lnoverretry_period dbname="lnreqloan.lnoverretry_period" type=decimal(0) updatewhereclause=yes )
+column=(name=birth_age dbname="lnreqloan.birth_age" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=retry_age dbname="lnreqloan.retry_age" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=member_age dbname="lnreqloan.member_age" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=work_age dbname="lnreqloan.work_age" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=share_lastperiod dbname="lnreqloan.share_lastperiod" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=share_periodvalue dbname="lnreqloan.share_periodvalue" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=share_balance dbname="lnreqloan.share_balance" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=salary_amt dbname="lnreqloan.salary_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=paymonth_coop dbname="lnreqloan.paymonth_coop" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=paymonth_lnreq dbname="lnreqloan.paymonth_lnreq" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=paymonth_exp dbname="lnreqloan.paymonth_exp" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=paymonth_other dbname="lnreqloan.paymonth_other" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=incomemonth_fixed dbname="lnreqloan.incomemonth_fixed" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=incomemonth_other dbname="lnreqloan.incomemonth_other" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=minsalary_amt dbname="lnreqloan.minsalary_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loanrequest_status dbname="lnreqloan.loanrequest_status" type=decimal(0) update=yes updatewhereclause=yes initial="8" values="อนุมัติ	1/รออนุมัติ	8/ไม่อนุมัติ	0/ยกเลิก	-9/" )
+column=(name=loanobjective_code dbname="lnreqloan.loanobjective_code" type=char(3) update=yes updatewhereclause=yes initial="ฮฮฮ" )
+column=(name=expense_code dbname="lnreqloan.expense_code" type=char(3) update=yes updatewhereclause=yes initial="CSH" )
+column=(name=expense_bank dbname="lnreqloan.expense_bank" type=char(3) update=yes updatewhereclause=yes )
+column=(name=expense_branch dbname="lnreqloan.expense_branch" type=char(4) update=yes updatewhereclause=yes )
+column=(name=expense_accid dbname="lnreqloan.expense_accid" type=char(15) update=yes updatewhereclause=yes )
+column=(name=loanpay_code dbname="lnreqloan.loanpay_code" type=char(3) update=yes updatewhereclause=yes )
+column=(name=loanpay_bank dbname="lnreqloan.loanpay_bank" type=char(3) update=yes updatewhereclause=yes )
+column=(name=loanpay_branch dbname="lnreqloan.loanpay_branch" type=char(4) update=yes updatewhereclause=yes )
+column=(name=loanpay_accid dbname="lnreqloan.loanpay_accid" type=char(15) update=yes updatewhereclause=yes )
+column=(name=apvimmediate_status dbname="lnreqloan.apvimmediate_status" type=decimal(0) updatewhereclause=yes )
+column=(name=approve_date dbname="lnreqloan.approve_date" type=datetime update=yes updatewhereclause=yes )
+column=(name=approve_id dbname="lnreqloan.approve_id" type=char(32) update=yes updatewhereclause=yes )
+column=(name=loanapprove_amt dbname="lnreqloan.loanapprove_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=loancontract_no dbname="lnreqloan.loancontract_no" type=char(15) update=yes updatewhereclause=yes )
+column=(name=od_flag dbname="lnreqloan.od_flag" type=decimal(0) update=yes updatewhereclause=yes initial="0" values="วงเงินบัญชี OD	1/วงเงินบัญชี OD	0/" )
+column=(name=entry_id dbname="lnreqloan.entry_id" type=char(32) update=yes updatewhereclause=yes )
+column=(name=entry_date dbname="lnreqloan.entry_date" type=datetime update=yes updatewhereclause=yes )
+column=(name=entry_bycoopid dbname="lnreqloan.entry_bycoopid" type=char(6) updatewhereclause=yes )
+column=(name=remark dbname="lnreqloan.remark" type=char(2000) update=yes updatewhereclause=yes )
+column=(name=int_continttype dbname="lnreqloan.int_continttype" type=decimal(0) update=yes updatewhereclause=yes initial="2" values="ไม่คิดดอกเบี้ย	0/คงที่ตลอด	1/ตามประกาศ	2/อัตราพิเศษเป็นชั้น	3/" )
+column=(name=int_contintrate dbname="lnreqloan.int_contintrate" type=decimal(4) update=yes updatewhereclause=yes initial="0" )
+column=(name=int_continttabcode dbname="lnreqloan.int_continttabcode" type=char(5) update=yes updatewhereclause=yes )
+column=(name=int_contintincrease dbname="lnreqloan.int_contintincrease" type=decimal(4) update=yes updatewhereclause=yes initial="0" )
+column=(name=int_intsteptype dbname="lnreqloan.int_intsteptype" type=decimal(0) update=yes updatewhereclause=yes initial="0" )
+column=(name=identifycont_intrate dbname="lnreqloan.identifycont_intrate" type=decimal(5) updatewhereclause=yes )
+column=(name=intestimate_amt dbname="lnreqloan.intestimate_amt" type=decimal(2) update=yes updatewhereclause=yes initial="0" )
+column=(name=intcertificate_status dbname="lnreqloan.intcertificate_status" type=decimal(0) update=yes updatewhereclause=yes )
+column=(name=contract_time dbname="lnreqloan.contract_time" type=decimal(0) update=yes updatewhereclause=yes initial="0" values="ไม่ระบุ	0/" )
+column=(name=cancel_id dbname="lnreqloan.cancel_id" type=char(20) update=yes updatewhereclause=yes )
+column=(name=cancel_date dbname="lnreqloan.cancel_date" type=datetime update=yes updatewhereclause=yes )
+column=(name=loanpayment_status dbname="lnreqloan.loanpayment_status" type=decimal(0) update=yes updatewhereclause=yes )
+column=(name=subperiod_percent dbname="lnreqloan.subperiod_percent" type=decimal(4) update=yes updatewhereclause=yes )
+column=(name=subperiod_amt dbname="lnreqloan.subperiod_amt" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=subcount_amt dbname="lnreqloan.subcount_amt" type=decimal(0) update=yes updatewhereclause=yes )
+column=(name=subperiod_payment dbname="lnreqloan.subperiod_payment" type=decimal(2) update=yes updatewhereclause=yes )
+column=(name=member_remark dbname="lnreqloan.member_remark" type=char(500) updatewhereclause=yes )
+column=(name=member_ageyear dbname="member_ageyear" type=char(4) updatewhereclause=yes )
+retrieve="  SELECT '          ' as loanrequest_tdate,   
+         '          ' as loanrcvfix_tdate,   
+         mbucfprename.prename_desc||mbmembmaster.memb_name||'   '||mbmembmaster.memb_surname as member_name,   
+         ~"MBMEMBMASTER~".~"MEMBGROUP_CODE~",   
+         ~"MBUCFMEMBGROUP~".~"MEMBGROUP_DESC~",   
+         ~"MBMEMBMASTER~".~"MEMBTYPE_CODE~",   
+         ~"MBUCFMEMBTYPE~".~"MEMBTYPE_DESC~",   
+         ~"MBMEMBMASTER~".~"MEMBER_TYPE~",   
+         ~"MBMEMBMASTER~".~"BIRTH_DATE~",   
+         ~"MBMEMBMASTER~".~"WORK_DATE~",   
+         ~"MBMEMBMASTER~".~"MEMBER_DATE~",   
+         ~"MBMEMBMASTER~".~"RETRY_DATE~",   
+         ~"MBMEMBMASTER~".~"RETRY_STATUS~",   
+         ~"MBMEMBMASTER~".~"REMEMB_FLAG~",   
+         ~"LNLOANTYPE~".~"LOANRIGHT_TYPE~" ,
+         ~"LNLOANTYPE~".~"RETRYLOANSEND_TYPE~",   
+         ~"LNLOANTYPE~".~"PAYROUND_FACTOR~",   
+         ~"LNLOANTYPE~".~"REQROUND_FACTOR~",   
+         ~"LNLOANCONSTANT~".~"FIXPAYCAL_TYPE~",   
+         mbmembmaster.remark as member_remark,   
+         ~"LNREQLOAN~".~"COOP_ID~",   
+         ~"LNREQLOAN~".~"LOANREQUEST_DOCNO~",   
+         ~"LNREQLOAN~".~"MEMCOOP_ID~",   
+         ~"LNREQLOAN~".~"MEMBER_NO~",   
+         ~"LNREQLOAN~".~"LOANTYPE_CODE~",   
+         ~"LNREQLOAN~".~"LOANREQUEST_DATE~",   
+         ~"LNREQLOAN~".~"LOANRCVFIX_FLAG~",   
+         ~"LNREQLOAN~".~"LOANRCVFIX_DATE~",   
+         ~"LNREQLOAN~".~"REF_CONTMASTNO~",   
+         ~"LNREQLOAN~".~"REF_REGISTERNO~",   
+         ~"LNREQLOAN~".~"LOANREQREGIS_AMT~",   
+         ~"LNREQLOAN~".~"LOANCREDIT_AMT~",   
+         ~"LNREQLOAN~".~"LOANGRPCREDIT_AMT~",   
+         ~"LNREQLOAN~".~"LOANGRPUSE_AMT~",   
+         ~"LNREQLOAN~".~"LOANPERMISS_AMT~",   
+         ~"LNREQLOAN~".~"LOANREQUEST_AMT~",   
+         ~"LNREQLOAN~".~"MAXPERIOD_PAYAMT~",   
+         ~"LNREQLOAN~".~"MAXSEND_PAYAMT~",   
+         ~"LNREQLOAN~".~"LOANPAYMENT_TYPE~",   
+         ~"LNREQLOAN~".~"PERIOD_PAYAMT~",   
+         ~"LNREQLOAN~".~"PERIOD_PAYMENT~",   
+         ~"LNREQLOAN~".~"PERIOD_LASTPAYMENT~",   
+         ~"LNREQLOAN~".~"CUSTOMPAYMENT_FLAG~",   
+         ~"LNREQLOAN~".~"LNOVERRETRY_STATUS~",   
+         ~"LNREQLOAN~".~"LNOVERRETRY_PERIOD~",   
+         ~"LNREQLOAN~".~"BIRTH_AGE~",   
+         ~"LNREQLOAN~".~"RETRY_AGE~",   
+         ~"LNREQLOAN~".~"MEMBER_AGE~",   
+         ~"LNREQLOAN~".~"WORK_AGE~",   
+         ~"LNREQLOAN~".~"SHARE_LASTPERIOD~",   
+         ~"LNREQLOAN~".~"SHARE_PERIODVALUE~",   
+         ~"LNREQLOAN~".~"SHARE_BALANCE~",   
+         ~"LNREQLOAN~".~"SALARY_AMT~",   
+         ~"LNREQLOAN~".~"PAYMONTH_COOP~",   
+         ~"LNREQLOAN~".~"PAYMONTH_LNREQ~",   
+         ~"LNREQLOAN~".~"PAYMONTH_EXP~",   
+         ~"LNREQLOAN~".~"PAYMONTH_OTHER~",   
+         ~"LNREQLOAN~".~"INCOMEMONTH_FIXED~",   
+         ~"LNREQLOAN~".~"INCOMEMONTH_OTHER~",   
+         ~"LNREQLOAN~".~"MINSALARY_AMT~",   
+         ~"LNREQLOAN~".~"LOANREQUEST_STATUS~",   
+         ~"LNREQLOAN~".~"LOANOBJECTIVE_CODE~",   
+         ~"LNREQLOAN~".~"EXPENSE_CODE~",   
+         ~"LNREQLOAN~".~"EXPENSE_BANK~",   
+         ~"LNREQLOAN~".~"EXPENSE_BRANCH~",   
+         ~"LNREQLOAN~".~"EXPENSE_ACCID~",   
+         ~"LNREQLOAN~".~"LOANPAY_CODE~",   
+         ~"LNREQLOAN~".~"LOANPAY_BANK~",   
+         ~"LNREQLOAN~".~"LOANPAY_BRANCH~",   
+         ~"LNREQLOAN~".~"LOANPAY_ACCID~",   
+         ~"LNREQLOAN~".~"APVIMMEDIATE_STATUS~",   
+         ~"LNREQLOAN~".~"APPROVE_DATE~",   
+         ~"LNREQLOAN~".~"APPROVE_ID~",   
+         ~"LNREQLOAN~".~"LOANAPPROVE_AMT~",   
+         ~"LNREQLOAN~".~"LOANCONTRACT_NO~",   
+         ~"LNREQLOAN~".~"OD_FLAG~",   
+         ~"LNREQLOAN~".~"ENTRY_ID~",   
+         ~"LNREQLOAN~".~"ENTRY_DATE~",   
+         ~"LNREQLOAN~".~"ENTRY_BYCOOPID~",   
+         ~"LNREQLOAN~".~"REMARK~",   
+         ~"LNREQLOAN~".~"INT_CONTINTTYPE~",   
+         ~"LNREQLOAN~".~"INT_CONTINTRATE~",   
+         ~"LNREQLOAN~".~"INT_CONTINTTABCODE~",   
+         ~"LNREQLOAN~".~"INT_CONTINTINCREASE~",   
+         ~"LNREQLOAN~".~"INT_INTSTEPTYPE~",   
+         ~"LNREQLOAN~".~"IDENTIFYCONT_INTRATE~",   
+         ~"LNREQLOAN~".~"INTESTIMATE_AMT~",   
+         ~"LNREQLOAN~".~"INTCERTIFICATE_STATUS~",   
+         ~"LNREQLOAN~".~"CONTRACT_TIME~",   
+         ~"LNREQLOAN~".~"CANCEL_ID~",   
+         ~"LNREQLOAN~".~"CANCEL_DATE~",
+		~"LNREQLOAN~".~"LOANPAYMENT_STATUS~",   
+         ~"LNREQLOAN~".~"SUBPERIOD_PERCENT~",   
+         ~"LNREQLOAN~".~"SUBPERIOD_AMT~",   
+         ~"LNREQLOAN~".~"SUBCOUNT_AMT~",   
+         ~"LNREQLOAN~".~"SUBPERIOD_PAYMENT~",   
+         ~"LNREQLOAN~".~"MEMBER_REMARK~" ,
+ '    ' as member_ageyear
+    FROM ~"LNREQLOAN~",   
+         ~"MBMEMBMASTER~",   
+         ~"MBUCFPRENAME~",   
+         ~"MBUCFMEMBGROUP~",   
+         ~"MBUCFMEMBTYPE~",   
+         ~"LNLOANTYPE~",   
+         ~"LNLOANCONSTANT~"  
+   WHERE ( ~"LNREQLOAN~".~"COOP_ID~" = ~"MBMEMBMASTER~".~"COOP_ID~" ) and  
+         ( ~"LNREQLOAN~".~"MEMBER_NO~" = ~"MBMEMBMASTER~".~"MEMBER_NO~" ) and  
+         ( ~"LNREQLOAN~".~"MEMCOOP_ID~" = ~"MBMEMBMASTER~".~"COOP_ID~" ) and  
+         ( ~"MBMEMBMASTER~".~"PRENAME_CODE~" = ~"MBUCFPRENAME~".~"PRENAME_CODE~" ) and  
+         ( ~"MBMEMBMASTER~".~"COOP_ID~" = ~"MBUCFMEMBTYPE~".~"COOP_ID~" ) and  
+         ( ~"MBMEMBMASTER~".~"MEMBTYPE_CODE~" = ~"MBUCFMEMBTYPE~".~"MEMBTYPE_CODE~" ) and  
+         ( ~"MBMEMBMASTER~".~"COOP_ID~" = ~"MBUCFMEMBGROUP~".~"COOP_ID~" ) and  
+         ( ~"MBMEMBMASTER~".~"MEMBGROUP_CODE~" = ~"MBUCFMEMBGROUP~".~"MEMBGROUP_CODE~" ) and  
+         ( ~"LNREQLOAN~".~"COOP_ID~" = ~"LNLOANTYPE~".~"COOP_ID~" ) and  
+         ( ~"LNREQLOAN~".~"LOANTYPE_CODE~" = ~"LNLOANTYPE~".~"LOANTYPE_CODE~" ) and  
+         ( ~"LNREQLOAN~".~"COOP_ID~" = ~"LNLOANCONSTANT~".~"COOP_ID~" ) and  
+         ( ( lnreqloan.coop_id = :as_coopid ) AND  
+         ( lnreqloan.loanrequest_docno = :as_docno ) )    
+" update="LNREQLOAN" updatewhere=0 arguments=(("as_coopid",string), ("as_docno",string))
+)
+column(name=loanpayment_status band=detail x="0" y="0" height="64" width="2135" id=92 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=subperiod_percent band=detail x="2135" y="0" height="64" width="2135" id=93 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=subperiod_amt band=detail x="4270" y="0" height="64" width="2135" id=94 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=subcount_amt band=detail x="6405" y="0" height="64" width="2135" id=95 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=subperiod_payment band=detail x="8539" y="0" height="64" width="2135" id=96 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=member_remark band=detail x="10674" y="0" height="64" width="4937" id=97 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=member_ageyear band=detail x="15611" y="0" height="64" width="27" id=98 border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" edit.autoselect=no edit.focusrectangle=no )

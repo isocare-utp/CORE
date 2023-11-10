@@ -1,0 +1,79 @@
+$PBExportHeader$d_vc_vcedit_vcdetail_service.srd
+release 12.5;
+datawindow(units=0 color=16777215 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=104 )
+detail(height=104 )
+summary(height=0 )
+footer(height=0 )
+table(column=(name=voucher_no dbname="VCVOUCHERDET.VOUCHER_NO" type=char(10) updatewhereclause=yes )
+column=(name=seq_no dbname="VCVOUCHERDET.SEQ_NO" type=decimal(0) updatewhereclause=yes )
+column=(name=system_code dbname="VCVOUCHERDET.SYSTEM_CODE" type=char(3) updatewhereclause=yes initial="VCR" )
+column=(name=vcgrp_no dbname="VCVOUCHERDET.VCGRP_NO" type=char(3) updatewhereclause=yes initial="MNL" )
+column=(name=account_id dbname="VCVOUCHERDET.ACCOUNT_ID" type=char(8) updatewhereclause=yes )
+column=(name=account_side dbname="VCVOUCHERDET.ACCOUNT_SIDE" type=char(2) updatewhereclause=yes initial="DR" )
+column=(name=item_desc dbname="VCVOUCHERDET.ITEM_DESC" type=char(200) updatewhereclause=yes )
+column=(name=dr_amt dbname="VCVOUCHERDET.DR_AMT" type=decimal(2) updatewhereclause=yes initial="0" )
+column=(name=cr_amt dbname="VCVOUCHERDET.CR_AMT" type=decimal(2) updatewhereclause=yes initial="0" )
+column=(name=sort_order dbname="VCVOUCHERDET.SORT_ORDER" type=decimal(0) updatewhereclause=yes initial="0" )
+column=(name=posttoacc_flag dbname="VCVOUCHERDET.POSTTOACC_FLAG" type=decimal(0) updatewhereclause=yes initial="0" )
+column=(name=posttogl_flag dbname="VCVOUCHERDET.POSTTOGL_FLAG" type=decimal(0) updatewhereclause=yes initial="1" )
+column=(name=count_desc dbname="VCVOUCHERDET.COUNT_DESC" type=char(200) updatewhereclause=yes )
+column=(name=posttogl_allflag dbname="VCVOUCHERDET.POSTTOGL_ALLFLAG" type=decimal(0) updatewhereclause=yes )
+column=(name=account_name dbname="ACCMASTER.ACCOUNT_NAME" type=char(100) updatewhereclause=yes )
+column=(name=coop_id dbname="VCVOUCHERDET.COOP_ID" type=char(6) updatewhereclause=yes )
+column=(name=ref_coopid dbname="VCVOUCHERDET.REF_COOPID" type=char(6) updatewhereclause=yes )
+retrieve="SELECT VCVOUCHERDET.VOUCHER_NO,   
+         VCVOUCHERDET.SEQ_NO,   
+         VCVOUCHERDET.SYSTEM_CODE,   
+         VCVOUCHERDET.VCGRP_NO,   
+         VCVOUCHERDET.ACCOUNT_ID,   
+         VCVOUCHERDET.ACCOUNT_SIDE,   
+         VCVOUCHERDET.ITEM_DESC,   
+         VCVOUCHERDET.DR_AMT,   
+         VCVOUCHERDET.CR_AMT,   
+         VCVOUCHERDET.SORT_ORDER,   
+         VCVOUCHERDET.POSTTOACC_FLAG,   
+         VCVOUCHERDET.POSTTOGL_FLAG,   
+         VCVOUCHERDET.COUNT_DESC,   
+         VCVOUCHERDET.POSTTOGL_ALLFLAG  ,
+		ACCMASTER.ACCOUNT_NAME ,
+		VCVOUCHERDET.COOP_ID,
+		VCVOUCHERDET.REF_COOPID
+    FROM VCVOUCHERDET,   
+         ACCMASTER   
+   WHERE ( VCVOUCHERDET.ACCOUNT_ID = ACCMASTER.ACCOUNT_ID ) and  
+               (vcvoucherdet.coop_id = accmaster.coop_id )  and 
+         ( vcvoucherdet.voucher_no = :as_docno )  and 
+         ( vcvoucherdet.coop_id = :as_coop_id )  
+" arguments=(("as_docno",string), ("as_coop_id",string))
+)
+text(name=seq_no_t band=header x="9" y="8" height="76" width="69" alignment="2" border="2" color="0" font.face="Tahoma" font.height="-10" background.color="33484493" background.mode="2" )
+text(name=t_1 band=header x="434" y="8" height="76" width="1175" alignment="2" border="2" color="0" text="รายละเอียด" font.face="Tahoma" font.height="-10" background.color="33484493" background.mode="2" )
+text(name=dr_amt_t band=header x="1627" y="8" height="76" width="425" alignment="2" border="2" color="0" text="ยอด DR" font.face="Tahoma" font.height="-10" background.color="33484493" background.mode="2" )
+text(name=t_4 band=header x="2455" y="8" height="64" width="96" alignment="0" border="0" color="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" )
+text(name=account_id_t band=header x="96" y="8" height="76" width="320" alignment="2" border="2" color="0" text="รหัสบัญชี" font.face="Tahoma" font.height="-10" background.color="33484493" background.mode="2" )
+text(name=cr_amt_t band=header x="2071" y="8" height="76" width="425" alignment="2" border="2" color="0" text="ยอด CR" font.face="Tahoma" font.height="-10" background.color="33484493" background.mode="2" )
+compute(name=compute_1 band=detail x="9" y="16" height="76" width="69" color="0" format="[GENERAL]" expression="getrow()" alignment="2" border="2" font.face="Tahoma" font.height="-10" background.color="16777215" background.mode="2" )
+compute(name=compute_4 band=detail x="434" y="4" height="76" width="1175" color="0" format="[GENERAL]" expression=" trim( account_name ) + if( isnull( item_desc ) or trim( item_desc ) = '', '', ' ( '+ item_desc +' )' ) " alignment="0" border="2" font.face="Tahoma" font.height="-10" background.color="16777215" background.mode="2" )
+column(name=voucher_no band=detail x="2327" y="792" height="96" width="338" id=1 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=seq_no band=detail x="2304" y="268" height="104" width="233" id=2 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=system_code band=detail x="3081" y="824" height="80" width="118" id=3 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=vcgrp_no band=detail x="3461" y="352" height="148" width="603" id=4 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=account_id band=detail x="101" y="12" height="80" width="315" id=5 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=account_side band=detail x="2318" y="596" height="100" width="411" id=6 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=item_desc band=detail x="3717" y="604" height="76" width="343" id=7 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=dr_amt band=detail x="1618" y="0" height="72" width="421" id=8 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="134217748" background.mode="0" edit.autohscroll=yes )
+column(name=cr_amt band=detail x="2085" y="-4" height="76" width="407" id=9 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="134217748" background.mode="0" edit.autohscroll=yes )
+column(name=sort_order band=detail x="992" y="924" height="124" width="622" id=10 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=posttoacc_flag band=detail x="1344" y="1128" height="80" width="447" id=11 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=posttogl_flag band=detail x="1504" y="1304" height="80" width="447" id=12 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=count_desc band=detail x="1851" y="920" height="148" width="873" id=13 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=posttogl_allflag band=detail x="3424" y="904" height="80" width="447" id=14 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=account_name band=detail x="3561" y="1420" height="156" width="846" id=15 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=coop_id band=detail x="4105" y="1068" height="80" width="227" id=16 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=ref_coopid band=detail x="3634" y="1228" height="80" width="227" id=17 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+text(name=t_2 band=footer x="1179" y="16" height="76" width="155" alignment="1" border="0" color="0" text="รวม:" font.face="Tahoma" font.height="-10" font.weight="700" background.color="536870912" background.mode="1" )
+compute(name=compute_5 band=footer x="530" y="12" height="76" width="613" color="16777215" format="#,##0.00" expression="sum(dr_amt for all) - sum(cr_amt for all)" alignment="1" border="2" font.face="Tahoma" font.height="-10" font.weight="700" background.color="255" background.mode="2" )
+text(name=t_3 band=footer x="50" y="16" height="76" width="448" alignment="1" border="0" color="0" text="ส่วนต่าง:" font.face="Tahoma" font.height="-10" font.weight="700" background.color="536870912" background.mode="1" )
+compute(name=compute_2 band=footer x="1591" y="12" height="76" width="425" color="0" format="#,##0.00" expression="sum(dr_amt for all)" alignment="1" border="2" font.face="Tahoma" font.height="-10" background.color="16777215" background.mode="2" )
+compute(name=compute_3 band=footer x="2043" y="12" height="76" width="425" color="0" format="#,##0.00" expression="sum(cr_amt for all)" alignment="1" border="2" font.face="Tahoma" font.height="-10" background.color="16777215" background.mode="2" )

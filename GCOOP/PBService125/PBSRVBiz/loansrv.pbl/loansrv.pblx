@@ -1,0 +1,964 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project MSBuildVersion="2.0" ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ResolveAssemblyReferences" />
+  <PropertyGroup>
+    <Name>loansrv</Name>
+    <SchemaVersion>2</SchemaVersion>
+    <ProjectGuid>{2242dc32-57fa-4dc3-83db-9360e04e4a9f}</ProjectGuid>
+    <Comment>
+    </Comment>
+    <CreateNewFolder>true</CreateNewFolder>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Platform>AnyCPU</Platform>
+    <AssemblyName>loansrv</AssemblyName>
+    <RootNamespace>loansrv</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <ProjectTypeGuids>{1e00f043-675d-11d2-bca5-000086095dda};{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{1e00f043-675a-11d2-bca5-000086095dda}</ProjectTypeGuids>
+    <PBOriginalVersion>12.5.2</PBOriginalVersion>
+    <ReferencePath>$(DevEnvDir)\DotNET\bin</ReferencePath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>.\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="app.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ItemType>ApplicationDefinition</ItemType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dddw_cm_ucfbank.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_cm_ucfbankbranch.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_cm_ucfgroupname.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_cm_ucfzipcode.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_ln_ucfbank.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_ln_ucfbankbranch.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_cfloanintrate.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loanrequest_ucfmoneytype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loantype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loantype_all.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loantype_emer.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loantype_gun.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loantype_reqloop.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_loantype_spec.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_ucfbankbranch.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_ucfslipitemtype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_ucf_loancolltype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dddw_sl_ucf_loanobjective.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dw_shrln_printslip_cen.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dw_shrln_printslip_neted_cen.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dw_shrln_printslip_neteret_cen.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="dw_shrln_printslip_neteret_interest.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_reqloan.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_reqloan_clr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_reqloan_clrother.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_reqloan_coll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_reqloan_intcertdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_reqloan_intspc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_clr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_clrother.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_clrother_mhs.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_clrother_stou.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_clr_mhs.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_coll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_coll_mhs.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_coll_ry.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_intcert.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_intspc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_intspc_mhs.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_mhs.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_mthexp.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_rqloan_mthexp_mhs.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_trnlnrespons.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_lnsrv_req_trnlnresponsdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loanreqcheck_clear.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loanreqcheck_main_13.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loanreq_return_topic.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_constant_attrib.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_grtbalance_cont.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_grtbalance_contclr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_grtbalance_req.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_mangrt_grpperm.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_attrib.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_attrib_xmlconfig.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_buyshare.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_custom.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_groupright.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_insurerate.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_period.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_loan_type_right.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_ln_message.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_attrib_cfconstant.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_attrib_cfintdeptstep.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_attrib_cfintereststep.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_attrib_cfloantype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_attrib_cfroundingfactor.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_attrib_ucfsliptype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_orderlnrcv.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_orderpayin.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_orderpayout.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_ordershrwtd.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_slipadjmth.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_sliplnrcv.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_sliplnrcvday.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_slippayin.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_slippayinday.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_slipshrwtd.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ccl_slipshrwtdday.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_est_trncoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_finlist_lnrcv.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_finlist_lnrcvbymem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_finlist_payinbymem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_finlist_shrwtd.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_finlist_shrwtdbymem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_contintspc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_contintspcall.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_contmoneyreturn.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_contract.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_fixperiodpay.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_listcoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_listlntype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_loanpause.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_memcont.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_memdetail.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_memshare.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_mthpay.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_preparepay.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_reqloan.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_reqloanintspc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_info_transpayin.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_list_lnrcv.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_list_lnrcvbymem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_list_lnrcv_byorder.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_list_rqlonapv.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_list_rqlonapv_cancel.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_list_shrwtd.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnadjust_slip.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnadjust_slipdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_colluse.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_detail.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_detail_pea.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_list.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_memco.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_memco_pea.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_mrtg1.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_mrtg1_pea.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_mrtg2.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_mrtg2_pea.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_mrtg3.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_mrtg_detwa.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_own_detwa.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_prop.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_prop_pea.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lncollmast_review.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpayin_slip.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpayin_slipdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpayout_moneyret.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpayout_slip.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpayout_slipdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpaytab_paycritiria.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_lnpaytab_paytable.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_opt_cflntype_newtype.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_order_payin.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_order_payindet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_order_payout.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_order_payoutclr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_order_payoutdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_order_payouttrncoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ordlist_lnrcv.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_ordlist_shrwtd.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_prn_payinslipcriteria.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_prn_payinsliplist.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_proc_lnprepare.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_proc_lnprepare_lntyp.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_proc_trnpayin.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_chgcontlaw.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_chgcontlawcoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_compound.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_compounddet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contadj.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contadj_collateral.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contadj_contint.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contadj_contintspc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contadj_loanpay.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contadj_payment.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_contcancel.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_loanpause.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_loanpausedet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_mthpyrc_minus.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_mthpyrc_plus.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_trncoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_req_trncolldet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_loansrv_set_intarrear.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_detail_collmast.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_detail_collmemco.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_detail_deptdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_detail_memcoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_detail_memdet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_detail_sharedet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_det_contno.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_det_reqloan.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_grpcoll_info.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_collcheck_main.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_clear.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_cleardet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_clear_pea.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_collateral.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_collateral_norm.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_colldet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_colldetmem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_colldetshare.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_collitem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_dlg_otherclr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_duplicate.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_insurance.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_intratespc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_loanrightchoose.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_loop.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master_008001.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master_all.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master_emer.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master_gun.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master_reqloop.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_master_spec.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_monthpay.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_monthpaydet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_otherclr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_paymonth.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_permiss.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_return.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_returndet.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_search_criteria.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_search_list.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_search_list_emer.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanrequest_search_list_reqloop.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loancollcont.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loancollcontclr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loanmemcoll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loanold.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loantype_clear.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loantype_intspc.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loantype_pause.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loantype_permright.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_loantype_reqgrt.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_locksharecont.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_locksharereq.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_memberinfo.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_membremark.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanreq_mthexpense.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanyear_info_reqmem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanyear_listbymem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanyear_main.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanyear_oldlist.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanyear_oldmain.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_sl_loanyear_oldmem.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrln_printslip_cen.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrln_slip_payout.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_agree.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_coll.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_coll_agree.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_dept_agree.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_norm.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_norm_nec.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_norm_nec_oth.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_slip.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_slipfin.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_slipfin_nec.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_slip_nec.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_shrlon_loanrequest_slip_nec_clr.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="r_sl_slippayin_receipt_cat.srd">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="n_cst_loansrv_allrequest.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_atm.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_calperiod.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_collpermiss.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_collpermiss_ryt.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_insure.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_interest.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_lnfinance.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_lnoperate.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_lnoperateptt.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_lnorder.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_lnright.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_lnright_mhs.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_printform.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="n_cst_loansrv_process.sru">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_buyshare.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_calbankfee.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_calinterest.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_calmoneyorderfee.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_calpermiss.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_caltimepermiss.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_checkmintime.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_checkrightcoll.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_checkrightcoll_ivr.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_compound.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_contlaw.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_esttrncoll.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_genperiodpaytab.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_initloanemercat.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_installment.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_itemchange.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_itemchangecheckcoll.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lnapvfixsite.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lnatm.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lncalperiod.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lncclcontpayin.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lncollmast.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lncontaj.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lninsure.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lnpause.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lnreqloan.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lnreqyear.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lntrncoll.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_lntrnrespons.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_mthpayrcv.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_paytab.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_periodpay.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_permisscoll.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_permisscont.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_permisscustom.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_permissright.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_postslip.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_poststmloan.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_poststmshare.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_posttrans.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_proclnprepare.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_proctrnpayin.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_reqloan.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_requestopen.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_savereqloan.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_shrwtdord.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_slipadjust.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_slipcancel.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_slippayin.srs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="str_slippayout.srs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sybase\PowerBuilder\12.5\PowerBuilder.targets" />
+</Project>

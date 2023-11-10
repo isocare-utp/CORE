@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sub_r_sl_payout_swd" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="da3328b0-66fb-4959-bfbb-cdd293d8f0a2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_membno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+'หักชำระ '||slslippayindet.loancontract_no as loancontract_no,
+'ต้นชำระ '||TO_CHAR(nvl(slslippayindet.principal_payamt,0),'999,999,999,999.99') as principal_payamt,
+'ดอกเบี้ยชำระ '||TO_CHAR(nvl(slslippayindet.interest_payamt,0),'999,999,999,999.99') as interest_payamt,
+'รวมชำระ '||TO_CHAR(nvl(slslippayindet.item_payamt,0),'999,999,999,999.99') as item_payamt
+from slslippayout ,slslippayin,slslippayindet
+where slslippayout.coop_id = slslippayin.coop_id
+and slslippayout.slipclear_no = slslippayin.payinslip_no
+and slslippayin.payinslip_no = slslippayindet.payinslip_no
+and slslippayout.sliptype_code = 'SWD'
+and slslippayindet.slipitemtype_code = 'LON'
+and slslippayout.coop_id = $P{as_coopid}
+and slslippayout.member_no = $P{as_membno}]]>
+	</queryString>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.lang.String"/>
+	<field name="INTEREST_PAYAMT" class="java.lang.String"/>
+	<field name="ITEM_PAYAMT" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="8b06b25f-c857-4c11-a265-d2ba1329c9b4" x="0" y="0" width="95" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6624a202-b936-46bd-ba8d-faa93c95fd3f" x="95" y="0" width="111" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9bd5eeaf-7819-484a-b014-ca8c8455e4b4" x="206" y="0" width="111" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d778302d-a74d-4d38-a083-761808a06c04" x="317" y="0" width="120" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYAMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

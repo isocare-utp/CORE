@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_cmd_outinvts" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5f62cb6-f74d-4b24-ba68-3675d9a6d45e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[  SELECT "PTINVTMAST"."INVT_ID",
+         "PTINVTMAST"."INVT_NAME",
+         "PTINVTMAST"."QTY_BAL",
+         '                                                                         ' as FIX_COOPNAME
+    FROM "PTINVTMAST"
+   WHERE "PTINVTMAST"."QTY_BAL" > 0    ]]>
+	</queryString>
+	<field name="INVT_ID" class="java.lang.String"/>
+	<field name="INVT_NAME" class="java.lang.String"/>
+	<field name="QTY_BAL" class="java.math.BigDecimal"/>
+	<field name="FIX_COOPNAME" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="83" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_kp_expt__tmpreceive_share" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="188f871e-a9af-446d-bb92-e47f72ea46b8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_recvperiod" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_smembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_emembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+ to_char(to_date(kp.recv_period,'yyyyMM'),'MM/yyyy') as recv_period,
+mb.salary_id,
+trim(pre.prename_desc||' ' || mb.memb_name||' '||mb.memb_surname) as memname,
+mb.membgroup_code,
+mg.membgroup_desc,
+sum(kpdet.item_payment) as item_payment
+from(	select dets.kpslip_no,sum(dets.item_payment) as item_payment
+		from kptempreceivedet dets
+		where dets.recv_period = $P{as_recvperiod}
+		and (dets.keepitemtype_code LIKE 'S%' OR dets.keepitemtype_code LIKE 'D%')
+		group by dets.kpslip_no
+) kpdet
+        ,kptempreceive kp
+        ,mbmembmaster mb
+,mbucfmembgroup mg
+        ,mbucfprename pre
+where kpdet.kpslip_no= kp.kpslip_no
+and kp.member_no = mb.member_no
+and mb.prename_code = pre.prename_code
+and mb.membgroup_code = mg.membgroup_code
+and kp.recv_period = $P{as_recvperiod}
+and mb.member_type  in (1,2)
+and mb.coop_id = $P{as_coopid}
+and trim(kp.membgroup_code) between trim($P{as_smembgroup}) and trim($P{as_emembgroup})
+group by to_char(to_date(kp.recv_period,'yyyyMM'),'MM/yyyy') ,  mb.salary_id ,mb.membgroup_code,mg.membgroup_desc,
+pre.prename_desc,mb.memb_name,mb.memb_surname
+order by  mb.salary_id]]>
+	</queryString>
+	<field name="RECV_PERIOD" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="MEMNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="ITEM_PAYMENT" class="java.math.BigDecimal"/>
+	<variable name="SUMitempay" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{ITEM_PAYMENT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="43fc954a-89a5-4a17-9823-c052e602e4f3" x="0" y="1" width="64" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cc501775-d0cd-434a-ab8e-00a9e0584362" x="64" y="1" width="147" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="3aab69b2-e97d-4bf5-be25-8113c5914440" x="478" y="0" width="77" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0b54fa44-59ff-441b-8226-cacd003e5ee7" x="211" y="1" width="67" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2ac29435-9d8d-44d1-aa52-13c9c1b56313" x="278" y="1" width="200" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="22" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="890bd23f-913b-4d35-968b-39e244e2d36e" x="455" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{SUMitempay}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

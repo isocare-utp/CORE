@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_yrdivavg_wfc_not_have" language="groovy" pageWidth="792" pageHeight="1224" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9381b6d1-818c-44ad-88b3-79c97e4d837e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_year" class="java.lang.String"/>
+	<parameter name="as_coopid" class="java.lang.String"/>
+	<parameter name="as_stargroup" class="java.lang.String"/>
+	<parameter name="as_endgroup" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT "MUC"."MEMBGROUP_CODE",
+         "MUC"."MEMBGROUP_DESC",
+         "MUG"."MEMBGROUP_CODE",
+         "MUG"."MEMBGROUP_DESC",
+         "RT"."DIVPERCENT_RATE",
+         "RT"."AVGPERCENT_RATE",
+         "MB"."MEMBER_NO",
+         "MP"."PRENAME_DESC",
+         "MB"."MEMB_NAME",
+         "MB"."MEMB_SURNAME",
+         "YM"."DIV_AMT",
+         "YM"."DIV_BALAMT",
+         "YM"."AVG_AMT",
+         "YM"."AVG_BALAMT",
+         "YM"."ETC_AMT",
+         "YM"."ETC_BALAMT",
+         "YM"."ITEM_BALAMT",
+         "YM"."W01_AMT",
+         "YM"."W02_AMT",
+       sum(  case when "WFSCTMASTER"."WFTYPE_CODE" = '01' then  "WFSCTMASTER"."PRNCBAL" else 0 end )  as wkeep_01,
+      sum(   case when "WFSCTMASTER"."WFTYPE_CODE" = '02' then  "WFSCTMASTER"."PRNCBAL" else 0 end ) as wkeep_02
+    FROM "YRDIVMASTER" "YM",
+         "YRBGMASTER" "YBM",
+         "MBUCFMEMBGROUP" "MUG",
+         "YRCFRATE" "RT",
+         "MBMEMBMASTER" "MB",
+         "MBUCFPRENAME" "MP",
+         "MBUCFMEMBGROUP" "MUC",
+         "WFSCTMASTER"
+   WHERE ( ybm.coop_id = mug.coop_id (+)) and
+         ( ybm.membgroup_code = mug.membgroup_code (+)) and
+         ( "YM"."COOP_ID" = "YBM"."COOP_ID" ) and
+         ( "YM"."MEMBER_NO" = "YBM"."MEMBER_NO" ) and
+         ( "YM"."COOP_ID" = "MB"."COOP_ID" ) and
+         ( "YM"."MEMBER_NO" = "MB"."MEMBER_NO" ) and
+         ( "MP"."PRENAME_CODE" = "MB"."PRENAME_CODE" ) and
+         ( "MUG"."MEMBGROUP_CONTROL" = "MUC"."MEMBGROUP_CODE" ) and
+         ( "YM"."DIV_YEAR" = "YBM"."DIV_YEAR" ) and
+         ( "YM"."DIV_YEAR" = "RT"."DIV_YEAR" ) and
+         ( "YM"."MEMBER_NO" = "WFSCTMASTER"."MEMBER_NO" ) and
+         ( ( ybm.coop_id =  $P{as_coopid} ) AND
+         ( trim( ybm.div_year) = trim( $P{as_year}) ) AND
+         ( ybm.membgroup_code between $P{as_stargroup}  and $P{as_endgroup}  ) )
+GROUP BY
+"MUC"."MEMBGROUP_CODE",
+         "MUC"."MEMBGROUP_DESC",
+         "MUG"."MEMBGROUP_CODE",
+         "MUG"."MEMBGROUP_DESC",
+         "RT"."DIVPERCENT_RATE",
+         "RT"."AVGPERCENT_RATE",
+         "MB"."MEMBER_NO",
+         "MP"."PRENAME_DESC",
+         "MB"."MEMB_NAME",
+         "MB"."MEMB_SURNAME",
+         "YM"."DIV_AMT",
+         "YM"."DIV_BALAMT",
+         "YM"."AVG_AMT",
+         "YM"."AVG_BALAMT",
+         "YM"."ETC_AMT",
+         "YM"."ETC_BALAMT",
+         "YM"."ITEM_BALAMT",
+         "YM"."W01_AMT",
+         "YM"."W02_AMT"
+Having  ((  sum(   case when "WFSCTMASTER"."WFTYPE_CODE" = '01' then  "WFSCTMASTER"."PRNCBAL" else 0 end ) -  "YM"."W01_AMT"  >  0 ) or  (  sum(   case when "WFSCTMASTER"."WFTYPE_CODE" = '02' then  "WFSCTMASTER"."PRNCBAL" else 0 end ) -  "YM"."W02_AMT"  >  0  ))]]>
+	</queryString>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="DIVPERCENT_RATE" class="java.math.BigDecimal"/>
+	<field name="AVGPERCENT_RATE" class="java.math.BigDecimal"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="DIV_AMT" class="java.math.BigDecimal"/>
+	<field name="DIV_BALAMT" class="java.math.BigDecimal"/>
+	<field name="AVG_AMT" class="java.math.BigDecimal"/>
+	<field name="AVG_BALAMT" class="java.math.BigDecimal"/>
+	<field name="ETC_AMT" class="java.math.BigDecimal"/>
+	<field name="ETC_BALAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_BALAMT" class="java.math.BigDecimal"/>
+	<field name="W01_AMT" class="java.math.BigDecimal"/>
+	<field name="W02_AMT" class="java.math.BigDecimal"/>
+	<field name="WKEEP_01" class="java.math.BigDecimal"/>
+	<field name="WKEEP_02" class="java.math.BigDecimal"/>
+	<sortField name="MEMBER_NO"/>
+	<variable name="seq_no" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="55716981-bfd7-471e-b15e-5f2a4822882a" x="12" y="20" width="783" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[รายงานปันผลเฉลียคืน กรณีอายัดภาษี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c515a75a-9dcd-4446-9281-64c12389e60d" x="32" y="60" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2371c2d1-ef94-4af0-8471-5e7e52681d33" x="12" y="60" width="22" height="20"/>
+				<textElement/>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0123ca1f-943b-45ea-b2ac-f11d1acb8a7d" x="12" y="0" width="783" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูสุรินทร์ จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7146803b-6a4c-4776-9852-7f553e3feb77" x="87" y="60" width="205" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4ec5554a-0da6-48bf-a851-0058fcb39efc" x="292" y="60" width="48" height="20"/>
+				<textElement/>
+				<text><![CDATA[เงินปันผล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4c20a135-d8b2-4d4a-8f70-943badfd9daa" x="445" y="60" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สสอค.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6da60500-10f5-4e78-89e2-a7580d5d758c" x="483" y="60" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สส.ชสอ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f909fe7c-9833-403b-8150-9ef69151cd42" x="393" y="60" width="42" height="20"/>
+				<textElement/>
+				<text><![CDATA[รวม]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0fdce24f-7ccb-4351-976c-895b11e42518" x="340" y="60" width="53" height="20"/>
+				<textElement/>
+				<text><![CDATA[เงินเฉลี่ยคืน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="89dbf43b-c03b-44e5-a19a-5da16474b2c4" x="445" y="40" width="76" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ยอดเก็บ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4714d17e-0866-4596-967d-c40c6e8562af" x="577" y="60" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สส.ชสอ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="06800147-116e-4702-947c-b459724f1ff9" x="539" y="40" width="76" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ยอดชำระได้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e1d894cc-bdb8-4940-9d9b-669bec59d76c" x="539" y="60" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สสอค.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e7b361a7-07b2-4796-b106-8e42bf8f6f6c" x="675" y="60" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สส.ชสอ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4968dc7e-933d-40b1-a605-dc2d4699a215" x="637" y="60" width="38" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สสอค.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f296e1b5-c7e3-4d38-a999-e6eba04ac513" x="637" y="40" width="76" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ยอดค้างชำระ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="01969026-2137-4b16-b884-344b164c4010" x="12" y="0" width="22" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a9896ef2-6ab1-4018-a8e7-87493041ca84" x="34" y="0" width="53" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7938af40-3f3c-4c12-a09b-b3716765b0ec" x="87" y="0" width="205" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME} + ' ' + $F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="febaff44-2b02-47db-b112-e69e5bac4d59" x="293" y="0" width="47" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{DIV_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6828332b-c1dd-463c-aae3-35deeb46ec24" x="340" y="0" width="53" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{AVG_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b9d0ecac-9d5f-4eba-9f00-553283c7e100" x="393" y="0" width="42" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{AVG_AMT}+ $F{DIV_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="82ff4726-9153-47e6-a857-8f2973289d13" x="445" y="0" width="38" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{WKEEP_01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="172a7fce-81c7-40ad-8db3-f35478b7a113" x="483" y="0" width="38" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{WKEEP_02}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b582e88c-0568-40c7-b0d1-4e626a217570" x="539" y="0" width="38" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{W01_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="30cf5c62-bfcb-4357-a7aa-295bccf41ec1" x="577" y="0" width="38" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{W02_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3851e3be-522a-451e-acaa-8b4fd5aee970" x="637" y="0" width="38" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{WKEEP_01} - $F{W01_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bc176f03-ac31-4bfd-9573-89319db08013" x="675" y="0" width="38" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{WKEEP_02} - $F{W02_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

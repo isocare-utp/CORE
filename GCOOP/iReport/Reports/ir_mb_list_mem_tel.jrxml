@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mb_list_mem_tel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="32f46f7b-8920-4627-bf0a-6d9197af1d7f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_year" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT '                                                                          ' as fix_coopname,
+         ft_memname(mbmembmaster.coop_id, mbmembmaster.member_no) as membname,
+         "MBMEMBMASTER"."MEMBER_NO",
+         "MBMEMBMASTER"."CARD_PERSON",
+         "MBMEMBMASTER"."ADDR_NO",
+         "MBMEMBMASTER"."ADDR_MOO",
+         "MBMEMBMASTER"."ADDR_SOI",
+         "MBMEMBMASTER"."ADDR_VILLAGE",
+         "MBMEMBMASTER"."ADDR_ROAD",
+         "MBMEMBMASTER"."TAMBOL_CODE",
+         "MBMEMBMASTER"."AMPHUR_CODE",
+         "MBMEMBMASTER"."ADDR_POSTCODE",
+         "MBMEMBMASTER"."PROVINCE_CODE",
+         "MBMEMBMASTER"."MEMBER_DATE",
+         "MBMEMBMASTER"."REMARK",
+         "MBUCFTAMBOL"."TAMBOL_DESC",
+         "MBUCFPROVINCE"."PROVINCE_DESC",
+         "MBUCFDISTRICT"."DISTRICT_DESC"
+    FROM "MBMEMBMASTER",
+         "MBUCFPRENAME",
+         "MBUCFTAMBOL",
+         "MBUCFDISTRICT",
+         "MBUCFPROVINCE"
+   WHERE ( mbmembmaster.tambol_code = mbucftambol.tambol_code (+)) and
+         ( mbmembmaster.amphur_code = mbucfdistrict.district_code (+)) and
+         ( "MBMEMBMASTER"."PROVINCE_CODE" = "MBUCFPROVINCE"."PROVINCE_CODE" ) and
+         ( "MBMEMBMASTER"."PRENAME_CODE" = "MBUCFPRENAME"."PRENAME_CODE" ) and
+(( to_number(to_char(mbmembmaster.birth_date,'mm')) <= 9 ) and
+(to_number(to_char(mbmembmaster.birth_date,'yyyy')) = ( $P{as_year} - 603))
+or (
+(to_number(to_char(mbmembmaster.birth_date,'mm')) > 10 and
+to_number(to_char(mbmembmaster.birth_date,'yyyy')) = ( $P{as_year} - 604))
+))
+  and
+         ( "MBMEMBMASTER"."MEMBER_NO" <> '00000000' ) AND
+         ( "MBMEMBMASTER"."MEMBER_TYPE" = 1 )  ]]>
+	</queryString>
+	<field name="FIX_COOPNAME" class="java.lang.String"/>
+	<field name="MEMBNAME" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="ADDR_NO" class="java.lang.String"/>
+	<field name="ADDR_MOO" class="java.lang.String"/>
+	<field name="ADDR_SOI" class="java.lang.String"/>
+	<field name="ADDR_VILLAGE" class="java.lang.String"/>
+	<field name="ADDR_ROAD" class="java.lang.String"/>
+	<field name="TAMBOL_CODE" class="java.lang.String"/>
+	<field name="AMPHUR_CODE" class="java.lang.String"/>
+	<field name="ADDR_POSTCODE" class="java.lang.String"/>
+	<field name="PROVINCE_CODE" class="java.lang.String"/>
+	<field name="MEMBER_DATE" class="java.sql.Timestamp"/>
+	<field name="REMARK" class="java.lang.String"/>
+	<field name="TAMBOL_DESC" class="java.lang.String"/>
+	<field name="PROVINCE_DESC" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<title>
+		<band height="34" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="6" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="74d3b902-408c-45ba-b07b-bd43c08ad8ec" x="0" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MEMBER_NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="958de1a0-8cbe-4e0b-9296-dfdd787eae83" x="100" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MEMBNAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="93d19dd8-8ddc-4f10-b1aa-e626aa858692" x="200" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CARD_PERSON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="034bc4a2-5a28-477f-aa4a-fa4639bf5385" x="300" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ADDR_NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7153dfe1-968d-45f5-95de-c8bf7d0b3128" x="400" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[TAMBOL_CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff069d79-998b-4c9d-bd11-1eae93129c13" x="500" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[DISTRICT_DESC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="398bf897-2156-4fc9-9101-c9a0a761402b" x="0" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="df4512c4-095e-4616-9ac6-680e33082c3f" x="100" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f07ce68f-0f03-438a-994e-514f5a649031" x="200" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d6899e7a-e0f5-49fb-b9ca-b3cc9668716b" x="300" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ADDR_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="469ebed6-93b9-43f1-b1c0-7ecbe59e4e17" x="400" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{TAMBOL_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="badcb364-4526-49fb-a119-2dff29d6d820" x="500" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{DISTRICT_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

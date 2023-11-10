@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_010_kp_slip_mthkeep_det" language="groovy" pageWidth="561" pageHeight="216" columnWidth="561" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aea7fa29-35f1-435c-a51a-bb86ec84e4d4">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_kpslipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_membno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select (case when kptempreceivedet.keepitemtype_code in ( 'L01' , 'L02' , 'L03' ) then 'ชำระรายเดือน' else kptempreceivedet.description end ) as description,
+kptempreceivedet.loancontract_no,
+kptempreceivedet.period,
+kptempreceivedet.principal_payment,
+kptempreceivedet.interest_payment,
+kptempreceivedet.item_payment,
+kptempreceivedet.item_balance,
+kptempreceivedet.shrlontype_code,
+kptempreceivedet.seq_no,
+kptempreceivedet.keepitemtype_code,
+kpucfkeepitemtype.keepitemtype_grp
+from kptempreceivedet,
+kpucfkeepitemtype
+where ( kptempreceivedet.coop_id = kpucfkeepitemtype.coop_id )
+and ( kptempreceivedet.keepitemtype_code = kpucfkeepitemtype.keepitemtype_code )
+and ( ( kptempreceivedet.coop_id = $P{as_coopid} )
+and ( kptempreceivedet.kpslip_no = $P{as_kpslipno} )
+and ( kptempreceivedet.member_no = $P{as_membno} )
+and ( kptempreceivedet.shrlontype_code not in ( 'WF' ,  'W1' ) or
+kpucfkeepitemtype.keepitemtype_grp = 'FFE' ) )
+order by kptempreceivedet.seq_no]]>
+	</queryString>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="ITEM_BALANCE" class="java.math.BigDecimal"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="KEEPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="KEEPITEMTYPE_GRP" class="java.lang.String"/>
+	<pageHeader>
+		<band height="22"/>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="c4b47e33-b50e-4839-9ae4-c4c561b652e6" x="17" y="0" width="77" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b3aa24c8-f1ee-4520-b9dd-fe1d9c3e6fd0" x="94" y="0" width="83" height="20">
+					<printWhenExpression><![CDATA[($F{LOANCONTRACT_NO} == null? false : true )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}.substring(0,4)+"-"+$F{LOANCONTRACT_NO}.substring( 4 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d3ff7558-ff95-42e1-a424-e92815a2393f" x="214" y="0" width="49" height="20">
+					<printWhenExpression><![CDATA[( $F{KEEPITEMTYPE_GRP} == "ISR" ? false : true )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="975333a3-5d8e-4118-ae4c-dddcc7e58dbe" x="263" y="0" width="68" height="20">
+					<printWhenExpression><![CDATA[( $F{KEEPITEMTYPE_GRP} == "SHR" || $F{KEEPITEMTYPE_GRP} == "ISR" ? false : true )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="f00fa1b5-655e-4fdc-a8b8-871125977fea" x="331" y="0" width="60" height="20">
+					<printWhenExpression><![CDATA[( $F{KEEPITEMTYPE_GRP} == "SHR" || $F{KEEPITEMTYPE_GRP} == "ISR" ? false : true )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="35c86545-2518-4c03-bf0e-731fe888dc89" x="391" y="0" width="70" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="8cd68905-d08d-42c3-a75a-357642325ceb" x="461" y="0" width="86" height="20">
+					<printWhenExpression><![CDATA[( $F{KEEPITEMTYPE_GRP} == "SHR" || $F{KEEPITEMTYPE_GRP} == "ISR" ? false : true )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_BALANCE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

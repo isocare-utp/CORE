@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_moneyreturn_excel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f2f71dcb-9b40-4e14-86a0-97d701397d9d">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_operate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select m.member_no,m.salary_id,ft_getmemname(s.coop_id,s.member_no),s.expense_accid,sum(s.payoutnet_amt) as  payoutnet_amt,
+m.membgroup_code,FT_MEMGRP(m.coop_id,m.membgroup_code) as membgroup_desc
+
+from slslippayout s,mbmembmaster m
+where s.slip_date= $P{adtm_operate}
+and s.sliptype_code='LRT'
+and s.coop_id=$P{as_coopid}
+and s.member_no=m.member_no
+and s.coop_id=m.coop_id
+and s.slip_status=1
+and trim(m.membgroup_code) between trim($P{as_sgroup}) and trim($P{as_egroup})
+
+group by
+m.member_no,m.salary_id,ft_getmemname(s.coop_id,s.member_no),s.expense_accid,
+m.membgroup_code,FT_MEMGRP(m.coop_id,m.membgroup_code) ]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="FT_GETMEMNAME(S.COOP_ID,S.MEMBER_NO)" class="java.lang.String"/>
+	<field name="EXPENSE_ACCID" class="java.lang.String"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<variable name="sum_payout" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAYOUTNET_AMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b874375c-00a5-4b54-9748-92538601d29d" x="0" y="0" width="40" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="17b418f6-bc0f-4e26-b36a-ad4b01ca6f3a" x="42" y="0" width="41" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="12e79432-d26f-4ff0-86b8-3a2a06fb8eb6" x="85" y="0" width="140" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FT_GETMEMNAME(S.COOP_ID,S.MEMBER_NO)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a4461a0e-c209-459b-ba6b-84b36a41a68f" x="415" y="0" width="73" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPENSE_ACCID}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement uuid="6f9fc061-2dc8-4330-9ab4-c979f38422d7" x="488" y="0" width="67" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="17a429c7-c964-47e7-be37-70fd31c7ffe6" x="226" y="0" width="188" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField pattern="###0.00">
+				<reportElement uuid="08501032-3a06-4138-8ec7-0707c53e8ede" x="488" y="0" width="67" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_payout}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

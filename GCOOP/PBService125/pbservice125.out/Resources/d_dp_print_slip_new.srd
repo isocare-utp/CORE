@@ -1,0 +1,164 @@
+$PBExportHeader$d_dp_print_slip_new.srd
+release 12.5;
+datawindow(units=0 color=16777215 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=40 )
+detail(height=348 )
+summary(height=112 )
+footer(height=0 )
+table(column=(name=deptaccount_no dbname="DPDEPTSLIP.DEPTACCOUNT_NO" type=char(10) updatewhereclause=yes )
+column=(name=recppaytype_code dbname="DPDEPTSLIP.RECPPAYTYPE_CODE" type=char(3) updatewhereclause=yes )
+column=(name=deptslip_amt dbname="DPDEPTSLIP.DEPTSLIP_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=deptslip_date dbname="DPDEPTSLIP.DEPTSLIP_DATE" type=datetime updatewhereclause=yes )
+column=(name=entry_id dbname="DPDEPTSLIP.ENTRY_ID" type=char(32) updatewhereclause=yes )
+column=(name=entry_date dbname="DPDEPTSLIP.ENTRY_DATE" type=datetime updatewhereclause=yes )
+column=(name=authorize_id dbname="DPDEPTSLIP.AUTHORIZE_ID" type=char(20) updatewhereclause=yes )
+column=(name=print_time dbname="print_time" type=char(15) updatewhereclause=yes )
+column=(name=machine_id dbname="DPDEPTSLIP.MACHINE_ID" type=char(50) updatewhereclause=yes )
+column=(name=deptitem_group dbname="DPUCFDEPTITEMTYPE.DEPTITEM_GROUP" type=char(3) updatewhereclause=yes )
+column=(name=prncbal dbname="DPDEPTSLIP.PRNCBAL" type=decimal(5) updatewhereclause=yes )
+column=(name=sign_flag dbname="DPUCFDEPTITEMTYPE.SIGN_FLAG" type=decimal(0) updatewhereclause=yes )
+column=(name=int_bfyear dbname="DPDEPTSLIP.INT_BFYEAR" type=decimal(5) updatewhereclause=yes )
+column=(name=int_curyear dbname="DPDEPTSLIP.INT_CURYEAR" type=decimal(5) updatewhereclause=yes )
+column=(name=tax_amt dbname="DPDEPTSLIP.TAX_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=int_amt dbname="DPDEPTSLIP.INT_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=accuint_amt dbname="DPDEPTSLIP.ACCUINT_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=fee_amt dbname="DPDEPTSLIP.FEE_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=deptgroup_code dbname="DPDEPTSLIP.DEPTGROUP_CODE" type=char(2) updatewhereclause=yes )
+column=(name=int_return dbname="DPDEPTSLIP.INT_RETURN" type=decimal(5) updatewhereclause=yes )
+column=(name=payfee_meth dbname="DPDEPTSLIP.PAYFEE_METH" type=decimal(0) updatewhereclause=yes )
+column=(name=other_amt dbname="DPDEPTSLIP.OTHER_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=deptamt_other dbname="DPDEPTSLIP.DEPTAMT_OTHER" type=decimal(5) updatewhereclause=yes )
+column=(name=deptaccount_name dbname="DPDEPTMASTER.DEPTACCOUNT_NAME" type=char(200) updatewhereclause=yes )
+column=(name=deptslip_netamt dbname="DPDEPTSLIP.DEPTSLIP_NETAMT" type=decimal(5) updatewhereclause=yes )
+column=(name=operate_time dbname="DPDEPTSLIP.OPERATE_TIME" type=datetime updatewhereclause=yes )
+column=(name=deptcoop_id dbname="DPDEPTSLIP.DEPTCOOP_ID" type=char(6) updatewhereclause=yes )
+column=(name=coop_id dbname="DPDEPTSLIP.COOP_ID" type=char(6) updatewhereclause=yes )
+column=(name=member_no dbname="DPDEPTMASTER.MEMBER_NO" type=char(8) updatewhereclause=yes )
+column=(name=tax_return dbname="DPDEPTSLIP.TAX_RETURN" type=decimal(5) updatewhereclause=yes )
+column=(name=t_int dbname="t_int" type=char(43) updatewhereclause=yes )
+column=(name=t_intarr dbname="t_intarr" type=char(43) updatewhereclause=yes )
+column=(name=t_tax dbname="t_tax" type=char(43) updatewhereclause=yes )
+column=(name=t_fee dbname="t_fee" type=char(43) updatewhereclause=yes )
+column=(name=t_intre dbname="t_intre" type=char(43) updatewhereclause=yes )
+column=(name=t_taxre dbname="t_taxre" type=char(43) updatewhereclause=yes )
+column=(name=t_net dbname="t_net" type=char(43) updatewhereclause=yes )
+column=(name=t_cash dbname="t_cash" type=char(43) updatewhereclause=yes )
+column=(name=period dbname="period" type=char(43) updatewhereclause=yes )
+column=(name=err_period dbname="err_period" type=char(43) updatewhereclause=yes )
+column=(name=deptslip_tdate dbname="deptslip_tdate" type=char(10) updatewhereclause=yes )
+column=(name=entry_tdate dbname="entry_tdate" type=char(10) updatewhereclause=yes )
+column=(name=SLIP_THAIDATE dbname="SLIP_THAIDATE" type=datetime updatewhereclause=yes )
+column=(name=time_date dbname="time_date" type=char(10) updatewhereclause=yes )
+column=(name=cash_amt dbname="DPDEPTSLIP.CASH_AMT" type=decimal(2) updatewhereclause=yes )
+retrieve="  SELECT DPDEPTSLIP.DEPTACCOUNT_NO,   
+         DPDEPTSLIP.RECPPAYTYPE_CODE,   
+         DPDEPTSLIP.DEPTSLIP_AMT,   
+         DPDEPTSLIP.DEPTSLIP_DATE,   
+         DPDEPTSLIP.ENTRY_ID,   
+         DPDEPTSLIP.ENTRY_DATE,   
+         DPDEPTSLIP.AUTHORIZE_ID,   
+         '               ' as print_time,   
+         DPDEPTSLIP.MACHINE_ID,   
+         DPUCFDEPTITEMTYPE.DEPTITEM_GROUP,   
+         DPDEPTSLIP.PRNCBAL,   
+         DPUCFDEPTITEMTYPE.SIGN_FLAG,   
+         DPDEPTSLIP.INT_BFYEAR,   
+         DPDEPTSLIP.INT_CURYEAR,   
+         DPDEPTSLIP.TAX_AMT,   
+         DPDEPTSLIP.INT_AMT,   
+         DPDEPTSLIP.ACCUINT_AMT,   
+         DPDEPTSLIP.FEE_AMT,   
+         DPDEPTSLIP.DEPTGROUP_CODE,   
+         DPDEPTSLIP.INT_RETURN,   
+         DPDEPTSLIP.PAYFEE_METH,   
+         DPDEPTSLIP.OTHER_AMT,   
+         DPDEPTSLIP.DEPTAMT_OTHER,   
+         DPDEPTMASTER.DEPTACCOUNT_NAME,   
+         DPDEPTSLIP.DEPTSLIP_NETAMT,   
+         DPDEPTSLIP.OPERATE_TIME,   
+         DPDEPTSLIP.DEPTCOOP_ID,   
+         DPDEPTSLIP.COOP_ID,   
+         DPDEPTMASTER.MEMBER_NO,   
+         DPDEPTSLIP.TAX_RETURN,   
+         '                                           ' as t_int,   
+         '                                           ' as t_intarr,   
+         '                                           ' as t_tax,   
+         '                                           ' as t_fee,   
+         '                                           ' as t_intre,   
+         '                                           ' as t_taxre,   
+         '                                           ' as t_net,   
+		'                                           ' as t_cash,  
+         '                                           ' as period,   
+         '                                           ' as err_period,   
+         '          ' as deptslip_tdate,   
+         '          ' as entry_tdate,   
+         convert(datetime, (DEPTSLIP_DATE)) as SLIP_THAIDATE,   
+         '          ' as time_date,   
+         DPDEPTSLIP.CASH_AMT  
+    FROM DPDEPTSLIP,   
+         DPUCFDEPTITEMTYPE,   
+         DPDEPTMASTER  
+   WHERE ( DPDEPTSLIP.DEPTITEMTYPE_CODE = DPUCFDEPTITEMTYPE.DEPTITEMTYPE_CODE ) and  
+         ( DPDEPTSLIP.DEPTACCOUNT_NO = DPDEPTMASTER.DEPTACCOUNT_NO ) and  
+         ( DPDEPTSLIP.DEPTCOOP_ID = DPDEPTMASTER.COOP_ID ) and  
+         ( ( DPDEPTSLIP.DEPTSLIP_NO = :as_slipno ) AND  
+         ( DPDEPTSLIP.COOP_ID = :as_coopid ) )    
+" arguments=(("as_slipno",string), ("as_coopid",string))
+)
+column(name=t_net band=detail x="1701" y="268" height="64" width="539" visible="0" id=37 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=deptaccount_no band=detail x="681" y="116" height="64" width="453" id=1 color="0" border="0" alignment="0" format="@@-@-@@@@@@-@" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+compute(name=c_operatedate band=detail x="14" y="116" height="64" width="311" color="0" format="[GENERAL]" expression="string(  entry_date ,~"dd/mm/~" ) + string( integer( string(  entry_date ,'yyyy' ) ) + 543 )" alignment="2" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=compute_2 band=detail x="352" y="116" height="64" width="311" color="0" format="[GENERAL]" expression="string( deptslip_date ,~"dd/mm/~" ) + string( integer( string(  deptslip_date ,'yyyy' ) ) + 543 )" alignment="2" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+column(name=recppaytype_code band=detail x="1143" y="116" height="64" width="137" id=2 color="0" border="0" alignment="2" format="[general]" font.face="Arabic Transparent" font.height="-10" font.charset="178" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=3 )
+compute(name=c_itemamt band=detail x="1280" y="116" height="64" width="553" color="0" format="[GENERAL]" expression=" right('*****************' + string( deptslip_amt  ,~"#,###.00~" ), 17 ) " alignment="1" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_entryid band=detail x="1842" y="116" height="64" width="201" color="0" format="[GENERAL]" expression="trim(  entry_id  )" alignment="2" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_time band=detail x="2299" y="116" height="64" width="270" color="0" format="[GENERAL]" expression="string( operate_time, 'HH:MM:SS' )" alignment="2" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+column(name=coop_id band=detail x="2071" y="116" height="64" width="210" id=28 color="0" border="0" alignment="0" format="[general]" font.face="Arabic Transparent" font.height="-10" font.charset="178" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+text(name=t_1 band=detail x="14" y="188" height="64" width="105" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="INT." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_intcr band=detail x="133" y="188" height="64" width="288" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression="( int_amt + accuint_amt  ) -  int_bfyear " alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+text(name=t_4 band=detail x="434" y="188" height="64" width="233" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="INTARR." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_intbf band=detail x="681" y="188" height="64" width="265" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression=" int_bfyear " alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+text(name=t_2 band=detail x="955" y="188" height="64" width="123" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="TAX." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_tax band=detail x="1093" y="188" height="64" width="247" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression=" tax_amt " alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+text(name=t_5 band=detail x="1358" y="188" height="64" width="137" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="FEE." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_feeamt band=detail x="1509" y="188" height="64" width="224" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression=" if( isnull(  fee_amt  ) , 0,  fee_amt  ) + if(  payfee_meth = 2, (  if( isnull(   other_amt  ) , 0,   other_amt   ) -  if( isnull(  fee_amt  ) , 0,  fee_amt  ) ), 0  )" alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_show band=detail x="137" y="396" height="52" width="142" color="0" format="[GENERAL]" expression="if(   ( deptitem_group = 'CLS' ) or (  (  deptitem_group = 'WID' )   ) , 1, 0  )" alignment="0" border="0" font.face="Arabic Transparent" font.height="-8" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=compute_1 band=detail x="357" y="412" height="52" width="416" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression=" deptslip_amt + if( isnull(   deptamt_other  ), 0,  deptamt_other  )" alignment="0" border="0" font.face="Arabic Transparent" font.height="-8" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_accname band=detail x="110" y="8" height="88" width="1257" color="0" format="[GENERAL]" expression=" deptaccount_name " alignment="0" border="0" font.face="Tahoma" font.height="-10" font.underline="1" background.color="536870912" background.mode="1" )
+column(name=member_no band=detail x="1413" y="4" height="88" width="626" id=29 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+text(name=t_6 band=detail x="9" y="268" height="64" width="187" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="INTRE." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+text(name=t_3 band=detail x="974" y="268" height="64" width="133" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="NET." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_net band=detail x="1115" y="268" height="64" width="549" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression="deptslip_netamt" alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+text(name=t_7 band=detail x="453" y="268" height="64" width="206" visible="1~tif(    c_show = 1 , 1, 0 )" alignment="1" border="0" color="0" text="TAXRE." font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=c_intreturn band=detail x="201" y="268" height="64" width="256" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression="if( isnull(  int_return  ), 0,   int_return )" alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+compute(name=compute_3 band=detail x="672" y="268" height="64" width="238" visible="1~tif(    c_show = 1 , 1, 0 )" color="0" format="#,##0.00" expression="if( isnull(    tax_return ), 0,    tax_return )" alignment="0" border="0" font.face="Arabic Transparent" font.height="-10" font.charset="178" font.family="0" background.color="536870912" background.mode="1" )
+column(name=t_int band=detail x="1701" y="268" height="64" width="539" visible="0" id=31 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=t_intarr band=detail x="1701" y="268" height="64" width="539" visible="0" id=32 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=t_tax band=detail x="1701" y="268" height="64" width="539" visible="0" id=33 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=t_fee band=detail x="1701" y="268" height="64" width="539" visible="0" id=34 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=t_intre band=detail x="1701" y="268" height="64" width="539" visible="0" id=35 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=t_taxre band=detail x="1701" y="268" height="64" width="539" visible="0" id=36 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=period band=detail x="2094" y="12" height="64" width="302" id=39 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=err_period band=detail x="2432" y="8" height="64" width="389" id=40 color="0" border="0" alignment="0" format="[general]" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=SLIP_THAIDATE band=detail x="2831" y="4" height="80" width="374" id=43 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=deptslip_tdate band=detail x="3215" y="4" height="80" width="374" id=41 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=entry_tdate band=detail x="3589" y="4" height="80" width="374" id=42 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=time_date band=detail x="3973" y="4" height="80" width="374" id=44 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=cash_amt band=detail x="4357" y="0" height="76" width="447" id=45 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=t_cash band=detail x="4814" y="4" height="80" width="1581" id=38 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+text(name=num_4 band=summary x="55" y="148" height="52" width="87" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=chqno_4 band=summary x="169" y="148" height="52" width="233" alignment="0" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=bank_4 band=summary x="430" y="148" height="52" width="178" alignment="2" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=amount_4 band=summary x="635" y="148" height="52" width="329" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=num_3 band=summary x="55" y="104" height="52" width="87" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=num_2 band=summary x="55" y="56" height="52" width="87" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=num_1 band=summary x="55" y="8" height="52" width="87" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=chqno_1 band=summary x="169" y="8" height="52" width="233" alignment="0" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=chqno_2 band=summary x="169" y="56" height="52" width="233" alignment="0" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=chqno_3 band=summary x="169" y="104" height="52" width="233" alignment="0" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=bank_2 band=summary x="430" y="60" height="52" width="178" alignment="2" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=bank_1 band=summary x="430" y="12" height="52" width="178" alignment="2" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=bank_3 band=summary x="430" y="104" height="52" width="178" alignment="2" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=amount_2 band=summary x="635" y="56" height="52" width="329" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=amount_1 band=summary x="635" y="8" height="52" width="329" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=amount_3 band=summary x="635" y="104" height="52" width="329" alignment="1" border="0" color="0" font.face="MS Sans Serif" font.height="-6" font.charset="222" background.color="536870912" background.mode="1" )

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_010_balance_confirm_coll_sub" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aea7fa29-35f1-435c-a51a-bb86ec84e4d4">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_memberno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_operate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select mb.member_no ,
+	ft_getmbname(mb.coop_id, mb.member_no) as memname ,
+	ys.bizzaccount_no ,
+	ys.balance_amt
+from yrconfirmmaster ym ,
+	yrconfirmstatement ys ,
+	mbmembmaster mb ,
+	lncontmaster ln
+where ( ym.coop_id = ys.coop_id )
+	and ( ym.member_no = ys.member_no )
+	and ( ym.balance_date = ys.balance_date )
+	and ( ys.coop_id = ln.coop_id )
+	and ( ys.bizzaccount_no = ln.loancontract_no )
+	and ( ln.coop_id = mb.coop_id )
+	and ( ln.member_no = mb.member_no )
+	and ( ( ym.coop_id = $P{as_coopid} )
+	and ( ym.member_no = $P{as_memberno} )
+	and ( ym.balance_date = $P{adtm_operate} )
+	and ( ys.from_system = 'GRT') )]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMNAME" class="java.lang.String"/>
+	<field name="BIZZACCOUNT_NO" class="java.lang.String"/>
+	<field name="BALANCE_AMT" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="22">
+			<staticText>
+				<reportElement uuid="a0392578-7836-4ed2-9892-1f2d216552bd" x="12" y="0" width="211" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สมาชิกที่ค้ำประกัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="18ccd25d-4bf3-4be0-998c-00bcd003c3ba" x="261" y="0" width="61" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="438070b5-d2ec-4f71-9421-a5a6cc23a8bd" x="322" y="0" width="125" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ยอดค้ำประกัน]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3a496fb0-5028-446a-bf13-a72005184926" x="0" y="0" width="61" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2f4bff6d-52a8-4d98-a189-fa7641828428" x="61" y="0" width="150" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="73580fcc-7b2e-41fd-b396-962e1952ea1f" x="261" y="0" width="61" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIZZACCOUNT_NO}.substring(0,4)+"-"+$F{BIZZACCOUNT_NO}.substring( 4 )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="5fb97e6e-0d04-4128-a37e-32f2e5bf2d31" x="322" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BALANCE_AMT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1a92fc9d-580f-4740-9c25-643f0445cedf" x="422" y="0" width="25" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ บาท]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

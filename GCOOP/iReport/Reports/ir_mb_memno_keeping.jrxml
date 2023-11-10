@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mb_memno_keeping" language="groovy" pageWidth="612" pageHeight="1008" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="082d018f-305d-49c1-9476-c775b33e1d85">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Smember_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Emember_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_titledesc" class="java.lang.String"/>
+	<parameter name="adtm_book" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT MBMEMBMASTER.MEMBER_NO,
+         TRIM(MBUCFPRENAME.PRENAME_DESC) || TRIM(MBMEMBMASTER.MEMB_NAME) ||'  ' || TRIM(MBMEMBMASTER.MEMB_SURNAME) as full_name,
+         MBMEMBMASTER.MEMBGROUP_CODE,NVL(MBMEMBMASTER.MATE_NAME,' ') AS MATE_NAME,
+         MBUCFMEMBGROUP.MEMBGROUP_DESC,    nvl(MBUCFMEMBGROUP.addr_tambol,' ') as addr_tambol ,
+         MBMEMBMASTER.CARD_PERSON,
+         nvl(MBMEMBMASTER.POSITION_DESC,' ') as POSITION_DESC ,
+         nvl(MBUCFDISTRICT.DISTRICT_DESC,' ') as DISTRICT_DESC ,
+        nvl( MBUCFPROVINCE.PROVINCE_DESC,' ') as PROVINCE_DESC
+    FROM MBMEMBMASTER,
+         MBUCFDISTRICT,
+         MBUCFMEMBGROUP,
+         MBUCFPOSITION,
+         MBUCFPRENAME,
+         MBUCFPROVINCE
+   WHERE ( MBUCFMEMBGROUP.COOP_ID = MBMEMBMASTER.COOP_ID ) and
+         ( MBUCFMEMBGROUP.MEMBGROUP_CODE = MBMEMBMASTER.MEMBGROUP_CODE ) and
+         ( MBUCFPOSITION.COOP_ID (+) = MBMEMBMASTER.COOP_ID ) and
+         ( mbucfposition.position_code (+) = mbmembmaster.position_code) and
+         ( MBUCFPRENAME.PRENAME_CODE = MBMEMBMASTER.PRENAME_CODE ) and
+         ( MBUCFPROVINCE.PROVINCE_CODE (+)     = MBUCFMEMBGROUP.ADDR_PROVINCE  ) and
+         ( MBUCFMEMBGROUP.ADDR_AMPHUR (+)  = MBUCFDISTRICT.DISTRICT_CODE  ) and
+         ( MBUCFMEMBGROUP.ADDR_PROVINCE (+) = MBUCFDISTRICT.PROVINCE_CODE  ) and
+         ( ( MBMEMBMASTER.MEMBER_NO between $P{Smember_no}  and $P{Emember_no}    ) )]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MATE_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="ADDR_TAMBOL" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="POSITION_DESC" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<field name="PROVINCE_DESC" class="java.lang.String"/>
+	<group name="MEMBER_NO">
+		<groupExpression><![CDATA[$F{MEMBER_NO}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="151" splitType="Stretch">
+			<textField>
+				<reportElement uuid="709c1a11-2838-41bb-99e9-ee7e4396e080" x="276" y="68" width="32" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("d ",new Locale("th","TH")).format($P{adtm_book})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a228f10b-cceb-4ffa-81cf-1f3a6b6d4ce5" x="367" y="68" width="59" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MMMMM",new Locale("th","TH")).format($P{adtm_book})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="029ba1d5-c0e6-4851-b4bb-34f7cbc843b1" x="474" y="68" width="59" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy",new Locale("th","TH")).format($P{adtm_book})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2bd2ff3a-f430-46dd-bb86-188e4c01c6bf" x="67" y="131" width="390" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_titledesc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="112" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ef257409-a274-4f86-a91c-652f9f6e3888" x="82" y="0" width="202" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ca90def7-d45a-4e6e-bf5c-78f11c3c66b9" x="438" y="0" width="115" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="52fa38ac-debf-4056-8562-b41545404449" x="183" y="28" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POSITION_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="39573b62-8bde-4598-ad35-f1b5aefd55ac" x="399" y="28" width="130" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fee08e6f-a7e8-471c-813c-f6a73cdd4dde" x="211" y="48" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISTRICT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3276d5e8-3a64-4e2e-a882-40a4b59d19a6" x="82" y="72" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a68609d3-d719-4f3b-9fbd-c942ab29e214" x="67" y="48" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADDR_TAMBOL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="69" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="153" splitType="Stretch">
+			<textField>
+				<reportElement uuid="086db13d-09fb-4e7b-b7a5-25de570bbae8" x="250" y="0" width="144" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8057881f-7707-4d77-9c8e-8f99b7d458fa" x="250" y="34" width="144" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MATE_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

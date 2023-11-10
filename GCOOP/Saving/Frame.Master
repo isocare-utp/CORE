@@ -1,0 +1,400 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Frame.Master.cs" Inherits="Saving.Frame" %>
+<%@ Register tagprefix="CustomControls" namespace="CoreSavingLibrary" Assembly="CoreSavingLibrary" %>
+<%@ Register Src="CustomControl/TopBarControl.ascx" TagName="TopBarControl" TagPrefix="uc1" %>
+<%@ Register Src="CustomControl/MenuSubControl.ascx" TagName="MenuSubControl" TagPrefix="uc3" %>
+<%@ Register Src="CustomControl/MenuBarControl.ascx" TagName="MenuBarControl" TagPrefix="uc5" %>
+<%@ Register Src="CustomControl/DatePicker.ascx" TagName="DatePicker" TagPrefix="uc2" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<% Page_LoadComplete(); %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>ASP.NET Page</title>
+    <meta name="ROBOTS" content="NOINDEX, FOLLOW">
+    <meta name="ROBOTS" content="INDEX, NOFOLLOW">
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    <%--<link href="JsCss/FrameLayout.css" rel="stylesheet" type="text/css" />--%>
+    <asp:Literal ID="LtJScriptFrame" runat="server">
+        <link href="JsCss/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <link href="JsCss/FrameLayout.css" rel="stylesheet" type="text/css" />
+        <link href="JsCss/DataSourceTool.css" rel="stylesheet" type="text/css" />
+        <link href="JsCss/PageWeb.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="JsCss/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="JsCss/jquery-ui.js"></script>
+        <script type="text/javascript" src="JsCss/DatePicker.js"></script>
+        <script type="text/javascript" src="JsCss/JsScriptFrame.js"></script>
+        <script type="text/javascript" src="JsCss/DataSourceTool.js"></script>
+        <script type="text/javascript" src="JsCss/CallPlsql.js"></script>
+    </asp:Literal>
+    <script type="text/javascript">
+        //var isMenuGroupOpen = true;
+        var msForm1 = document.forms['<%=form1.ClientID%>'];
+
+        function GoReport() {
+            window.open('<%=VirtualPathUtility.ToAbsolute("~/ReportDefault.aspx")%>?setApp=<%=currentApp%>');
+        }
+
+        function GoChangePass() {
+            window.open('<%=VirtualPathUtility.ToAbsolute("~/ChangePass.aspx")%>');
+        }
+    </script>
+    <script type="text/javascript">
+
+        var isMenuGroupOpen = false;
+
+        var divMenuGroupId = "<%=divMenuGroup.ClientID%>";
+
+        var urlSaving = "<%=urlSaving%>";
+
+        var urlSavingCurrent = "<%=urlSavingCurrent%>";
+
+        var urlSavingExtend = "<%=urlSavingExtend%>";
+
+        var absoluteFullPath = "<%=absoluteFullPath%>";
+
+        var isConfirmOnNew = "<%=isConfirmOnNew%>";
+
+        var currentApp = "<%=currentApp%>";
+
+        var currentPage = "<%=currentPage%>";
+
+        var datePicker = new DatePicker();
+
+        var hdCurrentTopScrollClientId = "<%=HdCurrentTopScroll.ClientID%>";
+
+        var winParameter = "<%=winParameter%>";
+
+        window.onscroll = OnFrameScroll;
+
+        function OnFrameScroll() {
+            try {
+                var currTop = document.documentElement.scrollTop;
+                document.getElementById(hdCurrentTopScrollClientId).value = currTop + "";
+            } catch (err) { }
+        }
+
+        function OpenReportProcessing(retry) {
+
+            var isRetry = false;
+            try {
+                if (retry != undefined && retry != null) {
+                    isRetry = retry;
+                }
+            } catch (err) { }
+            try {
+                var textRetry = "";
+                if (isRetry) {
+                    textRetry = "&retry=true";
+                }
+                var fullUrl = urlSaving + "CriteriaIReport/iframe_ireport/w_dlg_ireport_processing.aspx?pid=" + iReportPid + "&cid=" + iReportCid + textRetry;
+                Gcoop.OpenIFrame(700, 180, "", "", fullUrl);
+            } catch (err) { }
+        }
+
+        function OpenReportSuccessful() {
+            try {
+                Gcoop.RemoveIFrame();
+                document.getElementById("linkOpenReportProcessing").innerHTML = iReportSuccessfulDownload;
+                if (iReportAutoOpenPdf != "") {
+                    window.open(iReportAutoOpenPdf, "_blank");
+                }
+            } catch (err) {
+            }
+        }
+
+        function ApplicationSelection(appName) {
+            window.location = urlSaving + "Default.aspx?setApp=" + appName;
+        }
+
+        function OnLoadComplete() {
+            if (theForm == undefined) {
+                theForm = document.forms['aspnetForm'];
+            }
+
+            Gcoop.IsSheetWebDataInFolder = '<%=isSheetWebDataInFolder%>' == 'true' ? true : false;
+
+            Page_LoadComplete();
+
+            try {
+                var currTop = Gcoop.ParseInt(document.getElementById(hdCurrentTopScrollClientId).value);
+                window.scrollTo(0, currTop);
+            } catch (err) { }
+
+            try {
+                if (iReportProgress == true) {
+                    document.getElementById("linkOpenReportProcessing").style.visibility = "visible";
+                }
+            } catch (err) {
+            }
+            datePicker.Gcoop = Gcoop;
+        }
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-color: rgb(200, 235, 255); background-repeat: repeat-x; background-position: top;"
+    onload="OnLoadComplete()">
+    <form id="form1" runat="server">
+    <div align="center">
+        <uc1:TopBarControl ID="TopBarControl1" runat="server" />
+        <br />
+        <table width="970" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td style="height: 30px;">
+                </td>
+            </tr>
+            <tr>
+                <td class="marginTopMid">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td valign="middle" style="width: 80px; text-align: right;">
+                                <asp:Image ID="Image1" runat="server" ImageUrl="~/Image/band_black.jpg" Width="60px" />
+                            </td>
+                            <td valign="top" style="text-align: left;">
+                                <div style="margin-left: 5px;">
+                                    <div style="margin-top: 6px;">
+                                        <asp:Label ID="LbSiteNameThai" runat="server" Text="sso.offline_label_thai" Style="font-family: Tahoma;
+                                            font-size: 24px; font-weight: bold"></asp:Label>
+                                        <br />
+                                    </div>
+                                    <div style="margin-top: 3px;">
+                                        <asp:Label ID="LbSiteNameEnglish" runat="server" Text="sso.offline_label_eng" Style="font-family: Times New Roman;
+                                            font-size: 10px; font-weight: bold"></asp:Label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td valign="top">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="menuListAll">
+                    <table width="100%">
+                        <tr>
+                            <td width="50%" align="left" valign="middle">
+                                <table border="0" cellpadding="0" cellspacing="0" class="menuSystem">
+                                    <tr>
+                                        <td>
+                                            <span onclick="ClickMenuGroup()">
+                                                <asp:Image ID="Image2" runat="server" ImageUrl="~/Image/ico/systemmenu.png" AlternateText="List of Application Menu"
+                                                    Width="20px" />
+                                                <br />
+                                                ListMenu </span>
+                                        </td>
+                                        <td>
+                                            <span onclick="New_Toolbar();">
+                                                <asp:Image ID="Image3" runat="server" ImageUrl="~/Image/ico/clipboard.png" AlternateText="New"
+                                                    Width="20px" />
+                                                <br />
+                                                New[F2] </span>
+                                        </td>
+                                        <td>
+                                            <span onclick="Open_Toolbar();">
+                                                <asp:Image ID="Image4" runat="server" ImageUrl="~/Image/ico/folder.png" AlternateText="Open"
+                                                    Width="20px" />
+                                                <br />
+                                                Open[F8] </span>
+                                        </td>
+                                        <td>
+                                            <span onclick="Save_Toolbar();">
+                                                <asp:Image ID="Image5" runat="server" ImageUrl="~/Image/ico/save.png" AlternateText="Save"
+                                                    Width="20px" />
+                                                <br />
+                                                Save[F9] </span>
+                                        </td>
+                                        <td style="width: 220px;" align="right">
+                                            <style>
+                                                .bookversionnew
+                                                {
+                                                    border: 2px solid #000033;
+                                                    border-collapse: collapse;
+                                                    font-family: tahoma;
+                                                    font-size: 16px;
+                                                    text-align: center;
+                                                    vertical-align: middle;
+                                                    color: #00FFFF; /*width: 40px;*/ /*height: 16px;*/
+                                                    background-color: #000099;
+                                                    cursor: pointer;
+                                                }
+                                                .bookversionold
+                                                {
+                                                    border: 2px solid #660000;
+                                                    border-collapse: collapse;
+                                                    font-family: sans-serif;
+                                                    font-family: tahoma;
+                                                    text-align: center;
+                                                    vertical-align: middle;
+                                                    color: #FFCC00; /*width: 37px;*/ /*height: 17px;*/
+                                                    background-color: #990033;
+                                                    cursor: pointer;
+                                                }
+                                            </style>
+                                            <asp:Literal ID="LtBookVersion" runat="server"></asp:Literal>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%" align="right" valign="middle">
+                                <table border="0" cellpadding="0" cellspacing="0" class="menuExit">
+                                    <tr>
+                                        <td id="TdReport" runat="server">
+                                            <span onclick="GoReport()">
+                                                <asp:Image ID="ImReport" runat="server" ImageUrl="~/Image/icoReport.png" AlternateText="Report"
+                                                    Width="20px" />
+                                                <br />
+                                                Report </span>
+                                        </td>
+                                        <td>
+                                            <span onclick="GoChangePass()">
+                                                <asp:Image ID="Image8" runat="server" ImageUrl="~/Image/chgpwd_icon.png" AlternateText="Change Password"
+                                                    Width="20px" />
+                                                <br />
+                                                Password </span>
+                                        </td>
+                                        <td>
+                                            <span onclick="GoApps()">
+                                                <asp:Image ID="Image7" runat="server" ImageUrl="~/Image/applications_icon.png" AlternateText="Open"
+                                                    Width="20px" />
+                                                <br />
+                                                Apps </span>
+                                        </td>
+                                        <td>
+                                            <span onclick="GoLogOff();">
+                                                <asp:Image ID="Image9" runat="server" ImageUrl="~/Image/exit.png" AlternateText="Save"
+                                                    Width="20px" />
+                                                <br />
+                                                LogOff </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: white; height: 650px; vertical-align: top; text-align: left">
+                    <div id="divMenuGroup" class="menubarGroupClose" runat="server">
+                        <div align="center">
+                            <uc5:MenuBarControl ID="MenuBarControl1" runat="server" />
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                    <div align="center">
+                        <table id="TableMenuAndContent" width="96%" runat="server">
+                            <tr>
+                                <td colspan="2" style="text-align: left; height: 40px; vertical-align: middle;">
+                                    <asp:Label ID="LbSystemAndPage" runat="server" Text="เข้าสู่ระบบ" Font-Bold="True"
+                                        Font-Names="Tahoma" Font-Size="20px" ForeColor="#999999"></asp:Label>
+                                    <hr />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="tdMenuLeft" style="height: 400px; vertical-align: top; text-align: left;"
+                                    runat="server">
+                                    <uc3:MenuSubControl ID="MenuSubControl1" runat="server" />
+                                </td>
+                                <td id="tdMenuRight" style="width: 750px; vertical-align: top; text-align: left;"
+                                    align="left" runat="server">
+                                    <div id="divContentPlacePermiss" runat="server" align="left">
+                                        <asp:Literal ID="LtServerMessageFrame" runat="server"></asp:Literal>
+                                        <div align="center" id="linkOpenReportProcessing" style="visibility: hidden;">
+                                            <div style="cursor: pointer; text-decoration: underline; color: #0099FF; font-size: 13px;
+                                                font-family: Tahoma; font-weight: bold;" onclick="OpenReportProcessing(true)">
+                                                หน้าประมวลการออกรายงาน
+                                            </div>
+                                        </div>
+                                        <asp:ContentPlaceHolder ID="ContentPlace" runat="server">
+                                        </asp:ContentPlaceHolder>
+                                        <uc2:DatePicker ID="datePicker" runat="server" />
+                                        <% if (Request["GetPrinter"] == "1") { %>สรุุปรายการ Printer ที่มีทั้งหมดคือ <hr /><% System.Collections.ArrayList printerLists = CoreSavingLibrary.WebUtil.GetInstalledPrinters(true); foreach(String p in printerLists){ %></br><%=p%> <% } %> <% } %>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer" style="font-size: 8px;">
+                    <div align="center">
+                    <%=postCleanXmlJavaAppletFromFrameMaster%>
+                    &nbsp; <u style="color: Blue; cursor: pointer;" onclick="postCleanXmlJavaAppletFromFrameMaster()">
+                        Clean XML Applet</u>&nbsp; &nbsp;
+                    <%=downloadPatch%>&nbsp;<a href="/CORE/" target="_blank" >กำหนดค่าระบบ</a>
+                    <%=restartIreportBuilder%>
+                    &nbsp;<a href="/CORE/GCOOP/Saving/Default.aspx?GetPrinter=1" target="_blank" >กำหนดรายการเครื่องพิมพ์</a>
+                    <br />
+                    &nbsp;&nbsp;เครื่องพิมพ์ <asp:DropDownList ID="DpPrinter" runat="server" Width="200px" Height="20px" ></asp:DropDownList><asp:HiddenField ID="HdReportOption" Value="" runat="server" /><asp:HiddenField ID="HdReportPrinter" Value="" runat="server" />                    
+                    <input name="DpPrinterBtn" id="DpPrinterBtn" type="button" onclick="doSetPrinter()" style="display:;" value="ตั้งเครื่องพิมพ์" />
+                    <span id="PrinterTxt" ></span><iframe id="PrinterFrame" src="" height="10" width="50" style="display:none;" ></iframe>
+                    &nbsp;&nbsp;Timeout<asp:DropDownList ID="DpAutoExpendSession" runat="server" Width="100px" Height="20px" OnSelectedIndexChanged="DpAutoExpendSessionTextChanged" OnTextChanged="DpAutoExpendSessionTextChanged">
+                    <asp:ListItem Value="0">-</asp:ListItem>
+                    <asp:ListItem Value="1">ต่อทุก 1 นาที</asp:ListItem>
+                    <asp:ListItem Value="5">ต่อทุก 5 นาที</asp:ListItem>
+                    <asp:ListItem Value="10">ต่อทุก 10 นาที</asp:ListItem>
+                    <asp:ListItem Value="15">ต่อทุก 15 นาที</asp:ListItem>
+                    </asp:DropDownList>
+                    <input name="TimeoutBtn" id="TimeoutBtn" type="button" onclick="doTimeoutExt()" style="display:;" value="ดำเนินการ" />
+                    <span id="SesstionTimeoutTxt" ></span>
+                    <iframe id="TimeoutFrame" src="" height="10" width="50" style="display:none;" ></iframe>
+                    <script language="javascript" type="text/javascript">
+
+                        var Timeout = parseInt($("input[name*='DpAutoExpendSession']").val());
+                        ///*
+                        var runTimer = window.setInterval(function () {
+                            doTimeoutExt();
+                        }, Timeout * 1000);
+                        //*/
+
+                        function doSetPrinter() {
+                            printer = $("select[name*='DpPrinter']").val();
+                            document.getElementById("PrinterFrame").src = "/CORE/GCOOP/Saving/websetprinter.aspx?<%=FrameContext%>&p=" + printer;
+                        }
+
+                        function doTimeoutExt() {
+                            Timeout = $("select[name*='DpAutoExpendSession']").val();
+                            if (Timeout > 0) {
+                                try {
+                                    document.getElementById("TimeoutFrame").src = "/CORE/GCOOP/Saving/webtimeoutext.aspx?<%=FrameContext%>&tx=" + Timeout;
+                                    window.clearInterval(runTimer);
+                                    runTimer = window.setInterval(function () {
+                                        doTimeoutExt();
+                                    }, Timeout * 1000 * 60);
+                                    //alert(document.getElementById("TimeoutFrame").src);
+                                } catch (e) {
+                                    alert(e.message);
+                                }
+                            } else {
+                                window.clearInterval(runTimer);
+                            }
+                        }
+                    </script>
+                    </div>
+                    <div align="right">
+                        <input type="text" id="theLastObject" value="" style="width: 1px; visibility: hidden"
+                            readonly="readonly" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="iFrameMaster">
+    </div>    
+    <asp:Image ID="Image6" runat="server" ImageUrl="~/Image/tranparent.png" />
+    <asp:Literal ID="LtDwThDateJavaScript" runat="server"></asp:Literal>
+    <asp:HiddenField ID="HdCurrentTopScroll" runat="server" Value="0" />
+    <%=currentProcessing%>
+    <!--<div id="msgProcessing" style="display:none;"><iframe id="processFrame" frameborder=0 style="display:;" height=100 width=750 src="<%=urlSaving%>webprocessingframe.aspx?p=<%=1%>&d=<%=currentConn%>" ></iframe><div> -->
+    <!--<iframe frameborder=0 style="display:none;" height=5 width=750 src="<%=urlSaving%>webmsgframe.aspx?u=<%=currentUser%>&d=<%=currentConn%>" ></iframe>-->    
+    </form><%=WebUtil.GenerateFileContentDownload()%>  
+    <script language="javascript">
+        var img = document.getElementById("ctl00_Image1");
+        //img.onload = good;
+        img.onerror = function () { img.src = "/CORE/GCOOP/SingleSignOn/Image/band_black.jpg" };
+        img.src = "/<%=logoURL%>";       
+    </script>     
+</body>
+</html>

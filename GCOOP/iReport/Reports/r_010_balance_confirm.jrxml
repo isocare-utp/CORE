@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_lnyr_balance_confirm" language="groovy" pageWidth="595" pageHeight="842" columnWidth="1" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="31aae306-9a0a-4da6-a5fa-48c3bfcd7c34">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_operate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_docdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_smemno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_ememno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\งานแวว\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct mbmembmaster.member_no,
+            mbucfprename.prename_short,
+            mbmembmaster.memb_name,
+            mbmembmaster.memb_surname,
+            mbucfmembgroup.membgroup_desc,
+            yrconfirmmaster.membgroup_code
+        from mbmembmaster,
+            mbucfmembgroup,
+            mbucfprename,
+            yrconfirmmaster
+        where ( mbmembmaster.coop_id = mbucfmembgroup.coop_id )
+            and ( mbucfprename.prename_code = mbmembmaster.prename_code )
+            and ( mbucfmembgroup.coop_id = yrconfirmmaster.coop_id )
+            and ( yrconfirmmaster.member_no = mbmembmaster.member_no )
+            and ( yrconfirmmaster.membgroup_code = mbucfmembgroup.membgroup_code )
+            and ( ( yrconfirmmaster.coop_id = $P{as_coopid} )
+            and ( yrconfirmmaster.balance_date = $P{adtm_operate} )
+            and ( yrconfirmmaster.membgroup_code between $P{as_sgroup} and $P{as_egroup} )
+            and ( yrconfirmmaster.member_no between $P{as_smemno} and $P{as_ememno} ) )
+        order by  yrconfirmmaster.membgroup_code , mbmembmaster.member_no]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_SHORT" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<detail>
+		<band height="648" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="b8b4e990-f365-4d6b-94fd-0d71bcf84679" stretchType="RelativeToBandHeight" x="35" y="144" width="520" height="100"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="adtm_operate">
+					<subreportParameterExpression><![CDATA[$P{adtm_operate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_memberno">
+					<subreportParameterExpression><![CDATA[$F{MEMBER_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["r_010_balance_confirm_sub.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement uuid="30c7017f-706a-4bac-becc-babdbc5ffa26" x="35" y="54" width="346" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_SHORT}+" "+$F{MEMB_NAME}+" "+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e2030322-86ce-4600-ba46-9050241c9159" x="35" y="74" width="346" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}+" - "+$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1e0c3fc2-55d5-4cc0-b73b-dd8a5c94b378" x="392" y="74" width="147" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_docdate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fd0bfcbe-a888-4c38-bbc2-9a7062925046" x="392" y="54" width="147" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

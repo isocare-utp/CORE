@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_printcont_nol_main_surin" pageWidth="695" pageHeight="1042" columnWidth="655" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b7ef8dc2-0ffb-46f2-a219-19e068f7dd20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_reqdocno" class="java.lang.String">
+		<defaultValueExpression><![CDATA['RQ56000485']]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     MBUCFPRENAME."PRENAME_DESC",
+     "MBUCFMEMBGROUP_A"."MEMBGROUP_DESC",
+     MBMEMBMASTER."MEMB_NAME",
+     MBMEMBMASTER."MEMB_SURNAME",
+     MBMEMBMASTER."MEMBGROUP_CODE",
+     MBMEMBMASTER."BIRTH_DATE",
+     MBMEMBMASTER."MEMBER_DATE",
+     MBMEMBMASTER."CARD_PERSON",
+     MBMEMBMASTER."MATE_NAME",
+     MBMEMBMASTER."SALARY_AMOUNT",
+     LNUCFLOANOBJECTIVE."LOANOBJECTIVE_DESC",
+     LNREQLOAN."MEMBER_NO",
+     LNREQLOAN."LOANTYPE_CODE",
+     LNREQLOAN."LOANREQUEST_DATE",
+     LNREQLOAN."LOANCREDIT_AMT",
+     LNREQLOAN."LOANPERMISS_AMT",
+     LNREQLOAN."LOANREQUEST_AMT",
+     LNREQLOAN."LOANPAYMENT_TYPE",
+     LNREQLOAN."PERIOD_PAYMENT",
+     LNREQLOAN."LOANCONTRACT_NO",
+     LNREQLOAN."STARTKEEP_DATE",
+     LNREQLOAN."PERIOD_PAYAMT",
+     "MBUCFMEMBGROUP_B"."MEMBGROUP_DESC" AS groupcontrol_desc,
+     LNREQLOAN."LOANREQUEST_DOCNO" AS groupcontrol_desc,
+     LNREQLOAN."MEMBER_NO" AS LNREQLOAN_MEMBER_NO
+FROM
+     "LNREQLOAN" LNREQLOAN,
+     "LNUCFLOANOBJECTIVE" LNUCFLOANOBJECTIVE,
+     "MBMEMBMASTER" MBMEMBMASTER,
+     "MBUCFMEMBGROUP" "MBUCFMEMBGROUP_A",
+     "MBUCFPRENAME" MBUCFPRENAME,
+     "MBUCFMEMBGROUP" "MBUCFMEMBGROUP_B"
+WHERE
+     ("MBUCFMEMBGROUP_A"."COOP_ID" = "MBMEMBMASTER"."COOP_ID")
+     and ("MBUCFMEMBGROUP_A"."MEMBGROUP_CODE" = "MBMEMBMASTER"."MEMBGROUP_CODE")
+     and ("MBUCFPRENAME"."PRENAME_CODE" = "MBMEMBMASTER"."PRENAME_CODE")
+     and ("LNREQLOAN"."COOP_ID" = "LNUCFLOANOBJECTIVE"."COOP_ID")
+     and ("LNREQLOAN"."LOANTYPE_CODE" = "LNUCFLOANOBJECTIVE"."LOANTYPE_CODE")
+     and ("LNREQLOAN"."LOANOBJECTIVE_CODE" = "LNUCFLOANOBJECTIVE"."LOANOBJECTIVE_CODE")
+     and ("LNREQLOAN"."MEMBER_NO" = "MBMEMBMASTER"."MEMBER_NO")
+     and ("LNREQLOAN"."COOP_ID" = "MBMEMBMASTER"."COOP_ID")
+     and ("MBUCFMEMBGROUP_A"."COOP_ID" = "MBUCFMEMBGROUP_B"."COOP_ID")
+     and ("MBUCFMEMBGROUP_A"."MEMBGROUP_CONTROL" = "MBUCFMEMBGROUP_B"."MEMBGROUP_CODE")
+     and (("LNREQLOAN"."LOANREQUEST_DOCNO" = $P{as_reqdocno}))]]>
+	</queryString>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="BIRTH_DATE" class="java.sql.Timestamp"/>
+	<field name="MEMBER_DATE" class="java.sql.Timestamp"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="MATE_NAME" class="java.lang.String"/>
+	<field name="SALARY_AMOUNT" class="java.math.BigDecimal"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="LOANTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANREQUEST_DATE" class="java.sql.Timestamp"/>
+	<field name="LOANCREDIT_AMT" class="java.math.BigDecimal"/>
+	<field name="LOANPERMISS_AMT" class="java.math.BigDecimal"/>
+	<field name="LOANREQUEST_AMT" class="java.math.BigDecimal"/>
+	<field name="LOANPAYMENT_TYPE" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="STARTKEEP_DATE" class="java.sql.Timestamp"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="GROUPCONTROL_DESC" class="java.lang.String"/>
+	<field name="LNREQLOAN_MEMBER_NO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b423c02b-1125-4088-a97f-39c3c5763a61" x="544" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<textField>
+				<reportElement uuid="7cdfd8b5-f848-4e35-9b67-695f5e65805e" x="91" y="6" width="123" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+' ' + $F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4682a285-ffe0-46b7-932d-f736c01a7c4c" x="91" y="26" width="123" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement uuid="66dd1019-a6ca-4fd0-a63a-fed52a563769" x="68" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LNREQLOAN_MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="29b3995b-ffe0-4c93-a832-71f8d3c68d7f" x="114" y="20" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9d94f62-07de-4244-b2ef-f3df5e54146b" x="389" y="20" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{GROUPCONTROL_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b7ae881b-344e-42a7-913c-efd9ce50bff9" x="235" y="72" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANREQUEST_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement uuid="9c56ab55-aa32-4794-b7ac-d8e6e12cd249" x="433" y="20" width="148" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANOBJECTIVE_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

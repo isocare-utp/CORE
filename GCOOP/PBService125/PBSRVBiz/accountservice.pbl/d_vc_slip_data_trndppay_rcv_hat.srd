@@ -1,0 +1,141 @@
+$PBExportHeader$d_vc_slip_data_trndppay_rcv_hat.srd
+release 12.5;
+datawindow(units=0 color=16777215 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=144 )
+detail(height=92 )
+summary(height=96 )
+footer(height=0 )
+table(column=(name=deptslip_no dbname="DPDEPTSLIP.DEPTSLIP_NO" type=char(13) updatewhereclause=yes )
+column=(name=deptaccount_no dbname="DPDEPTSLIP.DEPTACCOUNT_NO" type=char(10) updatewhereclause=yes )
+column=(name=deptgroup_code dbname="DPDEPTSLIP.DEPTGROUP_CODE" type=char(2) updatewhereclause=yes )
+column=(name=depttype_code dbname="DPDEPTSLIP.DEPTTYPE_CODE" type=char(2) updatewhereclause=yes )
+column=(name=deptslip_date dbname="DPDEPTSLIP.DEPTSLIP_DATE" type=datetime updatewhereclause=yes )
+column=(name=deptslip_amt dbname="DPDEPTSLIP.DEPTSLIP_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=cash_type dbname="DPDEPTSLIP.CASH_TYPE" type=char(3) updatewhereclause=yes )
+column=(name=tofrom_accid dbname="DPDEPTSLIP.TOFROM_ACCID" type=char(8) updatewhereclause=yes )
+column=(name=int_bfyear dbname="DPDEPTSLIP.INT_BFYEAR" type=decimal(5) updatewhereclause=yes )
+column=(name=entry_date dbname="DPDEPTSLIP.ENTRY_DATE" type=datetime updatewhereclause=yes )
+column=(name=moneytype_group dbname="CMUCFMONEYTYPE.MONEYTYPE_GROUP" type=char(3) updatewhereclause=yes )
+column=(name=accnature_flag dbname="DPUCFRECPPAYTYPE.ACCNATURE_FLAG" type=decimal(0) updatewhereclause=yes )
+column=(name=accmap_code dbname="DPUCFRECPPAYTYPE.ACCMAP_CODE" type=char(3) updatewhereclause=yes )
+column=(name=recppaytype_code dbname="DPDEPTSLIP.RECPPAYTYPE_CODE" type=char(3) updatewhereclause=yes )
+column=(name=coop_id dbname="DPDEPTSLIP.COOP_ID" type=char(6) updatewhereclause=yes )
+column=(name=fee_amt dbname="DPDEPTSLIP.FEE_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=intarrear_amt dbname="DPDEPTSLIP.INTARREAR_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=int_amt dbname="DPDEPTSLIP.INT_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=deptslip_netamt dbname="DPDEPTSLIP.DEPTSLIP_NETAMT" type=decimal(5) updatewhereclause=yes )
+column=(name=accuint_amt dbname="DPDEPTSLIP.ACCUINT_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=int_return dbname="DPDEPTSLIP.INT_RETURN" type=decimal(5) updatewhereclause=yes )
+column=(name=deptgroup_code dbname="DPDEPTSLIP.DEPTGROUP_CODE" type=char(2) updatewhereclause=yes )
+column=(name=group_itemtpe dbname="DPUCFRECPPAYTYPE.GROUP_ITEMTPE" type=char(3) updatewhereclause=yes )
+column=(name=payfee_meth dbname="DPDEPTSLIP.PAYFEE_METH" type=decimal(0) updatewhereclause=yes )
+column=(name=int_curyear dbname="DPDEPTSLIP.INT_CURYEAR" type=decimal(5) updatewhereclause=yes )
+column=(name=other_amt dbname="DPDEPTSLIP.OTHER_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=depttype_desc dbname="DPDEPTTYPE.DEPTTYPE_DESC" type=char(60) updatewhereclause=yes )
+column=(name=recppaytype_desc dbname="DPUCFRECPPAYTYPE.RECPPAYTYPE_DESC" type=char(60) updatewhereclause=yes )
+column=(name=tax_amt dbname="DPDEPTSLIP.TAX_AMT" type=decimal(5) updatewhereclause=yes )
+column=(name=tax_return dbname="DPDEPTSLIP.TAX_RETURN" type=decimal(5) updatewhereclause=yes )
+column=(name=dpdeptslip_refer_slipno dbname="DPDEPTSLIP.REFER_SLIPNO" type=char(13) updatewhereclause=yes )
+column=(name=dpdeptslip_voucher_no dbname="DPDEPTSLIP.VOUCHER_NO" type=char(10) updatewhereclause=yes )
+column=(name=refer_cashtype dbname="refer_cashtype" type=char(3) updatewhereclause=yes )
+column=(name=tofrom_accid2 dbname="tofrom_accid2" type=char(8) updatewhereclause=yes )
+column=(name=tax2 dbname="tax2" type=number updatewhereclause=yes )
+retrieve="  SELECT ~"DPDEPTSLIP~".~"DEPTSLIP_NO~",   
+         ~"DPDEPTSLIP~".~"DEPTACCOUNT_NO~",
+		~"DPDEPTSLIP~".~"DEPTGROUP_CODE~",   
+         ~"DPDEPTSLIP~".~"DEPTTYPE_CODE~",   
+         ~"DPDEPTSLIP~".~"DEPTSLIP_DATE~",   
+         ~"DPDEPTSLIP~".~"DEPTSLIP_AMT~",   
+         ~"DPDEPTSLIP~".~"CASH_TYPE~",   
+         ~"DPDEPTSLIP~".~"TOFROM_ACCID~",   
+         ~"DPDEPTSLIP~".~"INT_BFYEAR~",   
+         ~"DPDEPTSLIP~".~"ENTRY_DATE~",   
+         ~"CMUCFMONEYTYPE~".~"MONEYTYPE_GROUP~",   
+         ~"DPUCFRECPPAYTYPE~".~"ACCNATURE_FLAG~",   
+         ~"DPUCFRECPPAYTYPE~".~"ACCMAP_CODE~",   
+         ~"DPDEPTSLIP~".~"RECPPAYTYPE_CODE~",   
+         ~"DPDEPTSLIP~".~"COOP_ID~",   
+         ~"DPDEPTSLIP~".~"FEE_AMT~",   
+         ~"DPDEPTSLIP~".~"INTARREAR_AMT~",   
+         ~"DPDEPTSLIP~".~"INT_AMT~",   
+         ~"DPDEPTSLIP~".~"DEPTSLIP_NETAMT~",   
+         ~"DPDEPTSLIP~".~"ACCUINT_AMT~",   
+         ~"DPDEPTSLIP~".~"INT_RETURN~",   
+         ~"DPDEPTSLIP~".~"DEPTGROUP_CODE~",   
+         ~"DPUCFRECPPAYTYPE~".~"GROUP_ITEMTPE~",   
+         ~"DPDEPTSLIP~".~"PAYFEE_METH~",   
+         ~"DPDEPTSLIP~".~"INT_CURYEAR~",   
+         ~"DPDEPTSLIP~".~"OTHER_AMT~",   
+         ~"DPDEPTTYPE~".~"DEPTTYPE_DESC~",   
+         ~"DPUCFRECPPAYTYPE~".~"RECPPAYTYPE_DESC~",   
+         ~"DPDEPTSLIP~".~"TAX_AMT~",   
+         ~"DPDEPTSLIP~".~"TAX_RETURN~"  ,
+		~"DPDEPTSLIP~".~"REFER_SLIPNO~" ,
+		~"DPDEPTSLIP~".~"VOUCHER_NO~" ,
+		( select dp.cash_type from dpdeptslip dp where dp.deptslip_no = ~"DPDEPTSLIP~".~"REFER_SLIPNO~") as refer_cashtype,
+		( select distinct dp1.tofrom_accid from dpdeptslip dp1 where dp1.deptslip_no =  ~"DPDEPTSLIP~".~"REFER_SLIPNO~") as tofrom_accid2,
+		( select dp2.tax_amt from dpdeptslip dp2 where dp2.deptslip_no =  ~"DPDEPTSLIP~".~"REFER_SLIPNO~") as tax2
+    FROM ~"DPDEPTSLIP~",   
+         ~"DPUCFRECPPAYTYPE~",   
+         ~"CMUCFMONEYTYPE~",   
+         ~"DPDEPTTYPE~"  
+   WHERE ( ~"DPDEPTSLIP~".~"CASH_TYPE~" = ~"CMUCFMONEYTYPE~".~"MONEYTYPE_CODE~" ) and  
+         ( ~"DPDEPTSLIP~".~"RECPPAYTYPE_CODE~" = ~"DPUCFRECPPAYTYPE~".~"RECPPAYTYPE_CODE~" ) and  
+         ( ~"DPDEPTSLIP~".~"DEPTCOOP_ID~" = ~"DPUCFRECPPAYTYPE~".~"COOP_ID~" ) and  
+         ( ~"DPDEPTSLIP~".~"DEPTCOOP_ID~" = ~"DPDEPTTYPE~".~"COOP_ID~" ) and  
+         ( ~"DPDEPTSLIP~".~"DEPTTYPE_CODE~" = ~"DPDEPTTYPE~".~"DEPTTYPE_CODE~" ) and  
+         ( ( ~"DPDEPTSLIP~".~"DEPTSLIP_DATE~" = :adtm_vcdate ) AND  
+         (~"DPDEPTSLIP~".~"DEPTCOOP_ID~" = :as_coopid ) AND  
+         ( ~"DPUCFRECPPAYTYPE~".~"GENVC_FLAG~" = 1 ) AND  
+         ( ~"CMUCFMONEYTYPE~".~"MONEYTYPE_GROUP~" not in ( 'ERR' ) ) AND  
+         ( ~"DPDEPTSLIP~".~"CASH_TYPE~" <> 'CSH' ) AND  
+         (~"DPDEPTSLIP~".~"POSTTOVC_FLAG~" = 0 OR  
+         ~"DPDEPTSLIP~".~"POSTTOVC_FLAG~" is null)
+and (( select dp.cash_type from dpdeptslip dp where dp.deptslip_no = ~"DPDEPTSLIP~".~"REFER_SLIPNO~") is null 
+or ( select dp.cash_type from dpdeptslip dp where dp.deptslip_no = ~"DPDEPTSLIP~".~"REFER_SLIPNO~") <> 'CSH')
+ ) AND  
+         (~"DPDEPTSLIP~".~"ITEM_STATUS~" = 1) AND  
+         ~"DPDEPTSLIP~".~"RECPPAYTYPE_CODE~" not in ('DTM','WTM','TAX' , 'DTR')    
+" filter="recppaytype_code <> 'FEE'" sort="group_flag A deptgroup_code A recppaytype_code A depttype_code A deptslip_no A " arguments=(("adtm_vcdate",datetime), ("as_coopid",string))
+)
+text(name=depttype_code_t band=header x="649" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Depttype Code" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=deptslip_date_t band=header x="969" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Deptslip Date" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=recppaytype_code_t band=header x="1289" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Recppaytype Code" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=deptslip_amt_t band=header x="1609" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Deptslip Amt" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=cash_type_t band=header x="1929" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Cash Type" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=deptslip_no_t band=header x="9" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Deptslip No" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=deptaccount_no_t band=header x="329" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Deptaccount No" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+text(name=recppaytype_flag_t band=header x="2249" y="8" height="116" width="302" alignment="2" border="0" color="0" text="Recppaytype Flag" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=deptslip_no band=detail x="9" y="4" height="76" width="357" id=1 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=10 )
+column(name=deptaccount_no band=detail x="384" y="4" height="76" width="302" id=2 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16711935" background.mode="2" edit.autohscroll=yes edit.limit=10 )
+column(name=depttype_code band=detail x="750" y="4" height="76" width="146" id=4 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=2 )
+column(name=deptslip_date band=detail x="969" y="4" height="76" width="302" id=5 color="0" border="0" alignment="0" format="[shortdate] [time]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autohscroll=yes )
+column(name=recppaytype_code band=detail x="1289" y="4" height="76" width="302" id=14 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=3 )
+column(name=deptslip_amt band=detail x="1609" y="4" height="76" width="302" id=6 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16776960" background.mode="2" edit.autohscroll=yes )
+column(name=tofrom_accid band=detail x="2569" y="4" height="76" width="302" id=8 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16776960" background.mode="2" )
+column(name=int_bfyear band=detail x="2889" y="4" height="76" width="302" id=9 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65535" background.mode="2" )
+column(name=cash_type band=detail x="1929" y="4" height="76" width="302" id=7 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.limit=3 )
+column(name=accnature_flag band=detail x="2249" y="4" height="76" width="302" id=12 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=moneytype_group band=detail x="3525" y="4" height="76" width="302" id=11 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=accmap_code band=detail x="3840" y="4" height="76" width="302" id=13 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=coop_id band=detail x="4155" y="16" height="52" width="302" id=15 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=fee_amt band=detail x="4471" y="0" height="52" width="183" id=16 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+compute(name=compute_3 band=detail x="5893" y="4" height="52" width="1627" color="0" format="[GENERAL]" expression="'รายการ' + trim(recppaytype_desc) + trim( depttype_desc )" alignment="0" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=tax_amt band=detail x="4672" y="4" height="52" width="265" id=29 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=tax_return band=detail x="4942" y="4" height="52" width="293" id=30 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=int_amt band=detail x="5243" y="8" height="52" width="320" id=18 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65535" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=int_return band=detail x="5568" y="8" height="52" width="261" id=21 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=deptslip_netamt band=detail x="3205" y="8" height="72" width="302" id=19 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="12639424" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=dpdeptslip_refer_slipno band=detail x="7520" y="0" height="52" width="448" id=31 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=refer_cashtype band=detail x="7968" y="0" height="52" width="283" id=33 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=tofrom_accid2 band=detail x="8251" y="0" height="52" width="338" id=34 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16776960" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=deptgroup_code band=detail x="8590" y="0" height="52" width="347" id=3 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+compute(name=group_flag band=detail x="8987" y="8" height="52" width="215" color="0" format="[GENERAL]" expression="if(  deptgroup_code = '01' , 1 , 2)" alignment="0" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=tax2 band=detail x="9230" y="4" height="52" width="517" id=35 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16776960" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=dpdeptslip_voucher_no band=detail x="9746" y="0" height="52" width="270" id=32 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=group_itemtpe band=detail x="10030" y="0" height="64" width="279" id=23 border="0" alignment="0" font.face="MS Sans Serif" font.height="-10" font.charset="222" background.color="16711935" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+compute(name=summt_notint band=detail x="10359" y="0" height="80" width="250" tooltip.backcolor="16777215" tooltip.textcolor="0" format="[general]" expression="if( recppaytype_code not in ('INT','WIN') ,  deptslip_amt  -  int_amt  ,  deptslip_amt )" alignment="1" border="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" background.gradient.color="0" )
+compute(name=compute_1 band=summary x="1504" y="12" height="68" width="402" color="0" format="#,##0.00" expression="sum(  deptslip_amt  for all )" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="15780518" background.mode="2" )
+compute(name=compute_2 band=summary x="3314" y="8" height="68" width="517" color="0" format="#,##0.00" expression=" sum(  deptslip_netamt for all ) " alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65535" background.mode="2" )
+compute(name=compute_4 band=summary x="4681" y="20" height="52" width="274" color="0" format="[GENERAL]" expression="sum(tax_amt )" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" )
+compute(name=compute_5 band=summary x="2907" y="16" height="52" width="270" color="0" format="[GENERAL]" expression="sum( int_bfyear)" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65535" background.mode="2" )

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_lc_apploan_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1fcde240-6f93-4051-8ccd-aedac3ded0fa">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_bankcode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_status" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from cmucfbank where bank_code = (decode($P{as_bankcode}, '0000',  '001' , $P{as_bankcode}))]]>
+	</queryString>
+	<field name="BANK_CODE" class="java.lang.String"/>
+	<field name="BANK_DESC" class="java.lang.String"/>
+	<field name="GL_ACCOUNT_CODE" class="java.lang.String"/>
+	<field name="SETSORT" class="java.math.BigDecimal"/>
+	<field name="CALFEE_TYPE" class="java.math.BigDecimal"/>
+	<field name="FEE_PERCENT" class="java.math.BigDecimal"/>
+	<field name="PRNBAL_EVERYAMT" class="java.math.BigDecimal"/>
+	<field name="FEE_AMT" class="java.math.BigDecimal"/>
+	<field name="ROUNDUP_STATUS" class="java.math.BigDecimal"/>
+	<field name="BANK_SHORTNAME" class="java.lang.String"/>
+	<field name="ACCOUNT_ID" class="java.lang.String"/>
+	<field name="ACCOUNT_FORMAT" class="java.lang.String"/>
+	<field name="EDIT_FORMAT" class="java.lang.String"/>
+	<field name="USE_FLAG" class="java.math.BigDecimal"/>
+	<field name="BANK_NAME_E" class="java.lang.String"/>
+	<field name="BANK_ADDR_T" class="java.lang.String"/>
+	<field name="BANK_ADDR_E" class="java.lang.String"/>
+	<variable name="SHOW_STR" class="java.lang.String">
+		<variableExpression><![CDATA["รายงาน Bill Payment " + ( $P{as_bankcode} == "0000" ?
+    "ธนาคารทั้งหมด" : $F{BANK_DESC}.trim() ) + " " + $P{as_status}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d5fedb99-1627-4584-b2cd-bee99ce12082" x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SHOW_STR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

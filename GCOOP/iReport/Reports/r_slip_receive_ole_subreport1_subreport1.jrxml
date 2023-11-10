@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_slip_receive_ole_subreport1_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="854989c4-6156-4c4f-a936-b8de39984832">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_memno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM (
+      SELECT
+
+     sum((CASE WHEN KPD.ITEM_PAYMENT * KUK.SIGN_FLAG = 0 THEN NULL ELSE KPD.ITEM_PAYMENT * KUK.SIGN_FLAG END)) AS A7,
+     dbo.ft_readthaibaht(sum((CASE WHEN KPD.ITEM_PAYMENT * KUK.SIGN_FLAG = 0 THEN NULL ELSE KPD.ITEM_PAYMENT * KUK.SIGN_FLAG END))) AS thaibaht
+
+      FROM
+       KPTEMPRECEIVEDET KPD, KPUCFKEEPITEMTYPE KUK , MBMEMBMASTER MB , MBUCFPRENAME MUP , MBUCFMEMBGROUP MUG
+      WHERE
+       KPD.KEEPITEMTYPE_CODE = KUK.KEEPITEMTYPE_CODE AND KPD.MEMBER_NO = MB.MEMBER_NO AND MB.PRENAME_CODE = MUP.PRENAME_CODE AND MB.MEMBGROUP_CODE = MUG.MEMBGROUP_CODE
+       AND KPD.MEMBER_NO between $P{as_memno} and $P{as_memno}
+       AND KPD.RECV_PERIOD = $P{as_period}
+       AND KPD.POSTING_STATUS = 0
+     UNION
+      SELECT
+ sum((CASE WHEN KMD.ITEM_PAYMENT * KUK.SIGN_FLAG = 0 THEN NULL ELSE KMD.ITEM_PAYMENT * KUK.SIGN_FLAG END)) AS A7,
+dbo.ft_readthaibaht(sum((CASE WHEN KMD.ITEM_PAYMENT * KUK.SIGN_FLAG = 0 THEN NULL ELSE KMD.ITEM_PAYMENT * KUK.SIGN_FLAG END))) AS thaibaht
+
+      FROM
+       KPMASTRECEIVEDET KMD, KPUCFKEEPITEMTYPE KUK , MBMEMBMASTER MB , MBUCFPRENAME MUP , MBUCFMEMBGROUP MUG
+      WHERE
+       KMD.KEEPITEMTYPE_CODE = KUK.KEEPITEMTYPE_CODE AND KMD.MEMBER_NO = MB.MEMBER_NO AND MB.PRENAME_CODE = MUP.PRENAME_CODE AND MB.MEMBGROUP_CODE = MUG.MEMBGROUP_CODE
+       AND KMD.MEMBER_NO between $P{as_memno} and $P{as_memno}
+       AND KMD.RECV_PERIOD = $P{as_period}
+     ) M]]>
+	</queryString>
+	<field name="A7" class="java.math.BigDecimal"/>
+	<field name="thaibaht" class="java.lang.String"/>
+	<group name="memno" isStartNewPage="true">
+		<groupExpression><![CDATA[$P{as_memno}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement uuid="4fd698bd-df84-490b-83a5-421c012d5bc5" x="0" y="0" width="285" height="42"/>
+				<box leftPadding="4">
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["(-"+$F{thaibaht}+"-)"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="973841dc-dba4-42f3-a73c-f6d381a9c65c" x="344" y="0" width="211" height="42"/>
+				<box leftPadding="4">
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A7}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e357c10f-21ab-46c9-b272-ebfb175a534d" x="285" y="0" width="59" height="42"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ยอดสุทธิ]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_day30_voucherdaily_all_voucher_excel" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2d871191-3848-45da-84c3-ca30b6c7eb4f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adtm_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_edate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	"VCVOUCHER"."VOUCHER_NO",
+        	"VCVOUCHER"."VOUCHER_DATE",
+--"VCVOUCHERDET"."ACCOUNT_ID"--,
+         	"VCVOUCHER"."VOUCHER_DESC",
+--"VCVOUCHERDET"."DR_AMT",
+--"VCVOUCHERDET"."CR_AMT",
+--"VCVOUCHER"."VOUCHER_AMT",
+--"ACCMASTER"."ACCOUNT_NAME",
+--"VCVOUCHERDET"."SEQ_NO",
+--"VCVOUCHER"."ENTRY_ID",
+         "VCVOUCHER"."VOUCHER_TYPE",
+--	"VCVOUCHERDET"."ITEM_DESC",
+--"VCVOUCHER"."BRANCH_ID",
+--"VCVOUCHERDET"."ACCOUNT_SIDE",
+--"VCVOUCHER"."CASH_TYPE",
+SUBSTR(VCVOUCHER.VOUCHER_TYPE, 1, 1) as MENU,
+--'                                                                                                                                                                         ' as FIX_COOPNAME,
+	SYSDATE as timenow,
+"ACCCNTCOOP"."COOP_DESC"
+    FROM
+	"VCVOUCHER",
+         	"VCVOUCHERDET",
+         	"ACCMASTER",
+         	"ACCCNTCOOP"
+WHERE 	( "VCVOUCHERDET"."VOUCHER_NO" = "VCVOUCHER"."VOUCHER_NO" )
+and  	( "VCVOUCHERDET"."ACCOUNT_ID" = "ACCMASTER"."ACCOUNT_ID" )
+and  	( "VCVOUCHER"."COOP_ID" = "VCVOUCHERDET"."COOP_ID" )
+and  	( "VCVOUCHERDET"."COOP_ID" = "ACCMASTER"."COOP_ID" )
+and  	( "ACCMASTER"."COOP_ID" = "ACCCNTCOOP"."COOP_ID" )
+and
+         ( ( vcvoucher.voucher_date between to_date('07/07/2015','MM/dd/yyyy') and 	to_date('07/07/2015','MM/dd/yyyy') ) AND
+         ( vcvoucher.coop_id ='012001' ) AND
+         ( vcvoucher.voucher_status <> -9 ) )
+group by 	"VCVOUCHER"."VOUCHER_NO","VCVOUCHER"."VOUCHER_DATE","VCVOUCHER"."VOUCHER_DESC",VCVOUCHER.VOUCHER_TYPE,"ACCCNTCOOP"."COOP_DESC"
+order by "VCVOUCHER"."VOUCHER_NO" desc]]>
+	</queryString>
+	<field name="VOUCHER_NO" class="java.lang.String"/>
+	<field name="VOUCHER_DATE" class="java.sql.Timestamp"/>
+	<field name="VOUCHER_DESC" class="java.lang.String"/>
+	<field name="VOUCHER_TYPE" class="java.lang.String"/>
+	<field name="MENU" class="java.lang.String"/>
+	<field name="TIMENOW" class="java.sql.Timestamp"/>
+	<field name="COOP_DESC" class="java.lang.String"/>
+	<group name="group_menu">
+		<groupExpression><![CDATA[$F{MENU}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement uuid="e26f5dba-52a5-42fe-87cd-b474cccb7036" x="2" y="0" width="175" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["รายการ "+( $F{MENU}=="R" ? "เงินสดรับ" : ( $F{MENU}=="P" ? "เงินสดจ่าย" : "โอน" ) )]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="7">
+				<line>
+					<reportElement uuid="38be8004-c887-4254-896c-2fafb63666e6" x="0" y="3" width="800" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="131" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4ab2a4d0-9fa8-4241-b033-f7c9ab791ab3" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[[ACD011]]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7fd4d54c-3c41-46f9-9f6c-cf0ea17b10e9" x="682" y="0" width="120" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ " + new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{TIMENOW})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="444d1e33-7020-40e2-95be-9cf57bd978de" x="682" y="20" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="ec449de0-ce0d-40f5-8e37-f8d24892d268" x="764" y="21" width="40" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["/ " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="da364577-08c1-48ba-a07e-8e374e2224eb" x="0" y="80" width="102" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่ Voucher]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7450f76d-26b0-4d38-be7e-5f2d7e4c785c" x="0" y="100" width="102" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รหัสบัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f210c702-3f39-4eed-b60d-63f2d827c857" x="100" y="80" width="251" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6ec0208c-0883-4618-ad38-64f1de9b3bde" x="175" y="40" width="452" height="26"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายงานสรุป Voucher ประจำวันวันที่ "+ new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_date})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="5d47ce1e-b3a2-4dab-aed6-fe6af3c75e49" x="2" y="76" width="800" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="11f8f3fa-5912-4577-b36c-aa7460fa69a3" x="0" y="122" width="800" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="8cb4406c-c686-487c-8f61-a33cbf1a9520" x="175" y="14" width="452" height="26"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="23">
+			<textField>
+				<reportElement uuid="70c52f49-44b0-474e-a899-1e997d8176c3" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VOUCHER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a17bda23-913a-4dcc-9327-808105009caa" x="102" y="0" width="249" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VOUCHER_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="30">
+			<textField>
+				<reportElement uuid="f2174148-a478-4bc9-8d81-6e2ca7c61a40" x="112" y="6" width="579" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมรายการ Voucher ประจำวันที่ "+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_date})+" ทั้งหมด    "+$V{REPORT_COUNT}+"    รายการ "]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

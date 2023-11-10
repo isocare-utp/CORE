@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_status_cremation_mhs" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5fc2b26f-d786-4f58-8406-533f2d2bd698">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_department" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_department" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select mbmembmaster.member_no,
+	mbucfprename.prename_desc,
+	mbmembmaster.memb_name,
+	mbmembmaster.memb_surname,
+	trim( mbucfdepartment.department_code ) as department_code ,
+	trim( mbucfdepartment.department_desc ) as department_desc,
+	trim(mbmembmaster.membtype_code) as membtype_code,
+	trim(mbucfmembtype.membtype_desc) as membtype_desc,
+
+	decode ( mbmembmaster.cremationthai_flag, 1 , 1 ,0 ) as cremationthai_flag ,
+
+	decode ( mbmembmaster.cremationcso_flag, 1 , 1 ,0 ) as cremationcso_flag ,
+
+	decode ( mbmembmaster.reward_flag, 1 , 1 ,0 ) as reward_flag ,
+	mbmembmaster.member_type
+from mbmembmaster
+left outer join mbucfprename on mbucfprename.prename_code = mbmembmaster.prename_code
+left outer join mbucfdepartment on trim(mbucfdepartment.department_code) = trim(mbmembmaster.department_code)
+left outer join mbucfmembtype on trim(mbucfmembtype.membtype_code) = trim(mbmembmaster.membtype_code)
+where mbmembmaster.member_status = 1
+and mbmembmaster.resign_status = 0
+and (mbmembmaster.cremationthai_flag = 1 or mbmembmaster.cremationcso_flag = 1 or mbmembmaster.reward_flag =1)
+and mbmembmaster.coop_id = $P{coop_id}
+and mbmembmaster.department_code between $P{start_department} and $P{end_department}
+order by mbmembmaster.department_code,mbmembmaster.member_no asc]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="DEPARTMENT_CODE" class="java.lang.String"/>
+	<field name="DEPARTMENT_DESC" class="java.lang.String"/>
+	<field name="MEMBTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBTYPE_DESC" class="java.lang.String"/>
+	<field name="CREMATIONTHAI_FLAG" class="java.math.BigDecimal"/>
+	<field name="CREMATIONCSO_FLAG" class="java.math.BigDecimal"/>
+	<field name="REWARD_FLAG" class="java.math.BigDecimal"/>
+	<field name="MEMBER_TYPE" class="java.math.BigDecimal"/>
+	<variable name="chk_memType2" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==2?1:0)]]></variableExpression>
+	</variable>
+	<variable name="chk_memType" class="java.lang.Integer">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==1?1:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_cremationthai_flag" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==1? $F{CREMATIONTHAI_FLAG}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_cremationcso_flag" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==1? $F{CREMATIONCSO_FLAG}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_reward_flag" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==1?$F{REWARD_FLAG}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_cremationthai_flag2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==2? $F{CREMATIONTHAI_FLAG}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_cremationcso_flag2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==2? $F{CREMATIONCSO_FLAG}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_reward_flag2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==2?$F{REWARD_FLAG}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_memType1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==1?$F{MEMBER_TYPE}:0)]]></variableExpression>
+	</variable>
+	<variable name="sum_memType2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[($F{MEMBER_TYPE}==2?$F{MEMBER_TYPE}:0)]]></variableExpression>
+	</variable>
+	<group name="department_code">
+		<groupExpression><![CDATA[$F{DEPARTMENT_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="4fd4f956-b3e1-4cc7-852e-7c183e411461" x="0" y="0" width="555" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["เครือข่าย :  "+$F{DEPARTMENT_CODE}+ " "+$F{DEPARTMENT_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement uuid="e99b6303-3ebe-43d0-b83f-639f2a25e3a0" x="0" y="0" width="225" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["รวมเครือข่าย :  "+$F{DEPARTMENT_CODE}+"  "+$F{DEPARTMENT_DESC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="c8ceaa18-75eb-4358-92d0-534447875db6" x="277" y="0" width="86" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[คน]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement uuid="b87148e3-c18b-42c3-aec3-e9b6752e7572" x="225" y="0" width="52" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{department_code_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="09e8c5ac-751f-4a46-8883-659f5e9329aa" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานแสดงสถานะ สสอค,สสชสอ,กองทุนบำเหน็จ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="5558a0f6-a6c5-4576-a30c-3c48f2306c31" x="342" y="20" width="213" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ :   "+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="181322c8-9342-4855-81fe-18dbcbe991ed" x="392" y="40" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["หน้าที่    "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d1211c6c-fb21-47d3-8b92-0e95e1f380e1" x="492" y="40" width="63" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="305d48ac-5b1e-4b7b-8587-f200db40fd90" x="0" y="60" width="29" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d1bc78b-c630-4628-a0c8-bc3c31f357a0" x="29" y="60" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc11da14-b673-4ccc-b6ba-696147762ef3" x="84" y="60" width="128" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="43966b4f-eec1-4097-9336-db0ea9f6bb1b" x="212" y="60" width="94" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ประเภทสมาชิกย่อย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40123b28-f809-45bc-a8dd-77ef454797f2" x="306" y="60" width="86" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สสอค]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="313684d1-4057-4475-a31f-2cf2b791164e" x="392" y="60" width="77" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สส.ชสอ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c81e62ce-af67-489a-9cfe-d04bd00ac095" x="469" y="60" width="86" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[กองทุนบำเหน็จ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="147aa393-2128-4c07-8187-59a03d17b745" x="0" y="0" width="29" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{department_code_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ca1fff6b-35c8-4549-be2c-ebc281977374" x="29" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="54c87e3d-2791-4519-9192-b3f48e895bae" x="84" y="0" width="128" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+"  "+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="288ced2a-2956-4e56-9e80-708b5847ac9e" x="212" y="0" width="94" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MEMBTYPE_DESC}.equals(null) ? '' :$F{MEMBTYPE_DESC})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="62edd5b9-3cad-4136-b78f-374128868974" x="306" y="0" width="86" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{CREMATIONTHAI_FLAG}== 1 ? 1 : "-" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="20c18f2c-94c4-4937-83db-12413654fdb6" x="392" y="0" width="77" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{CREMATIONCSO_FLAG}== 1 ? 1 : "-" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ab52edc4-6ef5-407d-b3b8-44eeb6531b5c" x="469" y="0" width="86" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{REWARD_FLAG}== 1 ? 1 : "-" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="805c6651-b0cc-4436-b030-623891785da8" x="29" y="0" width="70" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สรุปยอดรวม  :    ]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement uuid="192fd99b-1e18-4611-b6f7-a60daee3c924" x="263" y="0" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_cremationthai_flag}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="bc11918f-3c39-49b4-9b6a-cabd5c469cf0" x="371" y="0" width="48" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_cremationcso_flag}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="5315041a-7553-4a21-88b1-9cdd464380cb" x="492" y="0" width="44" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_reward_flag}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b39e0b09-d65b-464b-881d-07756e92c640" x="207" y="0" width="56" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สสอค]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8d98d8de-d4f4-412f-b5ed-8059eb30c939" x="207" y="20" width="56" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สสอค]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1f2bca33-c144-4caa-84e2-48f4b9158458" x="317" y="0" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สส.ชสอ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eda78e25-4ead-48aa-a2f6-46aad3850f31" x="317" y="20" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สส.ชสอ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2a6cdbe3-4168-46bd-a6a4-da6dda2fc600" x="419" y="0" width="73" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[กองทุนบำเหน็จ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="05a02030-a4ae-4435-a334-fa823fa7e3f4" x="419" y="20" width="73" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[กองทุนบำเหน็จ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d92b544b-1712-48a0-af93-00d2ab63e298" x="99" y="0" width="57" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สามัญ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d26b3640-7ecb-48b4-a2d3-1a9e9e4556f8" x="100" y="20" width="56" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สมทบ]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement uuid="c6b7543c-0b50-4275-a34a-930f1b74f59f" x="263" y="20" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_cremationthai_flag2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="f43edb80-6639-47f9-a18f-c75e72c5738c" x="156" y="0" width="51" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_memType1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="4ca60f39-fd36-4fc3-8248-d3e13889caaf" x="371" y="20" width="48" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_cremationcso_flag2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="c0b76f76-26af-4701-8a75-24ff34c2c179" x="492" y="20" width="44" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_reward_flag2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="c5ff60b1-3057-43a6-944b-8709b618bbda" x="156" y="20" width="51" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_memType2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

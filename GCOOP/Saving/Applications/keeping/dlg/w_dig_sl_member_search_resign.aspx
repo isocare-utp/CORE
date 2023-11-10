@@ -1,0 +1,51 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="w_dig_sl_member_search_resign.aspx.cs"
+    Inherits="Saving.Applications.keeping.dlg.w_dig_sl_member_search_resign" %>
+
+<%@ Register Assembly="WebDataWindow" Namespace="Sybase.DataWindow.Web" TagPrefix="dw" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>ค้นหาสมาชิก</title>
+
+    <script type="text/javascript">
+        function selectRow(sender, rowNumber, objectName) {
+            var memberno = objdw_detail.GetItem(rowNumber, "member_no");
+            var prename_desc = objdw_detail.GetItem(rowNumber, "prename_desc");
+            var memb_name = objdw_detail.GetItem(rowNumber, "memb_name");
+            var memb_surname = objdw_detail.GetItem(rowNumber, "memb_surname");
+            window.opener.GetMemDetFromDlg(memberno);
+            window.close();
+        }
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+    รายการค้นหา
+    <table style="width: 600px;">
+        <tr>
+            <td>
+                <dw:WebDataWindowControl ID="dw_data" runat="server" ClientScriptable="True" DataWindowObject="d_sl_membsrch_criteria_resign"
+                    LibraryList="~/DataWindow/keeping/sl_cancelresign.pbl">
+                </dw:WebDataWindowControl>
+            </td>
+            <td>
+                <asp:Button ID="cb_find" runat="server" Text="ค้นหา" Height="50px" Width="55px" OnClick="cb_find_Click" />
+                <br />
+                <asp:Button ID="cb_clear" runat="server" Text="เคลียร์" Height="50px" Width="55px" OnClick="cb_clear_Click" />
+            </td>
+        </tr>
+    </table>
+    รายละเอียด
+    <asp:HiddenField ID="hidden_search" runat="server" />
+    <dw:WebDataWindowControl ID="dw_detail" runat="server" ClientEventClicked="selectRow"
+        DataWindowObject="d_sl_membsrch_list_memno2_resign" LibraryList="~/DataWindow/keeping/sl_cancelresign.pbl"
+        RowsPerPage="17" ClientScriptable="True">
+        <PageNavigationBarSettings Position="Top" Visible="True" NavigatorType="Numeric">
+            <BarStyle HorizontalAlign="Center" />
+            <NumericNavigator FirstLastVisible="True" />
+        </PageNavigationBarSettings>
+    </dw:WebDataWindowControl>
+    </form>
+</body>
+</html>

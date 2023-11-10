@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_slip_payout_loan_rid" language="groovy" pageWidth="595" pageHeight="340" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="591eddbb-5f7d-437e-85a4-bde2b00786b8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String"/>
+	<parameter name="as_slipno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select so.member_no,
+mp.prename_desc || mb.memb_name || ' ' || mb.memb_surname as full_name,
+mb.membgroup_code,mg.membgroup_desc,
+so.slip_date ,so.shrlontype_code,
+so.moneytype_code,
+so.expense_accid,
+so.payoutslip_no,
+so.slipclear_no,
+sum(nvl(sid.principal_payamt,0)) as sumprn,
+sum( case  sid.slipitemtype_code when 'INF' then nvl(sid.interest_payamt,0) else 0 end  ) as sumintinf,
+sum( case  sid.slipitemtype_code when 'INF' then 0 else nvl(sid.interest_payamt,0) end  ) as sumint,
+so.payout_amt,
+ftreadtbaht(so.payoutnet_amt) as payout_tbaht,
+so.payoutclr_amt,so.payoutnet_amt,
+sum(sid.rkeep_principal) as rkeep_principal,
+sum(sid.rkeep_interest) as rkeep_interest,
+cm.coop_name
+from slslippayout so,mbmembmaster mb,mbucfprename mp,mbucfmembgroup mg,slslippayindet sid, cmcoopmaster cm
+where so.payoutslip_no=   $P{as_slipno}
+and so.coop_id=  $P{as_coopid}
+and so.slipclear_no = sid.payinslip_no(+)
+and so.coop_id = sid.coop_id(+)
+and so.member_no=mb.member_no
+and so.coop_id =mb.coop_id
+and mb.prename_code=mp.prename_code
+and mb.membgroup_code = mg.membgroup_code
+and mb.coop_id = mg.coop_id
+and cm.coop_id = so.coop_id
+group by so.member_no,
+mp.prename_desc,
+mb.memb_name,
+mb.memb_surname,
+mb.membgroup_code,mg.membgroup_desc,
+so.slip_date ,
+so.payoutslip_no,so.slipclear_no,so.moneytype_code,
+so.expense_accid,so.shrlontype_code,
+so.payout_amt,so.payoutclr_amt,so.payoutnet_amt,cm.coop_name]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="EXPENSE_ACCID" class="java.lang.String"/>
+	<field name="PAYOUTSLIP_NO" class="java.lang.String"/>
+	<field name="SLIPCLEAR_NO" class="java.lang.String"/>
+	<field name="SUMPRN" class="java.math.BigDecimal"/>
+	<field name="SUMINTINF" class="java.math.BigDecimal"/>
+	<field name="SUMINT" class="java.math.BigDecimal"/>
+	<field name="PAYOUT_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUT_TBAHT" class="java.lang.String"/>
+	<field name="PAYOUTCLR_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<field name="RKEEP_PRINCIPAL" class="java.math.BigDecimal"/>
+	<field name="RKEEP_INTEREST" class="java.math.BigDecimal"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<detail>
+		<band height="317" splitType="Stretch">
+			<textField>
+				<reportElement uuid="75b81b98-f78d-42a6-a97c-aaf399b9f486" x="385" y="72" width="86" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="eb301dcf-55fa-4ee1-ad3f-e74abac3e2f9" x="100" y="152" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMPRN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="5904b2c7-82fd-4744-8885-3fb60ea4d128" x="100" y="177" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMINT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="f479d261-3d92-4fec-b995-b638fc9e2e45" x="346" y="125" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUT_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="64f7a796-3369-4946-bf20-e666f6de45e0" x="253" y="102" width="53" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="517f2a0e-5765-4c35-806c-d591fcf1cb46" x="61" y="102" width="147" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="e8387b73-3dbc-417a-bd7b-2fe7e3c10d51" x="346" y="152" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMINTINF}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="aed1dc8e-2369-41ef-9f07-1442e9d0df5a" x="346" y="178" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTCLR_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a9317e4d-7ccd-4cd1-8cec-08b41dcdaa43" x="108" y="209" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="71066366-3cc6-456f-a833-5012bd54699e" x="385" y="102" width="141" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="34213587-0084-4f0e-89b7-019456eadb3c" x="306" y="209" width="206" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUT_TBAHT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="dde20c53-c99e-4e7d-9dc9-9e8448ae5544" x="246" y="152" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[หัก ดอกเบี้ยล่วงหน้า]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="LNCOLLMASTERTableAdapter" GeneratorDataComponentClassName="LNCOLLMASTERTableAdapter" Name="LNCOLLMASTER" UserDataComponentName="LNCOLLMASTERTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select
+  lncollmastmemco.coop_id,
+  lncollmaster.collmast_no,
+  lncollmaster.collmast_refno,
+  lncollmaster.collmasttype_code,
+  lncollmastmemco.memco_no,
+  lncollmastmemco.collmastmain_flag,
+  mbucfprename.prename_desc,
+  mbmembmaster.memb_name,
+  mbmembmaster.memb_surname,
+  lncollmaster.redeem_flag,
+  lncollmaster.collmast_desc,
+  lncollmaster.mortgage_price,
+  lnucfcollmasttype.collmasttype_desc
+from 
+  lncollmaster,
+  lncollmastmemco,  
+  lnucfcollmasttype,
+  mbmembmaster,   
+  mbucfprename
+where
+  lncollmaster.coop_id = lncollmastmemco.coop_id and
+  lncollmaster.coop_id = mbmembmaster.coop_id and
+  lncollmaster.collmast_no = lncollmastmemco.collmast_no and
+  lncollmastmemco.memco_no = mbmembmaster.member_no and
+  mbmembmaster.prename_code = mbucfprename.prename_code and
+  lncollmaster.collmasttype_code = lnucfcollmasttype.collmasttype_code</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="COLLMAST_NO" DataSetColumn="COLLMAST_NO" />
+              <Mapping SourceColumn="COLLMAST_REFNO" DataSetColumn="COLLMAST_REFNO" />
+              <Mapping SourceColumn="COLLMASTTYPE_CODE" DataSetColumn="COLLMASTTYPE_CODE" />
+              <Mapping SourceColumn="MEMCO_NO" DataSetColumn="MEMCO_NO" />
+              <Mapping SourceColumn="COLLMASTMAIN_FLAG" DataSetColumn="COLLMASTMAIN_FLAG" />
+              <Mapping SourceColumn="PRENAME_DESC" DataSetColumn="PRENAME_DESC" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="REDEEM_FLAG" DataSetColumn="REDEEM_FLAG" />
+              <Mapping SourceColumn="COLLMAST_DESC" DataSetColumn="COLLMAST_DESC" />
+              <Mapping SourceColumn="MORTGAGE_PRICE" DataSetColumn="MORTGAGE_PRICE" />
+              <Mapping SourceColumn="COLLMASTTYPE_DESC" DataSetColumn="COLLMASTTYPE_DESC" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LNCOLLMASTER" msprop:Generator_TableClassName="LNCOLLMASTERDataTable" msprop:Generator_TableVarName="tableLNCOLLMASTER" msprop:Generator_TablePropName="LNCOLLMASTER" msprop:Generator_RowDeletingName="LNCOLLMASTERRowDeleting" msprop:Generator_UserTableName="LNCOLLMASTER" msprop:Generator_RowChangingName="LNCOLLMASTERRowChanging" msprop:Generator_RowEvHandlerName="LNCOLLMASTERRowChangeEventHandler" msprop:Generator_RowDeletedName="LNCOLLMASTERRowDeleted" msprop:Generator_RowEvArgName="LNCOLLMASTERRowChangeEvent" msprop:Generator_RowChangedName="LNCOLLMASTERRowChanged" msprop:Generator_RowClassName="LNCOLLMASTERRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COLLMAST_NO" msprop:Generator_ColumnVarNameInTable="columnCOLLMAST_NO" msprop:Generator_ColumnPropNameInRow="COLLMAST_NO" msprop:Generator_ColumnPropNameInTable="COLLMAST_NOColumn" msprop:Generator_UserColumnName="COLLMAST_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COLLMAST_REFNO" msprop:Generator_ColumnVarNameInTable="columnCOLLMAST_REFNO" msprop:Generator_ColumnPropNameInRow="COLLMAST_REFNO" msprop:Generator_ColumnPropNameInTable="COLLMAST_REFNOColumn" msprop:Generator_UserColumnName="COLLMAST_REFNO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COLLMASTTYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnCOLLMASTTYPE_CODE" msprop:Generator_ColumnPropNameInRow="COLLMASTTYPE_CODE" msprop:Generator_ColumnPropNameInTable="COLLMASTTYPE_CODEColumn" msprop:Generator_UserColumnName="COLLMASTTYPE_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMCO_NO" msprop:Generator_ColumnVarNameInTable="columnMEMCO_NO" msprop:Generator_ColumnPropNameInRow="MEMCO_NO" msprop:Generator_ColumnPropNameInTable="MEMCO_NOColumn" msprop:Generator_UserColumnName="MEMCO_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COLLMASTMAIN_FLAG" msprop:Generator_ColumnVarNameInTable="columnCOLLMASTMAIN_FLAG" msprop:Generator_ColumnPropNameInRow="COLLMASTMAIN_FLAG" msprop:Generator_ColumnPropNameInTable="COLLMASTMAIN_FLAGColumn" msprop:Generator_UserColumnName="COLLMASTMAIN_FLAG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PRENAME_DESC" msprop:Generator_ColumnVarNameInTable="columnPRENAME_DESC" msprop:Generator_ColumnPropNameInRow="PRENAME_DESC" msprop:Generator_ColumnPropNameInTable="PRENAME_DESCColumn" msprop:Generator_UserColumnName="PRENAME_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="REDEEM_FLAG" msprop:Generator_ColumnVarNameInTable="columnREDEEM_FLAG" msprop:Generator_ColumnPropNameInRow="REDEEM_FLAG" msprop:Generator_ColumnPropNameInTable="REDEEM_FLAGColumn" msprop:Generator_UserColumnName="REDEEM_FLAG" type="xs:decimal" minOccurs="0" />
+              <xs:element name="COLLMAST_DESC" msprop:Generator_ColumnVarNameInTable="columnCOLLMAST_DESC" msprop:Generator_ColumnPropNameInRow="COLLMAST_DESC" msprop:Generator_ColumnPropNameInTable="COLLMAST_DESCColumn" msprop:Generator_UserColumnName="COLLMAST_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MORTGAGE_PRICE" msprop:Generator_ColumnVarNameInTable="columnMORTGAGE_PRICE" msprop:Generator_ColumnPropNameInRow="MORTGAGE_PRICE" msprop:Generator_ColumnPropNameInTable="MORTGAGE_PRICEColumn" msprop:Generator_UserColumnName="MORTGAGE_PRICE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FULLNAME" msdata:ReadOnly="true" msdata:Expression="PRENAME_DESC +  MEMB_NAME + ' ' + MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnFULLNAME" msprop:Generator_ColumnPropNameInRow="FULLNAME" msprop:Generator_ColumnPropNameInTable="FULLNAMEColumn" msprop:Generator_UserColumnName="FULLNAME" type="xs:string" minOccurs="0" />
+              <xs:element name="COLLMASTMAIN_DESC" msdata:ReadOnly="true" msdata:Expression="iif(COLLMASTMAIN_FLAG = 1, 'หลัก', 'รอง')" msprop:Generator_ColumnVarNameInTable="columnCOLLMASTMAIN_DESC" msprop:Generator_ColumnPropNameInRow="COLLMASTMAIN_DESC" msprop:Generator_ColumnPropNameInTable="COLLMASTMAIN_DESCColumn" msprop:Generator_UserColumnName="COLLMASTMAIN_DESC" type="xs:string" minOccurs="0" />
+              <xs:element name="DESCRIPTION" msdata:ReadOnly="true" msdata:Expression="COLLMAST_NO + ' ' + COLLMAST_REFNO " msprop:Generator_ColumnVarNameInTable="columnDESCRIPTION" msprop:Generator_ColumnPropNameInRow="DESCRIPTION" msprop:Generator_ColumnPropNameInTable="DESCRIPTIONColumn" msprop:Generator_UserColumnName="DESCRIPTION" type="xs:string" minOccurs="0" />
+              <xs:element name="COLLMASTTYPE_DESC" msprop:Generator_ColumnVarNameInTable="columnCOLLMASTTYPE_DESC" msprop:Generator_ColumnPropNameInRow="COLLMASTTYPE_DESC" msprop:Generator_ColumnPropNameInTable="COLLMASTTYPE_DESCColumn" msprop:Generator_UserColumnName="COLLMASTTYPE_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="LNCOLLMASTERCRITERIA" msprop:Generator_TableClassName="LNCOLLMASTERCRITERIADataTable" msprop:Generator_TableVarName="tableLNCOLLMASTERCRITERIA" msprop:Generator_TablePropName="LNCOLLMASTERCRITERIA" msprop:Generator_RowDeletingName="LNCOLLMASTERCRITERIARowDeleting" msprop:Generator_UserTableName="LNCOLLMASTERCRITERIA" msprop:Generator_RowChangingName="LNCOLLMASTERCRITERIARowChanging" msprop:Generator_RowEvHandlerName="LNCOLLMASTERCRITERIARowChangeEventHandler" msprop:Generator_RowDeletedName="LNCOLLMASTERCRITERIARowDeleted" msprop:Generator_RowEvArgName="LNCOLLMASTERCRITERIARowChangeEvent" msprop:Generator_RowChangedName="LNCOLLMASTERCRITERIARowChanged" msprop:Generator_RowClassName="LNCOLLMASTERCRITERIARow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="collmast_no" msdata:Caption="loanrequest_docno" msprop:Generator_ColumnVarNameInTable="columncollmast_no" msprop:Generator_ColumnPropNameInRow="collmast_no" msprop:Generator_ColumnPropNameInTable="collmast_noColumn" msprop:Generator_UserColumnName="collmast_no" type="xs:string" minOccurs="0" />
+              <xs:element name="collmast_refno" msprop:Generator_ColumnVarNameInTable="columncollmast_refno" msprop:Generator_ColumnPropNameInRow="collmast_refno" msprop:Generator_ColumnPropNameInTable="collmast_refnoColumn" msprop:Generator_UserColumnName="collmast_refno" type="xs:string" minOccurs="0" />
+              <xs:element name="member_no" msprop:Generator_ColumnVarNameInTable="columnmember_no" msprop:Generator_ColumnPropNameInRow="member_no" msprop:Generator_ColumnPropNameInTable="member_noColumn" msprop:Generator_UserColumnName="member_no" type="xs:string" minOccurs="0" />
+              <xs:element name="memb_name" msprop:Generator_ColumnVarNameInTable="columnmemb_name" msprop:Generator_ColumnPropNameInRow="memb_name" msprop:Generator_ColumnPropNameInTable="memb_nameColumn" msprop:Generator_UserColumnName="memb_name" type="xs:string" minOccurs="0" />
+              <xs:element name="memb_surname" msprop:Generator_ColumnVarNameInTable="columnmemb_surname" msprop:Generator_ColumnPropNameInRow="memb_surname" msprop:Generator_ColumnPropNameInTable="memb_surnameColumn" msprop:Generator_UserColumnName="memb_surname" type="xs:string" minOccurs="0" />
+              <xs:element name="coop_id" msprop:Generator_ColumnVarNameInTable="columncoop_id" msprop:Generator_ColumnPropNameInRow="coop_id" msprop:Generator_ColumnPropNameInTable="coop_idColumn" msprop:Generator_UserColumnName="coop_id" type="xs:string" minOccurs="0" />
+              <xs:element name="collmasttype_code" msprop:Generator_ColumnVarNameInTable="columncollmasttype_code" msprop:Generator_ColumnPropNameInRow="collmasttype_code" msprop:Generator_ColumnPropNameInTable="collmasttype_codeColumn" msprop:Generator_UserColumnName="collmasttype_code" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

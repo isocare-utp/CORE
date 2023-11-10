@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_fin_from_receipt_bill" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d0358e2-ff05-4e24-b927-66457b1d4031">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\PTT\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_slip_no" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select ' ' as aaa from finslip where rownum = 1]]>
+	</queryString>
+	<field name="AAA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="0a3a99c3-61ef-4276-8391-ae031944af15" x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="as_slip_no">
+					<subreportParameterExpression><![CDATA[$P{as_slip_no}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["r_fin_form_receipt_bill_main.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement uuid="943d18eb-9daa-4af9-808b-9239643fa6a9" x="0" y="0" width="555" height="50"/>
+				<subreportParameter name="as_slip_no">
+					<subreportParameterExpression><![CDATA[$P{as_slip_no}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_fin_form_receipt_bill_copy.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

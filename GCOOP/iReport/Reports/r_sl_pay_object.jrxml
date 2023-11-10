@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_pay_object" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="34c1f7f0-b91d-40b8-a0e3-5f8eff79d7c2">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="399"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_startdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_enddate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_startlntype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_endlntype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select lnloantype.loantype_code,
+         lnloantype.loantype_desc,
+         lnloantype.prefix,
+         lnucfloanobjective.loanobjective_desc,
+         sum( slslippayout.payout_amt ) as sum_receive,
+         count( slslippayout.loancontract_no ) as count_cont,
+         lncontmaster.loanobjective_code,sysdate
+    from slslippayout,
+         lncontmaster,
+         lnucfloanobjective,
+         lnloantype
+   where ( slslippayout.coop_id = lncontmaster.coop_id )
+		and ( slslippayout.loancontract_no = lncontmaster.loancontract_no )
+		and ( slslippayout.coop_id = lnloantype.coop_id )
+         and ( slslippayout.shrlontype_code = lnloantype.loantype_code )
+		and ( lncontmaster.coop_id = lnucfloanobjective.coop_id (+) )
+		and ( lncontmaster.loantype_code = lnucfloanobjective.loantype_code (+) )
+         and ( lncontmaster.loanobjective_code = lnucfloanobjective.loanobjective_code (+) )
+         and ( ( slslippayout.coop_id = $P{as_coopid} )
+		and ( slslippayout.slip_date between $P{adtm_startdate} and $P{adtm_enddate} )
+         and ( slslippayout.shrlontype_code between $P{as_startlntype} and $P{as_endlntype} )
+         and ( slslippayout.slip_status = 1 ) )
+group by lnloantype.loantype_code,
+         lncontmaster.loanobjective_code,
+         lnloantype.prefix,
+         lnloantype.loantype_desc,
+         lnucfloanobjective.loanobjective_desc
+order by lnloantype.loantype_code asc,
+         lnucfloanobjective.loanobjective_desc asc]]>
+	</queryString>
+	<field name="LOANTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANTYPE_DESC" class="java.lang.String"/>
+	<field name="PREFIX" class="java.lang.String"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<field name="SUM_RECEIVE" class="java.math.BigDecimal"/>
+	<field name="COUNT_CONT" class="java.math.BigDecimal"/>
+	<field name="LOANOBJECTIVE_CODE" class="java.lang.String"/>
+	<field name="SYSDATE" class="java.sql.Timestamp"/>
+	<variable name="count" class="java.math.BigDecimal" resetType="Group" resetGroup="LOANGROUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT_CONT}]]></variableExpression>
+	</variable>
+	<variable name="sum" class="java.math.BigDecimal" resetType="Group" resetGroup="LOANGROUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_RECEIVE}]]></variableExpression>
+	</variable>
+	<variable name="count_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{COUNT_CONT}]]></variableExpression>
+	</variable>
+	<variable name="sum_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_RECEIVE}]]></variableExpression>
+	</variable>
+	<group name="LOANGROUP">
+		<groupExpression><![CDATA[$F{LOANTYPE_CODE}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement uuid="7c16a609-1961-485f-97ef-beab0f2eb6b0" x="344" y="0" width="85" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement uuid="ed0c2bac-0fcf-458d-b4a7-5f06db034bbd" x="429" y="0" width="126" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="6931e342-b8bd-4ac0-a59f-6d3c619f664f" x="0" y="0" width="555" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="6ab7b994-4f3f-48df-936d-2baca31bbb8b" x="0" y="19" width="555" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="OBJECTGROUP">
+		<groupExpression><![CDATA[$F{LOANOBJECTIVE_CODE}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a42c42d0-3a77-4dbd-817d-dd27916690f5" x="0" y="1" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน  จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b60a5c5-fd24-4d94-91ae-989c081f2e5a" x="0" y="22" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รายงานการจ่ายเงินตามวัตถุประสงค์]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="8e919b93-55f2-498f-b2a6-be65076540bb" x="394" y="1" width="161" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์  "+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SYSDATE})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6b67d38b-2bcc-4640-a2b4-799ab5b3865d" x="0" y="77" width="147" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ประเภทเงินกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3a23120d-fba8-45b5-8699-a3eb8e6cc12a" x="147" y="77" width="197" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วัตถุประสงค์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="51424b06-5c64-4782-975f-6fc5e11732fa" x="344" y="77" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5e6d962f-1b04-4872-b827-68e5c7b55893" x="429" y="77" width="126" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงินที่จ่าย]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="e17da0de-664c-4767-9ef2-04269a3fc328" x="0" y="96" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="9d97bbc5-a06c-4ac9-8955-f17c3e4d5b1d" x="0" y="43" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตั้งแต่วันที่ "+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_startdate})+" ถึงวันที่ "+new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{adtm_enddate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b0c06b79-3c4e-4f50-ae26-e8021f9671eb" isPrintRepeatedValues="false" x="0" y="0" width="147" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PREFIX}+" - "+$F{LOANTYPE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="81917ac8-f281-4948-a16e-aca93f42f7c3" x="147" y="0" width="197" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANOBJECTIVE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement uuid="0c0fcdcf-28ba-464e-8dc3-c5afb2d65477" x="344" y="0" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COUNT_CONT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="69930cae-750c-4354-9f80-7b4bff4ee3dd" x="429" y="0" width="126" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_RECEIVE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="37">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement uuid="0ff748d0-1609-4f2c-923f-591aab23608a" x="344" y="0" width="85" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{count_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="62461a1e-ec13-4b21-a095-ca4dbf9204be" x="429" y="0" width="126" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="af33e800-0530-42e9-808c-164b2ff65bbd" x="0" y="20" width="555" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="b3d30d71-6519-4bb1-a9ca-bba79a6cdd10" x="0" y="22" width="555" height="1"/>
+			</line>
+			<subreport>
+				<reportElement uuid="4c6448bd-4a0b-4aef-a4ba-59f32d7a1f64" x="0" y="25" width="555" height="12" isPrintWhenDetailOverflows="true"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="adtm_startdate">
+					<subreportParameterExpression><![CDATA[$P{adtm_startdate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="adtm_enddate">
+					<subreportParameterExpression><![CDATA[$P{adtm_enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_startlntype">
+					<subreportParameterExpression><![CDATA[$P{as_startlntype}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_endlntype">
+					<subreportParameterExpression><![CDATA[$P{as_endlntype}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "sub_r_sl_pay_object.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement uuid="2ccf062e-ddea-40b2-b1a5-2215207ef892" x="0" y="23" width="100" height="1"/>
+			</break>
+		</band>
+	</summary>
+</jasperReport>

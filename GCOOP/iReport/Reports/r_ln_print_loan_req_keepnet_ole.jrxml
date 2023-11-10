@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_print_loan_req_keepnet" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e98f2fb8-cec0-4e07-97a9-814bf631f784">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="memno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT KP.RECEIPT_DATE,
+		DET.PRINCIPAL_PAYMENT,
+         DET.INTEREST_PAYMENT,
+         DET.LOANCONTRACT_NO,DET.SEQ_NO
+    FROM KPTEMPRECEIVEDET DET,
+         KPTEMPRECEIVE KP
+   WHERE ( KP.KPSLIP_NO = DET.KPSLIP_NO ) and
+         ( KP.COOP_ID = DET.COOP_ID ) and
+		( DET.LOANCONTRACT_NO is not null ) and
+		( KP.RECEIPT_DATE = (select max(RECEIPT_DATE)
+				from  KPTEMPRECEIVE
+				where KPTEMPRECEIVE.member_no=$P{memno}
+				and KPTEMPRECEIVE.coop_id=$P{coopid}
+)) and
+         ( ( det.member_no = $P{memno} ) AND
+         ( kp.coop_id = $P{coopid} ) )
+union
+SELECT KP.RECEIPT_DATE,
+		DET.ITEM_PAYMENT,
+         DET.INTEREST_PAYMENT,
+         DET.DESCRIPTION,DET.SEQ_NO
+    FROM KPTEMPRECEIVEDET DET,
+         KPTEMPRECEIVE KP
+   WHERE ( KP.KPSLIP_NO = DET.KPSLIP_NO ) and
+         ( KP.COOP_ID = DET.COOP_ID ) and
+		( DET.DESCRIPTION is not null ) and
+		( KP.RECEIPT_DATE = (select max(RECEIPT_DATE)
+			from  KPTEMPRECEIVE
+			where KPTEMPRECEIVE.member_no=$P{memno}
+			and KPTEMPRECEIVE.coop_id=$P{coopid}
+)) and
+         ( ( det.member_no = $P{memno} ) AND
+         ( kp.coop_id = $P{coopid} ) )
+
+
+]]>
+	</queryString>
+	<field name="RECEIPT_DATE" class="java.sql.Timestamp"/>
+	<field name="PRINCIPAL_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<sortField name="LOANCONTRACT_NO" order="Descending"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="351ff201-071e-4dfc-ad48-f0cb3b39c366" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการส่งหักเงินเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="186131f4-1ff3-4fc8-a4c6-6337d61ccb8c" x="0" y="20" width="66" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่สัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e77811a-4dff-470f-9495-868e72dda2e1" x="66" y="20" width="72" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ค่าหุ้น / เงินต้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f10b1cb4-1811-4652-9bae-223cc09aad5e" x="138" y="20" width="62" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ย]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2e07114a-9fd1-40f9-88c3-eace26d21cc1" x="100" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{RECEIPT_DATE})]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="21">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="3f3acd41-3284-43e7-8e2e-25929013707e" x="138" y="1" width="62" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="758d1f69-2f53-4b1d-a799-f17190d18ab6" x="66" y="1" width="72" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c34db18e-3248-4825-bffa-1ffdca590c26" x="0" y="1" width="66" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

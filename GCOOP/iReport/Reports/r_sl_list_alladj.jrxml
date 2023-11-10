@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_list_alladj" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41949c6b-56df-47d8-9ecf-11f325ffb755">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+sa.adjslip_no,
+sa.ref_recvperiod,
+sa.member_no,
+ft_getmemname(sa.coop_id,sa.member_no) as fullname,
+decode(sd.slipitemtype_code,'SHR',sd.slipitem_desc,'LON',sd.loancontract_no,'') as itemtype,
+sd.principal_adjamt,
+sd.interest_adjamt,
+sd.item_adjamt
+from slslipadjust sa,slslipadjustdet sd,mbmembmaster mb
+where sa.coop_id = sd.coop_id
+and sa.coop_id = mb.coop_id
+and sa.member_no = mb.member_no
+and sa.adjslip_no = sd.adjslip_no
+and sa.slip_status = 1
+and sa.pmx_status = 0
+and sa.coop_id = $P{as_coopid}
+and mb.membgroup_code between $P{as_sgroup} and $P{as_egroup}
+order by mb.membgroup_code,sa.member_no,sa.ref_recvperiod]]>
+	</queryString>
+	<field name="ADJSLIP_NO" class="java.lang.String"/>
+	<field name="REF_RECVPERIOD" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULLNAME" class="java.lang.String"/>
+	<field name="ITEMTYPE" class="java.lang.String"/>
+	<field name="PRINCIPAL_ADJAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_ADJAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_ADJAMT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="94bef526-2fa9-4a5e-ad53-bc70b8c4a40f" x="0" y="0" width="55" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="275a537b-5094-4d87-989c-bb3a2ed50aca" x="203" y="0" width="76" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADJSLIP_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="560a5feb-be69-435d-b4d8-e451bf23d4d2" x="279" y="0" width="40" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REF_RECVPERIOD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="75373738-1bb4-411c-97ae-dcf0258517d1" x="55" y="0" width="148" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2e698402-5cfa-4e93-b4ec-377892f2cefb" x="319" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMTYPE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="2fa3dd27-5d9f-45d4-a7b8-5ef41297bb07" x="399" y="0" width="51" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_ADJAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="b1791c10-dac5-4789-9f37-e6605685910b" x="450" y="0" width="51" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_ADJAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="d1b93d8e-035e-45c9-a6d2-8f691d0bdbf0" x="501" y="0" width="54" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_ADJAMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

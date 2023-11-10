@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_kp_sumall_kpadjamt" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b6f5ce0e-65d3-477c-acb6-0162f37c86d5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_startmembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_endmembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select dt.*,cc.coop_name,FT_MEMGRP($P{as_coopid},$P{as_startmembgroup}) as start_membgroup,FT_MEMGRP($P{as_coopid},$P{as_endmembgroup}) as end_membgroup from (
+select kd.keepitemtype_code,kd.shrlontype_code ,'ค่าหุ้น' as loantype_desc,
+count( k.member_no ) as nummem,sum(kd.adjust_prnamt) as prnc_amt,sum(kd.adjust_intamt) as int_amt
+from kpmastreceive k,kpmastreceivedet kd,mbmembmaster mb
+where k.kpslip_no=kd.kpslip_no
+and k.member_no=mb.member_no
+and k.coop_id = mb.coop_id
+and trim(k.membgroup_code) between trim($P{as_startmembgroup}) and trim($P{as_endmembgroup})
+and k.coop_id = $P{as_coopid}
+and kd.cancel_date  between $P{date1} and $P{date2}
+and kd.keepitemtype_code  like 'S%'
+and k.keeping_status=-99
+group by  kd.keepitemtype_code, kd.shrlontype_code
+union
+
+select kd.keepitemtype_code,kd.shrlontype_code ,'เงินกู้'||ln.loantype_desc as loantype_desc,
+count( k.member_no ) as nummem,sum(kd.adjust_prnamt) as prnc_amt,sum(kd.adjust_intamt) as int_amt
+from kpmastreceive k,kpmastreceivedet kd,mbmembmaster mb,lnloantype ln
+where k.kpslip_no=kd.kpslip_no
+and k.member_no=mb.member_no
+and k.coop_id = mb.coop_id
+and kd.shrlontype_code = ln.loantype_code(+)
+and trim(k.membgroup_code) between trim($P{as_startmembgroup}) and trim($P{as_endmembgroup})
+and k.coop_id = $P{as_coopid}
+and kd.cancel_date  between $P{date1} and $P{date2}
+and kd.keepitemtype_code  like 'L%'
+and k.keeping_status=-99
+group by  kd.keepitemtype_code, kd.shrlontype_code,ln.loantype_desc
+union
+select kd.keepitemtype_code,kd.shrlontype_code ,'เงินฝาก' as loantype_desc,
+count( k.member_no ) as nummem,sum(kd.adjust_itemamt) as prnc_amt,sum(kd.adjust_intamt) as int_amt
+from kpmastreceive k,kpmastreceivedet kd,mbmembmaster mb
+where k.kpslip_no=kd.kpslip_no
+and k.member_no=mb.member_no
+and k.coop_id = mb.coop_id
+and trim(k.membgroup_code) between trim($P{as_startmembgroup}) and trim($P{as_endmembgroup})
+and k.coop_id = $P{as_coopid}
+and kd.cancel_date  between $P{date1} and $P{date2}
+and kd.keepitemtype_code  like 'D%'
+and k.keeping_status=-99
+group by  kd.keepitemtype_code, kd.shrlontype_code
+union
+
+select kd.keepitemtype_code,kd.shrlontype_code ,'ค่าเบี้ยประกัน' as loantype_desc,
+count( k.member_no ) as nummem,sum(kd.adjust_itemamt) as prnc_amt,sum(kd.adjust_intamt) as int_amt
+from kpmastreceive k,kpmastreceivedet kd,mbmembmaster mb
+where k.kpslip_no=kd.kpslip_no
+and k.member_no=mb.member_no
+and k.coop_id = mb.coop_id
+and trim(k.membgroup_code) between trim($P{as_startmembgroup}) and trim($P{as_endmembgroup})
+and k.coop_id = $P{as_coopid}
+and kd.cancel_date  between $P{date1} and $P{date2}
+and kd.keepitemtype_code  like 'ISF%'
+and k.keeping_status=-99
+group by  kd.keepitemtype_code, kd.shrlontype_code
+union
+
+select kd.keepitemtype_code,kd.shrlontype_code ,'ค่าธรรมเนียม' as loantype_desc,
+count( k.member_no ) as nummem,sum(kd.adjust_itemamt) as prnc_amt,sum(kd.adjust_intamt) as int_amt
+from kpmastreceive k,kpmastreceivedet kd,mbmembmaster mb
+where k.kpslip_no=kd.kpslip_no
+and k.member_no=mb.member_no
+and k.coop_id = mb.coop_id
+and trim(k.membgroup_code) between trim($P{as_startmembgroup}) and trim($P{as_endmembgroup})
+and k.coop_id = $P{as_coopid}
+and kd.cancel_date  between $P{date1} and $P{date2}
+and kd.keepitemtype_code  like 'FFE%'
+and k.keeping_status=-99
+group by  kd.keepitemtype_code, kd.shrlontype_code
+)dt,cmcoopconstant cc
+where trim(cc.coop_no) = $P{as_coopid}
+order by dt.shrlontype_code]]>
+	</queryString>
+	<field name="KEEPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANTYPE_DESC" class="java.lang.String"/>
+	<field name="NUMMEM" class="java.math.BigDecimal"/>
+	<field name="PRNC_AMT" class="java.math.BigDecimal"/>
+	<field name="INT_AMT" class="java.math.BigDecimal"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<field name="START_MEMBGROUP" class="java.lang.String"/>
+	<field name="END_MEMBGROUP" class="java.lang.String"/>
+	<variable name="sumprnc" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{PRNC_AMT}]]></variableExpression>
+	</variable>
+	<variable name="sumint" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{INT_AMT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="122" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3504ab56-17dd-40d7-b1ed-a47e32b7d82e" x="91" y="22" width="373" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="73702592-5297-499a-ad9e-a7218470325f" x="0" y="42" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายงานยกเลิกใบเสร็จประจำเดือน ตั้งแต่วันที่" + "        " + new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{date1})+ "        " + "ถึงวันที่" + "        " +  new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($P{date2})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e65425bf-9cc3-42da-9d46-7937490ca8c0" x="0" y="62" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตั้งแต่สังกัด "+$F{START_MEMBGROUP}+" ถึง "+$F{END_MEMBGROUP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c377d28a-b4f7-4778-8750-0c9deae6a323" x="284" y="96" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เงินต้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0df1ed4e-5af6-473a-afb9-01e9823613a6" x="384" y="96" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="64624a2b-1802-405c-a841-0b220a5f1961" x="184" y="96" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="decd3311-e044-4d12-bdeb-fb165405f038" x="22" y="96" width="162" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รายการยกเลิกเรียกเก็บ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="bb49fd63-1796-481e-ad13-138a0fdc3a70" x="284" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRNC_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="22ab6e46-d4fb-489a-a3a4-d64b10038b9b" x="384" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INT_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="624a2e3f-cf89-4c7f-87d6-638e0ee210c9" x="184" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUMMEM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="832e2193-9029-4f88-8bbf-81c98d1a9d06" x="22" y="0" width="162" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANTYPE_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="fbd59530-b6ff-4c28-9ce4-5b64e2027192" x="284" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumprnc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a9228f3e-0bba-4f9c-90a1-b88f1248383f" x="384" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumint}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

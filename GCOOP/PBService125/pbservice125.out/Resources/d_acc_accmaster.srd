@@ -1,0 +1,17 @@
+$PBExportHeader$d_acc_accmaster.srd
+release 12.5;
+datawindow(units=0 color=16777215 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=0 )
+detail(height=92 )
+summary(height=0 )
+footer(height=0 )
+table(column=(name=account_id dbname="accmaster.account_id" type=char(8) updatewhereclause=yes )
+retrieve="select		account_id
+from		accmaster
+where	( ltrim(rtrim(account_type_id))	= '3'  or
+			ltrim(rtrim(account_id)) = '03'  ) and  
+             (coop_id =:as_coop_id  ) 
+
+			" arguments=(("as_coop_id",string))
+)
+column(name=account_id band=detail x="10" y="4" height="80" width="301" id=1 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes )

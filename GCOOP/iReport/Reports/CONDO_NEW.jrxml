@@ -1,0 +1,1811 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CONDO_NEW" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56cb13cd-5ffa-4e0b-b02a-fbb7831e76a6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="2096"/>
+	<parameter name="coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mrtgmast_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="member_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+condo.pos_tambol,condo.pos_amphur,condo.pos_province,condo.land_docno,condo.condo_regisno,condo.condo_name,condo.condo_towerno,
+condo.condo_floor,condo.condo_roomno,condo.condo_roomsize,condo.nowday,
+lnm.mrtg_name1, replace( to_char( lnm.mrtg_personid1 , '9,9999,99999,99,9' ) , ',' , '-' ) , lnm.mrtg_name2, lnm.mrtg_personid2, lnm.mrtg_age1, lnm.mrtg_nationality1, lnm.mrtg_citizenship1, lnm.mrtg_parentname1, lnm.mrtg_matename1,
+lnm.mrtg_village1, lnm.mrtg_address1, lnm.mrtg_soi1, lnm.mrtg_road1, lnm.mrtg_moo1, lnm.mrtg_tambol1, lnm.mrtg_amphur1, lnm.mrtg_province1,
+lnm.mortgage_grtname, lnm.autzd_name, lnm.autzd_age, lnm.autzd_nationality, lnm.autzd_citizenship, lnm.autzd_parentname,
+lnm.autzd_village, lnm.autzd_address, lnm.autzd_moo, lnm.autzd_tambol, lnm.autzd_amphur, lnm.autzd_province,
+lnm.mortgagesum_amt, ft_readtbaht(lnm.mortgagesum_amt), case lnm.mortgage_type when 0 then 1 when 2 then lnm.mortgage_landnum else null end,
+case lnm.assettype_code when '03' then 'ก.' end, lnm.land_office, ftcnvtdate(lnm.mortgage_date, 3)
+from lnmrtgmaster lnm,
+(
+select coop_id,
+       mrtgmast_no,
+       LISTAGG(pos_tambol, ', ') WITHIN GROUP (ORDER BY pos_tambol) as pos_tambol ,
+       LISTAGG(pos_amphur, ', ') WITHIN GROUP (ORDER BY pos_amphur) as pos_amphur,
+       LISTAGG(pos_province, ', ') WITHIN GROUP (ORDER BY pos_province) as pos_province,
+       LISTAGG(land_docno, ', ') WITHIN GROUP (ORDER BY land_docno) as land_docno,
+       LISTAGG(condo_regisno, ', ') WITHIN GROUP (ORDER BY condo_regisno) as condo_regisno,
+       LISTAGG(condo_name, ', ') WITHIN GROUP (ORDER BY condo_name) as condo_name,
+       LISTAGG(condo_towerno, ', ') WITHIN GROUP (ORDER BY condo_towerno) as condo_towerno,
+       LISTAGG(condo_floor, ', ') WITHIN GROUP (ORDER BY condo_floor) as condo_floor,
+       LISTAGG(condo_roomno, ', ') WITHIN GROUP (ORDER BY condo_roomno) as condo_roomno,
+       LISTAGG(condo_roomsize, ', ') WITHIN GROUP (ORDER BY condo_roomsize) as condo_roomsize,
+	  sysdate as nowday
+from lnmrtgmaster
+where coop_id = $P{coopid}
+and assettype_code = '05'
+and member_no = $P{member_no}
+and mrtgmast_no = $P{mrtgmast_no}
+group by coop_id,
+mrtgmast_no) condo
+where condo.mrtgmast_no = lnm.mrtgmast_no
+and lnm.coop_id = $P{coopid}
+and lnm.assettype_code = '05'
+and lnm.member_no = $P{member_no}
+and lnm.mrtgmast_no = $P{mrtgmast_no}]]>
+	</queryString>
+	<field name="POS_TAMBOL" class="java.lang.String"/>
+	<field name="POS_AMPHUR" class="java.lang.String"/>
+	<field name="POS_PROVINCE" class="java.lang.String"/>
+	<field name="LAND_DOCNO" class="java.lang.String"/>
+	<field name="CONDO_REGISNO" class="java.lang.String"/>
+	<field name="CONDO_NAME" class="java.lang.String"/>
+	<field name="CONDO_TOWERNO" class="java.lang.String"/>
+	<field name="CONDO_FLOOR" class="java.lang.String"/>
+	<field name="CONDO_ROOMNO" class="java.lang.String"/>
+	<field name="CONDO_ROOMSIZE" class="java.lang.String"/>
+	<field name="NOWDAY" class="java.sql.Timestamp"/>
+	<field name="MRTG_NAME1" class="java.lang.String"/>
+	<field name="REPLACE(TO_CHAR(LNM.MRTG_PERSONID1,&apos;9,9999,99999,99,9&apos;),&apos;,&apos;,&apos;-&apos;)" class="java.lang.String"/>
+	<field name="MRTG_NAME2" class="java.lang.String"/>
+	<field name="MRTG_PERSONID2" class="java.lang.String"/>
+	<field name="MRTG_AGE1" class="java.lang.String"/>
+	<field name="MRTG_NATIONALITY1" class="java.lang.String"/>
+	<field name="MRTG_CITIZENSHIP1" class="java.lang.String"/>
+	<field name="MRTG_PARENTNAME1" class="java.lang.String"/>
+	<field name="MRTG_MATENAME1" class="java.lang.String"/>
+	<field name="MRTG_VILLAGE1" class="java.lang.String"/>
+	<field name="MRTG_ADDRESS1" class="java.lang.String"/>
+	<field name="MRTG_SOI1" class="java.lang.String"/>
+	<field name="MRTG_ROAD1" class="java.lang.String"/>
+	<field name="MRTG_MOO1" class="java.lang.String"/>
+	<field name="MRTG_TAMBOL1" class="java.lang.String"/>
+	<field name="MRTG_AMPHUR1" class="java.lang.String"/>
+	<field name="MRTG_PROVINCE1" class="java.lang.String"/>
+	<field name="MORTGAGE_GRTNAME" class="java.lang.String"/>
+	<field name="AUTZD_NAME" class="java.lang.String"/>
+	<field name="AUTZD_AGE" class="java.lang.String"/>
+	<field name="AUTZD_NATIONALITY" class="java.lang.String"/>
+	<field name="AUTZD_CITIZENSHIP" class="java.lang.String"/>
+	<field name="AUTZD_PARENTNAME" class="java.lang.String"/>
+	<field name="AUTZD_VILLAGE" class="java.lang.String"/>
+	<field name="AUTZD_ADDRESS" class="java.lang.String"/>
+	<field name="AUTZD_MOO" class="java.lang.String"/>
+	<field name="AUTZD_TAMBOL" class="java.lang.String"/>
+	<field name="AUTZD_AMPHUR" class="java.lang.String"/>
+	<field name="AUTZD_PROVINCE" class="java.lang.String"/>
+	<field name="MORTGAGESUM_AMT" class="java.math.BigDecimal"/>
+	<field name="FT_READTBAHT(LNM.MORTGAGESUM_AMT)" class="java.lang.String"/>
+	<field name="CASELNM.MORTGAGE_TYPEWHEN0THEN1WHEN2THENLNM.MORTGAGE_LANDNUMELSENULLEND" class="java.math.BigDecimal"/>
+	<field name="CASELNM.ASSETTYPE_CODEWHEN&apos;03&apos;THEN&apos;ก.&apos;END" class="java.lang.String"/>
+	<field name="LAND_OFFICE" class="java.lang.String"/>
+	<field name="FTCNVTDATE(LNM.MORTGAGE_DATE,3)" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="786" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bdf1619a-3a23-4b04-9cb3-399975e35b39" x="0" y="410" width="555" height="181"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	  5.   ข้าพเจ้าขอรับรองว่า
+	        (1)           ข้าพเจ้ามิได้รับโอนแทนบุคคลต่างด้าวหรือเพื่อประโยชน์แก่บุคคลต่างด้าวที่ไม่มีสิทธิถือกรรมสิทธิ์ห้องชุด
+	                        ข้าพเจ้าเป็นบุคคลต่างด้าว ขอรับโอนห้องชุดตามสิทธิใน พ.ร.บ. อาคารชุด พ.ศ.2522 มาตรา 19 ( )
+	        (2)   ราคาทรัพย์ที่แสดงไว้ใน 4 เป็นราคาที่แท้จริง
+	        (3)   หนังสือรับรองรายการหนี้อันเกิดจากค่าใช้จ่ายตามมาตรา 18 เป็นการถูกต้อง
+	        (4)   การจำนองเพื่อเป็นหลักประกันการกู้เงินของ........................................................................ซึ่งเป็นหนี้ผู้รับจำนองอยู่ในเวลานี้
+	                และที่จะเป็นหนี้ต่อไปภายหน้า
+	        (5)   ส่วนควบและสิ่งตรึงตรากับห้องชุดซึ่งมีอยู่แล้วในห้องชุดเวลานี้และที่จะมีขึ้นต่อไปในภายหน้าจำนองเป็นประกันด้วย
+	                ทั้งสิ้น
+	        (6)   อัตราดอกเบี้ยร้อยละไม่เกิน 19.00 ต่อปี นำส่งทั้งต้นเงินพร้อมดอกเบี้ยทุกสิ้นเดือน
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2d95835f-3aaf-4ab2-b9f9-981e93be4225" x="85" y="49" width="353" height="52"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เรื่องราวขอจดทะเบียนสิทธิและนิติกรรม
+และการสอบสวนสิทธิในห้องชุด  ประเภทจำนองเป็นประกัน
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d9feac22-3791-4eba-839d-f853d9ea59a2" x="521" y="0" width="31" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ท.ด.๑)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d80f8d22-59cd-4208-a358-f12c5bd70061" x="0" y="368" width="555" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                    4.   ข้าพเจ้าขอแสดงราคาทรัพย์ที่ขอทำนิติกรรมนี้เป็นเงิน"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ac150b67-9cac-4859-ab6d-00886dc68ad1" x="0" y="101" width="72" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่งที่ดิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0637b703-48fe-4759-934b-013c089014e8" x="298" y="585" width="257" height="92"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่………..เดือน…………….……..พ.ศ……………….
+ลงชื่อ …………………………………………..…ผู้ขอ
+ลงชื่อ ……..…………………………………...... ผู้ขอ
+ลงชื่อ ….……………………………………….…ผู้สอบสวน
+        (………….……………………...…………)
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d86f367-c25d-4d14-b8bd-fd4e187e1982" x="54" y="697" width="451" height="36"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(1)     พนักงานเจ้าหน้าที่ประเมินราคาทุนทรัพย์……………………………………………………….บาท
+(2)     ได้จดทะเบียนแล้วแต่วันที่…………….เดือน…………………………..พ.ศ………………...………
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="067e2c8d-d573-43be-9a19-cac873b58246" x="229" y="677" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[สำหรับพนักงานเจ้าหน้าที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a2739a33-bd43-4ba4-b5f4-81042e276c99" x="179" y="733" width="200" height="53"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ……………………………………………
+(…………………………………………..)
+พนักงานเจ้าหน้าที่
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="1f7efadf-ad02-4d10-bd37-c43cb18d0874" x="0" y="121" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["โฉนดที่ดินเลขที่"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="74ab4454-6910-4973-992b-c26b3b0d928f" x="0" y="138" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตำบล"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fbd846b4-9ea5-45f6-ad08-9929cdbc8127" x="0" y="155" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["อำเภอ"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="966d896e-692e-4dab-b5c3-ec3321e41b46" x="0" y="172" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จังหวัด"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="c32e97a2-b949-4aae-9168-54aa826d7515" x="74" y="430" width="9" height="10"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="56cdf59c-9b96-49d2-90af-64197c950fb6" x="74" y="446" width="9" height="10"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="98273887-de4a-4f37-8d36-430ae8761fb9" x="0" y="585" width="298" height="112"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(7)     การคิดดอกเบี้ยให้คิดดอกเบี้ยทบต้นตามวิธีของสหกรณ์ออมทรัพย์
+          พนักงานธนาคารออมสิน จำกัด ถ้ามีการบังคับจำนองได้เงินไม่พอ
+          ชำระหนี้ผู้รับจำนองมีสิทธิยึดทรัพย์สินอื่นของผู้จำนอง ออกขายทอด
+          ตลาดเอาเงินมาชำระหนี้ได้จนครบจำนวนให้ถือสัญญาต่อท้ายสัญญา
+          จำนองเป็นส่วนหนึ่งของสัญญาจำนองฉบับนี้ด้วย จำนวน 2 แผ่น]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="16b58f6f-ca54-462f-9b93-dc6d63af3bb9" x="282" y="121" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ห้องชุดเลขที่ "+"                  "+" ชั้นที่ "+"            "+" อาคารเลขที่ "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c7f2fc4f-3d99-45ef-9870-06d5b68ee184" x="282" y="101" width="101" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ที่ตั้งห้องชุด]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d6f5f528-5361-4a76-b97b-b73636e39afa" x="282" y="138" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ชื่ออาคารชุด"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cf61b8a5-d62a-4ccf-b36d-311a0b18f230" x="282" y="172" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เนื้อที่ประมาณ "+"                               "+" ตารางเมตร"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="426f98c0-6e3f-42b9-b900-c583efb9def5" x="282" y="155" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ทะเบียนอาคารชุดเลขที่ "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="37654d78-d9f2-4613-8ee8-3e8cf0eb082a" x="327" y="244" width="233" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["บิดา/มารดาชื่อ "]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c0b251fa-5157-475f-869f-7e584e32bf58" x="217" y="244" width="112" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_CITIZENSHIP1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="922b3f00-b7c0-47cc-92a9-37e83a086b8f" x="436" y="261" width="126" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_MATENAME1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="49902f85-f230-4df6-8565-9e804be57a2d" x="229" y="261" width="100" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หม่าย]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="f7717c10-257a-47ab-81a1-a0a624d6f45f" x="214" y="264" width="10" height="10"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="fea6ede1-1870-47c0-a586-60f8f892882f" x="229" y="339" width="100" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หม่าย]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="505181b2-e5b8-40ea-863b-fe94faaf6e31" x="5" y="227" width="483" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                  2.   ข้าพเจ้า "]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="562b85a4-b98f-4c3a-a6d8-4b06ad86ffa2" x="316" y="295" width="92" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_PROVINCE1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d90f71fc-0213-4bfa-97ae-ddf675c53a6b" x="167" y="244" width="160" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สัญชาติ  "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="58c03b0d-0b7f-44cf-9dcb-afcc50646932" x="4" y="381" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[อยู่ที่บ้าน/หมู่บ้าน	-	เลขที่	470	ตรอก/ซอย	-	ถนน	พหลโยธิน		หมู่ที่	-	]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="76dcd884-1af0-43dc-aef9-b387d818573d" x="5" y="244" width="162" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["อายุ"+"                              "+"ปี"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="17ee0700-f7de-4ce2-b058-e9ce853638c5" x="366" y="342" width="10" height="10"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b42c0938-9f2a-49a0-9970-097715c6c14b" x="78" y="278" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_VILLAGE1}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="1b0c731f-e618-4691-86c6-c898cbfc9eff" x="214" y="342" width="10" height="10"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9c67977a-41b0-4c97-9292-ca1d68ac029e" x="149" y="326" width="133" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MORTGAGE_GRTNAME}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="3fe948b3-0a87-4e6c-96f2-a703527fb6c5" x="57" y="342" width="10" height="10"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="b17b9284-43e9-45f3-8811-d6f2ba6c1783" x="287" y="295" width="29" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จังหวัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9463ff55-4673-46c1-b1c2-68c53c78ae94" x="72" y="261" width="52" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[โสด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2c9d3e39-e8f5-4e6d-b2e8-9b7a7c5cfc6a" x="5" y="278" width="90" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่บ้าน/หมู่บ้าน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0366f9b7-fcd7-4f76-a229-33a1c9f9f0b4" x="7" y="352" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[อายุ	-	ปี		สัญชาติ		ไทย	บิดา/มารดาชื่อ	-	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d73bafa-44d2-4b48-9c84-9d76d0fa75bd" x="4" y="397" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตำบล/แขวง	สามเสนใน	อำเภอ/เขต พญาไท	จังหวัด	กรุงเทพมหานคร	หมายเลขโทรศัพท์  5586100 ต่อ 8990-91]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0b821b2f-0b99-4531-96b5-7b16fddf15cd" x="6" y="193" width="554" height="18"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	1.   ข้าพเจ้าผู้มีนามต่อไปนี้ มีความประสงค์ขอจดทะเบียนสิทธิและนิติกรรมเกี่ยวกับอสังหาริมทรัพย์ที่กล่าวข้างบนนี้ และได้ปฏิญาณตน]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="3a4352d2-1673-44fa-baab-ce7a61261726" x="366" y="264" width="10" height="10"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="606ca62b-e1bb-474c-a04f-cb25a95477b6" x="488" y="227" width="72" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ผู้จำนอง"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="242fafb6-6302-4044-b569-5ea9d2cfeb66" x="6" y="211" width="554" height="19"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[แล้วขอให้ถ้อยคำด้วยความสัตย์จริง ถ้าข้าพเจ้าให้ถ้อยคำไม่เป็นความจริงให้ใช้ถ้อยคำนี้ยันข้าพเจ้าในทางคดีอาญาได้]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="30619f04-7acd-41c7-80c8-e8502596fd95" x="208" y="278" width="107" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_ADDRESS1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a673cbb7-7afe-41e8-884a-ffa09e0fab76" x="472" y="278" width="34" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หมู่ที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ad06f220-7cde-4d45-983c-f797754de309" x="182" y="278" width="27" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="bc38e375-d3fe-4613-8c6a-979f74e3e8bb" x="362" y="278" width="110" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_SOI1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b325b9e9-103b-44a2-9a1f-9d5cfeb27271" x="381" y="261" width="100" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[คู่สมรสชื่อ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8af05a8d-0d7b-45ca-8b12-91b54bd0ff89" x="6" y="295" width="51" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตำบล/แขวง]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1f2a29b0-9d23-49c8-b31b-2ab504e347bd" x="41" y="244" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_AGE1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="11a09bdc-91af-4ba3-9806-265aa398ca85" x="72" y="339" width="52" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[โสด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c1469e8-a7cc-48a1-a147-8254f36f4a28" x="408" y="295" width="66" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หมายเลขโทรศัพท์]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="b47023ae-fa53-4552-ab7f-b369c722991a" x="57" y="264" width="10" height="10"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="df557559-a6d6-4b39-b0c4-73f91eb42240" x="310" y="278" width="63" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตรอก/ซอย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4b105997-0a12-4742-bdce-959f64f7c308" x="4" y="311" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	3. ข้าพเจ้า		สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด					ผู้รับจำนอง ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3022046f-5b74-4a51-a3de-040eff9fc17c" x="157" y="295" width="41" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[อำเภอ/เขต]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="74772849-a810-4b44-b48b-9c0a3133440b" x="198" y="295" width="90" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_AMPHUR1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="64c409ff-da07-4e76-9abf-3b7aafcc63ba" x="381" y="339" width="100" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[คู่สมรสชื่อ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="598afd85-166a-42b0-b992-2abdb3e3ee52" x="403" y="244" width="147" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_PARENTNAME1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e4e67b39-6293-4bd5-8122-cdf53209bb04" x="504" y="278" width="55" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{MRTG_MOO1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="16e0bbe2-1227-4d07-8dd3-0819a959dad5" x="57" y="295" width="108" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_TAMBOL1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9fe78eb7-aea2-42e8-95f6-376b175cdf6a" x="4" y="326" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[			(โดย				แทน)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="288f0b5d-f3dc-4b15-b2ee-6b1620236f22" x="103" y="227" width="357" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_NAME1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="5a1d7067-e288-419a-b2a2-12ed7a6afeba" x="79" y="138" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_TAMBOL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8ed41c07-1cc7-49e5-8b35-88fad4f40d44" x="79" y="155" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_AMPHUR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4305be6d-aa62-43f8-b784-d1d48e554a12" x="79" y="172" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_PROVINCE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="acd6e7e4-276f-4f5f-8bba-5fea6a39ada4" x="351" y="138" width="137" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="53f1db72-a9fa-4796-9eff-80fb04a4ab56" x="521" y="121" width="35" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_TOWERNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2afc89e9-619d-45af-b033-ff66aadf8b13" x="429" y="121" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_FLOOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a3545503-79d0-4c5e-be61-63a072394ad8" x="345" y="121" width="58" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_ROOMNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="371acdcb-835d-46c6-929a-3736041e1dcb" x="389" y="155" width="163" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_REGISNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f518e305-dd7e-4add-a1a7-b4317da6746f" x="355" y="173" width="74" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_ROOMSIZE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f857d29b-d5df-4d85-8012-d04324d5f3eb" x="79" y="121" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LAND_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="fbb7aadd-d043-4ae9-b5e6-cf975570a9b7" x="269" y="368" width="82" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MORTGAGESUM_AMT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9316bc15-6cdc-4305-8332-bcefd26f1b7e" x="350" y="368" width="26" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79ceab6e-38af-4510-b7ff-e0b90e57d84f" x="376" y="368" width="198" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(                                                                                )]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3e93db68-2757-47a8-98f4-05198ac2e6b1" x="389" y="368" width="142" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FT_READTBAHT(LNM.MORTGAGESUM_AMT)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1fa06d42-ab6e-4da4-a7f7-cced43da6bfc" x="245" y="487" width="129" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MORTGAGE_GRTNAME}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="7ace37a3-5d9c-4649-bac0-174a3792eaa0" x="235" y="-1" width="80" height="50"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\bird.jpg"]]></imageExpression>
+			</image>
+		</band>
+		<band height="786">
+			<textField>
+				<reportElement uuid="4b296fa3-a23d-4d5d-9196-7790d7d50ad8" x="1" y="412" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เป็นผู้มีอำนาจจัดการรับ จำนองกรรมสิทธิ์ห้องชุดดังกล่าวข้างบนนี้  เพื่อเป็นประกันหนี้ของ"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2fc7c135-f3ee-4e9a-ba15-e5fbacf6c81d" x="256" y="579" width="289" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ลงชื่อ)…..…………….….………………. …………ผู้มอบอำนาจ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9be19bf3-25fb-4908-902b-b66237188fd0" x="256" y="690" width="289" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ลงชื่อ)…..…………….….………………. …………พยาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fa5568a2-144e-4e95-ab57-24aa5487e009" x="256" y="650" width="289" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ลงชื่อ)…..…………….….………………. …………พยาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="37c33515-03a1-4330-95a3-bfda0643b1a7" x="420" y="30" width="136" height="56"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ฯ ได้รับยกเว้นอากรแสตมป์
+ตามประมวลรัษฎากร ม.104
+บัญชีอากรแสตมป์ ข้อ 7 (4)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="09bddabf-986c-4b07-9e4a-b36d378eeedd" x="172" y="74" width="215" height="42"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="37" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[หนังสือมอบอำนาจ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="62763be9-40f8-422b-b2a9-45e161defa5d" x="44" y="208" width="261" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รับจำนองกรรมสิทธิ์ห้องชุดเป็นประกัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f3c59412-9477-4647-b4ab-14af5ba05f14" x="1" y="208" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เรื่อง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1f71dac6-29ea-4ad4-91a0-8c0408329493" x="68" y="765" width="237" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ยกเว้นการปิดอากรแสตมป์ตามประมวลรัษฎากร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f5a7f3da-4716-4275-960b-decbd198e559" x="45" y="619" width="511" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้าขอรับรองว่าเป็นลายมือชื่ออันแท้จริงของผู้มอบอำนาจและผู้มอบอำนาจได้ลงลายมือชื่อต่อหน้าข้าพเจ้า ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0960a5f3-c750-4f1c-9ccc-2108829e224b" x="44" y="542" width="390" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เพื่อเป็นหลักฐานข้าพเจ้าได้ลงลายมือชื่อให้ไว้เป็นสำคัญต่อหน้าพยานแล้ว]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="74874322-6a15-4abc-92a0-fa9d08fd82ce" x="1" y="765" width="67" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4171f349-86d1-406a-a1b2-af6ef6d9f309" x="520" y="10" width="36" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ท.ด.21)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5cb0fb09-c3b0-49c9-8a1f-b6f96c1dfa98" x="9" y="375" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[มีภูมิลำเนา  ณ  เลขที่			หมู่ที่		ตำบล		อำเภอ			จังหวัด ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="00323ed1-9938-4d03-846a-20597cf97d4b" x="9" y="395" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	เป็นผู้มีอำนาจจัดการรับจำนองที่ดินพร้อมทั้งสิ่งปลูกสร้างที่มีอยู่แล้วและที่จะมีขึ้นต่อไปภายหน้าเป็นประกันหนี้ ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5226dda7-a55e-497b-9769-e1977f702af1" x="9" y="335" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ถนน พหลโยธิน  สะพานควาย  แขวงสามเสนใน  เขตพญาไท  จังหวัดกรุงเทพมหานคร]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f6f6b398-4478-41b1-8e70-2b2642cc2d9e" x="486" y="375" width="91" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_PROVINCE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="eecbaaa6-707e-456b-8172-1de3b27c55ec" x="236" y="355" width="46" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_AGE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d9513e53-139f-428c-90d7-8e4e2b170c77" x="9" y="315" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	นายสังวาลย์  กิตติวีระนุกูล  เลขานุการ				เป็นผู้แทนสำนักงานตั้งอยู่ ณ อาคารเลขที่ 470]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d3af7b83-8405-4ffa-a7a1-59a6d1cbfef7" x="192" y="375" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_MOO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c3eb9cae-e0fa-488e-af76-8675269c86d1" x="486" y="355" width="68" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_CITIZENSHIP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c14c264a-14f9-4e4f-bf02-86b15c23167f" x="89" y="375" width="85" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_ADDRESS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="273d0e7e-d54d-40b7-97ab-e4539082f8f3" x="9" y="295" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[โดย 	นายสรศักดิ์  พุทธรักษา  รักษาการผู้จัดการสหกรณ์ฯ และ  ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="422e5367-2c13-43d8-9db9-5bb87f49a028" x="368" y="355" width="71" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_NATIONALITY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="7a643272-5dd0-4ba2-b19e-089e8b7b9d95" x="277" y="375" width="45" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_TAMBOL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="761a54dc-7f11-43e5-a740-9e080fead37e" x="58" y="355" width="146" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3ca5432b-e24e-45b8-960a-6bcaa767d284" x="358" y="375" width="93" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_AMPHUR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f77586ae-3b3f-4b4d-bdc1-6b34fb7efc21" x="9" y="355" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ได้มอบให้  				อายุ		ปี	เชื้อชาติ 			สัญชาติ 	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="07eaab8d-5a0a-4c3f-a4c7-68967bbb2a65" x="259" y="229" width="305" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เขียนที่ สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน  จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="573ac736-c0ab-4b64-b3ca-e5e0064a51fd" x="259" y="249" width="305" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38592407-1408-43a2-80a2-efcced1caad4" x="234" y="269" width="330" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[โดยหนังสือฉบับนี้ข้าพเจ้า สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1c75b2ad-f4a7-4cf7-af01-647d2d9c3c29" x="0" y="432" width="587" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตามสัญญาเงินกู้ลงวันที่..........................................................ภายในวงเงิน                                                                        โดยคิดดอกเบี้ยร้อยละไม่เกิน 19.00 ต่อปี ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c727e7e0-56d3-4785-9c92-ad8be8b43d12" x="0" y="452" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ส่งชำระเงินต้นและดอกเบี้ยเดือนละครั้ง   คิดดอกเบี้ยทบต้นตามวิธีการของสหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด หากต้องบังคับจำนอง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0e005429-9e05-4e76-b523-f8e57a37dbc9" x="1" y="472" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ขายทอดตลาดทรัพย์ที่จำนองได้เงินไม่พอชำระหนี้    ผู้จำนองยินยอมใช้ส่วนที่ขาดจนครบถ้วน ข้อตกลงอื่น ๆ  ให้ถือสัญญาต่อท้ายเป็นส่วนหนึ่งของ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="340da47b-f050-4005-84b0-8a21cb4a4958" x="1" y="492" width="557" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สัญญาจำนองด้วย และให้ถ้อยคำต่างๆ ต่อพนักงานเจ้าหน้าที่แทนสหกรณ์ออมทรัพย์  พนักงานธนาคารออมสิน จำกัด จนเสร็จการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="db66e210-fb9f-42a9-82b2-43d8f86bb2a7" x="204" y="599" width="330" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(นายสรศักดิ์  พุทธรักษา)  (นายสังวาลย์  กิตติวีระนุกูล)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2295d992-439f-413d-a3a0-c7766900bbe5" x="284" y="193" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เนื้อที่ประมาณ "+"                               "+" ตารางเมตร"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="43523cd3-9fa6-4c83-8e3a-cbadc4963907" x="2" y="159" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตำบล"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e7bcf187-3345-41c6-82ab-caa300ccbaaa" x="431" y="142" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_FLOOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="38145418-0ba4-4ffd-9721-8a51dbb0e392" x="81" y="176" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_AMPHUR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="55c8e37b-2a76-42c0-a5a8-6bbb8393560e" x="2" y="122" width="72" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่งที่ดิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1563e91d-1a7d-4a7c-a566-3f46238460a3" x="284" y="122" width="101" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ที่ตั้งห้องชุด]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2385f7c1-7f77-4c41-82dd-35453cd795d5" x="2" y="176" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["อำเภอ"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7b7aae75-929e-42f0-a39c-6f6ecb2bb2e1" x="2" y="193" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จังหวัด"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="cdfc69fa-b7ed-47c2-8d20-2f6cf5e0a032" x="81" y="142" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LAND_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="acbbdeff-bb9e-42f5-830b-7b4ff5546cc6" x="284" y="176" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ทะเบียนอาคารชุดเลขที่ "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5ba81cdb-d0c6-4e65-956a-7fc45135a1f5" x="2" y="142" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["โฉนดที่ดินเลขที่"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c3138dee-5bb3-4d34-be38-edb523992d0c" x="523" y="142" width="35" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_TOWERNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="43ccf261-f1d6-4edb-9fcc-6f4563c8732b" x="284" y="142" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ห้องชุดเลขที่ "+"                  "+" ชั้นที่ "+"            "+" อาคารเลขที่ "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b712b218-0d59-4a11-be7b-80407625f806" x="284" y="159" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ชื่ออาคารชุด"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b14bec9e-01d2-4f2e-bd31-473bc7b17fbb" x="357" y="194" width="74" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_ROOMSIZE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d73692cf-a340-4742-9bdd-c03a69bb2edb" x="81" y="159" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_TAMBOL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ff8b11cd-c284-4d79-8726-79aa9261c032" x="81" y="193" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_PROVINCE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="46f1c4de-2348-4d9f-9df1-8a1dcb369043" x="347" y="142" width="58" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_ROOMNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4f3422eb-74eb-4c63-9d32-4624583e9304" x="353" y="159" width="137" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9e9d4ec3-17bb-4324-ac19-d2f9d25a2505" x="391" y="176" width="163" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_REGISNO}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="786">
+			<staticText>
+				<reportElement uuid="60c5d824-7373-4f5e-9149-aae798f69dd1" x="103" y="454" width="491" height="187"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[				……………………………………………….ผู้รับมอบอำนาจ
+
+				……………………………………………….ผู้  จำนอง
+
+				……………………………………………….บันทึก
+
+				……………………………………………….เจ้าพนักงานที่ดิน
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b0b61a4-329c-40a4-815d-0073805f64b4" x="2" y="234" width="552" height="77"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[						วันที่……………เดือน…………………………………….พ.ศ.…..…..
+		ข้าพเจ้า............................................................ผู้รับมอบอำนาจ/ข้าพเจ้า............................................ขอให้ ถ้อยคำรับรองไว้ต่อหน้าเจ้าพนักงานที่ดิน   ด้วยความสัตย์จริงดังนี้
+1.	ผู้มอบอำนาจยังมีชีวิตอยู่และมีสติสมบูรณ์ทุกประการและลายมือชื่อในมอบอำนาจฉบับนี้  เป็นลายมือชื่อผู้มอบอำนาจ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7f40fd33-33c0-4304-8b04-d62d45afa7fc" x="1" y="311" width="553" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ซึ่งเป็นเจ้าของที่ดินแปลงนี้จริง  เพราะผู้รับผิดชอบได้ลงลายมือชื่อต่อหน้าข้าพเจ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f0c100d9-2b45-4bce-a9ac-b1d5054ca8b1" x="2" y="331" width="592" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[2.	ผู้มอบมีความประสงค์มอบให้มาทำการตามใบมอบอำนาจนี้จริง หากเกิดความเสียหายใดๆ ข้าพเจ้าขอรับผิดชอบเองทั้งสิ้น
+]]></text>
+			</staticText>
+		</band>
+		<band height="786">
+			<staticText>
+				<reportElement uuid="92d0cd0d-aaf1-4b18-b468-5313761fa677" x="0" y="166" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หนังสือสัญญานี้ได้ทำเมื่อวันที่……….…….........…..เดือน……………..…………............พุทธศักราช………………………..]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5ab3b754-1a76-439c-b3aa-5d0edb9bf0f5" x="0" y="455" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 2.   ผู้รับจำนองตกลงรับจำนองห้องชุด  ตามที่กล่าวในข้อ 1 จากผู้จำนอง]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="0288bf2a-ffd7-44ea-83c6-bc9a58e8599b" x="0" y="3" width="166" height="44"/>
+			</rectangle>
+			<line>
+				<reportElement uuid="6dd432d3-86c7-4404-8839-c69b0fa4efae" x="152" y="74" width="251" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="65f64ee9-f0f7-4303-bda0-e4ad93625279" x="0" y="510" width="555" height="138"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 4. ส่วนควบและหรือสิ่งตรึงตรากับห้องชุดนี้ในขณะนี้หรือที่จะขึ้นในภายหน้ารับจำนองเป็นประกันด้วยทั้งสิ้น
+	ข้อ 5. ผู้จำนองยอมชำระดอกเบี้ยให้แก่ผู้รับจำนองในอัตราร้อยละไม่เกิน 19.00 บาทต่อปี นำส่งเดือนละครั้ง คิดดอกเบี้ยทบต้นตามวิธีการ
+ของสหกรณ์ฃพนักงานธนาคารออมสิน จำกัด หากต้องบังคับจำนองขายทอดตลาด ทรัพย์ที่จำนองได้เงินไม่พอชำระหนี้ ผู้จำนองยอมใช้ส่วนที่ขาด
+จนครบถ้วน ข้อตกลงอื่นๆ ให้ถือเป็นไปตามสัญญาต่อท้ายและให้ถือว่าสัญญาต่อท้ายสัญญาจำนองเป็นส่วนหนึ่งของสัญญาจำนองฉบับนี้ด้วย
+จำนวน 2 แผ่น
+	หนังสือสัญญานี้ได้ทำเป็น  สาม  ฉบับ มีข้อความตรงกัน สำหรับสำนักงานที่ดินจังหวัด  หนึ่ง  ฉบับ ผู้รับจำนองถือไว้หนึ่งฉบับ ผู้จำนองถือไว้หนึ่งฉบับ (ฉบับนี้สำหรับ…………………………………..)
+	ทั้งสองฝ่ายได้ทราบและเข้าใจข้อความในหนังสือสัญญานี้ตลอดแล้ว   จึงลงลายมือชื่อไว้เป็นหลักฐานต่อหน้าพนักงานเจ้าหน้าที่
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7371cb31-9756-47fa-a21b-0d57a6987b9c" x="304" y="648" width="251" height="68"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ลงลายมือชื่อผู้จำนอง) .…………………………………………….
+(ลงลายมือชื่อผู้รับจำนอง) ….………………………………………
+(ลงลายมือชื่อพยาน) .……………………………………………….
+(ลงลายมือชื่อพยาน) ….………………………………………….…
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2611e39d-c3c7-4551-9934-972676dfa2f9" x="0" y="435" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                  ข้อ 1.   ผู้จำนองตกลงจำนองห้องชุดตามที่กล่าวข้างบนนี้แก่ผู้รับจำนอง เป็นเงิน"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9be501ec-9e95-4352-be5a-d3f5539360da" x="0" y="3" width="166" height="45"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ฯ ได้รับยกเว้นค่าธรรมเนียม
+ตาม พรบ.สหกรณ์ พ.ศ. 2542 ม.6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="567efc93-f3ff-4b8f-ba5f-3c49736d9394" x="354" y="716" width="201" height="70"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[………………………………….เจ้าพนักงานที่ดิน
+         ประทับตราประจำตำแหน่งเป็นสำคัญ
+………….…………………………………..ผู้พิมพ์
+………….…………………………………..ผู้ตรวจ
+								………….…………………………………..ผู้ตรว
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="62997ff8-7cdb-46df-836a-ce98940b6ba3" x="519" y="6" width="36" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ท.ด.21)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="9a1aa564-3754-4b4f-b756-024641cf5606" x="0" y="475" width="555" height="35"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                  ข้อ 3.   ผู้จำนองตกลงจำนองห้องชุดดังกล่าวข้างบนนี้แก่ผู้รับจำนอง เพื่อเป็นประกันหนี้ซึ่ง"+"เป็นหนี้ผู้รับจำนองตามรายละเอียดข้อตกลงต่อท้ายสัญญาจำนอง"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7a631dc3-40a7-427c-bfca-dd602db479bb" x="438" y="659" width="136" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="10"/>
+				</textElement>
+				<text><![CDATA[ตามหนังสือมอบอำนาจ  ลว……………………..]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f068bb2f-7623-4b93-8d5f-2a40d6d07abe" x="152" y="41" width="251" height="27"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="23" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[หนังสือสัญญาจำนองเป็นประกัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb2debfe-2f28-4956-8a2c-49f924be3a07" x="84" y="415" width="245" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ทั้งสองฝ่ายได้ตกลงทำสัญญากันดังต่อไปนี้คือ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="b290e11e-c6dc-4642-a53a-29ba2c54d3b4" x="284" y="148" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เนื้อที่ประมาณ "+"                               "+" ตารางเมตร"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ec31d139-dc89-425f-a515-70a6735cb72a" x="2" y="114" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตำบล"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0f1ec9c4-248f-461f-aab0-41690c81b267" x="431" y="97" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_FLOOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1897691d-2812-45cc-b66d-2ad96c382d8b" x="81" y="131" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_AMPHUR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b5fa5a02-fb4f-4e44-8471-27a9507f6d85" x="2" y="77" width="72" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่งที่ดิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e8b6095b-5fa5-46e1-84f0-a6fd03b577ce" x="284" y="77" width="101" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ที่ตั้งห้องชุด]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a7015b68-19a0-470c-93f3-f21db0524f2e" x="2" y="131" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["อำเภอ"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f6dff9c0-d71e-4493-aa8d-debcad023876" x="2" y="148" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จังหวัด"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2d123cd6-ddaf-47e0-b93c-bdefb1bc1cb5" x="81" y="97" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LAND_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1a61c22f-f2f2-4069-a4bb-bd9f722c6622" x="284" y="131" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ทะเบียนอาคารชุดเลขที่ "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eda8f709-8faf-4e79-ac31-f1287c79e05a" x="2" y="97" width="211" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["โฉนดที่ดินเลขที่"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="dba5946a-9c20-4d54-8e08-dfffa36374c1" x="523" y="97" width="35" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_TOWERNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fe1ade41-5968-4175-8fb2-64b2a042a6e2" x="284" y="97" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ห้องชุดเลขที่ "+"                  "+" ชั้นที่ "+"            "+" อาคารเลขที่ "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b85bd49f-909d-4a49-8907-f172bb962f7c" x="284" y="114" width="273" height="17"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ชื่ออาคารชุด"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d54f16f7-5958-46b6-8bc8-390715097bfa" x="357" y="149" width="74" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_ROOMSIZE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="349ebad6-6ab7-438e-9a1b-5b8cbffb5cd7" x="81" y="114" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_TAMBOL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="53258c4a-7b73-447a-913c-d24076058d59" x="81" y="148" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POS_PROVINCE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8ad114e5-11f8-49db-9f76-c460fd3ca636" x="347" y="97" width="58" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_ROOMNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8b89363e-f5a5-4cf2-b678-0102e1e7aca4" x="351" y="114" width="137" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fe724915-6efb-45f5-8979-a2d2a78bee4e" x="391" y="131" width="163" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONDO_REGISNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="002cbe78-bf81-4e7e-8db5-4174b4cebf2f" x="437" y="270" width="121" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_PROVINCE1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a5c8ad0e-003e-49ae-8efe-66d73850c2e6" x="43" y="268" width="163" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_TAMBOL1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1b3edec3-f953-45ca-89d8-60dd64d55286" x="10" y="10" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ณ								จังหวัด 				]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a742883d-3fcf-48db-b372-80f9b922c3bc" x="395" y="247" width="91" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_ADDRESS1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="914e6602-7cbe-476e-a6e7-12f8f35a573e" x="78" y="207" width="121" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_NAME1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="29f69bdf-fc17-4640-bb9c-20cd6c27b66f" x="3" y="309" width="1490" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[กับ			โดย 				    แทน	             ผู้รับจำนอง	 อายุ             -	ปี สัญชาติ ไทย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3870e111-b97c-4141-96c6-f873a315c6c0" x="3" y="349" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[บุตร  -  	อยู่ที่บ้าน  	ถนนพหลโยธิน  	เลขที่  470  	หมู่ที่  -  แขวงสามเสนใน  	เขตพญาไท  	จังหวัดกรุงเทพมหานคร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7ce60294-9dea-4eca-96ed-926ccc4f6788" x="3" y="329" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[				 ผู้มีอำนาจลงนามแทนสหกรณ์ฯ ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1066b4e0-8e1b-4474-b37c-7435894a3cfe" x="148" y="309" width="139" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTZD_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c2dbd434-fbab-460e-bd11-fb52af9f1781" x="513" y="249" width="40" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_MOO1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9ac83930-fd44-451e-bd66-6b6ebb13c4d7" x="78" y="225" width="121" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REPLACE(TO_CHAR(LNM.MRTG_PERSONID1,'9,9999,99999,99,9'),',','-')}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6e2f9679-de1f-4527-90f2-0b6e556079e9" x="3" y="269" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตำบล					อำเภอ					จังหวัด]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="6f17219c-2458-4c66-b11f-092aea0b6bbd" x="43" y="247" width="163" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_PARENTNAME1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f94fcfe1-277b-4460-8917-b06acde12f53" x="414" y="210" width="41" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_AGE1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="89bf8cd4-e31f-4847-82ae-01df714004f9" x="5" y="208" width="976" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[								          ผู้จำนอง  อายุ	                                 ปี  สัญชาติ			]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4ff34f73-4ddc-41e1-8ca8-973d52ce0d45" x="242" y="268" width="142" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_AMPHUR1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="488d0042-c529-4d40-b4a2-d6d0cc0925f6" x="199" y="207" width="123" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_NAME2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fe844d65-0f9e-4c4c-9420-0c389555ca9d" x="256" y="247" width="107" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_VILLAGE1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="89a4397c-db51-47ce-8c85-9c625722f327" x="510" y="208" width="50" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MRTG_CITIZENSHIP1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1f359d71-c3e7-4b56-becd-6e274dc890c9" x="3" y="289" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[			สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6fe14020-2b75-49cb-afe7-eae315ebaa33" x="3" y="209" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ระหว่าง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="53c0562a-e588-42ef-91b5-344ffa0fbdb8" x="3" y="250" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[บุตร					อยู่ที่บ้าน				เลขที่			หมู่ที่]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="6d531be0-b99d-4a86-b74d-1a9d33b840a4" x="42" y="196" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\leftcrop.jpeg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="ac7efe38-f570-4259-981e-43ac9404c243" x="320" y="192" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\rightcrop.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="dc67c89e-a7c3-4998-a206-151e203d3fcf" x="400" y="190" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\leftcrop.jpeg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="4fa1f288-3e8e-4efd-9e44-0f4bc06948cd" x="41" y="295" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\leftcrop.jpeg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="a25619e8-4537-44ce-b829-0089e2d1161a" x="429" y="295" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\leftcrop.jpeg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="4ce098e1-cb12-4cb1-87fb-f2c23dfd058a" x="456" y="192" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\rightcrop.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="7e6b6d48-c0bc-4417-a19d-d073f3a811c9" x="326" y="292" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\rightcrop.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="469e4597-3bff-4a37-af1e-70118e46a6bf" x="464" y="293" width="13" height="51"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\rightcrop.jpg"]]></imageExpression>
+			</image>
+		</band>
+		<band height="786">
+			<staticText>
+				<reportElement uuid="b51cf993-2828-44ed-80bb-bc453961f02e" x="0" y="453" width="555" height="50"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 4.   แม้จะมีการกระทำอย่างหนึ่งอย่างใด ของผู้รับจำนองเป็นเหตุให้ผู้จำนองไม่อาจเข้ารับช่วงได้ทั้งหมดหรือแต่บางส่วนซึ่งสิทธิใดๆ อัน
+ได้ให้ไว้แก่ผู้รับจำนองแต่ก่อนหรือในขณะหรือภายหลังที่ผู้จำนองเข้าทำหนังสือสัญญาจำนองรายนี้ผู้จำนองก็ไม่หลุดพ้นจากความรับผิดชอบในการจำนองรายนี้แต่ประการใด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dd9f37d2-f628-408b-a380-cf1189a58d1f" x="0" y="656" width="555" height="68"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 8.   บรรดาหนังสือ  จดหมาย  คำบอกกล่าว ใดๆ  ของผู้รับจำนองที่ส่งไปยังสถานที่ที่ระบุไว้  ว่าเป็นที่อยู่ของผู้จำนองหรือที่อยู่ที่ผู้จำนอง
+แจ้งเปลี่ยนแปลง โดยส่งเองหรือส่งทางไปรษณีย์ลงทะเบียน หรือไม่ลงทะเบียนไม่ว่าจะถึงตัวหรือไม่ถึงตัว และไม่ว่าผู้ใดรับหรือไม่ก็ตามหรือส่งไม่ได้
+เพราะผู้จำนองย้ายสถานที่อยู่โดยมิได้แจ้งให้ผู้รับจำนองทราบในทุกกรณีที่กล่าวมานี้ ผู้จำนองยินยอมผูกพันว่า หนังสือ จดหมายคนบอกกล่าวนั้นได้ส่ง
+ให้ผู้จำนองโดยชอบแล้ว]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="57bc0805-dc3b-442a-847b-dd74d3ee926a" x="0" y="573" width="555" height="83"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 7.   ในระหว่างระยะเวลาที่จำนองนี้ ผู้จำนองจะก่อสิทธิใดๆ ให้เป็นภาระผูกพันแก่ทรัพย์สินจำนองโดยไม่ได้รับความยินยอมเป็นหนังสือ จากผู้รับจำนองก่อนหาได้ไม่ แต่ถ้าก่อไว้ก่อนโดยผู้จำนองได้แจ้งและผู้รับจำนองทราบแล้ว   หากจะต่ออายุสิทธิดังกล่าว จะต้องได้รับความยินยอมเป็น หนังสือจากผู้รับจำนองก่อนเช่นเดียวกัน หากผิดข้อตกลงนี้ ผู้จำนองรับว่าไม่ผูกพันรับจำนอง
+	อนึ่ง ถ้ามีการโต้แย้งในเรื่องกรรมสิทธิ์ของผู้จำนองในที่ดินและทรัพย์ที่จำนองตามข้อตกลงนี้ เมื่อใดผู้จำนองยินยอมให้ผู้รับจำนองเรียกให้ผู้
+จำนองชำระหนี้และบังคับจำนองได้ทันที]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b46aefbd-1386-42d8-a9ae-0da5e63bad1d" x="0" y="108" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[470 ถนนพหลโยธิน แขวงสามเสนใน เขตพญาไท กรุงเทพฯ 10400 โทร 0-22998265-8 โทรสาร 0-22780090]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7ec06772-b20f-40ce-9db5-e2d0fe0c8dca" x="0" y="403" width="555" height="50"/>
+				<textElement textAlignment="Left" markup="none">
+					<font fontName="Angsana New" size="14" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" tabStopWidth="40">
+						<tabStop position="0" alignment="Right"/>
+						<tabStop position="0" alignment="Left"/>
+					</paragraph>
+				</textElement>
+				<text><![CDATA[                 ข้อ 3.   เมื่อผู้รับจำนองเอาทรัพย์สินที่หลุดจำนองเป็นสิทธิ ถ้าปรากฏว่ามีค่าภาษีอากรเกี่ยวกับทรัพย์สินนั้นค้างชำระอยู่สำหรับระยะเวลาก่อน
+วันโอนมากน้อยเพียงใด และผู้รับจำนองต้องชำระเงินค่าภาษีอากรที่ค้างนั้นผู้จำนองต้องรับผิดชดใช้เงินค่าภาษีอากรดังกล่าวและค่าเสียหายเกี่ยวกับการ
+นี้ให้แก่ผู้รับจำนองจนคร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3d3d8dab-723b-47af-b0c0-d486e27d1fce" x="0" y="353" width="555" height="50"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 2.   เมื่อผู้รับจำนองบังคับจำนองเอาทรัพย์สินจำนองรายนี้ออกขายทอดตลาด   ได้เงินจำนวนสุทธิน้อยกว่าจำนวนเงินที่ค้างชำระ และ ค่า
+อุปกรณ์หรือเอาทรัพย์สินที่จำนองหลุดเป็นสิทธิและทรัพย์สินนั้นมีราคาต่ำกว่าจำนวนเงินที่ค้างชำระ และค่าอุปกรณ์เงินยังขาดจำนวนอยู่เท่าใด ลูกหนี้
+ที่ได้จำนองทรัพย์ของตนเองเป็นประกันหนี้ยินยอมรับใช้เงินที่ขาดจำนวนนั้นให้แก่ผู้รับจำนองจนครบ
+	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2996af4a-e547-4eb5-a24a-b76c233b3262" x="0" y="503" width="555" height="35"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 5.   ผู้จำนองรับว่าการกู้เงินโดยใช้จำนองรายนี้เป็นประกัน ผู้กู้จะต้องจัดให้มีการประกันอัคคีภัยสิ่งปลูกสร้างที่จำนองโดยผู้กู้เป็นผู้ส่งเบี้ย
+ประกัน และผู้รับจำนองเป็นผู้รับประโยชน์ ผู้จำนองยินยอมรับผิดเช่นเดียวกับตัวลูกหนี้ชั้นต้นตามที่ระบุไว้ในกรมธรรม์ด้วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="030c4f05-7c3b-4272-9e31-acbb133915ac" x="389" y="31" width="166" height="45"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ฯ ได้รับยกเว้นค่าธรรมเนียม
+ตาม พรบ.สหกรณ์ พ.ศ. 2542 ม.6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b8fdc250-ffdc-4ebe-a710-d4f898ca88c6" x="0" y="84" width="555" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="95c993c8-74ef-4cb3-a777-01640909929e" x="0" y="744" width="555" height="35"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 10. ต่อไปภายหน้าถ้าสหกรณ์ผู้รับจำนองมีความจำเป็นต้องเพิ่มอัตราดอกเบี้ยแล้ว ผู้จำนองยินยอมให้เพิ่มได้ตามที่เห็นสมควรเมื่อใดก็ได้ โดยประกาศให้ทราบทั้งนี้ นับแต่วันที่ผู้รับจำนองได้ประกาศใช้เป็นต้นไปไม่จำเป็น ต้องแจ้งให้ผู้รับจำนองทราบล่วงหน้าเป็นหนังสือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2bde569c-11d7-4961-9276-79628b139f12" x="0" y="538" width="555" height="35"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 6.   ผู้จำนองมีหน้าที่บำรุงรักษา และ ซ่อมแซมบรรดาสิ่งปลูกสร้างต่างๆ   ตลอดจนที่ดินที่จำนองรายนี้ให้อยู่ในสภาพเรียบร้อยมั่นคงเป็น
+ปกติดีอยู่เสมอตลอดระยะเวลาที่จำนองโดยเสียค่าบำรุง รักษาและซ่อมแซมเองหากละเลยผู้จำนองยินยอมให้ผู้รับจำนองใช้สิทธิจำนองได้ทันที]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d77a5337-053b-44af-b4aa-6a56beda23fd" x="0" y="724" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 9.   ค่าธรรมเนียมในการจำนองและถอนจำนองทุกประเภทผู้รับจำนองเป็นผู้ออก ส่วนค่าใช้จ่ายผู้จำนองและหรือลูกหนี้เป็นผู้ออก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="52d87734-80ae-4738-a5c8-8727e61f0573" x="438" y="11" width="117" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[(ใช้เป็นประกันหนี้บุคคลอื่น)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="6ee8e324-e4f2-42d7-b2b8-f2b3bf101b52" x="389" y="31" width="166" height="44"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4df11621-a6df-48f3-b92e-fff27408d5d3" x="168" y="300" width="147" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FT_READTBAHT(LNM.MORTGAGESUM_AMT)}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f06dae1c-6512-4e57-a158-4ee3eafb3c2c" x="1" y="272" width="555" height="83"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 1.   ผู้จำนองเป็นเจ้าของทรัพย์สินซึ่งจำนองเป็นประกันการชำระหนี้เงินกู้มีวัตถุประสงค์ .......................................................................... ซึ่งผู้กู้ ..........................................................................  เป็นหนี้ผู้รับจำนองอยู่ในเวลานี้  หรือในเวลาหนึ่งเวลาใดในภายหน้า  รวมจำนวนเงินต้นเงินขั้น สูงสุด ....................................................................... บาท (...........................................................................) กำหนดเวลาระยะเวลาในการก่อหนี้ไม่เกิน ................ ปีนับจากวันจำนอง ตลอดจนเป็นประกันการชำระค่าอุปกรณ์แห่งหนี้ เช่น ดอกเบี้ย  ค่าสิน ไหมทดแทนในการไม่ชำระหนี้ค่าธรรมเนียม ค่า เสียหายที่เกิดจากการผิดสัญญา ค่าปรับ และค่าฤชาธรรมเนียมในการบังคับจำนอง เป็นต้น ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1138cb66-8d70-4081-b0ca-1e29fa4d663e" x="2" y="128" width="555" height="24"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="28e46d98-affe-4d6b-8636-022de96d0ff1" x="3" y="285" width="146" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MORTGAGE_GRTNAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="2a22fe6a-3690-4762-8315-6d1a4b0e0c37" x="2" y="252" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ทำ ณ "+$F{LAND_OFFICE}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="10240055-f226-432f-80e9-9761cbf8722b" x="2" y="192" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ระหว่าง "+$F{MORTGAGE_GRTNAME}+"ผู้จำนอง"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f4d69102-3e75-41c0-9962-58bc7b5a70f3" x="2" y="152" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[470 ถนนพหลโยธิน แขวงสามเสนใน เขตพญาไท กรุงเทพฯ 10400 โทร 0-22998265-8 โทรสาร 0-22780090]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="a73b4b17-67ca-4579-a9d6-6333d76c2afa" x="11" y="300" width="128" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MORTGAGESUM_AMT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="49318dab-c739-4288-b99f-6eb70afeec1c" x="2" y="172" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้อตกลงต่อท้ายหนังสือสัญญาจำนองเป็นประกัน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ffdbce1d-5a5a-44aa-8feb-689fa51dc615" x="2" y="232" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(หนังสือสัญญาจำนอง ลงวันที่ …………………………………..]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="248d4f28-7b67-4503-a581-eba55b6b0421" x="2" y="212" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[กับสหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4eb76e65-ee3f-4b06-9608-369471f6cdaa" x="390" y="30" width="166" height="45"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ฯ ได้รับยกเว้นค่าธรรมเนียม
+ตาม พรบ.สหกรณ์ พ.ศ. 2542 ม.6]]></text>
+			</staticText>
+		</band>
+		<band height="802">
+			<staticText>
+				<reportElement uuid="3aa196ce-7ee2-47fa-b3a8-fd2fadeecf9c" x="0" y="265" width="555" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อตกลงต่อท้ายหนังสือสัญญาจำนองนี้ได้ทำต่อหน้าพนักงานหรือเจ้าหน้าที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="983cf58e-4e62-48e2-8107-bdadea2979c4" x="165" y="149" width="224" height="103"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ………………………………………..ผู้จำนอง/ลูกหนี้
+
+ลงชื่อ………………………………………..ผู้รับจำนอง
+
+ลงชื่อ………………………………………..พยาน
+ลงชื่อ………………………………………..พยาน
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b526d78f-c404-4ba1-868c-b98bc5800d41" x="165" y="285" width="198" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ประทับตราประจำตำแหน่งเป็นสำคัญ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4b1b3def-ef0e-4836-83fb-888f1fcb7a8a" x="165" y="305" width="201" height="63"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[………….…………………………………..ผู้พิมพ์
+………….…………………………………..ผู้ตรวจ
+								………….…………………………………..ผู้ตรว
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21a037ba-790a-4ffa-98aa-1d3587d91993" x="0" y="38" width="555" height="34"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อ 11. ผู้จำนองยอมรับผูกพันตามข้อตกลง  ต่อท้ายตลอดจนเงื่อนไขต่างๆ  ในสัญญากู้ของผู้กู้ ตามแบบ  และวิธีการของสหกรณ์ผู้รับจำนอง
+ทุกประการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cc6380ba-a2d2-4ea5-a306-8ce41a84a10d" x="366" y="166" width="100" height="40"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตามหนังสือมอบอำนาจ
+ลว.……………………]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b6e11942-9b01-4d7e-a899-f695d82a9136" x="0" y="72" width="555" height="72"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[	ข้อตกลงต่อท้ายหนังสือสัญญาจำนองนี้ทำไว้เป็นสามฉบับ มีข้อความตรงกัน สำหรับสำนักงานที่ดินหนึ่งฉบับผู้จำนองและผู้รับจำนองถือไว้
+ฝ่ายละหนึ่งฉบับ (ฉบับนี้สำหรับ …………………………….)
+	ทุกฝ่ายได้ตรวจข้อตกลงต่อท้ายหนังสือสัญญาจำนองนี้และเข้าใจข้อความโดยตลอดแล้ว จึงได้ลงลายมือชื่อหรือได้พิมพ์ลายนิ้วมือไว้เป็นสำ
+คัญ ต่อหน้าพยานและพนักงานเจ้าหน้าที่
+]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

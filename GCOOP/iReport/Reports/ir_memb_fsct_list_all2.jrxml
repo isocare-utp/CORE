@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_memb_fsct_list_all2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8273dad1-de30-4c30-884e-36ac03988e83">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_startgroup" class="java.lang.String"/>
+	<parameter name="as_endgroup" class="java.lang.String"/>
+	<parameter name="as_wftypecode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT "MBMEMBMASTER"."MEMBER_NO",
+	 "MBUCFPRENAME"."PRENAME_DESC" ||
+         "MBMEMBMASTER"."MEMB_NAME" || ' ' ||
+         "MBMEMBMASTER"."MEMB_SURNAME" as full_name,
+         "MBMEMBMASTER"."MEMBGROUP_CODE",
+         "MBUCFMEMBGROUP"."MEMBGROUP_DESC",
+
+         "WFSCTMASTER"."DEPTACCOUNT_NO",
+         "WFSCTMASTER"."WFACCOUNT_NAME",
+         "WFSCTMASTER"."WFTYPE_CODE",
+         "WFSCTMASTER"."PRNCBAL",
+         "WFSCTMASTER"."MONTHINTPAY_METH",
+         "WFSCTMASTER"."DEPTACCOUNT_NAME",
+         "WFSCTMASTER"."DEPTOPEN_DATE",
+         "MBMEMBMASTER"."CARD_PERSON",
+         "MBMEMBMASTER"."BIRTH_DATE",
+         "WFSCTMASTER"."KPRECV_PERIOD"
+    FROM "MBMEMBMASTER",
+         "MBUCFMEMBGROUP",
+         "MBUCFPRENAME",
+         "WFSCTMASTER"
+   WHERE ( "MBUCFMEMBGROUP"."COOP_ID" = "MBMEMBMASTER"."COOP_ID" ) and
+         ( "MBUCFMEMBGROUP"."MEMBGROUP_CODE" = "MBMEMBMASTER"."MEMBGROUP_CODE" ) and
+         ( "MBUCFPRENAME"."PRENAME_CODE" = "MBMEMBMASTER"."PRENAME_CODE" ) and
+         ( "MBMEMBMASTER"."MEMBER_NO" = "WFSCTMASTER"."MEMBER_NO" ) and
+         ( ( "MBMEMBMASTER"."MEMBGROUP_CODE" between  $P{as_startgroup}  and  $P{as_endgroup} ) AND
+         ( "WFSCTMASTER"."WFTYPE_CODE" =  $P{as_wftypecode} ) AND
+         ( "WFSCTMASTER"."DEPTCLOSE_STATUS" = 0 ))
+order by  to_number("WFSCTMASTER"."KPRECV_PERIOD") ASC]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="DEPTACCOUNT_NO" class="java.lang.String"/>
+	<field name="WFACCOUNT_NAME" class="java.lang.String"/>
+	<field name="WFTYPE_CODE" class="java.lang.String"/>
+	<field name="PRNCBAL" class="java.math.BigDecimal"/>
+	<field name="MONTHINTPAY_METH" class="java.lang.Double"/>
+	<field name="DEPTACCOUNT_NAME" class="java.lang.String"/>
+	<field name="DEPTOPEN_DATE" class="java.sql.Timestamp"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="BIRTH_DATE" class="java.sql.Timestamp"/>
+	<field name="KPRECV_PERIOD" class="java.lang.String"/>
+	<sortField name="WFTYPE_CODE"/>
+	<sortField name="KPRECV_PERIOD"/>
+	<sortField name="DEPTOPEN_DATE"/>
+	<sortField name="MEMBER_NO"/>
+	<variable name="seq_no" class="java.lang.Number" incrementType="Report" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="abd298db-d707-4d79-b2c6-053beb166f16" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูสุินทร์ จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4c7f8f46-fca6-4b9e-a4bc-b7a56894621a" x="0" y="20" width="106" height="20"/>
+				<textElement/>
+				<text><![CDATA[รายชื่อสมาชิก ฌาปนกิจ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a80e4293-e731-41d2-9756-dae3ddf49495" x="0" y="40" width="29" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1fe22378-7d93-4194-a2c9-b279b1229b06" x="29" y="40" width="77" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="24bc270e-bae8-4e5c-b45c-66ef5122fcf3" x="106" y="40" width="111" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ef4fcb60-48a3-4368-b991-c4d17b71aa34" x="217" y="40" width="83" height="20"/>
+				<textElement/>
+				<text><![CDATA[บัตรประชาชน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1187e93a-4cf3-433e-aa06-736d4f293e24" x="300" y="40" width="67" height="20"/>
+				<textElement/>
+				<text><![CDATA[วันเกิด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1a204837-4cf5-4404-b7d6-2ad3a89d66e6" x="367" y="40" width="68" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่เป็นสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="17614bb4-7c94-48c2-9107-0ec1c11fbbfc" x="435" y="40" width="56" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="961de57d-b585-485c-a97b-99ac6e75c3e9" x="491" y="40" width="49" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ชุดที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4c53f7f8-125f-42cb-85fc-4f6f1b5735d4" x="106" y="20" width="111" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_wftypecode}=="01"?"สส.อท.":"สส.ชสอ."]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement uuid="0adeab6e-e404-43de-8365-83d84befd5c8" x="300" y="0" width="67" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format( $F{BIRTH_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="766fc237-dd4d-4448-8596-30297e7d3399" x="367" y="0" width="68" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format(  $F{DEPTOPEN_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="92c9314a-8ed7-4182-958e-366295278224" x="29" y="0" width="77" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f3b024d1-c576-481e-9e29-6b6cb2acd2cc" x="217" y="0" width="83" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e0f8f2d6-5e98-48b1-8837-99a0b54903f2" x="106" y="0" width="111" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="409929f0-3a7a-41c2-8435-e660830b85a5" x="435" y="0" width="56" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRNCBAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="89448438-945b-4c9c-b46d-bd0fc55ba9a9" x="0" y="0" width="29" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="23fe81e4-0cae-4104-b59c-e1312297e512" x="491" y="0" width="49" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{KPRECV_PERIOD}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

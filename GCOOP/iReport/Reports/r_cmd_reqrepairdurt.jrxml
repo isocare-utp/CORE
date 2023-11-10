@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_cmd_detail_durt" language="groovy" pageWidth="842" pageHeight="585" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="989b5179-8975-46d3-a843-5b3dd1950b21">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adtm_startdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_enddate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select cs.coop_name,
+cs.coop_addr,
+cs.tambol,
+cs.coop_tel,
+cs.coop_taxid,
+md.district_desc,
+mv.province_desc,
+cs.postcode,
+pm.durt_name,
+pm.durtserial_number,
+pm.brand_name,
+pm.model_desc,
+pr.*
+from ptreqdurtrepair pr,
+ptdurtmaster pm,
+cmcoopconstant cs,
+mbucfdistrict md,
+mbucfprovince mv
+where cs.district_code = md.district_code and
+cs.province_code = mv.province_code and
+pr.durt_id = pm.durt_id and
+pr.reqrepair_date between $P{adtm_startdate} and $P{adtm_enddate}
+order by pr.reqrepair_date, pr.reqrepair_no]]>
+	</queryString>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<field name="COOP_ADDR" class="java.lang.String"/>
+	<field name="TAMBOL" class="java.lang.String"/>
+	<field name="COOP_TEL" class="java.lang.String"/>
+	<field name="COOP_TAXID" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<field name="PROVINCE_DESC" class="java.lang.String"/>
+	<field name="POSTCODE" class="java.lang.String"/>
+	<field name="DURT_NAME" class="java.lang.String"/>
+	<field name="DURTSERIAL_NUMBER" class="java.lang.String"/>
+	<field name="BRAND_NAME" class="java.lang.String"/>
+	<field name="MODEL_DESC" class="java.lang.String"/>
+	<field name="REQREPAIR_NO" class="java.lang.String"/>
+	<field name="REQREPAIR_DATE" class="java.sql.Timestamp"/>
+	<field name="DURT_ID" class="java.lang.String"/>
+	<field name="REQREPAIR_NAME" class="java.lang.String"/>
+	<field name="REQREPAIR_TEL" class="java.lang.String"/>
+	<field name="REQREPAIR_EMAIL" class="java.lang.String"/>
+	<field name="CONTACT_NAME" class="java.lang.String"/>
+	<field name="CONTACT_TEL" class="java.lang.String"/>
+	<field name="CONTACT_EMAIL" class="java.lang.String"/>
+	<field name="REPAIRMAN_NAME" class="java.lang.String"/>
+	<field name="REPAIRMAN_TEL" class="java.lang.String"/>
+	<field name="REPAIRMAN_EMAIL" class="java.lang.String"/>
+	<field name="REPAIRMAN_ADDR" class="java.lang.String"/>
+	<field name="REPAIR_DETAIL" class="java.lang.String"/>
+	<field name="RETAILS_DEFECTIVE" class="java.lang.String"/>
+	<field name="APPREPAIR_DATE" class="java.sql.Timestamp"/>
+	<field name="STARTREPAIR_DATE" class="java.sql.Timestamp"/>
+	<field name="ENDREPAIR_DATE" class="java.sql.Timestamp"/>
+	<field name="REPAIR_STATUS" class="java.math.BigDecimal"/>
+	<field name="DUERECV_DATE" class="java.sql.Timestamp"/>
+	<field name="BRANCH_CODE" class="java.lang.String"/>
+	<field name="DEALER_NO" class="java.lang.String"/>
+	<field name="REPAIR_AMT" class="java.math.BigDecimal"/>
+	<field name="CONTRACT_NAME" class="java.lang.String"/>
+	<field name="CONTRACT_TELMAIL" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f4418652-fbd3-4ce4-907d-fe1d3e71bcfa" x="28" y="75" width="153" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อครุภัณฑ์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2ef935ce-d567-48e6-a1bf-9fd4aab8f8f5" x="508" y="75" width="154" height="18"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สิ่งที่นำไปด้วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b88ba2c3-21c4-451e-81c4-7739f6c22b37" x="182" y="75" width="75" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่เอกสาร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47b66d5d-ae32-4850-a49a-4a0cc233a79b" x="345" y="75" width="161" height="18"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[อาการแจ้งซ่อม]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e09d935-5164-4c33-bda3-b877d520efa3" x="663" y="75" width="139" height="18"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อร้าน/ บริษัท]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c9e53977-5496-495f-8cab-e21256768ea7" x="0" y="47" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA['ระหว่างวันที่'+new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format($P{adtm_startdate})+' ถึง '+new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format($P{adtm_enddate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e0a4f00b-ace4-4763-861b-d83f65e00450" x="1" y="75" width="27" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d9826f43-79d7-4bf9-92bc-d7edec281faf" x="0" y="27" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานซ่อมครุภัณฑ์]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="0514b6e5-374a-4789-8d6c-62b382ac2955" x="731" y="0" width="58" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}+" / "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="1eb8bc7c-9188-44dd-83ce-59d4d99e7113" x="790" y="0" width="10" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="31680ac6-16f5-4376-af65-6cbe219aba31" x="0" y="74" width="1" height="21" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="908ca131-d16d-4c91-b190-efb523705ced" x="28" y="74" width="1" height="21" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="ce5495a5-fd8f-40ad-81aa-43004f072c35" x="181" y="74" width="1" height="21" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="4a9d2724-3ece-4796-87f7-4167f72c7323" x="257" y="75" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="fa3a3409-8df2-4135-82b1-42b437f9e80b" x="344" y="75" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="b8097a24-c831-4735-a33b-440a59235830" x="506" y="75" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="1cc78c66-ef8f-42c1-bb11-fb8ac1bdb453" x="662" y="75" width="1" height="19" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="ecc4722f-e446-471f-bc5e-751690e10cdc" x="1" y="74" width="801" height="1" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="fc5e6d0d-03bb-4f19-8962-dbe7402b376e" x="1" y="94" width="802" height="1" forecolor="#000000"/>
+			</line>
+			<staticText>
+				<reportElement uuid="b942cff3-74b8-47d8-b7c6-df372d2272c2" x="258" y="76" width="86" height="17"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่แจ้งซ่อม]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="40870d64-2b51-4d5a-8bff-609be8085031" x="802" y="74" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<textField>
+				<reportElement uuid="b99dbb81-8d46-4775-a21b-e46502060f2b" x="80" y="0" width="651" height="27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<line>
+				<reportElement uuid="778c4700-ffae-4d7b-a506-6a4b6e82d509" x="0" y="19" width="802" height="1" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="bf9d8324-e1f0-4e7d-9674-64b22ce7c8b9" x="0" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="8980f203-4aef-44da-a7e7-480668bb50a6" x="28" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="ab285c91-40a6-4c45-a733-cf38fa781433" x="181" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="5e3b1cd4-399d-4068-bea3-35a90b259d1f" x="257" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="7b0f2cf6-24e5-4f74-b3c3-56c747383a86" x="344" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="8a2bfd7c-f580-401f-b017-cc5f30a21f24" x="506" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="f06e0a4a-07ae-4395-9b90-45da3b7afc83" x="662" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<line>
+				<reportElement uuid="3795e613-1ae3-47e3-a6cd-1edd97b40d1b" x="802" y="0" width="1" height="20" forecolor="#000000"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a814a65e-2f33-4f8c-9c99-c4ea2e2e20c6" x="32" y="0" width="149" height="19"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DURT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c5a89c6b-2258-44b9-a868-bfb6eeb972d6" x="258" y="0" width="86" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format($F{REQREPAIR_DATE})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ef548e6e-3922-4f4d-aefd-d5573e5da34e" x="667" y="0" width="135" height="19"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTACT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="01e7c0a4-569e-4397-927e-01d24fba0d42" x="349" y="0" width="157" height="19"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REPAIR_DETAIL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="96762c7b-e2b1-42e2-a13c-e349f2337bb8" x="1" y="0" width="27" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="ba313ac4-fbd0-4992-9c65-1eb22ac40373" x="182" y="0" width="75" height="19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REQREPAIR_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="27505656-39b9-4cd8-a2e7-ee75af4b8eea" x="511" y="0" width="151" height="19"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RETAILS_DEFECTIVE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

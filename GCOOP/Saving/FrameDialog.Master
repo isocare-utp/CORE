@@ -1,0 +1,43 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="FrameDialog.master.cs"
+    Inherits="Saving.FrameDialog" %>
+
+<%@ Register Src="CustomControl/DatePicker.ascx" TagName="DatePicker" TagPrefix="uc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Dialog</title>
+    <style type="text/css">
+        *
+        {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <asp:Literal ID="LtHideJs" runat="server">
+        <link href="JsCss/DataSourceTool.css" rel="stylesheet" type="text/css" />
+        <link href="JsCss/PageWeb.css" rel="stylesheet" type="text/css" />
+        <script src="JsCss/jquery-1.8.3.min.js" type="text/javascript"></script>
+        <script src="JsCss/DatePicker.js" type="text/javascript"></script>
+        <script src="JsCss/DataSourceTool.js" type="text/javascript"></script>
+        <script src="JsCss/JsScriptFrame.js" type="text/javascript"></script>
+    </asp:Literal>
+    <script type="text/javascript">
+        var datePicker = null;
+        try {
+            datePicker = new DatePicker();
+        } catch (err) { }
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div align="left">
+        <asp:Literal ID="LtDialogServerMessage" runat="server"></asp:Literal>
+        <asp:ContentPlaceHolder ID="ContentPlace" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    <uc1:DatePicker ID="datePicker" runat="server" />
+    </form>
+</body>
+</html>

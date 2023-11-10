@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report5" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c64b5023-71d9-4f3e-81ae-d870efea3075">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="loancontract_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select decode(loancolltype_code,'01','บุคคลค้ำ : ','02','หุ้นค้ำ : ','03','เงินฝากคำง','หลักทรัพย์ค้ำ') || ref_collno || ' - '||ft_getmemname(mbmembmaster.coop_id,mbmembmaster.member_no)  as description,('('||mbucfmembgroup.membgroup_desc||')'||'  '||mbmembmaster.card_person) as card_person
+from lncontcoll,mbmembmaster,mbucfmembgroup
+where lncontcoll.coop_id = mbmembmaster.coop_id
+and lncontcoll.ref_collno = mbmembmaster.member_no
+and mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code
+and loancontract_no =  $P{loancontract_no}]]>
+	</queryString>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="e37169d5-953e-4c42-95ab-66bc2331ecee" x="26" y="0" width="211" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5db2a02b-73bd-4eaf-b7ac-a5e8c039404b" x="237" y="0" width="258" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CARD_PERSON}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="de36b525-f746-424f-8d7c-27e8fceb5752" mode="Opaque" x="554" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="0fde2280-fd4b-4e4a-ad35-5a7c612bd0c9" x="-3" y="0" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

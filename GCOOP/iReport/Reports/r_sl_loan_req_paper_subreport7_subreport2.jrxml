@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper_subreport7_subreport2" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bc7b4bdc-b354-40e7-b0ad-b1392043c847">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loanreq_docno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+'ETC',
+lnreqloanmthexp.mthexp_code,
+lnreqloanmthexp.mthexp_desc,
+lnreqloanmthexp.mthexp_amt
+
+from
+lnreqloan ,
+lnreqloanmthexp
+
+where
+lnreqloan.coop_id = lnreqloanmthexp.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanmthexp.loanrequest_docno (+) and
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno} and
+lnreqloanmthexp.clear_status = '1'
+union
+select
+'','',
+lnreqloanclrother.clrother_desc,
+lnreqloanclrother.clrother_amt
+
+from
+lnreqloan ,
+lnreqloanclrother
+
+where
+lnreqloan.coop_id = lnreqloanclrother.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanclrother.loanrequest_docno (+) and
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno} and
+lnreqloanclrother.clear_status = '1'
+union
+select '','',lnreqloanclr.loancontract_no,lncontmaster.intestnow_amt + lncontmaster.principal_balance as principal_balance
+from
+lnreqloan ,
+lnreqloanclr,
+lncontmaster
+
+where
+lnreqloan.coop_id = lnreqloanclr.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanclr.loanrequest_docno (+) and
+lnreqloanclr.loancontract_no = lncontmaster.loancontract_no (+) and
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno} and
+lnreqloanclr.clear_status = '1']]>
+	</queryString>
+	<field name="&apos;ETC&apos;" class="java.lang.String"/>
+	<field name="MTHEXP_CODE" class="java.lang.String"/>
+	<field name="MTHEXP_DESC" class="java.lang.String"/>
+	<field name="MTHEXP_AMT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="f0e54550-63c8-4e05-b9da-acf5f69eea5f" x="126" y="0" width="103" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MTHEXP_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="788f5805-3523-4a9c-8df3-f48145b7c850" x="2" y="0" width="240" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MTHEXP_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

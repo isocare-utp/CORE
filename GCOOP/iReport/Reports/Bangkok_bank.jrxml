@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Krungsri_bank" language="groovy" pageWidth="842" pageHeight="252" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c4ecc67a-26b3-4aba-b122-b4cd00caaee0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="BRANCH_ID" class="java.lang.String"/>
+	<field name="CHEQUEBOOK_NO" class="java.lang.String"/>
+	<field name="BANK_CODE" class="java.lang.String"/>
+	<field name="BANK_BRANCH" class="java.lang.String"/>
+	<field name="CHEQUE_NO" class="java.lang.String"/>
+	<field name="DATE_ONCHQ" class="java.sql.Timestamp"/>
+	<field name="TO_WHOM" class="java.lang.String"/>
+	<field name="MONEY_AMT" class="java.math.BigDecimal"/>
+	<field name="READTHAIMONEY" class="java.lang.String"/>
+	<field name="RECEIVE_DATE" class="java.sql.Timestamp"/>
+	<field name="REMARK" class="java.lang.String"/>
+	<field name="REFER_SLIPNO" class="java.lang.String"/>
+	<variable name="DATE_DD" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("dd",new Locale("th","TH")).format($F{DATE_ONCHQ})]]></variableExpression>
+	</variable>
+	<variable name="DATE_MM" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("MM",new Locale("th","TH")).format($F{DATE_ONCHQ})]]></variableExpression>
+	</variable>
+	<variable name="DATE_YYYY" class="java.lang.String">
+		<variableExpression><![CDATA[new SimpleDateFormat("yyyy",new Locale("th","TH")).format($F{DATE_ONCHQ})]]></variableExpression>
+	</variable>
+	<detail>
+		<band height="252" splitType="Stretch">
+			<textField>
+				<reportElement uuid="14b8c015-a074-47e4-852f-a2bc05452a30" x="407" y="54" width="423" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TO_WHOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="50e16881-b4df-4895-bc6d-0c55dfcbc556" x="407" y="79" width="423" height="20"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["("+$F{READTHAIMONEY}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4b09232d-1d85-4ef9-8aff-88397dbc2a4d" x="644" y="106" width="186" height="21"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MONEY_AMT}<=9? "**********"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+    ( $F{MONEY_AMT}<=99 ? "*********"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+        ( $F{MONEY_AMT}<=999 ? "********"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+            ( $F{MONEY_AMT}<=9999 ? "*******"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+                ( $F{MONEY_AMT}<=99999 ? "******"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+                    ( $F{MONEY_AMT}<=999999 ? "*****"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+                        ( $F{MONEY_AMT}<=9999999 ? "****"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+                            ( $F{MONEY_AMT}<=99999999 ? "***"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+                                ( $F{MONEY_AMT}<=999999999 ? "**"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) :
+                                    ( $F{MONEY_AMT}<=9999999999 ? "*"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}):
+                                        "*"+new DecimalFormat("#,##0.00").format($F{MONEY_AMT}) ) ) ) ) )) ) ) ) )+"*"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a17e4728-ece8-402c-ac60-23b3c0a8eaac" x="678" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_DD}.substring( 0, 1 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="93d05f97-4f50-46c8-a99e-7df162a75132" x="696" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_DD}.substring( 1 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f1cceb73-edba-4b2c-87c8-2b6289af4cf6" x="714" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_MM}.substring( 0, 1 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce10a5cc-e0fb-473b-bc95-476f0ffef30e" x="732" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_MM}.substring( 1 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7f0b5477-5da9-4b01-bba9-be0e90eb5a7b" x="750" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_YYYY}.substring( 0, 1 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1a178a6c-3f98-4680-8d31-77f6a840a391" x="768" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_YYYY}.substring( 1 , 2 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6253e43d-6802-4853-b3d0-cb1f261e5108" x="786" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_YYYY}.substring( 2 , 3 )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="90ae4dc5-8faa-4bf4-84be-33e5fa509bdd" x="804" y="9" width="19" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATE_YYYY}.substring( 3, 4 )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="3df8b81a-acb4-4253-9b29-955d09facc12" x="545" y="22" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[A/C PAYEE ONLY]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

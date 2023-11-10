@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_deposit" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="930409ec-b81f-454d-91f1-67cd565809a7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+member_no,
+head_text,
+member_name,
+share_text,
+deposit_text,
+name_for,
+country_text
+from DPDEPTCFMBOOK]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="HEAD_TEXT" class="java.lang.String"/>
+	<field name="MEMBER_NAME" class="java.lang.String"/>
+	<field name="SHARE_TEXT" class="java.lang.String"/>
+	<field name="DEPOSIT_TEXT" class="java.lang.String"/>
+	<field name="NAME_FOR" class="java.lang.String"/>
+	<field name="COUNTRY_TEXT" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="102" splitType="Stretch">
+			<textField>
+				<reportElement uuid="4678ade9-eb35-4148-9093-9b903f76ec9a" x="0" y="0" width="52" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA['  ที่    ']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b2778dff-2ad7-4324-8c94-4385bf5a90cf" x="38" y="0" width="57" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["/ "+ new SimpleDateFormat("yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d09b3af3-53d4-4f01-841c-95c37470ed43" x="455" y="30" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMMMM yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7adf9a7d-71f0-4159-9e53-2e2ed822a9d0" x="0" y="56" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA['  เรื่อง      '+ $F{HEAD_TEXT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bf3e0e95-96ce-48fd-801e-27eb9f305898" x="0" y="82" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA['  เรียน      '+ $F{MEMBER_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="283" splitType="Stretch">
+			<textField>
+				<reportElement uuid="779d442e-db25-43f6-8f4d-eb3651ef45e1" x="0" y="25" width="555" height="71"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA['                                                      '+$F{SHARE_TEXT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d44cd28b-bcc6-4157-b08b-e08ee6a648ca" x="89" y="128" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จึงเรียนมาเพื่อทราบ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="44e723e6-55e1-4d87-af75-cee809980d0f" x="376" y="148" width="79" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ขอแสดงความนับถือ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="384927ac-8423-4533-879e-c4c172b8727d" x="309" y="205" width="210" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA['( '+$F{NAME_FOR}+' )']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="134ea5cf-42ba-4fb6-8aee-8a3e44de3e84" x="309" y="225" width="210" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COUNTRY_TEXT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

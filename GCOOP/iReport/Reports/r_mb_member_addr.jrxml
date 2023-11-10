@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_mb_member_addr" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fc9ae516-8a38-4f1b-a5ea-f55ed83ccf2b">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select member_no,
+salary_id,
+ft_getmemname(coop_id,member_no) as fullname,
+membgroup_code,
+ft_memgrp(coop_id,membgroup_code) as membgroup_desc,
+membtype_code,
+decode(membtype_code,'01','A','02','B','C') as membtype_desc,
+'ที่อยู่'||' '||decode(curraddr_no,'',addr_no,curraddr_no)||' '||
+'หมู่'||' '||decode(curraddr_moo,'',addr_moo,curraddr_moo)||' '||
+'ซอย '||decode(curraddr_soi,'',addr_soi,curraddr_soi)||' '||
+'หมู่บ้าน '||decode(curraddr_road,'',addr_village,curraddr_village)||
+' ถนน '||decode(curraddr_road,'',addr_road,curraddr_road)||
+' ตำบล '||mbucftambol.tambol_desc||
+' อำเภอ '||mbucfdistrict.district_desc||
+' จังหวัด '||mbucfprovince.province_desc||
+' รหัสไปรษณีย์ '	||decode(curraddr_postcode,'',addr_postcode,curraddr_postcode),
+decode(curraddr_phone,'',addr_phone,curraddr_phone) as phone,
+addr_mobilephone,
+addr_email,
+expense_accid,
+mbmembmaster.current_coopid,
+decode(mbmembmaster.current_coopid,
+'023001','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด',
+'023002','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการปทุมธานี',
+'023003','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการขอนแก่น',
+'023004','สหกรณ์ออมทรัพย์ไทยน้ำทิพย์ จำกัด ศูนย์บริการลำปาง')
+as coop_name,sysdate
+from mbmembmaster,mbucftambol,mbucfdistrict,mbucfprovince
+where mbmembmaster.tambol_code = mbucftambol.tambol_code(+)
+and mbmembmaster.amphur_code = mbucfdistrict.district_code(+)
+and mbmembmaster.province_code = mbucfprovince.province_code(+)
+and mbmembmaster.resign_status = 0
+and mbmembmaster.current_coopid between $P{as_coopid} and $P{as_coop}
+and mbmembmaster.membgroup_code between $P{as_sgroup} and $P{as_egroup}]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="FULLNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBTYPE_DESC" class="java.lang.String"/>
+	<field name="&apos;ที่อยู่&apos;||&apos;&apos;||DECODE(CURRADDR_NO,&apos;&apos;,ADDR_NO,CURRADDR_NO)||&apos;&apos;||&apos;หมู่&apos;||&apos;&apos;||DECODE(CURRADDR_MOO,&apos;&apos;,ADDR_MOO,CURRADDR_MOO)||&apos;&apos;||&apos;ซอย&apos;||DECODE(CURRADDR_SOI,&apos;&apos;,ADDR_SOI,CURRADDR_SOI)||&apos;&apos;||&apos;หมู่บ้าน&apos;||DECODE(CURRADDR_ROAD,&apos;&apos;,ADDR_VILLAGE,CURRADDR_VILLAGE)||&apos;ถน" class="java.lang.String"/>
+	<field name="PHONE" class="java.lang.String"/>
+	<field name="ADDR_MOBILEPHONE" class="java.lang.String"/>
+	<field name="ADDR_EMAIL" class="java.lang.String"/>
+	<field name="EXPENSE_ACCID" class="java.lang.String"/>
+	<field name="CURRENT_COOPID" class="java.lang.String"/>
+	<field name="COOP_NAME" class="java.lang.String"/>
+	<field name="SYSDATE" class="java.sql.Timestamp"/>
+	<sortField name="CURRENT_COOPID"/>
+	<sortField name="MEMBGROUP_CODE"/>
+	<sortField name="MEMBER_NO"/>
+	<sortField name="SALARY_ID"/>
+	<group name="CURRENT_GROUP">
+		<groupExpression><![CDATA[$F{CURRENT_COOPID}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="4a7fb820-8b79-4af8-ab54-943dc46ead71" x="0" y="0" width="370" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COOP_NAME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="2">
+				<break>
+					<reportElement uuid="f8dff287-c14c-4509-8987-4645aa349c97" x="0" y="1" width="100" height="1"/>
+				</break>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="MEMGROUP">
+		<groupExpression><![CDATA[$F{MEMBGROUP_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="8b41ca26-435d-40bd-abce-62e6cdd9e92e" x="25" y="0" width="370" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3ef522b8-7cbc-423d-ad42-ab77aeb60a92" x="0" y="2" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานรายละเอียดที่อยู่สมาชิก]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="8e11a9f3-329a-47d4-8f3e-2dae46c872a8" x="702" y="2" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SYSDATE})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="40cde0e9-0060-429c-b12b-ec70962b936a" x="0" y="42" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9bc1b8c0-a82a-4851-b238-578a6c341dba" x="54" y="42" width="51" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขพนักงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="23898123-88bf-4835-9a1e-07b8fd18258a" x="105" y="42" width="150" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="af2f38a5-58b3-4a18-9558-002b56372269" x="255" y="42" width="383" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d3cbafa0-715b-4c7a-9943-e0048e2593de" x="638" y="42" width="76" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เบอร์โทรศัพท์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="858133db-e16c-4a1e-bc52-6de5a846ea37" x="714" y="42" width="88" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขบัญชี]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="92f9921c-57f6-44ea-a51c-0afb16ecc832" x="0" y="0" width="54" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4f27191f-068e-4380-81b7-90c48e19e7b1" x="54" y="0" width="51" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2f13ad6f-9067-4a6d-a0f8-060ba86f1e7e" x="105" y="0" width="150" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ec990f00-80ff-492a-ab61-1340c50f86f9" x="255" y="0" width="383" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{'ที่อยู่'||''||DECODE(CURRADDR_NO,'',ADDR_NO,CURRADDR_NO)||''||'หมู่'||''||DECODE(CURRADDR_MOO,'',ADDR_MOO,CURRADDR_MOO)||''||'ซอย'||DECODE(CURRADDR_SOI,'',ADDR_SOI,CURRADDR_SOI)||''||'หมู่บ้าน'||DECODE(CURRADDR_ROAD,'',ADDR_VILLAGE,CURRADDR_VILLAGE)||'ถน}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="49ca966d-3add-41ec-a856-c975f67a9c96" x="714" y="0" width="88" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPENSE_ACCID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fee18537-eb0a-4138-8f02-535fc96d6327" x="638" y="0" width="76" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADDR_MOBILEPHONE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

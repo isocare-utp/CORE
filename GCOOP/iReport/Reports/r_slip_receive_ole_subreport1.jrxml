@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_slip_receive_ole_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ff5214f1-7b6c-4129-8b41-e698332665e3">
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_memno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM (
+      SELECT
+   KPD.MEMBER_NO,
+MB.ACCUM_INTEREST,
+       KPD.KPSLIP_NO AS A0,
+       KUK.KEEPITEMTYPE_GRP AS A1,
+       KUK.KEEPITEMTYPE_DESC AS A2,
+       isnull(KPD.LOANCONTRACT_NO,'') AS A3,
+(CASE WHEN KPD.PERIOD = 0 THEN NULL ELSE KPD.PERIOD END) AS A8,
+KPD.DESCRIPTION AS A4,
+(CASE WHEN KPD.PRINCIPAL_PAYMENT = 0 THEN NULL ELSE KPD.PRINCIPAL_PAYMENT END) AS A5,
+(CASE WHEN KPD.INTEREST_PAYMENT = 0 THEN NULL ELSE KPD.INTEREST_PAYMENT END) AS A6,
+(CASE WHEN KPD.ITEM_PAYMENT * KUK.SIGN_FLAG = 0 THEN NULL ELSE KPD.ITEM_PAYMENT * KUK.SIGN_FLAG END) AS A7,
+(CASE WHEN KPD.ITEM_BALANCE = 0 THEN NULL ELSE KPD.ITEM_BALANCE END) AS A9,
+                               DATEDIFF(day, KPD.CALINTFROM_DATE,KPD.CALINTTO_DATE) AS  A10,
+       convert(varchar,DAY(KPD.POSTING_DATE)) + '/' +
+       convert(varchar,month(KPD.POSTING_DATE)) + '/' +
+       convert(varchar,year(KPD.POSTING_DATE)+ 543) AS A11,
+       KPD.SEQ_NO AS SEQ
+      FROM
+       KPTEMPRECEIVEDET KPD, KPUCFKEEPITEMTYPE KUK , MBMEMBMASTER MB , MBUCFPRENAME MUP , MBUCFMEMBGROUP MUG
+      WHERE
+       KPD.KEEPITEMTYPE_CODE = KUK.KEEPITEMTYPE_CODE AND KPD.MEMBER_NO = MB.MEMBER_NO AND MB.PRENAME_CODE = MUP.PRENAME_CODE AND MB.MEMBGROUP_CODE = MUG.MEMBGROUP_CODE
+       AND KPD.MEMBER_NO between $P{as_memno} and $P{as_memno}
+       AND KPD.RECV_PERIOD = $P{as_period}
+       AND KPD.POSTING_STATUS = 0
+     UNION
+      SELECT KMD.MEMBER_NO,
+MB.ACCUM_INTEREST,
+       KMD.KPSLIP_NO AS A0,
+       KUK.KEEPITEMTYPE_GRP AS A1,
+       KUK.KEEPITEMTYPE_DESC AS A2,
+       isnull(KMD.LOANCONTRACT_NO,'') AS A3,
+       (CASE WHEN KMD.PERIOD = 0 THEN NULL ELSE KMD.PERIOD END) AS A8,
+       KMD.DESCRIPTION AS A4,
+     (CASE WHEN KMD.PRINCIPAL_PAYMENT = 0 THEN NULL ELSE KMD.PRINCIPAL_PAYMENT END) AS A5,
+(CASE WHEN KMD.INTEREST_PAYMENT = 0 THEN NULL ELSE KMD.INTEREST_PAYMENT END) AS A6,
+(CASE WHEN KMD.ITEM_PAYMENT * KUK.SIGN_FLAG = 0 THEN NULL ELSE KMD.ITEM_PAYMENT * KUK.SIGN_FLAG END) AS A7,
+(CASE WHEN KMD.ITEM_BALANCE = 0 THEN NULL ELSE KMD.ITEM_BALANCE END) AS A9,
+                               DATEDIFF(day, KMD.CALINTFROM_DATE,KMD.CALINTTO_DATE) AS  A10,
+       convert(varchar,DAY(KMD.POSTING_DATE)) + '/' +
+       convert(varchar,month(KMD.POSTING_DATE)) + '/' +
+       convert(varchar,year(KMD.POSTING_DATE)+ 543) AS A11,
+       KMD.SEQ_NO AS SEQ
+      FROM
+       KPMASTRECEIVEDET KMD, KPUCFKEEPITEMTYPE KUK , MBMEMBMASTER MB , MBUCFPRENAME MUP , MBUCFMEMBGROUP MUG
+      WHERE
+       KMD.KEEPITEMTYPE_CODE = KUK.KEEPITEMTYPE_CODE AND KMD.MEMBER_NO = MB.MEMBER_NO AND MB.PRENAME_CODE = MUP.PRENAME_CODE AND MB.MEMBGROUP_CODE = MUG.MEMBGROUP_CODE
+       AND KMD.MEMBER_NO between $P{as_memno} and $P{as_memno}
+       AND KMD.RECV_PERIOD = $P{as_period}
+     ) M ORDER BY M.MEMBER_NO,M.SEQ]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="ACCUM_INTEREST" class="java.math.BigDecimal"/>
+	<field name="A0" class="java.lang.String"/>
+	<field name="A1" class="java.lang.String"/>
+	<field name="A2" class="java.lang.String"/>
+	<field name="A3" class="java.lang.String"/>
+	<field name="A8" class="java.math.BigDecimal"/>
+	<field name="A4" class="java.lang.String"/>
+	<field name="A5" class="java.math.BigDecimal"/>
+	<field name="A6" class="java.math.BigDecimal"/>
+	<field name="A7" class="java.math.BigDecimal"/>
+	<field name="A9" class="java.math.BigDecimal"/>
+	<field name="A10" class="java.lang.Integer"/>
+	<field name="A11" class="java.lang.String"/>
+	<field name="SEQ" class="java.math.BigDecimal"/>
+	<group name="membno" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{MEMBER_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<staticText>
+					<reportElement uuid="de6aa55e-1fd9-4d2f-b3cb-4385b10549fb" x="0" y="0" width="39" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[ลำดับที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="1b93e4bd-a5f4-491e-9e94-f2cc19605b73" x="39" y="0" width="154" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[รายการ/สัญญา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8ffa3fe7-1c1a-423f-a4c3-b6e5bed981d6" x="193" y="0" width="38" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[งวดที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6bdda388-37d5-49f3-b2c1-0b416e874a11" x="231" y="0" width="80" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[เงินต้น]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ecaabd26-84c6-4f74-be02-9de1c91ef448" x="391" y="0" width="80" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[เงินรวม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d1974579-fde0-422e-9803-01acd868fc1a" x="471" y="0" width="84" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[คงเหลือ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7384732e-531d-4634-834a-6686103881a5" x="311" y="0" width="80" height="20"/>
+					<box>
+						<topPen lineWidth="0.25"/>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[ดอกเบี้ย]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="58">
+				<line>
+					<reportElement uuid="d6050206-44e4-431f-9cdf-855fb0818b08" x="0" y="0" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+				<subreport>
+					<reportElement uuid="b699e4a2-3122-4763-a2c1-e28d0a5accc5" x="0" y="0" width="555" height="58"/>
+					<subreportParameter name="as_memno">
+						<subreportParameterExpression><![CDATA[$F{MEMBER_NO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="as_period">
+						<subreportParameterExpression><![CDATA[$P{as_period}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["r_slip_receive_ole_subreport1_subreport1.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="13a90cee-5f72-465b-93d6-412c4a5312f3" x="0" y="0" width="39" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="98031846-6f07-4fd1-b5fc-03775eb49133" x="39" y="0" width="154" height="20"/>
+				<box leftPadding="4">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A2}+" "+$F{A3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a6639de5-fb21-4937-9488-58d9b3c28a3f" x="192" y="0" width="39" height="20"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A8}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="18acff12-0697-4322-b0d8-e8d18b6ee40c" x="231" y="0" width="80" height="20"/>
+				<box rightPadding="3">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="99a80f3c-ad50-4e00-ab4a-e1d1e0d3051a" x="311" y="0" width="80" height="20"/>
+				<box rightPadding="3">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A6}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="dbf23e39-ba3c-4803-9d8f-29f39d1e4bca" x="391" y="0" width="80" height="20"/>
+				<box rightPadding="3">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A7}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="46a20f90-ec9e-4c08-ae52-5fc716cfa35a" x="471" y="0" width="84" height="20"/>
+				<box rightPadding="3">
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{A9}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

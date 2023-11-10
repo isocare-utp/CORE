@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="groovy" pageWidth="280" pageHeight="842" columnWidth="240" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55d7ae37-145b-4ffe-b311-1fe150c3267e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adtm_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  10 as seq_no ,'FIN' as system_code,
+		finucfitemtype.slipitemtype_code as type_code ,
+		finucfitemtype.item_desc  as type_desc ,
+         sum( FINSLIPDET.ITEMPAY_AMT  ) slip_netamt  ,
+			count( distinct finslip.slip_no ) as count_slip
+   FROM FINSLIP  ,FINSLIPDET ,finucfitemtype , accmaster , cmcoopmaster
+   WHERE 		( FINSLIP.SLIP_NO = FINSLIPDET.SLIP_NO ) AND
+		( FINSLIP.coop_id = FINSLIPDET.coop_id ) AND
+		(accmaster.account_id = FINSLIPDET.account_id ) AND
+		(accmaster.coop_id = cmcoopmaster.coop_control ) AND
+		( trim( FINSLIPDET.slipitemtype_code  ) = trim( finucfitemtype.slipitemtype_code ) )  and
+		( cmcoopmaster.coop_control  = finucfitemtype.coop_id )			and
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+       (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+		( FINSLIP.ENTRY_DATE = $P{adtm_date} ) AND
+         ( FINSLIP.FROM_SYSTEM IN ('FIN' ) ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+		( FINSLIP.RETAIL_FLAG	<>  3 ) AND
+         ( FINSLIP.CASH_TYPE in (  'CSH')  )
+
+GROUP BY	 finucfitemtype.slipitemtype_code   ,
+				 finucfitemtype.item_desc
+
+union
+ SELECT  10 as seq_no ,'FIN' as system_code,
+		FINSLIPDET.slipitemtype_code as type_code ,
+		FINSLIPDET.slipitem_desc  as type_desc ,
+         sum( FINSLIPDET.ITEMPAY_AMT ) slip_netamt  ,
+			count( distinct finslip.slip_no ) as count_slip
+   FROM FINSLIP  ,FINSLIPDET ,finucfitemtype  , cmcoopmaster
+   WHERE 		( FINSLIP.SLIP_NO = FINSLIPDET.SLIP_NO ) AND
+		( FINSLIP.coop_id = FINSLIPDET.coop_id ) AND
+		( trim( FINSLIPDET.slipitemtype_code  ) = trim( finucfitemtype.slipitemtype_code ) )  and
+		( cmcoopmaster.coop_control  = finucfitemtype.coop_id )			and
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+		(cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+		( FINSLIP.ENTRY_DATE = $P{adtm_date} ) AND
+         ( FINSLIP.FROM_SYSTEM IN ('FIN' ) ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+		( FINSLIP.RETAIL_FLAG	<>  3 ) AND
+         ( FINSLIP.CASH_TYPE in (  'CSH')  )   and
+		( FINSLIPDET.account_id  is null )
+GROUP BY	 FINSLIPDET.slipitemtype_code   ,
+				 FINSLIPDET.slipitem_desc
+
+union
+
+ SELECT  10 as seq_no ,'FIN' as system_code,
+		'00' as type_code ,
+		'ภาษีมูลค่าเพิ่ม ' as type_desc ,
+         sum(   FINSLIPDET.vat_amt  ) slip_netamt  ,
+			count( distinct finslip.slip_no ) as count_slip
+   FROM FINSLIP  ,FINSLIPDET , cmcoopmaster
+   WHERE ( FINSLIP.ENTRY_DATE = $P{adtm_date} ) AND
+		( FINSLIP.SLIP_NO = FINSLIPDET.SLIP_NO ) AND
+		( FINSLIP.coop_id = FINSLIPDET.coop_id ) AND
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+         (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+         ( FINSLIP.FROM_SYSTEM IN ('FIN' ) ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+		( FINSLIP.RETAIL_FLAG	<>  3 ) AND
+         ( FINSLIP.CASH_TYPE in (  'CSH')  )
+having sum(FINSLIPDET.vat_amt ) > 0
+
+union
+
+
+ SELECT  10 as seq_no ,'FIN' as system_code,
+		finucfitemtype.slipitemtype_code as type_code ,
+		finucfitemtype.item_desc  as type_desc ,
+         sum( FINSLIPDET.ITEMPAY_AMT    ) slip_netamt  ,
+			count( distinct finslip.slip_no ) as count_slip
+   FROM FINSLIP  ,FINSLIPDET ,finucfitemtype , accmaster , cmcoopmaster
+   WHERE ( FINSLIP.ENTRY_DATE = $P{adtm_date} ) AND
+		(accmaster.account_id = FINSLIPDET.account_id ) AND
+		(accmaster.coop_id = cmcoopmaster.coop_id ) AND
+		( FINSLIP.SLIP_NO = FINSLIPDET.SLIP_NO ) AND
+		( FINSLIP.coop_id = FINSLIPDET.coop_id ) AND
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+        (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+         ( FINSLIP.FROM_SYSTEM IN ('FIN' ) ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+		( FINSLIP.RETAIL_FLAG	=  3 ) AND
+         ( FINSLIP.CASH_TYPE in (  'CSH')  )   AND
+		( FINSLIPDET.slipitemtype_code  = finucfitemtype.slipitemtype_code )  and
+		( cmcoopmaster.coop_id  = finucfitemtype.coop_id )
+GROUP BY	 finucfitemtype.slipitemtype_code   ,
+				 finucfitemtype.item_desc
+
+union
+
+  SELECT  20 as seq_no ,'DEP' as system_code,
+         DPDEPTTYPE.DEPTTYPE_CODE as type_code,
+         'ถอน' || DPDEPTTYPE.DEPTTYPE_DESC as type_desc ,
+         sum(  DPDEPTSLIP.DEPTSLIP_NETAMT ) slip_netamt  ,
+			count( distinct finslip.slip_no ) as count_slip
+    FROM FINSLIP,
+         DPDEPTSLIP,
+         DPDEPTTYPE  , cmcoopmaster
+   WHERE ( DPDEPTSLIP.DEPTTYPE_CODE = DPDEPTTYPE.DEPTTYPE_CODE ) and
+         ( FINSLIP.REF_SLIPNO = DPDEPTSLIP.DEPTSLIP_NO ) and
+         ( FINSLIP.coop_id = DPDEPTSLIP.coop_id ) and
+         ( ( FINSLIP.ENTRY_DATE = $P{adtm_date} ) AND
+		(dpdeptslip.deptitemtype_code not in ('WIE','WII','WIM', 'FEE' ) ) and
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+         (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+         ( FINSLIP.FROM_SYSTEM = 'DEP' ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         ( FINSLIP.CASH_TYPE in (  'CSH'  )  ) )
+GROUP BY DPDEPTTYPE.DEPTTYPE_CODE,
+         DPDEPTTYPE.DEPTTYPE_DESC
+
+
+union
+
+ SELECT   30 as seq_no ,'LON' as system_code,
+       	LNLOANTYPE.loantype_code as type_code ,
+		LNLOANTYPE.loantype_desc as  type_desc ,
+		sum(slslippayout.payout_amt) slip_netamt  ,
+		count( distinct finslip.slip_no ) as count_slip
+    FROM FINSLIP,
+	 slslippayout,
+         LNLOANTYPE  , cmcoopmaster
+   WHERE ( FINSLIP.REF_SLIPNO = slslippayout.payoutslip_no ) and
+         ( FINSLIP.coop_id = slslippayout.coop_id ) and
+         ( slslippayout.shrlontype_code = LNLOANTYPE.LOANTYPE_CODE ) and
+         ( ( FINSLIP.ENTRY_DATE = $P{adtm_date} ) AND
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+		( slslippayout.slip_status = 1) and
+         (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+         ( FINSLIP.FROM_SYSTEM = 'LON' ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         ( FINSLIP.CASH_TYPE in ( 'CSH' ) )  )
+GROUP BY     LNLOANTYPE.loantype_code ,
+				LNLOANTYPE.loantype_desc
+
+union
+
+ SELECT  40 as seq_no ,
+ 		'SHP' as system_code,
+         SHSHARETYPE.SHARETYPE_CODE as type_code ,
+         'จ่ายคืนค่าหุ้น'  as type_desc ,
+sum(  slslippayout.payout_amt ) slip_netamt  ,
+count( distinct finslip.slip_no ) as count_slip
+    FROM FINSLIP,
+	 slslippayout,
+         SHSHARETYPE  , cmcoopmaster
+   WHERE ( FINSLIP.REF_SLIPNO = slslippayout.payoutslip_no ) and
+         ( FINSLIP.coop_id = slslippayout.coop_id ) and
+         ( slslippayout.shrlontype_code = SHSHARETYPE.SHARETYPE_CODE ) and
+		( slslippayout.slip_status = 1 ) AND
+         ( ( trunc(FINSLIP.ENTRY_DATE) = $P{adtm_date} ) AND
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+         (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  = $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like $P{as_coopid}) AND
+         ( FINSLIP.FROM_SYSTEM in ('SHR' ) ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         ( FINSLIP.CASH_TYPE in( 'CSH' ) )  ) AND
+		slslippayout.payoutnet_amt > 0
+GROUP BY SHSHARETYPE.SHARETYPE_CODE,
+         SHSHARETYPE.SHARETYPE_DESC
+
+union
+
+ SELECT  50 as seq_no,
+			'DIV' as system_code,
+         	'01' as type_code,
+        		'จ่ายปันผล' as type_desc,
+			sum( yrslippayoutdet.div_payment ) as slip_netamt,
+			count( 1 ) as count_slip
+    FROM FINSLIP,
+         	yrslippayout,
+			yrslippayoutdet
+   WHERE 	( trim( FINSLIP.REF_SLIPNO ) = trim( yrslippayout.payoutslip_no ) ) and
+				( trim( yrslippayout.payoutslip_no ) = trim( yrslippayoutdet.payoutslip_no ) ) and
+				(  FINSLIP.ENTRY_DATE =  $P{adtm_date} ) AND
+			 	( FINSLIP.PAYMENT_STATUS = 1 ) AND
+         		( FINSLIP.FROM_SYSTEM = 'DIV' ) AND
+       			( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         		( FINSLIP.CASH_TYPE   in ( 'CSH'  ) ) and
+				( yrslippayoutdet.div_payment > 0 )
+having sum( yrslippayoutdet.div_payment ) > 0
+
+union
+ SELECT  60 as seq_no,
+			'AVG' as system_code,
+         	'02' as type_code,
+        		'จ่ายเงินเฉลี่ยคืน' as type_desc,
+			sum( yrslippayoutdet.avg_payment ) as slip_netamt,
+			count( 1 ) as count_slip
+    FROM FINSLIP,
+         	yrslippayout,
+			yrslippayoutdet
+   WHERE 	( trim( FINSLIP.REF_SLIPNO ) = trim( yrslippayout.payoutslip_no ) ) and
+				( trim( yrslippayout.payoutslip_no ) = trim( yrslippayoutdet.payoutslip_no ) ) and
+				(  FINSLIP.ENTRY_DATE =  $P{adtm_date} )  AND
+			 	( FINSLIP.PAYMENT_STATUS = 1 ) AND
+         		( FINSLIP.FROM_SYSTEM = 'DIV' ) AND
+       			( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         		( FINSLIP.CASH_TYPE   in ( 'CSH'  ) ) and
+				( yrslippayoutdet.avg_payment > 0 )
+having sum( yrslippayoutdet.avg_payment ) > 0
+
+union
+ SELECT   70 as seq_no ,'LON' as system_code,
+       	LNLOANTYPE.loantype_code as type_code ,
+		LNLOANTYPE.loantype_desc ||'( จ่ายดอกเบี้ยคืน )'  as  type_desc ,
+		sum(slslippayout.returnetc_amt) slip_netamt  ,
+		count( distinct finslip.slip_no ) as count_slip
+    FROM FINSLIP,
+	 slslippayout,
+         LNLOANTYPE  , cmcoopmaster
+   WHERE ( FINSLIP.REF_SLIPNO = slslippayout.payoutslip_no ) and
+         ( FINSLIP.coop_id = slslippayout.coop_id ) and
+         ( slslippayout.shrlontype_code = LNLOANTYPE.LOANTYPE_CODE ) and
+         ( ( FINSLIP.ENTRY_DATE =  $P{adtm_date} ) AND
+         ( FINSLIP.PAYMENT_STATUS = 1 ) AND
+		( slslippayout.slip_status = 1) and
+         (cmcoopmaster.coop_id = finslip.coop_id) AND
+		(cmcoopmaster.coop_control  =  $P{as_coopid}) AND
+         ( FINSLIP.COOP_ID like  $P{as_coopid}) AND
+         ( FINSLIP.FROM_SYSTEM = 'LON' ) AND
+         ( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         ( FINSLIP.CASH_TYPE in ( 'CSH' ) )  )
+GROUP BY     LNLOANTYPE.loantype_code ,
+				LNLOANTYPE.loantype_desc
+having sum(slslippayout.returnetc_amt) > 0
+
+union
+ SELECT  80 as seq_no,
+			'ASS' as system_code,
+         	'01' as type_code,
+        		'จ่ายเงินสวัสดิการ ' as type_desc,
+			sum( asnslippayout.payout_amt ) as slip_netamt,
+			count( 1 ) as count_slip
+    FROM FINSLIP,
+         	asnslippayout
+   WHERE 	( trim( FINSLIP.REF_SLIPNO ) = trim( asnslippayout.payoutslip_no ) ) and
+				(  FINSLIP.ENTRY_DATE =  $P{adtm_date} ) AND
+			 	( FINSLIP.PAYMENT_STATUS = 1 ) AND
+         		( FINSLIP.FROM_SYSTEM = 'ASS' ) AND
+       			( FINSLIP.PAY_RECV_STATUS = 0 ) AND
+         		( FINSLIP.CASH_TYPE   in ( 'CSH'  ) ) and
+				( asnslippayout.payout_amt > 0 )
+having sum( asnslippayout.payout_amt ) > 0 ]]>
+	</queryString>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="SYSTEM_CODE" class="java.lang.String"/>
+	<field name="TYPE_CODE" class="java.lang.String"/>
+	<field name="TYPE_DESC" class="java.lang.String"/>
+	<field name="SLIP_NETAMT" class="java.math.BigDecimal"/>
+	<field name="COUNT_SLIP" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b94fad74-5bb6-485a-be98-452e1305f687" x="0" y="0" width="134" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TYPE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="ec2dc256-8541-4e9e-820d-aa67c885cd9a" x="134" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIP_NETAMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

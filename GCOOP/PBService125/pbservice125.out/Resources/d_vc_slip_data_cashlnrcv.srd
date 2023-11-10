@@ -1,0 +1,109 @@
+$PBExportHeader$d_vc_slip_data_cashlnrcv.srd
+release 12.5;
+datawindow(units=0 color=16777215 processing=0 print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=0 )
+detail(height=152 )
+summary(height=128 )
+footer(height=4 )
+table(column=(name=sliptypesign_flag dbname="SLUCFSLIPTYPE.SLIPTYPESIGN_FLAG" type=decimal(0) updatewhereclause=yes )
+column=(name=moneytype_group dbname="CMUCFMONEYTYPE.MONEYTYPE_GROUP" type=char(3) updatewhereclause=yes )
+column=(name=payinslip_no dbname="SLSLIPPAYIN.PAYINSLIP_NO" type=char(11) updatewhereclause=yes )
+column=(name=member_no dbname="SLSLIPPAYIN.MEMBER_NO" type=char(8) updatewhereclause=yes )
+column=(name=document_no dbname="SLSLIPPAYIN.DOCUMENT_NO" type=char(15) updatewhereclause=yes )
+column=(name=sliptype_code dbname="SLSLIPPAYIN.SLIPTYPE_CODE" type=char(3) updatewhereclause=yes )
+column=(name=slip_date dbname="SLSLIPPAYIN.SLIP_DATE" type=datetime updatewhereclause=yes )
+column=(name=moneytype_code dbname="SLSLIPPAYIN.MONEYTYPE_CODE" type=char(3) updatewhereclause=yes )
+column=(name=tofrom_accid dbname="SLSLIPPAYIN.TOFROM_ACCID" type=char(15) updatewhereclause=yes )
+column=(name=slip_amt dbname="SLSLIPPAYIN.SLIP_AMT" type=decimal(2) updatewhereclause=yes )
+column=(name=entry_id dbname="SLSLIPPAYIN.ENTRY_ID" type=char(32) updatewhereclause=yes )
+column=(name=slipitemtype_code dbname="SLSLIPPAYINDET.SLIPITEMTYPE_CODE" type=char(3) updatewhereclause=yes )
+column=(name=seq_no dbname="SLSLIPPAYINDET.SEQ_NO" type=decimal(0) updatewhereclause=yes )
+column=(name=shrlontype_code dbname="SLSLIPPAYINDET.SHRLONTYPE_CODE" type=char(2) updatewhereclause=yes )
+column=(name=loancontract_no dbname="SLSLIPPAYINDET.LOANCONTRACT_NO" type=char(15) updatewhereclause=yes )
+column=(name=slipitem_desc dbname="SLSLIPPAYINDET.SLIPITEM_DESC" type=char(100) updatewhereclause=yes )
+column=(name=principal_payamt dbname="SLSLIPPAYINDET.PRINCIPAL_PAYAMT" type=decimal(2) updatewhereclause=yes )
+column=(name=interest_payamt dbname="SLSLIPPAYINDET.INTEREST_PAYAMT" type=decimal(2) updatewhereclause=yes )
+column=(name=intarrear_payamt dbname="SLSLIPPAYINDET.INTARREAR_PAYAMT" type=decimal(2) updatewhereclause=yes )
+column=(name=item_payamt dbname="SLSLIPPAYINDET.ITEM_PAYAMT" type=decimal(2) updatewhereclause=yes )
+column=(name=coop_id dbname="SLSLIPPAYIN.COOP_ID" type=char(6) updatewhereclause=yes )
+column=(name=loangroup_code dbname="LNLOANTYPE.LOANGROUP_CODE" type=char(2) updatewhereclause=yes )
+column=(name=bfcontlaw_status dbname="SLSLIPPAYINDET.BFCONTLAW_STATUS" type=decimal(0) updatewhereclause=yes )
+column=(name=membgroup_code dbname="MBMEMBMASTER.MEMBGROUP_CODE" type=char(14) updatewhereclause=yes )
+retrieve="  SELECT ~"SLUCFSLIPTYPE~".~"SLIPTYPESIGN_FLAG~",   
+         ~"CMUCFMONEYTYPE~".~"MONEYTYPE_GROUP~",   
+         ~"SLSLIPPAYIN~".~"PAYINSLIP_NO~",   
+         ~"SLSLIPPAYIN~".~"MEMBER_NO~",   
+         ~"SLSLIPPAYIN~".~"DOCUMENT_NO~",   
+         ~"SLSLIPPAYIN~".~"SLIPTYPE_CODE~",   
+         ~"SLSLIPPAYIN~".~"SLIP_DATE~",   
+         ~"SLSLIPPAYIN~".~"MONEYTYPE_CODE~",   
+         ~"SLSLIPPAYIN~".~"TOFROM_ACCID~",   
+         ~"SLSLIPPAYIN~".~"SLIP_AMT~",   
+         ~"SLSLIPPAYIN~".~"ENTRY_ID~",   
+         ~"SLSLIPPAYINDET~".~"SLIPITEMTYPE_CODE~",   
+         ~"SLSLIPPAYINDET~".~"SEQ_NO~",   
+         ~"SLSLIPPAYINDET~".~"SHRLONTYPE_CODE~",   
+         ~"SLSLIPPAYINDET~".~"LOANCONTRACT_NO~",   
+         ~"SLSLIPPAYINDET~".~"SLIPITEM_DESC~",   
+         ~"SLSLIPPAYINDET~".~"PRINCIPAL_PAYAMT~",   
+         ~"SLSLIPPAYINDET~".~"INTEREST_PAYAMT~",   
+         ~"SLSLIPPAYINDET~".~"INTARREAR_PAYAMT~",   
+         ~"SLSLIPPAYINDET~".~"ITEM_PAYAMT~",   
+         ~"SLSLIPPAYIN~".~"COOP_ID~",   
+         ~"LNLOANTYPE~".~"LOANGROUP_CODE~",   
+         ~"SLSLIPPAYINDET~".~"BFCONTLAW_STATUS~",   
+         ~"MBMEMBMASTER~".~"MEMBGROUP_CODE~"  
+    FROM ~"SLUCFSLIPTYPE~",   
+         ~"CMUCFMONEYTYPE~",   
+         ~"SLSLIPPAYIN~",   
+         ~"SLSLIPPAYINDET~",   
+         ~"LNLOANTYPE~",   
+         ~"MBMEMBMASTER~"  
+   WHERE ( slslippayin.payinslip_no = slslippayindet.payinslip_no (+)) and  
+         ( slslippayindet.shrlontype_code = lnloantype.loantype_code (+)) and  
+         ( ~"SLSLIPPAYIN~".~"SLIPTYPE_CODE~" = ~"SLUCFSLIPTYPE~".~"SLIPTYPE_CODE~" ) and  
+         ( ~"SLSLIPPAYIN~".~"MONEYTYPE_CODE~" = ~"CMUCFMONEYTYPE~".~"MONEYTYPE_CODE~" ) and  
+         ( ~"SLSLIPPAYIN~".~"COOP_ID~" = ~"MBMEMBMASTER~".~"COOP_ID~" ) and  
+         ( ~"SLSLIPPAYIN~".~"MEMBER_NO~" = ~"MBMEMBMASTER~".~"MEMBER_NO~" ) and  
+         ( ~"SLSLIPPAYIN~".~"MONEYTYPE_CODE~" = 'CSH' ) AND  
+         ( ( ~"SLSLIPPAYIN~".~"SLIP_DATE~" = :adtm_vcdate ) AND  
+         (~"SLSLIPPAYIN~".~"COOP_ID~" = :as_coopid ) AND  
+         ( ~"SLSLIPPAYIN~".~"SLIP_STATUS~" = 1 ) AND  
+         ( ~"SLUCFSLIPTYPE~".~"SLIPTYPESIGN_FLAG~" = 1 ) ) AND  
+         (~"SLSLIPPAYIN~".~"POSTTOVC_FLAG~" = 0 OR  
+         ( ~"SLSLIPPAYIN~".~"POSTTOVC_FLAG~" is null) ) AND  
+         ( ~"SLSLIPPAYIN~".~"SLIPTYPE_CODE~" in ('PX','PMX','PMP') )    AND
+		~"SLSLIPPAYINDET~".~"SLIPITEMTYPE_CODE~" <> 'SHR'
+" sort="payinslip_no A loangroup_code A slipitemtype_code A tofrom_accid A " arguments=(("adtm_vcdate",datetime), ("as_coopid",string))
+)
+column(name=slipitemtype_code band=detail x="1883" y="88" height="76" width="224" id=12 color="255" border="0" alignment="2" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=member_no band=detail x="2299" y="8" height="76" width="283" id=4 color="0" border="0" alignment="2" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16776960" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=payinslip_no band=detail x="480" y="8" height="76" width="283" id=3 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=document_no band=detail x="795" y="8" height="76" width="283" id=5 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=sliptype_code band=detail x="1349" y="0" height="76" width="283" id=6 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="33548243" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=tofrom_accid band=detail x="1678" y="8" height="76" width="283" id=9 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16711935" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=slip_amt band=detail x="1984" y="4" height="76" width="283" id=10 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=entry_id band=detail x="1097" y="8" height="76" width="242" id=11 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=seq_no band=detail x="2597" y="8" height="76" width="283" id=13 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=shrlontype_code band=detail x="2889" y="8" height="76" width="283" id=14 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="12632256" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=loancontract_no band=detail x="3182" y="8" height="76" width="279" id=15 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=slipitem_desc band=detail x="3470" y="8" height="76" width="567" id=16 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=moneytype_group band=detail x="165" y="88" height="76" width="283" id=2 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" )
+column(name=slip_date band=detail x="809" y="88" height="76" width="283" id=7 color="0" border="0" alignment="0" format="[shortdate] [time]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=moneytype_code band=detail x="503" y="88" height="76" width="283" id=8 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+compute(name=maxdoc band=detail x="1202" y="88" height="76" width="256" color="0" format="[GENERAL]" expression="max(  document_no  for all ) " alignment="0" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" )
+compute(name=mindoc band=detail x="1586" y="88" height="76" width="256" color="0" format="[GENERAL]" expression=" min(  document_no  for all ) " alignment="0" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" )
+column(name=principal_payamt band=detail x="2295" y="84" height="76" width="283" id=17 color="0" border="0" alignment="0" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16711935" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+compute(name=compute_1 band=detail x="18" y="12" height="72" width="142" color="0" format="[GENERAL]" expression="cumulativeSum( 1 for all )" alignment="2" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" )
+column(name=interest_payamt band=detail x="2578" y="84" height="76" width="283" id=18 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=intarrear_payamt band=detail x="2885" y="88" height="76" width="283" id=19 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=item_payamt band=detail x="3694" y="88" height="76" width="283" id=20 color="0" border="0" alignment="1" format="#,##0.00" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="134217731" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=sliptypesign_flag band=detail x="4041" y="0" height="52" width="590" id=1 color="255" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=coop_id band=detail x="4114" y="100" height="52" width="165" id=21 color="255" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=loangroup_code band=detail x="4366" y="92" height="52" width="238" id=22 color="255" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=bfcontlaw_status band=detail x="3195" y="96" height="52" width="439" id=23 color="0" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+column(name=membgroup_code band=detail x="4631" y="0" height="52" width="219" id=24 color="255" border="0" alignment="0" format="[general]" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16777215" background.mode="2" edit.autoselect=no edit.focusrectangle=no )
+compute(name=compute_2 band=summary x="1847" y="16" height="84" width="590" color="0" format="#,##0.00" expression="sum(  principal_payamt  for all )" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="16711935" background.mode="2" )
+compute(name=compute_3 band=summary x="2469" y="20" height="84" width="466" color="0" format="#,##0.00" expression="sum(  interest_payamt for all )" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="65280" background.mode="2" )
+compute(name=compute_4 band=summary x="3058" y="16" height="84" width="466" color="0" format="#,##0.00" expression="sum( principal_payamt+ interest_payamt for all )" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="255" background.mode="2" )
+compute(name=compute_5 band=summary x="3575" y="28" height="84" width="466" color="0" format="#,##0.00" expression="sum( item_payamt  for all )" alignment="1" border="0" font.face="MS Sans Serif" font.height="-8" font.charset="222" background.color="134217730" background.mode="2" )

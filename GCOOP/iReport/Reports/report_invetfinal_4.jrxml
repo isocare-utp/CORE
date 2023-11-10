@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_invetfinal_2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ed525557-0b68-41b9-95e9-a78d442b48de">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="249"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select round((
+select sum(wage * rate) as a from (
+select
+(select distinct(bal_date) from mssysbal where bal_date=to_date( $P{date} ,'YYYY/MM/DD')) as bal_dateshow,
+decode(b.captype_code,'01','1.ต้นทุนการจัดหาเงินทุน','02','2.ผลตอบแทนการลงทุน') as desctype,
+         decode(a.bizz_system,'DEP','เงินรับฝาก','SHR','ทุนเรือนหุ้น','LON','เงินให้กู้','PMI','เงินลงทุน',' ') as bizz_systemdesc,
+		sum(a.balance_value) as sumvlue,
+		(select sum(s.balance_value) as sumtype
+											  from mssysbal s
+											  where a.bizz_system=s.bizz_system
+											            and bal_date=to_date( $P{date} ,'YYYY/MM/DD') )/
+ (select sum(ss.balance_value) from mssysbal ss ,miscapitaltype sr where ss.bizz_system=sr.system_code and b.captype_code=sr.captype_code and bal_date=to_date( $P{date} ,'YYYY/MM/DD')  ) as wage,
+
+		round(sum(a.balance_value/(select sum(s.balance_value) as sumtype
+											  from mssysbal s
+											  where a.bizz_system=s.bizz_system
+													   and bal_date=to_date( $P{date} ,'YYYY/MM/DD') )  * a.bizztype_rate),7) as rate
+from mssysbal a,miscapitaltype b
+where a.bizz_system=b.system_code
+		 and a.coop_id like '%'
+		 and bal_date=to_date( $P{date} ,'YYYY/MM/DD')
+group by b.captype_code,a.bizz_system
+order by desctype
+) s
+where desctype = '1.ต้นทุนการจัดหาเงินทุน'
+)*100,4) as  bal1 ,
+ round((
+select sum(wage * rate) as a from (
+select
+(select distinct(bal_date) from mssysbal where bal_date=to_date( $P{date} ,'YYYY/MM/DD')) as bal_dateshow,
+decode(b.captype_code,'01','1.ต้นทุนการจัดหาเงินทุน','02','2.ผลตอบแทนการลงทุน') as desctype,
+         decode(a.bizz_system,'DEP','เงินรับฝาก','SHR','ทุนเรือนหุ้น','LON','เงินให้กู้','PMI','เงินลงทุน',' ') as bizz_systemdesc,
+		sum(a.balance_value) as sumvlue,
+		(select sum(s.balance_value) as sumtype
+											  from mssysbal s
+											  where a.bizz_system=s.bizz_system
+											            and bal_date=to_date( $P{date} ,'YYYY/MM/DD') )/
+ (select sum(ss.balance_value) from mssysbal ss ,miscapitaltype sr where ss.bizz_system=sr.system_code and b.captype_code=sr.captype_code and bal_date=to_date( $P{date} ,'YYYY/MM/DD')  ) as wage,
+
+		round(sum(a.balance_value/(select sum(s.balance_value) as sumtype
+											  from mssysbal s
+											  where a.bizz_system=s.bizz_system
+													   and bal_date=to_date( $P{date} ,'YYYY/MM/DD') )  * a.bizztype_rate),7) as rate
+from mssysbal a,miscapitaltype b
+where a.bizz_system=b.system_code
+		 and a.coop_id like '%'
+		 and bal_date=to_date( $P{date} ,'YYYY/MM/DD')
+group by b.captype_code,a.bizz_system
+order by desctype
+) s
+where desctype = '2.ผลตอบแทนการลงทุน'
+)*100,4)  as  bal2
+from dual]]>
+	</queryString>
+	<field name="BAL1" class="java.math.BigDecimal"/>
+	<field name="BAL2" class="java.math.BigDecimal"/>
+	<variable name="bal" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{BAL2}-$F{BAL1})/100]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField pattern="###0.0000 %;(###0.0000 %)">
+				<reportElement uuid="31b4bd16-b042-459b-a3ae-a4383f0ee4b6" x="414" y="0" width="89" height="20"/>
+				<box rightPadding="10">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{bal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b527d48a-086e-4c4e-93aa-6eccdfe6555e" x="39" y="0" width="375" height="20"/>
+				<box leftPadding="20">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สรุปรวมผลต่าง ผลตอบแทนการลงทุน และ ต้นทุนการจัดหาทุน]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

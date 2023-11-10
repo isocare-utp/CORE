@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="trading_buy_for_cash" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="34de6de0-98ba-40cc-b337-4b552da13ae7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="211"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="DEBT_NO" class="java.lang.String"/>
+	<field name="DEBT_NAME" class="java.lang.String"/>
+	<field name="REC_DATE" class="java.sql.Timestamp"/>
+	<field name="DUE_DATE" class="java.sql.Timestamp"/>
+	<field name="AMTBEFORTAX" class="java.math.BigDecimal"/>
+	<field name="DISC_PERCENT" class="java.lang.String"/>
+	<field name="DISC_AMT" class="java.math.BigDecimal"/>
+	<field name="TAX_AMT" class="java.math.BigDecimal"/>
+	<field name="TRANSFEE" class="java.math.BigDecimal"/>
+	<field name="NET_AMT" class="java.math.BigDecimal"/>
+	<field name="PAY_AMT" class="java.math.BigDecimal"/>
+	<field name="date_inthisreport" class="java.lang.String"/>
+	<field name="mem_no_as_report" class="java.lang.String"/>
+	<variable name="aumall_SLIPNET_AMT" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{NET_AMT}]]></variableExpression>
+	</variable>
+	<variable name="sumgroup1_pay_amt" class="java.math.BigDecimal" resetType="Group" resetGroup="DEBT_NO" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAY_AMT}]]></variableExpression>
+	</variable>
+	<variable name="sumall_trans" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TRANSFEE}]]></variableExpression>
+	</variable>
+	<variable name="sumall_taxamt" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TAX_AMT}]]></variableExpression>
+	</variable>
+	<variable name="sumall_dist_amt" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{DISC_AMT}]]></variableExpression>
+	</variable>
+	<variable name="sumgroup1_amt_betax" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMTBEFORTAX}]]></variableExpression>
+	</variable>
+	<group name="DEBT_NO">
+		<groupExpression><![CDATA[$F{DEBT_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<staticText>
+					<reportElement uuid="d7f49d6d-4983-4f38-aaf5-4191ddb41e18" x="1" y="0" width="65" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[รหัสลูกหนี้]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="b9386f89-cf09-4e2e-b4c2-b971a8430745" x="66" y="0" width="573" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DEBT_NO}+"  "+$F{DEBT_NAME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="86" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ea0ba0d2-6912-41de-ae69-3db61724c535" x="257" y="20" width="289" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_inthisreport}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7426fc0c-4861-4277-91ae-8f6be2717596" x="719" y="10" width="27" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[หน้าที่:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5a472842-1de0-45b6-a35b-2fd861f565f7" x="184" y="66" width="104" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่ครบกำหนด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c45e813c-9422-42b3-b570-adfed1528194" x="719" y="66" width="84" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[             ยอดหนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cd5e0b61-db9a-4875-a920-b5d04dc3d056" x="392" y="66" width="85" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ส่วนลด]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="c3191f35-03d5-4eaf-951c-5fd111400ecd" x="764" y="10" width="14" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2ec2c25a-768a-468c-867a-a99de30c0ab5" x="758" y="10" width="7" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[/
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cf9ef611-16c8-438d-ae48-2d0d2a6aa317" x="96" y="66" width="88" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bfe78ce6-b3d1-4c6d-8b81-99495892835e" x="288" y="66" width="104" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ยอดเงิน]]></text>
+			</staticText>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="1e9e43ca-1a2b-4ee9-b298-8fbb25b47110" x="750" y="30" width="53" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="411285f7-2023-43f2-b368-195adaa2ce94" x="639" y="66" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ค่าขนส่ง]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="77b7047d-5e5d-4124-b14c-ecb965f43dc2" x="750" y="10" width="11" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cd00865b-c023-4519-a1a8-e5c363e248e4" x="551" y="66" width="88" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ภาษีมูลค่าเพิ่ม]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7758522f-3027-44a0-865f-3856bfd0dd5e" x="719" y="30" width="27" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[วันที่:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f4592690-82d0-4dc9-a337-4e7e69b780e4" x="351" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รายงานการขายเชื่อ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="63bbc976-907b-4e58-b867-cf088964fb34" x="1" y="66" width="95" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รหัสเอกสาร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="83679a6e-7780-4d86-99a4-ba3b9f296c54" x="477" y="66" width="74" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ยอดส่วนลด]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="615eff4c-8933-47c1-bcae-f2f97b967528" x="257" y="40" width="289" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mem_no_as_report}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="5bd21421-05a1-4fda-b08b-5cce2f8a6ca0" x="1" y="0" width="95" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIP_NO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="20145d24-2c5e-47eb-8722-9330d94b270a" x="96" y="0" width="88" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="054a83e4-d8db-44fa-84b0-612d40f91ef7" x="184" y="0" width="104" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{DUE_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="0a265f3e-15f9-481d-8ff8-34bcd507654e" x="288" y="0" width="104" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMTBEFORTAX}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="916a1046-e31a-4961-bf19-4f58ffcbf11b" x="392" y="0" width="85" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISC_PERCENT}+" %"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="4f3df1f8-4df8-42cb-b28d-a30b78778911" x="477" y="0" width="74" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISC_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="82b7d5f3-619c-43a2-83f3-ad247122d6db" x="551" y="0" width="88" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TAX_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="b9cdf2d2-6c30-4319-a461-2f76c6364278" x="639" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSFEE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="78ffe1ac-6645-4f39-9517-c30e8fd00290" x="719" y="0" width="72" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NET_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="10b53769-d6c8-4ab7-8359-91374dce102f" x="639" y="0" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumall_trans}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="d7f3eeaa-fab7-4c83-8045-fef625f92bd0" x="551" y="0" width="88" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumall_taxamt}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="388051b0-c7ba-4b4b-aa79-e6c459a2f5d9" x="477" y="0" width="74" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumall_dist_amt}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="1a8daa1e-b707-4073-8224-0089733cab2a" x="289" y="0" width="104" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumgroup1_amt_betax}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="0f40c4d7-f938-458d-a8fd-4602235d1e37" x="791" y="0" width="12" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a862e7ca-8f91-42d7-84cb-4589ccbedf5d" x="392" y="0" width="85" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="08a1630d-986c-49a3-b00b-2589a23a335b" x="1" y="0" width="288" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ยอดรวม]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="61f22981-fe93-45f0-821c-1bf82ad05c90" x="719" y="0" width="72" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{aumall_SLIPNET_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement uuid="d276967b-c289-4d42-b72f-d4fef411ee78" x="212" y="0" width="378" height="41"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="34" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ไม่มีข้อมูลวันที่ค้นหา]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

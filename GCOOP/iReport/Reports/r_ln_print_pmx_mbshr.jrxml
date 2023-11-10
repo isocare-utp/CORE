@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_print_loan_req_clrnet_mbshr" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="abc16812-96e6-4151-91a9-9cbd22a7409f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_membno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+aj.recv_period as REF_RECVPERIOD,
+adj.keepitemtype_code as KEEPITEMTYPE_CODE,
+case when (adj.keepitemtype_code='SO1') then 'ค่าหุ้น' else adj.loancontract_no end as DESCRIPTION,
+adj.adjust_prnamt as  PRINCIPAL_ADJAMT,
+adj.adjust_intamt as  INTEREST_ADJAMT,
+adj.adjust_itemamt as  ITEM_ADJAMT
+from kpmastreceive aj,kpmastreceivedet adj
+where
+aj.coop_id = adj.coop_id and
+aj.kpslip_no = adj.kpslip_no and
+adj.adjust_itemamt > 0 and
+aj.coop_id = $P{coopid} and
+aj.member_no = $P{as_membno}]]>
+	</queryString>
+	<field name="REF_RECVPERIOD" class="java.lang.String"/>
+	<field name="KEEPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="PRINCIPAL_ADJAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_ADJAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_ADJAMT" class="java.math.BigDecimal"/>
+	<sortField name="REF_RECVPERIOD"/>
+	<sortField name="KEEPITEMTYPE_CODE"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="66" splitType="Stretch">
+			<textField>
+				<reportElement uuid="fa642a4a-2ae3-49bf-9ff8-819da8b8c29e" x="9" y="0" width="203" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "รายการหักอื่นๆ" : "รายการหักไม่ได้" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="844897f8-0ee7-4138-811e-062bd90f7954" x="0" y="33" width="32" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "" : "ลำดับ" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b15d4027-82b4-49ab-96b2-c1958ac8f62d" x="32" y="33" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "" : "งวด" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3c781a5f-4f5a-4cc4-a29c-cbc4527564fd" x="87" y="33" width="56" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "" : "เลขที่สัญญา" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="83a0d830-59c0-4932-b09c-421ab42a18f7" x="143" y="33" width="60" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "" : "เงินต้น" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="40f0815b-c9e8-41a7-a1fc-106165700913" x="203" y="33" width="58" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "" : "ดอกเบี้ย" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="27d8dbb9-97dc-4e2b-9b03-2de094d5af6c" x="261" y="33" width="62" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "" : "ยอดรวม" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="373f2ba3-168a-42e4-a73c-024d3f70878f" x="0" y="53" width="595" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "......................................................................................................................................................................................" : "" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="11229fb8-5d7f-4347-8e8d-0f7cc516eb8b" x="0" y="20" width="595" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[( $F{DESCRIPTION} == null ? "......................................................................................................................................................................................" : "" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ed4214bd-3a57-436f-80d0-e9c308b70823" x="32" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REF_RECVPERIOD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement uuid="a33c984f-fece-4ecd-880c-5c295c2ab6ec" x="87" y="0" width="56" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{DESCRIPTION} == null? "ค่าหุ้น" : $F{DESCRIPTION} )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="2cdd47c4-bbf9-414b-aac8-a2081e3d83fa" x="143" y="0" width="60" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_ADJAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="460bf25d-7193-4b8b-9129-c04e384132bc" x="261" y="0" width="62" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_ADJAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="545efed2-8182-43bd-8e30-bee528d2fab4" x="203" y="0" width="58" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{INTEREST_ADJAMT} == null ? 0 : $F{INTEREST_ADJAMT} )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e04121d1-10b7-488c-866a-68ed2cc3473c" x="0" y="0" width="32" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

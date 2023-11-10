@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_lnyr_balance_confirm_subreport2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aea7fa29-35f1-435c-a51a-bb86ec84e4d4">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_memberno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CEN\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+          "SLCLSMTHBALANCE"."BIZZ_SYSTEM",
+         "SLCLSMTHBALANCE"."BIZZTYPE_CODE",
+         "SLCLSMTHBALANCE"."LOANCONTRACT_NO",
+         "SLCLSMTHBALANCE"."MEMBGROUP_CODE",
+         "SLCLSMTHBALANCE"."BALANCE_VALUE"
+    FROM "MBMEMBMASTER",
+         "MBUCFMEMBGROUP",
+         "MBUCFPRENAME",
+         "SLCLSMTHBALANCE"
+   WHERE ( "MBMEMBMASTER"."COOP_ID" = "MBUCFMEMBGROUP"."COOP_ID" )
+         and ( "MBUCFPRENAME"."PRENAME_CODE" = "MBMEMBMASTER"."PRENAME_CODE" )
+         and ( "MBUCFMEMBGROUP"."COOP_ID" = "SLCLSMTHBALANCE"."COOP_ID" )
+         and ( "SLCLSMTHBALANCE"."MEMBER_NO" = "MBMEMBMASTER"."MEMBER_NO" )
+         and ( "SLCLSMTHBALANCE"."MEMBGROUP_CODE" = "MBUCFMEMBGROUP"."MEMBGROUP_CODE" )
+         and ( ( slclsmthbalance.coop_id = $P{as_coopid} )
+		and ( slclsmthbalance.clsmth_period = $P{as_period} )
+         and ( slclsmthbalance.member_no = $P{as_memberno})
+		and ( slclsmthbalance.bizz_system in ('LON','SHR') ) )]]>
+	</queryString>
+	<field name="BIZZ_SYSTEM" class="java.lang.String"/>
+	<field name="BIZZTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="BALANCE_VALUE" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="24">
+			<textField>
+				<reportElement uuid="1923db1d-5674-42a4-a861-d0b316c9a2e4" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{as_period}.substring(4)=="1" ||
+  $P{as_period}.substring(4)=="3" ||
+  $P{as_period}.substring(4)=="5" ||
+  $P{as_period}.substring(4)=="7" ||
+  $P{as_period}.substring(4)=="8" ||
+  $P{as_period}.substring(4)=="10" ||
+  $P{as_period}.substring(4)=="12"
+  ? "31" : (
+  $P{as_period}.substring(4)=="4" ||
+  $P{as_period}.substring(4)=="6" ||
+  $P{as_period}.substring(4)=="9" ||
+  $P{as_period}.substring(4)=="11"
+  ? "30" : "28" ) )+"/"+
+( $P{as_period}.length() < "5"
+  ? $P{as_period}.substring(4) : "0"+$P{as_period}.substring(4))
++"/"+$P{as_period}.substring(0,4)]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="9fbfee6c-9a49-4635-ab36-c92bd40fb67b" x="113" y="0" width="138" height="20">
+					<printWhenExpression><![CDATA[( $F{BIZZ_SYSTEM} == "SHR" ? false : true )]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}.substring(0,4)+"-"+$F{LOANCONTRACT_NO}.substring( 4 )]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="86f57ab6-f11e-44f7-980f-451154262253" x="362" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BALANCE_VALUE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="098f8e92-928f-4764-b5a0-232613b2fa74" x="462" y="0" width="25" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ บาท]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="fa85b56b-38e9-4b37-8440-7d708ad707b8" x="40" y="0" width="73" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{BIZZ_SYSTEM} == "SHR" ? "ทุนเรือนหุ้น" : "เงินกู้" )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="40">
+			<subreport>
+				<reportElement uuid="bcc4f230-436d-40da-a8cf-e2ba6a89a886" x="40" y="6" width="447" height="33"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_memberno">
+					<subreportParameterExpression><![CDATA[$P{as_memberno}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_lnyr_balance_confirm_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

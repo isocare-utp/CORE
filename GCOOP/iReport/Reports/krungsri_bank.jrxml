@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="krungsri_bank" language="groovy" pageWidth="597" pageHeight="298" orientation="Landscape" columnWidth="597" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4878e604-a986-490a-9078-ae9c73a9377c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="a.payoutslip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select		d.shtprename_desc||c.memb_name||' '||d.shtsuffname_desc as memb_name,
+			e.bank_shortname_t,
+			f.branch_name,
+			b.expense_accid,
+			a.payoutnet_amt,
+			ftreadtbaht( a.payoutnet_amt ) as payoutnet_thai,
+			g.full_name,
+			h.branch_name,
+			h.addr_phone
+from		slslippayout a, slslippayoutexpense b, mbmembmaster c, mbucfprename d, cmucfbank e, cmucfbankbranch f, amsecusers g, cmbranchmaster h
+where	a.branch_id			= b.branch_id
+and		a.payoutslip_no 	= b.payoutslip_no
+and		a.membranch_id	= c.branch_id
+and		a.member_no		= c.member_no
+and		c.prename_code	= d.prename_code
+and		b.expense_bank	= e.bank_code
+and		b.expense_bank	= f.bank_code
+and		b.expense_branch	= f.branch_id
+and		a.branch_id= g.branch_id
+and		a.payoutconfirm_userid = g.user_name
+and		a.branch_id= h.branch_id
+and		b.moneytype_code = 'CBT'
+and		a.payoutslip_no = $P{a.payoutslip_no}]]>
+	</queryString>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="BANK_SHORTNAME_T" class="java.lang.String"/>
+	<field name="BRANCH_NAME" class="java.lang.String"/>
+	<field name="EXPENSE_ACCID" class="java.lang.String"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTNET_THAI" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="ADDR_PHONE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="298" splitType="Stretch">
+			<textField>
+				<reportElement uuid="683d0add-2492-4e12-8892-b18bf23770dc" x="35" y="134" width="241" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMB_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="151ac20d-8f8c-4a19-a4e0-9f04106a5d89" x="295" y="134" width="193" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5bb0fc9d-9729-41a1-a75e-4e7cfc2a9635" x="327" y="157" width="161" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANK_SHORTNAME_T}+" / "+$F{BRANCH_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ee1ad35f-3f08-4ee3-8f0a-4435ce467462" x="317" y="178" width="171" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EXPENSE_ACCID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c7c54f4c-1291-4927-a4f5-b2a838fd0c00" x="405" y="269" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{ADDR_PHONE}==null ? "" : $F{ADDR_PHONE} )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0602c599-268d-4a39-bae3-e67c05fb3f4d" x="119" y="268" width="266" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="abb4f7d1-7faa-4984-94df-f02570d10326" x="191" y="234" width="278" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_THAI}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="05e95e28-b8c3-4ed9-ae9a-c9d01e7b991e" x="19" y="235" width="154" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

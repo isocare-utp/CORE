@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>  SELECT MBUCFMEMBGROUP.MEMBGROUP_CODE,   
+         MBUCFMEMBGROUP.MEMBGROUP_DESC,   
+         MBUCFPRENAME.PRENAME_DESC,   
+         MBMEMBMASTER.MEMB_NAME,   
+         MBMEMBMASTER.MEMB_ENAME,   
+         MBMEMBMASTER.MEMBER_STATUS,   
+         MBMEMBMASTER.MEMBER_DATE,   
+         MBMEMBMASTER.RESIGN_STATUS,   
+         MBMEMBMASTER.RESIGN_DATE,   
+         MBUCFMEMBTYPE.MEMBTYPE_CODE,   
+         MBUCFMEMBTYPE.MEMBTYPE_DESC,   
+         MBMEMBMASTER.COOP_ID,   
+         MBMEMBMASTER.MEMBER_NO,   
+         MBMEMBMASTER.MEMB_SURNAME,   
+         MBMEMBMASTER.MEMB_ESURNAME
+    FROM MBMEMBMASTER,   
+         MBUCFMEMBGROUP,   
+         MBUCFPRENAME,   
+         MBUCFMEMBTYPE  
+   WHERE ( mbmembmaster.coop_id = mbucfmembgroup.coop_id ) and  
+         ( mbmembmaster.coop_id = mbucfmembtype.coop_id ) and  
+         ( mbmembmaster.membtype_code = mbucfmembtype.membtype_code ) and  
+         ( mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code ) and  
+         ( mbmembmaster.prename_code = mbucfprename.prename_code )</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MEMBGROUP_CODE" DataSetColumn="MEMBGROUP_CODE" />
+              <Mapping SourceColumn="MEMBGROUP_DESC" DataSetColumn="MEMBGROUP_DESC" />
+              <Mapping SourceColumn="PRENAME_DESC" DataSetColumn="PRENAME_DESC" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_ENAME" DataSetColumn="MEMB_ENAME" />
+              <Mapping SourceColumn="MEMBER_STATUS" DataSetColumn="MEMBER_STATUS" />
+              <Mapping SourceColumn="MEMBER_DATE" DataSetColumn="MEMBER_DATE" />
+              <Mapping SourceColumn="RESIGN_STATUS" DataSetColumn="RESIGN_STATUS" />
+              <Mapping SourceColumn="RESIGN_DATE" DataSetColumn="RESIGN_DATE" />
+              <Mapping SourceColumn="MEMBTYPE_CODE" DataSetColumn="MEMBTYPE_CODE" />
+              <Mapping SourceColumn="MEMBTYPE_DESC" DataSetColumn="MEMBTYPE_DESC" />
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="MEMB_ESURNAME" DataSetColumn="MEMB_ESURNAME" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="kpmastreceivedetTableAdapter" GeneratorDataComponentClassName="kpmastreceivedetTableAdapter" Name="kpmastreceivedet" UserDataComponentName="kpmastreceivedetTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>  SELECT kpmastreceivedet.coop_id,   
+         kpmastreceivedet.kpslip_no,   
+         kpmastreceivedet.seq_no,   
+         kpucfkeepitemtype.keepitemtype_code,   
+         kpucfkeepitemtype.keepitemtype_desc,   
+         kpmastreceivedet.shrlontype_code,   
+         kpmastreceivedet.loancontract_no,   
+         kpmastreceivedet.description,   
+         kpmastreceivedet.principal_payment,   
+         kpmastreceivedet.interest_payment,   
+         kpmastreceivedet.item_payment,   
+         kpmastreceivedet.principal_balance,   
+         kpmastreceivedet.keepitem_status,   
+         keepitem_status as bfkeepitem_status,   
+         kpucfkeepitemtype.keepitemtype_grp,   
+         kpmastreceivedet.bizzcoop_id,   
+         kpmastreceivedet.cancel_id,   
+         kpmastreceivedet.cancel_accid  
+    FROM kpmastreceivedet,   
+         kpucfkeepitemtype  
+   WHERE ( kpucfkeepitemtype.coop_id = kpmastreceivedet.coop_id ) and  
+         ( kpucfkeepitemtype.keepitemtype_code = kpmastreceivedet.keepitemtype_code )</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="KPSLIP_NO" DataSetColumn="KPSLIP_NO" />
+              <Mapping SourceColumn="SEQ_NO" DataSetColumn="SEQ_NO" />
+              <Mapping SourceColumn="KEEPITEMTYPE_CODE" DataSetColumn="KEEPITEMTYPE_CODE" />
+              <Mapping SourceColumn="KEEPITEMTYPE_DESC" DataSetColumn="KEEPITEMTYPE_DESC" />
+              <Mapping SourceColumn="SHRLONTYPE_CODE" DataSetColumn="SHRLONTYPE_CODE" />
+              <Mapping SourceColumn="LOANCONTRACT_NO" DataSetColumn="LOANCONTRACT_NO" />
+              <Mapping SourceColumn="DESCRIPTION" DataSetColumn="DESCRIPTION" />
+              <Mapping SourceColumn="PRINCIPAL_PAYMENT" DataSetColumn="PRINCIPAL_PAYMENT" />
+              <Mapping SourceColumn="INTEREST_PAYMENT" DataSetColumn="INTEREST_PAYMENT" />
+              <Mapping SourceColumn="ITEM_PAYMENT" DataSetColumn="ITEM_PAYMENT" />
+              <Mapping SourceColumn="PRINCIPAL_BALANCE" DataSetColumn="PRINCIPAL_BALANCE" />
+              <Mapping SourceColumn="KEEPITEM_STATUS" DataSetColumn="KEEPITEM_STATUS" />
+              <Mapping SourceColumn="BFKEEPITEM_STATUS" DataSetColumn="BFKEEPITEM_STATUS" />
+              <Mapping SourceColumn="KEEPITEMTYPE_GRP" DataSetColumn="KEEPITEMTYPE_GRP" />
+              <Mapping SourceColumn="BIZZCOOP_ID" DataSetColumn="BIZZCOOP_ID" />
+              <Mapping SourceColumn="CANCEL_ID" DataSetColumn="CANCEL_ID" />
+              <Mapping SourceColumn="CANCEL_ACCID" DataSetColumn="CANCEL_ACCID" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MEMBGROUP_CODE" msprop:Generator_ColumnVarNameInTable="columnMEMBGROUP_CODE" msprop:Generator_ColumnPropNameInRow="MEMBGROUP_CODE" msprop:Generator_ColumnPropNameInTable="MEMBGROUP_CODEColumn" msprop:Generator_UserColumnName="MEMBGROUP_CODE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="14" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBGROUP_DESC" msprop:Generator_ColumnVarNameInTable="columnMEMBGROUP_DESC" msprop:Generator_ColumnPropNameInRow="MEMBGROUP_DESC" msprop:Generator_ColumnPropNameInTable="MEMBGROUP_DESCColumn" msprop:Generator_UserColumnName="MEMBGROUP_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRENAME_DESC" msprop:Generator_ColumnVarNameInTable="columnPRENAME_DESC" msprop:Generator_ColumnPropNameInRow="PRENAME_DESC" msprop:Generator_ColumnPropNameInTable="PRENAME_DESCColumn" msprop:Generator_UserColumnName="PRENAME_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_ENAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_ENAME" msprop:Generator_ColumnPropNameInRow="MEMB_ENAME" msprop:Generator_ColumnPropNameInTable="MEMB_ENAMEColumn" msprop:Generator_UserColumnName="MEMB_ENAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBER_STATUS" msprop:Generator_ColumnVarNameInTable="columnMEMBER_STATUS" msprop:Generator_ColumnPropNameInRow="MEMBER_STATUS" msprop:Generator_ColumnPropNameInTable="MEMBER_STATUSColumn" msprop:Generator_UserColumnName="MEMBER_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="MEMBER_DATE" msprop:Generator_ColumnVarNameInTable="columnMEMBER_DATE" msprop:Generator_ColumnPropNameInRow="MEMBER_DATE" msprop:Generator_ColumnPropNameInTable="MEMBER_DATEColumn" msprop:Generator_UserColumnName="MEMBER_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="RESIGN_STATUS" msprop:Generator_ColumnVarNameInTable="columnRESIGN_STATUS" msprop:Generator_ColumnPropNameInRow="RESIGN_STATUS" msprop:Generator_ColumnPropNameInTable="RESIGN_STATUSColumn" msprop:Generator_UserColumnName="RESIGN_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RESIGN_DATE" msprop:Generator_ColumnVarNameInTable="columnRESIGN_DATE" msprop:Generator_ColumnPropNameInRow="RESIGN_DATE" msprop:Generator_ColumnPropNameInTable="RESIGN_DATEColumn" msprop:Generator_UserColumnName="RESIGN_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="MEMBTYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnMEMBTYPE_CODE" msprop:Generator_ColumnPropNameInRow="MEMBTYPE_CODE" msprop:Generator_ColumnPropNameInTable="MEMBTYPE_CODEColumn" msprop:Generator_UserColumnName="MEMBTYPE_CODE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBTYPE_DESC" msprop:Generator_ColumnVarNameInTable="columnMEMBTYPE_DESC" msprop:Generator_ColumnPropNameInRow="MEMBTYPE_DESC" msprop:Generator_ColumnPropNameInTable="MEMBTYPE_DESCColumn" msprop:Generator_UserColumnName="MEMBTYPE_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_ESURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_ESURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_ESURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_ESURNAMEColumn" msprop:Generator_UserColumnName="MEMB_ESURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="recv_period" msprop:Generator_ColumnVarNameInTable="columnrecv_period" msprop:Generator_ColumnPropNameInRow="recv_period" msprop:Generator_ColumnPropNameInTable="recv_periodColumn" msprop:Generator_UserColumnName="recv_period" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_name" msdata:ReadOnly="true" msdata:Expression="iif( prename_desc=null , '' , trim( prename_desc ) ) + iif( memb_name=null , '' , trim( memb_name ) + ' ' ) + iif( memb_surname=null , '' , trim( memb_surname ) )" msprop:Generator_ColumnVarNameInTable="columncp_name" msprop:Generator_ColumnPropNameInRow="cp_name" msprop:Generator_ColumnPropNameInTable="cp_nameColumn" msprop:Generator_UserColumnName="cp_name" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_ename" msdata:ReadOnly="true" msdata:Expression="iif( memb_ename =null, '' , trim( memb_ename ) + ' ' ) +iif(memb_esurname=null , '' , trim( memb_esurname ) )" msprop:Generator_ColumnVarNameInTable="columncp_ename" msprop:Generator_ColumnPropNameInRow="cp_ename" msprop:Generator_ColumnPropNameInTable="cp_enameColumn" msprop:Generator_UserColumnName="cp_ename" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_membgrp" msdata:ReadOnly="true" msdata:Expression="iif( membgroup_code=null , '' ,  trim( membgroup_code ) + ' : ' ) + iif( membgroup_desc=null , '' ,  trim( membgroup_desc ) )" msprop:Generator_ColumnVarNameInTable="columncp_membgrp" msprop:Generator_ColumnPropNameInRow="cp_membgrp" msprop:Generator_ColumnPropNameInTable="cp_membgrpColumn" msprop:Generator_UserColumnName="cp_membgrp" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_membtyp" msdata:ReadOnly="true" msdata:Expression="iif( membtype_code=null, '' , membtype_code + ' : ' ) + iif(membtype_desc=null , '' ,  trim( membtype_desc ) )" msprop:Generator_ColumnVarNameInTable="columncp_membtyp" msprop:Generator_ColumnPropNameInRow="cp_membtyp" msprop:Generator_ColumnPropNameInTable="cp_membtypColumn" msprop:Generator_UserColumnName="cp_membtyp" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="kpmastreceivedet" msprop:Generator_TableClassName="kpmastreceivedetDataTable" msprop:Generator_TableVarName="tablekpmastreceivedet" msprop:Generator_RowChangedName="kpmastreceivedetRowChanged" msprop:Generator_TablePropName="kpmastreceivedet" msprop:Generator_RowDeletingName="kpmastreceivedetRowDeleting" msprop:Generator_RowChangingName="kpmastreceivedetRowChanging" msprop:Generator_RowEvHandlerName="kpmastreceivedetRowChangeEventHandler" msprop:Generator_RowDeletedName="kpmastreceivedetRowDeleted" msprop:Generator_RowClassName="kpmastreceivedetRow" msprop:Generator_UserTableName="kpmastreceivedet" msprop:Generator_RowEvArgName="kpmastreceivedetRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="KPSLIP_NO" msprop:Generator_ColumnVarNameInTable="columnKPSLIP_NO" msprop:Generator_ColumnPropNameInRow="KPSLIP_NO" msprop:Generator_ColumnPropNameInTable="KPSLIP_NOColumn" msprop:Generator_UserColumnName="KPSLIP_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="12" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SEQ_NO" msprop:Generator_ColumnVarNameInTable="columnSEQ_NO" msprop:Generator_ColumnPropNameInRow="SEQ_NO" msprop:Generator_ColumnPropNameInTable="SEQ_NOColumn" msprop:Generator_UserColumnName="SEQ_NO" type="xs:decimal" />
+              <xs:element name="KEEPITEMTYPE_CODE" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnKEEPITEMTYPE_CODE" msprop:Generator_ColumnPropNameInRow="KEEPITEMTYPE_CODE" msprop:Generator_ColumnPropNameInTable="KEEPITEMTYPE_CODEColumn" msprop:Generator_UserColumnName="KEEPITEMTYPE_CODE">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="KEEPITEMTYPE_DESC" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnKEEPITEMTYPE_DESC" msprop:Generator_ColumnPropNameInRow="KEEPITEMTYPE_DESC" msprop:Generator_ColumnPropNameInTable="KEEPITEMTYPE_DESCColumn" msprop:Generator_UserColumnName="KEEPITEMTYPE_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SHRLONTYPE_CODE" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSHRLONTYPE_CODE" msprop:Generator_ColumnPropNameInRow="SHRLONTYPE_CODE" msprop:Generator_ColumnPropNameInTable="SHRLONTYPE_CODEColumn" msprop:Generator_UserColumnName="SHRLONTYPE_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LOANCONTRACT_NO" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnLOANCONTRACT_NO" msprop:Generator_ColumnPropNameInRow="LOANCONTRACT_NO" msprop:Generator_ColumnPropNameInTable="LOANCONTRACT_NOColumn" msprop:Generator_UserColumnName="LOANCONTRACT_NO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DESCRIPTION" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnDESCRIPTION" msprop:Generator_ColumnPropNameInRow="DESCRIPTION" msprop:Generator_ColumnPropNameInTable="DESCRIPTIONColumn" msprop:Generator_UserColumnName="DESCRIPTION" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PRINCIPAL_PAYMENT" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPRINCIPAL_PAYMENT" msprop:Generator_ColumnPropNameInRow="PRINCIPAL_PAYMENT" msprop:Generator_ColumnPropNameInTable="PRINCIPAL_PAYMENTColumn" msprop:Generator_UserColumnName="PRINCIPAL_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="INTEREST_PAYMENT" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnINTEREST_PAYMENT" msprop:Generator_ColumnPropNameInRow="INTEREST_PAYMENT" msprop:Generator_ColumnPropNameInTable="INTEREST_PAYMENTColumn" msprop:Generator_UserColumnName="INTEREST_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ITEM_PAYMENT" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnITEM_PAYMENT" msprop:Generator_ColumnPropNameInRow="ITEM_PAYMENT" msprop:Generator_ColumnPropNameInTable="ITEM_PAYMENTColumn" msprop:Generator_UserColumnName="ITEM_PAYMENT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PRINCIPAL_BALANCE" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPRINCIPAL_BALANCE" msprop:Generator_ColumnPropNameInRow="PRINCIPAL_BALANCE" msprop:Generator_ColumnPropNameInTable="PRINCIPAL_BALANCEColumn" msprop:Generator_UserColumnName="PRINCIPAL_BALANCE" type="xs:decimal" minOccurs="0" />
+              <xs:element name="KEEPITEM_STATUS" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnKEEPITEM_STATUS" msprop:Generator_ColumnPropNameInRow="KEEPITEM_STATUS" msprop:Generator_ColumnPropNameInTable="KEEPITEM_STATUSColumn" msprop:Generator_UserColumnName="KEEPITEM_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="BFKEEPITEM_STATUS" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBFKEEPITEM_STATUS" msprop:Generator_ColumnPropNameInRow="BFKEEPITEM_STATUS" msprop:Generator_ColumnPropNameInTable="BFKEEPITEM_STATUSColumn" msprop:Generator_UserColumnName="BFKEEPITEM_STATUS" type="xs:decimal" minOccurs="0" />
+              <xs:element name="KEEPITEMTYPE_GRP" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnKEEPITEMTYPE_GRP" msprop:Generator_ColumnPropNameInRow="KEEPITEMTYPE_GRP" msprop:Generator_ColumnPropNameInTable="KEEPITEMTYPE_GRPColumn" msprop:Generator_UserColumnName="KEEPITEMTYPE_GRP" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BIZZCOOP_ID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnBIZZCOOP_ID" msprop:Generator_ColumnPropNameInRow="BIZZCOOP_ID" msprop:Generator_ColumnPropNameInTable="BIZZCOOP_IDColumn" msprop:Generator_UserColumnName="BIZZCOOP_ID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CANCEL_ID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCANCEL_ID" msprop:Generator_ColumnPropNameInRow="CANCEL_ID" msprop:Generator_ColumnPropNameInTable="CANCEL_IDColumn" msprop:Generator_UserColumnName="CANCEL_ID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CANCEL_ACCID" msprop:Generator_ColumnVarNameInTable="columnCANCEL_ACCID" msprop:Generator_ColumnPropNameInRow="CANCEL_ACCID" msprop:Generator_ColumnPropNameInTable="CANCEL_ACCIDColumn" msprop:Generator_UserColumnName="CANCEL_ACCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cp_kpitemtype_desc" msdata:ReadOnly="true" msdata:Expression="keepitemtype_code+' '+keepitemtype_desc" msprop:Generator_ColumnVarNameInTable="columncp_kpitemtype_desc" msprop:Generator_ColumnPropNameInRow="cp_kpitemtype_desc" msprop:Generator_ColumnPropNameInTable="cp_kpitemtype_descColumn" msprop:Generator_UserColumnName="cp_kpitemtype_desc" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_shrlon" msdata:ReadOnly="true" msdata:Expression="shrlontype_code+' '+loancontract_no" msprop:Generator_ColumnVarNameInTable="columncp_shrlon" msprop:Generator_ColumnPropNameInRow="cp_shrlon" msprop:Generator_ColumnPropNameInTable="cp_shrlonColumn" msprop:Generator_UserColumnName="cp_shrlon" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DataTable1" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:MEMBER_NO" />
+    </xs:unique>
+    <xs:unique name="kpmastreceivedet_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:kpmastreceivedet" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:KPSLIP_NO" />
+      <xs:field xpath="mstns:SEQ_NO" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

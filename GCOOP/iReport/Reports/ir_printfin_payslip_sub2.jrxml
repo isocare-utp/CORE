@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_printfin_receipt_sub2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e880175c-8a70-4127-9402-28041feb1dc0">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_slipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT	finslip.slip_no,
+		 	finslip.cash_type,
+	 		finslip.entry_date,
+	  		finslip.pay_towhom,
+	  		finslip.item_amtnet,
+			finslip.member_no,
+		 	ft_readtbaht( finslip.item_amtnet ) AS money_thaibaht,
+	  		finslipdet.slipitem_desc,
+			FINSLIPDET.ITEMPAY_AMT,
+	  		finslipdet.itempayamt_net,
+		 	amsecusers.full_name ,
+			mbucfmembgroup.membgroup_desc ,
+			 FINSLIP.RECEIPT_NO
+FROM 	finslip
+left join  finslipdet on finslip.coop_id = finslipdet.coop_id and finslip.slip_no = finslipdet.slip_no
+left join  amsecusers on finslip.coop_id = amsecusers.coop_id and trim(finslip.entry_id) = trim( amsecusers.user_name )
+left join  mbmembmaster on finslip.member_no = mbmembmaster.member_no
+left join  mbucfmembgroup on mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code
+WHERE
+	  		( finslip.pay_recv_status = 0 ) and
+	  		( finslip.payment_status <> -9 )	and
+			trim(finslip.slip_no)  = trim($P{as_slipno})]]>
+	</queryString>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="CASH_TYPE" class="java.lang.String"/>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp"/>
+	<field name="PAY_TOWHOM" class="java.lang.String"/>
+	<field name="ITEM_AMTNET" class="java.math.BigDecimal"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MONEY_THAIBAHT" class="java.lang.String"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="ITEMPAY_AMT" class="java.math.BigDecimal"/>
+	<field name="ITEMPAYAMT_NET" class="java.math.BigDecimal"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="RECEIPT_NO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a18ee91f-4dc8-4893-8b37-d750c57ad834" x="0" y="0" width="287" height="32"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIPITEM_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="d2990bcc-87f3-4a9f-b16f-dc538d8a0ace" x="301" y="0" width="159" height="32"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMPAY_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="884789d6-83d0-4644-9cff-77cf60ce0902">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     CMUCFBANK."BANK_DESC" AS CMUCFBANK_BANK_DESC,
+     CMUCFBANKBRANCH."BANK_CODE" AS CMUCFBANKBRANCH_BANK_CODE,
+     CMUCFBANK."BANK_CODE" AS CMUCFBANK_BANK_CODE,
+     FINBANKACCOUNT."BANK_CODE" AS FINBANKACCOUNT_BANK_CODE,
+     CMUCFBANKBRANCH."BRANCH_ID" AS CMUCFBANKBRANCH_BRANCH_ID,
+     FINBANKACCOUNT."BANKBRANCH_CODE" AS FINBANKACCOUNT_BANKBRANCH_CODE
+FROM
+     "ISCOTKS"."CMUCFBANKBRANCH" CMUCFBANKBRANCH INNER JOIN "ISCOTKS"."CMUCFBANK" CMUCFBANK ON CMUCFBANKBRANCH."BANK_CODE" = CMUCFBANK."BANK_CODE"
+     INNER JOIN "ISCOTKS"."FINBANKACCOUNT" FINBANKACCOUNT ON CMUCFBANK."BANK_CODE" = FINBANKACCOUNT."BANK_CODE"
+     AND FINBANKACCOUNT."BANKBRANCH_CODE" = CMUCFBANKBRANCH."BRANCH_ID"]]>
+	</queryString>
+	<field name="CMUCFBANK_BANK_DESC" class="java.lang.String"/>
+	<field name="CMUCFBANKBRANCH_BANK_CODE" class="java.lang.String"/>
+	<field name="CMUCFBANK_BANK_CODE" class="java.lang.String"/>
+	<field name="FINBANKACCOUNT_BANK_CODE" class="java.lang.String"/>
+	<field name="CMUCFBANKBRANCH_BRANCH_ID" class="java.lang.String"/>
+	<field name="FINBANKACCOUNT_BANKBRANCH_CODE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bae0727d-4f02-4323-84ab-b094b05fea5d" x="152" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CMUCFBANKBRANCH_BANK_CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f187438b-1294-477b-9d0b-f6898d43c698" x="256" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CMUCFBANK_BANK_CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9fe34b68-4317-4a5d-b2e3-447541523ad6" x="385" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[FINBANKACCOUNT_BANK_CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4c6c3462-d19a-4875-a996-e9531da6bb79" x="481" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[CMUCFBANKBRANCH_BRANCH_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5f5dcc53-46e5-4244-be5d-2843c94a3915" x="22" y="2" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[FINBANKACCOUNT_BANKBRANCH_CODE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b8c60386-1776-423d-af16-e8b99840d4a0" x="19" y="21" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CMUCFBANK_BANK_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eb11f8b5-db7f-4fc4-98d8-69067efd95c7" x="137" y="21" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CMUCFBANKBRANCH_BANK_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ec9cb683-5f5f-4234-a848-8268d14b7188" x="256" y="21" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CMUCFBANK_BANK_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="265130c7-5275-4d3e-a951-811f304c0304" x="371" y="21" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FINBANKACCOUNT_BANK_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a39c15f-6d71-415a-baba-faa5b154a8d2" x="481" y="21" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{CMUCFBANKBRANCH_BRANCH_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="03580d5b-f954-4ccf-81ce-52c26b062b78" x="22" y="77" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FINBANKACCOUNT_BANKBRANCH_CODE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

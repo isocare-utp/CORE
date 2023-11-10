@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_po" language="groovy" pageWidth="590" pageHeight="792" columnWidth="590" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="05721461-c180-4d43-b2a1-76658f992858">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="161"/>
+	<parameter name="as_slip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "TD_R_TD_7_01"."CRED_NO",
+         "TD_R_TD_7_01"."CRED_NAME",
+         "TD_R_TD_7_01"."CRED_ADDR",
+         "TD_R_TD_7_01"."CREDPOST_CODE",
+         "TD_R_TD_7_01"."SLIP_NO",
+         "TD_R_TD_7_01"."SLIP_DATE",
+         "TD_R_TD_7_01"."DEBT_NAME",
+         "TD_R_TD_7_01"."DEBT_ADDR",
+         "TD_R_TD_7_01"."DEBTPOST_CODE",
+         "TD_R_TD_7_01"."ENTRY_DATE",
+         "TD_R_TD_7_01"."SEQ_NO",
+         "TD_R_TD_7_01"."PRODUCT_NO",
+         "TD_R_TD_7_01"."PRODUCT_DESC",
+         "TD_R_TD_7_01"."ITEM_QTY",
+         "TD_R_TD_7_01"."UNIT_DESC",
+         "TD_R_TD_7_01"."PRODUCT_PRICE",
+         nvl("TD_R_TD_7_01"."AMT",0) as AMT ,
+         Round("TD_R_TD_7_01"."NET_AMT",2) as NET_AMT ,
+        Round("TD_R_TD_7_01"."TAX_AMT",2) as TAX_AMT ,
+         "TD_R_TD_7_01"."DEBT_PROVINCE",
+"TD_R_TD_7_01"."DEBT_PROVINCE_CODE",
+"TD_R_TD_7_01"."DEBT_DISTRICT_DESC",
+         "TD_R_TD_7_01"."DEBT_NO",
+ 	ftreadtbaht(round(net_amt,2))  as nettbaht,
+         "TD_R_TD_7_01"."DUE_DATE",
+ 	"TD_R_TD_7_01"."ENTRY_ID"
+
+    FROM "TD_R_TD_7_01"
+
+  where "TD_R_TD_7_01"."SLIP_NO" = $P{as_slip_no}]]>
+	</queryString>
+	<field name="CRED_NO" class="java.lang.String"/>
+	<field name="CRED_NAME" class="java.lang.String"/>
+	<field name="CRED_ADDR" class="java.lang.String"/>
+	<field name="CREDPOST_CODE" class="java.lang.String"/>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="DEBT_NAME" class="java.lang.String"/>
+	<field name="DEBT_ADDR" class="java.lang.String"/>
+	<field name="DEBTPOST_CODE" class="java.lang.String"/>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp"/>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="PRODUCT_NO" class="java.lang.String"/>
+	<field name="PRODUCT_DESC" class="java.lang.String"/>
+	<field name="ITEM_QTY" class="java.math.BigDecimal"/>
+	<field name="UNIT_DESC" class="java.lang.String"/>
+	<field name="PRODUCT_PRICE" class="java.math.BigDecimal"/>
+	<field name="AMT" class="java.math.BigDecimal"/>
+	<field name="NET_AMT" class="java.math.BigDecimal"/>
+	<field name="TAX_AMT" class="java.math.BigDecimal"/>
+	<field name="DEBT_PROVINCE" class="java.lang.String"/>
+	<field name="DEBT_PROVINCE_CODE" class="java.lang.String"/>
+	<field name="DEBT_DISTRICT_DESC" class="java.lang.String"/>
+	<field name="DEBT_NO" class="java.lang.String"/>
+	<field name="NETTBAHT" class="java.lang.String"/>
+	<field name="DUE_DATE" class="java.sql.Timestamp"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<variable name="AMT_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{AMT}]]></variableExpression>
+	</variable>
+	<variable name="checkgroupnumber" class="java.lang.Integer" resetType="Group" resetGroup="SLIP_NO" calculation="Count">
+		<variableExpression><![CDATA[$V{checkgroupnumber}++]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="numpage_count" class="java.lang.Integer" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$V{numpage_count}++]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="SLIP_NO" isStartNewPage="true" isResetPageNumber="true" isReprintHeaderOnEachPage="true" footerPosition="StackAtBottom">
+		<groupExpression><![CDATA[$F{SLIP_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="329">
+				<textField>
+					<reportElement uuid="50d46f4d-ceae-4efc-86f0-154224a13369" x="108" y="139" width="338" height="23"/>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Angsana New" size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CRED_NAME}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="ffa0a693-6a00-49fe-8387-da1fed3b146a" x="134" y="187" width="385" height="23"/>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Angsana New" size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DEBT_NAME}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="66901f21-a44e-42da-9538-2d7251896d9b" x="77" y="210" width="382" height="20"/>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( $F{DEBT_ADDR}? $F{DEBT_ADDR} : " " )]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4984ddbc-1f0a-47f1-ae3a-60cdcc249b70" x="457" y="132" width="116" height="23"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SLIP_NO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="dcce625e-dbe3-4df0-958e-1ab80a277e77" x="456" y="160" width="100" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="9a7931b1-6134-4f83-8c32-c222d1c8f1ce" x="493" y="210" width="96" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{DUE_DATE})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="c240131f-1082-4d4d-ab70-fe13f99fe7d6" x="64" y="142" width="39" height="20"/>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CRED_NO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="c7f43508-8b8f-4cc7-a851-0649c8cc2601" x="64" y="160" width="54" height="20"/>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DEBT_NO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="f33626da-930c-448a-bb2d-9b06a1ba6231" x="77" y="231" width="382" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( $F{DEBT_PROVINCE_CODE}=="10" ? "เขต"+( $F{DEBT_DISTRICT_DESC} ? $F{DEBT_DISTRICT_DESC} : "" )+"  "+( $F{DEBT_PROVINCE} ? $F{DEBT_PROVINCE} : "" )+"  "+( $F{DEBTPOST_CODE} ? $F{DEBTPOST_CODE} :"" )
+    : ( $F{DEBT_DISTRICT_DESC} ? "อ. "+$F{DEBT_DISTRICT_DESC} : "" )+"  จ. "+( $F{DEBT_PROVINCE} ? $F{DEBT_PROVINCE} : "" )+" "+( $F{DEBTPOST_CODE} ? $F{DEBTPOST_CODE} : "" ) )]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="96d46fc4-58db-4893-8a13-47cb5c513e58" x="456" y="237" width="133" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["เจ้าหน้าที่ "+( $F{ENTRY_ID}=="Phakmanchu"? "ภัคมัญชุ สุขจร"
+    : ( $F{ENTRY_ID}=="jutatip"? "จุฑาทิพ กลิ่นเดช"
+        : ( $F{ENTRY_ID}=="Jutatip"? "จุฑาทิพ กลิ่นเดช"
+            : $F{ENTRY_ID}=="phakmanchu"? "ภัคมัญชุ สุขจร"
+              : $F{ENTRY_ID}=="piyasakul"? "ปิยสกุล อารยางกูร"
+                : $F{ENTRY_ID}=="Piyasakul"? "ปิยสกุล อารยางกูร"
+                    : $F{ENTRY_ID}=="anaek"? "เอนก ฤาวัฒนะ"
+                        : $F{ENTRY_ID}=="Anaek"? "เอนก ฤาวัฒนะ"
+                            : $F{ENTRY_ID}=="Sompit"? "สมพิศ เกษตระกูล"
+                                : $F{ENTRY_ID}=="sompit"? "สมพิศ เกษตระกูล"
+                                    : "" ) ))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="275">
+				<textField pattern="#,##0.00">
+					<reportElement uuid="de6321c8-665e-4f03-8081-a69b00de5534" x="483" y="27" width="100" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TAX_AMT}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="081f3d99-1ded-434f-9fdc-301d0aa12634" x="483" y="3" width="100" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{AMT_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="5e244331-5cf0-4bb3-be61-41d523ab5e02" x="483" y="50" width="101" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NET_AMT}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="2dbbce7a-3c71-4d6c-a0ce-586be567e7bd" x="57" y="50" width="400" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA["("+$F{NETTBAHT}+")"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="b73f6aeb-84a5-4be1-a1dd-6ca04f300924" x="240" y="98" width="333" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DEBT_NAME}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement uuid="b48ed362-b4c7-401f-ac63-21812cba481c" x="18" y="121" width="154" height="21"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( new SimpleDateFormat("dd / MM / yyyy",new Locale("th","TH")).format($F{DUE_DATE}) ? new SimpleDateFormat("dd / MM / yyyy",new Locale("th","TH")).format($F{DUE_DATE}) : "" )]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b5cd5123-7778-48bf-b380-8221096b0532" x="376" y="-16" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="565e5fbc-5eb0-4413-b303-6001e8ef5762" x="86" y="-16" width="229" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="05eb2023-9cf0-406e-acb1-a4ec6e348078" x="508" y="-16" width="77" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{AMT}?new DecimalFormat("#,##0.00").format($F{AMT}):0.00)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4dd28d73-a72c-4acd-b975-91a170488f34" x="424" y="-16" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{PRODUCT_PRICE}?new DecimalFormat("#,##0.00").format($F{PRODUCT_PRICE}):0.00)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="98122343-64d4-4566-9126-4dff2921cbbd" x="328" y="-16" width="41" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{ITEM_QTY}?new DecimalFormat("#,##0").format($F{ITEM_QTY}):0)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="da333276-4a9f-4d7c-8aa2-08ba06b2b246" x="26" y="-16" width="47" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="12fd48f9-53b3-48c6-ba49-ca623dfbd250" x="2" y="-16" width="24" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SEQ_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c00e60bd-c337-4a42-9f13-5e9459ba97ae" x="568" y="-16" width="22" height="20">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{numpage_count}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="709">
+			<printWhenExpression><![CDATA[($V{numpage_count}>10? true : false )]]></printWhenExpression>
+		</band>
+	</detail>
+</jasperReport>

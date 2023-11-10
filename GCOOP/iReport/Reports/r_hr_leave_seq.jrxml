@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_hr_train" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9142f1e4-3b1f-4428-b754-988017939006">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="21"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_eempno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT m.id,
+m.name ,
+to_number(to_char($P{date1},'yyyy')) + 543  as year_show,
+'รหัสพนักงาน :' || ' ' || trim(he.emp_no) as hremployee_emp_no,
+mp.prename_desc||he.emp_name||'  '||he.emp_surname as emp_name,
+TO_NUMBER(NVL((select HL2.leave_001_s from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_001_s,
+TO_NUMBER(NVL((select HL2.leave_001_c from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_001_c,
+TO_NUMBER(NVL((select HL2.leave_002_s from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_002_s,
+TO_NUMBER(NVL((select HL2.leave_002_c from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_002_c,
+TO_NUMBER(NVL((select HL2.leave_004_s from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_004_s,
+TO_NUMBER(NVL((select HL2.leave_004_c from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_004_c,
+TO_NUMBER(NVL((select HL2.leave_006_s from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_006_s,
+TO_NUMBER(NVL((select HL2.leave_006_c from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as leave_006_c,
+TO_NUMBER(NVL((select HL2.late_date from HRCHECKLEAVE HL2 where  HL2.month = m.id and HL2.year = to_number(to_char($P{date1},'yyyy')) and trim(HL2.emp_no) = trim(he.emp_no) ),0)) as late_date
+
+FROM month m 	left outer join HRCHECKLEAVE hl on m.id = hl.month and trim(hl.emp_no) between trim($P{as_sempno}) and trim($P{as_eempno}) ,
+						hremployee he ,
+						mbucfprename mp
+where trim(he.emp_no) between trim($P{as_sempno}) and trim($P{as_eempno})
+and m.id between to_number(to_char($P{date1},'mm')) and to_number(to_char($P{date2},'mm'))
+and he.prename_code = mp.prename_code
+and he.emp_status = 1
+and he.coop_id = $P{as_coopid} group by	m.id,
+			m.name,
+			he.emp_no,
+			mp.prename_desc,
+			he.emp_name,
+			he.emp_surname
+
+order by	he.emp_no,m.id]]>
+	</queryString>
+	<field name="ID" class="java.math.BigDecimal"/>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="YEAR_SHOW" class="java.math.BigDecimal"/>
+	<field name="HREMPLOYEE_EMP_NO" class="java.lang.String"/>
+	<field name="EMP_NAME" class="java.lang.String"/>
+	<field name="LEAVE_001_S" class="java.math.BigDecimal"/>
+	<field name="LEAVE_001_C" class="java.math.BigDecimal"/>
+	<field name="LEAVE_002_S" class="java.math.BigDecimal"/>
+	<field name="LEAVE_002_C" class="java.math.BigDecimal"/>
+	<field name="LEAVE_004_S" class="java.math.BigDecimal"/>
+	<field name="LEAVE_004_C" class="java.math.BigDecimal"/>
+	<field name="LEAVE_006_S" class="java.math.BigDecimal"/>
+	<field name="LEAVE_006_C" class="java.math.BigDecimal"/>
+	<field name="LATE_DATE" class="java.math.BigDecimal"/>
+	<variable name="sum" class="java.math.BigDecimal" calculation="Sum"/>
+	<variable name="sum_001" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_001_S}]]></variableExpression>
+	</variable>
+	<variable name="sum_002" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_002_S}]]></variableExpression>
+	</variable>
+	<variable name="sum_004" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_004_S}]]></variableExpression>
+	</variable>
+	<variable name="sum_006" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_006_S}]]></variableExpression>
+	</variable>
+	<variable name="sum_late" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LATE_DATE}]]></variableExpression>
+	</variable>
+	<variable name="count_001" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_001_C}]]></variableExpression>
+	</variable>
+	<variable name="count_002" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_002_C}]]></variableExpression>
+	</variable>
+	<variable name="count_004" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_004_C}]]></variableExpression>
+	</variable>
+	<variable name="count_006" class="java.math.BigDecimal" resetType="Group" resetGroup="group_empno" calculation="Sum">
+		<variableExpression><![CDATA[$F{LEAVE_006_C}]]></variableExpression>
+	</variable>
+	<group name="group_empno" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{HREMPLOYEE_EMP_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="35">
+				<rectangle>
+					<reportElement uuid="dfaa82d0-f697-4127-8f8a-d7c1fb10572a" x="0" y="0" width="93" height="34"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="0836ab91-0e65-4f25-bb3c-4b9cdc68c9e2" x="93" y="0" width="86" height="16"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="56e35ce7-aad2-411e-8b1c-7f818951d69e" x="449" y="0" width="106" height="34" isPrintWhenDetailOverflows="true"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="2c0890ad-4446-4fe2-afe3-f167c54e62ef" x="450" y="0" width="105" height="34"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[รวมข้อมูลการสาย (ครั้ง)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement uuid="9f8b6a95-f388-409b-97d1-43b3e5d35311" x="179" y="0" width="86" height="16"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="5685aa6b-6f81-416a-9ac2-43a3c69bb9a7" x="265" y="0" width="85" height="16"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="32ec1f9d-41fd-40e8-8391-bbae76f615ea" x="350" y="0" width="99" height="16"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="981348a9-e5bc-43e1-9d3f-bfd51731f3fb" x="93" y="16" width="42" height="18"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[วัน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b4f3cccc-4353-4e78-bf75-007bb5758acd" x="134" y="16" width="45" height="18"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b4344734-9a1c-48b4-9e8a-d87ac8fca6a1" x="179" y="16" width="42" height="19"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[วัน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="97bf8863-ab96-4144-9177-37431b8db1a3" x="220" y="16" width="45" height="19"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7d94d255-442c-45cc-87de-64715047ad9f" x="265" y="16" width="42" height="19"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ชั่วโมง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6431ccd7-d685-49b9-a507-7764841c4e59" x="306" y="16" width="44" height="19"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="87b6a9e9-1705-4947-90b2-0676f87a345d" x="351" y="16" width="43" height="19"/>
+					<box>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[วัน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="993f5c55-e407-43f7-bb20-4b24d75b7315" x="394" y="16" width="55" height="19"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0470cd4b-936c-4f5b-934b-c828dd7aa581" x="93" y="1" width="86" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ลาป่วย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bde295bb-ba68-493f-b1ad-b67473bded2f" x="179" y="1" width="86" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ลากิจ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="d085650b-e2a4-439a-a794-c3f3591307a4" x="264" y="0" width="86" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ลาชั่วโมง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0f5dd3c5-7c60-401d-9aef-15eea0f2cf25" x="351" y="1" width="97" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ลาพักผ่อน]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="62654415-d258-4632-909d-9e8318094870" x="93" y="0" width="86" height="16" isPrintWhenDetailOverflows="true"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+				</textField>
+				<textField>
+					<reportElement uuid="85553b1a-0f9b-4f9a-ae96-4d645332e98b" x="0" y="1" width="93" height="33"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ประจำเดือน" +
+"(ปี" + " " + $F{NAME} + ")"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="226">
+				<staticText>
+					<reportElement uuid="5c898364-8990-4249-abd9-971395e53d88" x="250" y="91" width="48" height="27"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[วัน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7ea4dd40-e3c3-4b53-a3c2-32e46ac34c0e" x="143" y="91" width="46" height="27"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ลาป่วย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7219b195-e36e-407e-b4f5-fa0476e68cbd" x="194" y="59" width="155" height="18"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="15" isBold="true"/>
+					</textElement>
+					<text><![CDATA[สรุป]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="aed581e9-bf1a-408a-86eb-b7da96d14177" x="142" y="118" width="47" height="29"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ลาชั่วโมง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bf14197b-af10-4833-bc7b-edc42882200f" x="142" y="147" width="47" height="23"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ลาพักผ่อน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="c73c96b0-2325-49e7-870b-d3e54ece7620" x="142" y="174" width="47" height="23"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[มาสาย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4ae0437e-2f7d-4d1c-a440-9bb84699390f" x="250" y="118" width="48" height="29"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[วัน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="3cb009b4-0f19-4e6c-b6a2-53e7464a6f7c" x="250" y="147" width="48" height="23"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[วัน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f626e216-be85-4ea1-a3d8-22eda453aa41" x="251" y="174" width="48" height="23"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="bd752aee-3a03-486d-9aa9-59ce6da65c0c" x="368" y="147" width="48" height="23"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="5f8fd3d7-65d1-43c2-8a2c-55bda1d2b650" x="368" y="91" width="48" height="27"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ae9f09dd-9ddd-470f-ab80-72710d1ccb33" x="368" y="118" width="48" height="29"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ครั้ง]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="b45de846-471f-4a0d-a0ea-4bf21d0fcd5a" x="193" y="92" width="50" height="27"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_001}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7e64e016-a4ff-4994-800f-ac1fabb9a076" x="194" y="119" width="50" height="29"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_004}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="b6401e98-13a0-4a87-9e21-eea8ae9b5c8f" x="194" y="148" width="50" height="23"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_006}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="0050beb9-cdcb-436e-87bd-68e658dec086" x="307" y="92" width="50" height="27"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_001}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="6affd63c-a68f-47c0-9783-183ab3fa4350" x="307" y="119" width="50" height="29"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_004}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="6de5d065-ad00-4dc1-8017-42ddb71f94cc" x="307" y="148" width="50" height="23"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_006}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e9065a9b-afde-4797-a581-9eb48653750e" x="195" y="176" width="50" height="23"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_late}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="cab97b2c-32f5-4def-93b3-dbde49ec3eb1" x="93" y="0" width="42" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_001}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="16c4e62f-b0fc-4262-a7c5-4c0413a7ae01" x="265" y="0" width="42" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_004}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="25dd7e4e-192d-4686-ad90-d3e954a9cf37" x="350" y="0" width="44" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_006}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d7d6b21b-c542-4de3-87f6-32e83f019ef6" x="135" y="0" width="44" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_001}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e90a2580-5f25-4620-8868-7f29f4517910" x="307" y="0" width="43" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_004}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="fd5648be-1d86-40f3-85ff-4270ec0c66df" x="394" y="0" width="55" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_006}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="019a451d-97e5-4831-b7e4-fcda9f05af68" x="449" y="0" width="106" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_late}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7c2d766f-d4eb-47a9-8f76-7f081245166d" x="178" y="0" width="43" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sum_002}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="6ac86b55-7fb9-41ae-a93a-3d9bbd474dd2" x="221" y="0" width="44" height="26"/>
+					<box>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{count_002}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="16666534-2ef6-495b-80ca-2ffc8c248aad" x="0" y="0" width="93" height="26"/>
+					<box>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[รวม]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="266a01ec-34a4-45f1-bc75-fd94c4bc2b28" x="84" y="14" width="155" height="32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ประวัติการลา]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2d8e6924-a770-4b52-b587-5395e9c36b73" x="197" y="14" width="305" height="32"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMP_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eb2e39e5-3b1f-46d7-9d94-ffc299c99e8d" x="331" y="14" width="116" height="32"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HREMPLOYEE_EMP_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="958fc129-d452-41a0-8759-2fa59e89a95c" x="0" y="55" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="15" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["    ตั้งแต่ "+new SimpleDateFormat("d MMMMM yyyy",new Locale("th","TH")).format($P{date1})+" ถึง "+new SimpleDateFormat("d MMMMM yyyy",new Locale("th","TH")).format($P{date2})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="a6dc9793-be4e-425a-b468-2fdab46ae0d6" x="0" y="-1" width="93" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="e76e3b08-c3a5-4e40-821b-9586633d112d" x="265" y="-1" width="42" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f9bae23a-b014-41e4-b091-e190789c5100" x="0" y="0" width="93" height="28" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+			</textField>
+			<rectangle>
+				<reportElement uuid="340b9937-0e58-449a-8335-f6fc552e7650" x="449" y="-1" width="106" height="30"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c65219c8-7700-430d-8934-5ecf1fb038c8" x="265" y="0" width="85" height="29" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+			</textField>
+			<rectangle>
+				<reportElement uuid="cec318aa-7d7b-485c-8b7a-2096839d0ec6" x="93" y="-1" width="42" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="12ba1179-94f5-4ef8-9c71-a1ca7a0dc8f0" x="450" y="0" width="105" height="28"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+			</textField>
+			<textField>
+				<reportElement uuid="a270c70a-a305-40ae-89d5-be46610e41d9" x="0" y="0" width="93" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="26f75244-1d81-4d38-9e57-f65d74edf697" x="179" y="0" width="86" height="29" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+			</textField>
+			<rectangle>
+				<reportElement uuid="9e11f0f7-1482-4161-9bdf-8ac90a154d2c" x="394" y="-1" width="55" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e1369abd-39fe-4301-a7f2-11df086aa529" x="351" y="0" width="98" height="29" isPrintWhenDetailOverflows="true"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+			</textField>
+			<textField>
+				<reportElement uuid="00018004-7f64-4077-94c7-48a18c47e2fd" x="450" y="0" width="105" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LATE_DATE}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="2c6bf54e-e04d-4e1b-9b2f-bd40f93079bf" x="135" y="-1" width="44" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0b6faf4c-1d40-46f3-8b1e-bdf4f003d4a7" x="179" y="-1" width="42" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="3106393c-98b9-472c-81d5-3cdd9a943b8a" x="221" y="-1" width="44" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9b877653-96ba-40ba-b0d1-59987bf60474" x="307" y="-1" width="43" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="194d473d-1441-4b3d-b9a9-14e1dd4a46a2" x="350" y="-1" width="44" height="30" isPrintWhenDetailOverflows="true"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="be10ca5b-8f60-4b0c-9916-8541c7e90cf5" x="94" y="0" width="41" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_001_S}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bb24e1b0-7311-48d9-a9e6-372ad38140f4" x="135" y="0" width="45" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_001_C}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="06c15c0c-54d0-4c54-aa5f-02d3a49bd258" x="180" y="1" width="41" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_002_S}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d0003574-00a8-4a5a-a43b-916b34aa8f68" x="267" y="0" width="41" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_004_S}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="feaba598-a399-49aa-a913-85836232c378" x="351" y="1" width="44" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_006_S}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="beb03e59-807d-4a90-b3de-1bb5a5bb9c20" x="222" y="1" width="43" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_002_C}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5bfef366-c4ee-4a76-b2d1-b0faebd339e5" x="308" y="1" width="43" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_004_C}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cdc3fd9c-84fc-4df0-8ef2-ce7136836fe9" x="395" y="1" width="54" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LEAVE_006_C}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

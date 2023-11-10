@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_fin_etc_cr" language="groovy" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbcfc38b-357d-474b-9c18-e8047db9be9f">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="52"/>
+	<subDataset name="dataset1" uuid="f3d26e6e-c396-4a21-bba4-dff61fc5ab81"/>
+	<parameter name="as_slipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+f1.slip_no,
+f1.entry_id,
+f1.operate_date,
+f1.itempay_amt,
+f1.pay_towhom,
+f1.member_no,
+f1.machine_id,
+f1.pay_recv_status,
+f1.tofrom_accid,
+f1.tax_flag,
+f1.tax_amt,
+f1.tax_rate,
+f1.item_amtnet,
+f1.vat_amt,
+m2.membgroup_code,
+m1.membgroup_desc,
+m2.address_all,
+decode(f1.cash_type,'CSH','เงินสด','CBT','เงินโอน','CHQ','เงินโอน','TRN','เงินโอนภายใน','ไม่ระบุ') as cash_type
+from finslip f1, mbucfmembgroup m1, mbmembmaster m2
+where trim(slip_no) = $P{as_slipno}
+and f1.member_no = m2.member_no
+and m2.membgroup_code = m1.membgroup_code]]>
+	</queryString>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="OPERATE_DATE" class="java.sql.Timestamp"/>
+	<field name="ITEMPAY_AMT" class="java.math.BigDecimal"/>
+	<field name="PAY_TOWHOM" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MACHINE_ID" class="java.lang.String"/>
+	<field name="PAY_RECV_STATUS" class="java.math.BigDecimal"/>
+	<field name="TOFROM_ACCID" class="java.lang.String"/>
+	<field name="TAX_FLAG" class="java.math.BigDecimal"/>
+	<field name="TAX_AMT" class="java.math.BigDecimal"/>
+	<field name="TAX_RATE" class="java.math.BigDecimal"/>
+	<field name="ITEM_AMTNET" class="java.math.BigDecimal"/>
+	<field name="VAT_AMT" class="java.math.BigDecimal"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="ADDRESS_ALL" class="java.lang.String"/>
+	<field name="CASH_TYPE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="129" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="4258247d-cc6e-45df-9f8c-47955dd413e3" x="0" y="107" width="555" height="21" backcolor="#CCCCCC"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="0a88fc22-d588-40eb-a603-29b6ac5fb719" x="0" y="0" width="555" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c549a8a5-bbdb-4a0d-bcff-e9361a55ebb2" x="0" y="47" width="38" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="535c964d-c63e-4e8f-8db2-399f7b341345" x="0" y="67" width="38" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6ecf6334-e967-4abc-b016-ecf3e2996e14" x="0" y="87" width="375" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ได้รับเงินจากสหกรณ์ออมทรัพย์พนักงานธนาคารออมสิน จำกัด ดังรายการต่อไปนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0b3c59c3-4b8f-4f74-8ffe-135d25558393" x="288" y="47" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[สังกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8e11ef74-3e8d-41d8-94ff-ec9d44b6c6ec" x="288" y="67" width="51" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7af6a9a5-64a6-4c55-a2b4-60207fdc6aa7" x="443" y="24" width="34" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b9e70a32-2c59-4cbf-9be0-b096208d8e23" x="388" y="67" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[เลขที่เอกสาร]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="3fb50c01-68de-475d-915d-893e15344d6c" x="477" y="24" width="77" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9ee3b70e-44bb-4f30-83fb-b94c918f1410" x="497" y="67" width="58" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIP_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ac872c4-0f83-47b8-a342-e67309c954c7" x="344" y="67" width="71" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="72b2c377-c6d8-4df3-8c6f-9877286ae629" x="38" y="47" width="160" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAY_TOWHOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="90fe82e9-fbcc-4ecf-bb73-037c4b34b285" x="320" y="47" width="234" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="ec3f7242-261c-479d-926b-81b77050d528" x="4" y="107" width="99" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="52f7440d-2cf8-486a-9a41-d3a603bb7ddb" x="104" y="107" width="328" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e25f964f-3e2f-47ec-ac71-c4a26fb252d3" x="433" y="107" width="121" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="45171449-ccd0-4d0a-b596-ec27a09beb0d" x="103" y="107" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="2a79dbf9-4479-4baa-b1d7-f06ced41dc00" x="432" y="107" width="1" height="21"/>
+			</line>
+			<image>
+				<reportElement uuid="8486e13c-9d71-49ac-bc4f-22eb2134ee42" x="4" y="2" width="76" height="45"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\ReportHead\\LogoPNGwhite.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="9cbca6d9-acdc-4ff9-aa10-77832c5176c2" x="38" y="67" width="250" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADDRESS_ALL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="664936c3-a4ce-4468-8cc1-d958c8c5abec" x="-1" y="24" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ใบสำคัญจ่ายเงิน"+"  ("+$F{CASH_TYPE}+")  "]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="ca5fbabd-43b4-49cc-af60-3020ae88d637" x="-1" y="0" width="555" height="12"/>
+				<subreportParameter name="as_slipno">
+					<subreportParameterExpression><![CDATA[$P{as_slipno}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["slip_fin_etc_n.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="88" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8852aded-3dad-43df-b403-9649463258d1" x="42" y="0" width="346" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[คำชี้แจง.......................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40b51a83-603e-4f71-8e75-716c9a005434" x="140" y="33" width="337" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[..................................................................................................ผู้รับเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1dbd175e-af21-477e-9a10-4ecc7f581755" x="0" y="68" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<text><![CDATA[ผู้เขียน/พิมพ์.........................................ผู้ตรวจสอบ..........................................รองผู้จัดการ.........................................ผู้จัดการ.............................................]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="3d341b50-15a3-467f-b13d-c8d852a9c3f0" x="80" y="1" width="187" height="20">
+					<printWhenExpression><![CDATA[($F{TAX_FLAG} == 1 ? true: false)]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หักภาษี ณ ที่จ่าย                        บาท"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="610ec3cc-8d85-4aef-b3ff-e987a10a2125" x="145" y="0" width="41" height="20">
+					<printWhenExpression><![CDATA[($F{TAX_FLAG} == 1 ? true: false)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TAX_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_mbshr_membtype_excel" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e17598ab-bdaf-4b88-88ba-6a54405fd775">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="member_status" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+mbmembmaster.member_no ,
+mbucfprename.prename_desc ,
+mbmembmaster.memb_name ,
+mbmembmaster.memb_surname ,
+mbucfmembgroup.membgroup_code ,
+mbucfmembgroup.membgroup_desc,
+mbmembmaster.department_code,
+mbucfdepartment.department_desc
+
+from mbmembmaster
+left join mbucfprename on mbucfprename.prename_code = mbmembmaster.prename_code
+left join mbucfmembgroup on mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code
+left join mbucfdepartment on mbucfdepartment.department_code = mbmembmaster.department_code
+
+where  mbmembmaster.coop_id = $P{coop_id}
+and mbmembmaster.department_code between $P{start_membgroup} and $P{end_membgroup}
+and mbmembmaster.member_status = $P{member_status}
+order by mbucfmembgroup.membgroup_code ASC]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="DEPARTMENT_CODE" class="java.lang.String"/>
+	<field name="DEPARTMENT_DESC" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<group name="membgroup">
+		<groupExpression><![CDATA[$F{MEMBGROUP_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<staticText>
+					<reportElement uuid="1673aa23-41f1-4e50-a6aa-c58010f7e6e3" x="0" y="0" width="43" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[สังกัด
+]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="63d2cba8-8e34-4613-936f-e33ca1402a44" x="43" y="0" width="275" height="20"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}+' : '+$F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement uuid="555b690d-249a-45dd-8409-c1160f9b715f" x="318" y="0" width="100" height="20"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[คน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2b2a3641-f84e-4a6c-b156-8d6c43b54d67" x="0" y="0" width="116" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[รวมสังกัด]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="66479a65-988b-47db-8f2c-0846ca061efd" x="116" y="0" width="157" height="20"/>
+					<textElement>
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}+' : '+$F{MEMBGROUP_DESC}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="8e66d780-adf0-43a3-aa6f-6d3ce1f93944" x="273" y="0" width="45" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="AngsanaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{membgroup_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3d8c71f4-401e-4f62-b942-ff87e9af961f" x="448" y="0" width="107" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ : " + new SimpleDateFormat("dd/MM/yyyy",new Locale ( "th", "TH" )).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e6bf7934-cd7a-4acf-9cf9-eddeae9796fb" x="0" y="20" width="43" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e4fcf51b-b4a5-4900-8c5f-b7df5a478972" x="43" y="20" width="73" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ทะเบียน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ecb0cd87-8833-4329-974c-381c22a67ae0" x="116" y="20" width="202" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f208e93b-f150-4122-b737-71dcd6eb26ec" x="0" y="0" width="448" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานสถานภาพสมาชิก]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="90d70170-17a0-4d03-93df-7bcd741af66e" x="116" y="0" width="202" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+'  '+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f93cecad-c7c0-4934-84d3-be0c326c8f15" x="43" y="0" width="73" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7ec7a647-96dd-4063-a083-3503274cd267" x="0" y="0" width="43" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{membgroup_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b9bf6b92-3b95-42c7-a1e4-530e9c995fc3" x="273" y="0" width="45" height="20"/>
+				<textElement>
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[คน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7759917-130d-472f-bc78-ef53062c8a1e" x="0" y="0" width="116" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[รวมทั้งหมด]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement uuid="904ee324-e09d-4514-862d-bfeb2667f169" x="116" y="0" width="157" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

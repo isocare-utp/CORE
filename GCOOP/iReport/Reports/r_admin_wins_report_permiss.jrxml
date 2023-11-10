@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_admin_wins_report_permiss" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="83b6a052-d810-470f-abab-453b9826d084">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="user_name" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="coop_control" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from
+(
+select au.full_name, ap.application,ap.description ,w.window_id as list_id,w.win_description as list_name,
+decode(w.window_id,(select a.window_id from amsecpermiss a where a.user_name= $P{user_name} and a.check_flag=1 and a.window_id=w.window_id and rownum=1 and a.coop_control = $P{coop_control}) ,1,0 ) as check_flag ,
+decode(w.window_id,(select a.window_id from amsecpermiss a where a.user_name= $P{user_name} and a.save_status=1 and a.window_id=w.window_id and rownum=1 and a.coop_control = $P{coop_control}) ,1,0 ) as save_status,
+1 as flag
+from amsecwins w,amsecwinsgroup g , amappstatus ap ,amsecusers au
+where g.application in (select application from amsecuseapps where user_name= $P{user_name} and coop_control = $P{coop_control})
+and w.used_flag =1
+and w.application = g.application
+and w.group_code = g.group_code
+and ap.application = g.application
+and ap.used_flag=1
+and au.user_type=1
+and au.user_name =  $P{user_name}
+and au.coop_control = $P{coop_control}
+and g.coop_control = $P{coop_control}
+and w.coop_control = $P{coop_control}
+and ap.coop_control = $P{coop_control}
+
+union all
+
+select au.full_name,ap.application,ap.description,rd.report_id as list_id,rd.report_name as list_name,
+decode(rd.report_id,(select report_id from amsecreportpermiss  where user_name= $P{user_name} and check_flag=1 and report_id=rd.report_id and rownum=1) ,1,0 ) as check_flag,
+0 as save_status,
+0 as flag
+from webreportdetail rd,webreportgroup rg ,amappstatus ap ,amsecusers au
+where ap.application in (select application from amsecuseapps where user_name= $P{user_name} and coop_control = $P{coop_control})
+and rg.application=ap.application
+and rd.group_id = rg.group_id
+and rd.used_flag=1
+and ap.used_flag=1
+and au.user_type=1
+and au.user_name =  $P{user_name}
+and au.coop_control = $P{coop_control}
+and ap.coop_control = $P{coop_control}
+)order by application,flag desc,list_id]]>
+	</queryString>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="APPLICATION" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="LIST_ID" class="java.lang.String"/>
+	<field name="LIST_NAME" class="java.lang.String"/>
+	<field name="CHECK_FLAG" class="java.math.BigDecimal"/>
+	<field name="SAVE_STATUS" class="java.math.BigDecimal"/>
+	<field name="FLAG" class="java.math.BigDecimal"/>
+	<group name="application group">
+		<groupExpression><![CDATA[$F{APPLICATION}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement uuid="2d95f7bc-e5e7-4e30-bfba-e7a9179901f4" x="497" y="8" width="43" height="20">
+						<printWhenExpression><![CDATA[( $F{FLAG}== 1 ? true : false )]]></printWhenExpression>
+					</reportElement>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[บันทึก]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="db79f7f0-ee20-4f8e-9f1b-179ccd1a4172" x="455" y="8" width="42" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[ดู]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="48d6d75d-a01f-4e3e-902f-1c5c545c654c" x="20" y="8" width="211" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="03bfaf61-19c0-4045-8d31-586f4aae974d" x="13" y="30" width="527" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="0f6d71a8-63a4-4ea0-83df-6a69642de51f" x="13" y="4" width="527" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="fbc1c2f5-ceed-47a8-8935-3e94613c4303" x="231" y="8" width="100" height="20"/>
+					<textElement textAlignment="Justified">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[( $F{FLAG}==1 ? "หน้าจอ" : "รายงาน" )]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="86">
+			<textField>
+				<reportElement uuid="8596765d-a7fe-4d0a-b073-daeaf136082a" x="231" y="61" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6fe1e77c-662e-489f-a665-214d50d14d5c" x="157" y="30" width="246" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รายงานกำหนดสิทธ์การเข้าใช้งานหน้าจอของระบบต่างๆ ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eec7635b-b797-4ac2-adfe-ed9da46c9503" x="134" y="0" width="309" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร จำกัด]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="e95a1984-456a-46a2-a9b4-2238440c7ad7" x="455" y="0" width="48" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="3a0119f9-760f-462c-b197-08c656e8b3c1" x="512" y="0" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8b38108a-1332-433a-bd5e-3e9f9cffbbd3" x="471" y="41" width="84" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เวลาที่พิมพ์ "+new SimpleDateFormat("HH:mm:ss",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d57cf837-249d-4a0b-8a80-a9d4e71e0c94" x="503" y="0" width="9" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d3417ba0-ec59-4a51-941c-9d0cf71208b1" x="428" y="21" width="127" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ "+new SimpleDateFormat("dd MMMM yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement uuid="544e87f4-2ce8-4f34-b289-00fa7591b512" x="497" y="4" width="43" height="20">
+					<printWhenExpression><![CDATA[( $F{FLAG}== 1 ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{SAVE_STATUS}==1 ? "มีสิทธิ์" : "ไม่มีสิทธิ์" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a1fe163c-b117-4fa1-8309-419bdbef7676" x="455" y="4" width="44" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{CHECK_FLAG}==1 ? "มีสิทธิ์" : "ไม่มีสิทธิ์" )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cf635371-04d3-47ef-b531-e47a23ad5457" x="19" y="5" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LIST_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="20f1afe8-97b9-4e1a-876b-4e93aebe7033" x="119" y="5" width="335" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LIST_NAME}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

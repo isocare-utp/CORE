@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loanverify_sub1" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f1c6d673-76cf-4c7e-8db5-48715e4ee080">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="member_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select loantype_desc,loancredit_max,loancredit_max,loancredit_remain from lncreditverify where member_no = $P{member_no}]]>
+	</queryString>
+	<field name="LOANTYPE_DESC" class="java.lang.String"/>
+	<field name="LOANCREDIT_MAX" class="java.math.BigDecimal"/>
+	<field name="LOANCREDIT_REMAIN" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="48270b2a-cf6a-4ac7-a705-8265e1b3a8db" x="2" y="0" width="96" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[สิทธิการกู้ของสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b28840d7-2a9a-432f-8fdd-fa1d48f6e155" x="2" y="20" width="56" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ประเภทเงินกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4beb6675-70d6-4316-982d-1ee141a06105" x="203" y="20" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สิทธิสูงสุด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47655f9b-ef76-41f3-b09b-259853795d6f" x="330" y="20" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สิทธิจริง]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="8b75ae32-a0dd-45df-b2ef-fc599bcf2561" x="556" y="0" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement uuid="842e4cac-c81d-4afc-a93d-dc097907f0eb" x="-1" y="0" width="1" height="40"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3c3e1f39-68f9-49f0-aec7-11f6b16b7309" x="2" y="0" width="200" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANTYPE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="4d064f43-c777-44aa-90e4-5c6ab136b946" x="203" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCREDIT_MAX}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="be3ee6d9-529e-497b-82d1-420254fd6de3" x="330" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCREDIT_REMAIN}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="f2423aef-e66c-438f-95e7-476deab036a7" x="556" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="5cb23040-2961-4e57-a0c7-88750372050f" x="-1" y="0" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1">
+			<line>
+				<reportElement uuid="b476d6fc-cee2-4b9e-ac9f-4fbe4b7a29fd" x="-1" y="0" width="558" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_finchqslip" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a5002ac1-b270-46e1-97e4-df6e158a9d15">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_chqbookno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ai_prndate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ai_killer" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ai_payee" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_entryid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date_onchq" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+cheque_no,
+to_whom,
+money_amt,
+date_onchq,
+FT_READTBAHT(money_amt) as amt_baht
+from fntemp
+where
+trim(chequebook_no) = $P{as_chqbookno} and
+trim(entry_id) = trim($P{as_entryid}) and
+trim(date_onchq) = $P{date_onchq} and
+trim(coop_id) = $P{as_coopid}]]>
+	</queryString>
+	<field name="CHEQUE_NO" class="java.lang.String"/>
+	<field name="TO_WHOM" class="java.lang.String"/>
+	<field name="MONEY_AMT" class="java.math.BigDecimal"/>
+	<field name="DATE_ONCHQ" class="java.sql.Timestamp"/>
+	<field name="AMT_BAHT" class="java.lang.String"/>
+	<group name="chq_no" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{CHEQUE_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="132">
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="b919166a-78c8-47f4-b9dd-bd746bbf173e" x="336" y="0" width="186" height="22">
+						<printWhenExpression><![CDATA[$P{ai_prndate}=="1"?true:false]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="18"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ai_prndate}==1?new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(0,1)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(1,2)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(2,3)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(3,4)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(4,5)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(5,6)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(6,7)+"  "
++new SimpleDateFormat("ddMMyyyy",new Locale("th","TH")).format($F{DATE_ONCHQ}).substring(7,8):null]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="5ee8a948-63b5-4272-8345-c7a6a4410874" x="336" y="72" width="186" height="20">
+						<printWhenExpression><![CDATA[$P{ai_killer}=="1"?true:false]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ai_killer}==1?"///////":null]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="58c7d5f4-1fbb-4882-b424-106a32429dc7" x="53" y="52" width="211" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TO_WHOM}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="23bb7688-94b9-4b98-b224-8587aa6a436f" x="75" y="92" width="447" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["*** "+$F{AMT_BAHT}+" ***"]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="6c7bfa4f-76ad-4214-ad1e-a3e41b4fbcc1" x="436" y="112" width="86" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MONEY_AMT}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="ee47b95e-18e5-4854-8b90-5535e18ac57b" x="513" y="112" width="33" height="20"/>
+					<textElement>
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[***]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="76559501-1bac-49a7-bc7d-fab2e649e388" x="412" y="112" width="33" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[***]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>

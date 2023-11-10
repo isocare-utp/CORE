@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_slippayin_sub_msk" language="groovy" pageWidth="395" pageHeight="395" columnWidth="381" leftMargin="7" rightMargin="7" topMargin="3" bottomMargin="3" uuid="3aa95cb2-277c-4476-aef3-e4b3d61cc789">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_payinslipno" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT decode("SLSLIPPAYINDET"."LOANCONTRACT_NO",null,"SLSLIPPAYINDET"."SLIPITEM_DESC","SLSLIPPAYINDET"."LOANCONTRACT_NO") as DESCRIPTION,
+         "SLSLIPPAYINDET"."PAYINSLIP_NO",
+         "SLSLIPPAYINDET"."PERIOD",
+         "SLSLIPPAYINDET"."PRINCIPAL_PAYAMT",
+         "SLSLIPPAYINDET"."INTEREST_PAYAMT",
+         "SLSLIPPAYINDET"."ITEM_PAYAMT",
+         "SLSLIPPAYINDET"."ITEM_BALANCE" as "PRINCIPAL_BALANCE",
+         "SLSLIPPAYINDET"."SLIPITEMTYPE_CODE",
+         "SLSLIPPAYINDET"."SHRLONTYPE_CODE",
+         "LNCONTMASTER"."PERIOD_PAYAMT"
+    FROM "SLSLIPPAYINDET",
+         "SLUCFSLIPITEMTYPE",
+         "LNCONTMASTER"
+   WHERE ( SLSLIPPAYINDET.loancontract_no = lncontmaster.loancontract_no (+)) and
+         ( "SLSLIPPAYINDET"."SLIPITEMTYPE_CODE" = "SLUCFSLIPITEMTYPE"."SLIPITEMTYPE_CODE" ) and
+SLSLIPPAYINDET.PAYINSLIP_NO = $P{as_payinslipno} order by SLSLIPPAYINDET.SEQ_NO ASC]]>
+	</queryString>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_BALANCE" class="java.math.BigDecimal"/>
+	<field name="SLIPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField pattern="#,##0">
+				<reportElement uuid="eca7a9b9-0ed8-414a-a54b-e25cb9038794" x="238" y="-2" width="70" height="24"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_BALANCE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="2cacc1ea-8265-4c42-92a3-d962cb6e3b6d" x="174" y="-2" width="63" height="24"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="fa7d0ece-e334-4ec1-ad6a-2dafbfd472b1" x="122" y="-2" width="52" height="24"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="0e176d91-d853-4754-b8d1-290af7e27436" x="61" y="-2" width="54" height="24"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e2b8c47f-d25c-464d-b2d6-6011d671cfe6" x="39" y="-2" width="36" height="24"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3b22d05a-c7cf-4e23-a31d-b3e0f5c51828" x="-7" y="-2" width="62" height="24"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIPITEMTYPE_CODE}=="SHR"?true:false + $F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_fin_etc_n" language="groovy" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="817eaca9-91b7-48b6-8aa8-0896028a0bd9">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_slipno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+	slip_no,
+	seq_no,
+	slipitemtype_code,
+	slipitem_desc,
+	slipitem_status,
+	itempay_amt,
+	account_id,
+	itempayamt_net,
+	tax_flag,
+	tax_amt,
+	vat_flag,
+	vat_amt,
+	ft_readtbaht(sum(itempay_amt))  as sumamt
+from (
+select
+f1.slip_no,
+f1.seq_no,
+f1.slipitemtype_code,
+f1.slipitem_desc,
+f1.slipitem_status,
+f1.itempay_amt,
+f1.account_id,
+f1.itempayamt_net,
+f1.tax_flag,
+f1.tax_amt,
+f1.vat_flag,
+f1.vat_amt
+from finslipdet f1
+where trim(f1.slip_no) = $P{as_slipno}
+) group by
+	slip_no,
+	seq_no,
+	slipitemtype_code,
+	slipitem_desc,
+	slipitem_status,
+	itempay_amt,
+	account_id,
+	itempayamt_net,
+	tax_flag,
+	tax_amt,
+	vat_flag,
+	vat_amt]]>
+	</queryString>
+	<field name="SLIP_NO" class="java.lang.String"/>
+	<field name="SEQ_NO" class="java.math.BigDecimal"/>
+	<field name="SLIPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="SLIPITEM_STATUS" class="java.math.BigDecimal"/>
+	<field name="ITEMPAY_AMT" class="java.math.BigDecimal"/>
+	<field name="ACCOUNT_ID" class="java.lang.String"/>
+	<field name="ITEMPAYAMT_NET" class="java.math.BigDecimal"/>
+	<field name="TAX_FLAG" class="java.math.BigDecimal"/>
+	<field name="TAX_AMT" class="java.math.BigDecimal"/>
+	<field name="VAT_FLAG" class="java.math.BigDecimal"/>
+	<field name="VAT_AMT" class="java.math.BigDecimal"/>
+	<variable name="SUM_ALL" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ITEMPAY_AMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="14">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="e75464d9-98e1-493f-b237-1ee2d76265e2" x="447" y="0" width="100" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEMPAY_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce72d709-3381-46a0-a580-f1146dd1d5fb" mode="Transparent" x="119" y="0" width="314" height="14" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIPITEM_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9b2977c1-05c0-4908-88b8-3e5f47310a22" x="13" y="0" width="82" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACCOUNT_ID}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="c90616ba-eb32-457d-9dde-2a1f6d1184ab" x="555" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement uuid="8b1d8c56-2f91-44f6-83ae-2e5929090096" x="1" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement uuid="c680bee2-3184-45c3-9a7a-8afc34b913a7" x="433" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement uuid="383c0a3b-e58a-4f4b-aa35-e797a31c7d9d" x="104" y="0" width="1" height="14"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="23">
+			<line>
+				<reportElement uuid="e2c833eb-93b0-4668-879f-0705549a794c" x="433" y="1" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="0dd22c3c-bd8b-438b-ba75-dd5f6f3566d0" x="433" y="22" width="122" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="5b959b35-325b-457a-856b-232cab731766" x="555" y="1" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="33e49733-b20b-4167-80ec-910a3bca6440" x="2" y="0" width="553" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="182544d7-dff8-4300-9a14-99c94d00e74f" x="349" y="4" width="85" height="19"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[รวมเงิน]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="b2ac2e11-fe24-44d3-835a-7ad9e6e33ac7" x="447" y="3" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SUM_ALL}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="ca8cc906-be14-49e6-88af-285fb5c76bc5" x="19" y="3" width="369" height="20"/>
+				<subreportParameter name="t_amt">
+					<subreportParameterExpression><![CDATA[$V{SUM_ALL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["r_read_amt.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

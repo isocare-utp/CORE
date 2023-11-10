@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_sl_loan_payment_end_mhs" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="48a5816a-bcba-4425-83a2-fe0b7f87477a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_month" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+mbmembmaster.member_no,
+mbucfprename.prename_desc,
+mbmembmaster.memb_name,
+mbmembmaster.memb_surname,
+lncontmaster.loancontract_no,
+insgroupmaster.endsafe_date,
+insgroupmaster.inscost_blance,
+( select (sum(ig.inscost_blance))  from insgroupmaster ig where ig.member_no = mbmembmaster.member_no and ig.endsafe_date >= SYSDATE )as sum_inscost ,
+nvl(( select (sum(ig.inscost_blance))  from insgroupmaster ig where ig.member_no = mbmembmaster.member_no and ig.insmemb_status =1 and extract (month from ig.endsafe_date)  =  $P{as_month} and extract (year from ig.endsafe_date)  = $P{as_year} ),0) as sum_day,
+insgroupmaster.inspayment_amt,
+shsharemaster.sharestk_amt,
+mbmembmaster.company_id,
+mbmembmaster.cremationthai_flag,
+mbmembmaster.cremationcso_flag,
+mbmembmaster.subvention_flag,
+mbmembmaster.member_type,
+( Months_Between( SYSDATE , mbmembmaster.member_date )/12) as ages,
+insgroupmaster.instype_code,
+insgroupmaster.level_code,
+mbmembmaster.member_type,
+ (case when lncontmaster.loantype_code = '17' then lncontmaster.loanapprove_amt when lncontmaster.loantype_code != '17' then lncontmaster.principal_balance end ) as choosen
+,(
+
+select sum(inscost_blance) from
+	(
+		select case when cast(monthe as varchar(2)) =   $P{as_month}then 0 else inscost_blance end inscost_blance
+			from (
+				select
+				to_char(insgroupmaster.endsafe_date , 'mm' )as monthe,
+				insgroupmaster.inscost_blance,
+				(select to_char(sysdate,'mm') from mbmembmaster where rownum = 1) month_now
+				from mbmembmaster
+				left join insgroupmaster on mbmembmaster.member_no = insgroupmaster.member_no
+				where  mbmembmaster.coop_id =$P{coop_id}
+				and insgroupmaster.endsafe_date >=to_date( $P{as_month}|| $P{as_year} ,'MMyyyy')
+				order by insgroupmaster.endsafe_date
+			)a
+	)bb
+) as sum_inscost_blance
+
+from mbmembmaster
+left join insgroupmaster on mbmembmaster.member_no = insgroupmaster.member_no
+left join lncontmaster on  trim(insgroupmaster.loancontract_no )= trim(lncontmaster.loancontract_no)
+left join shsharemaster on insgroupmaster.member_no = shsharemaster.member_no
+left join mbucfprename on mbmembmaster.prename_code = mbucfprename.prename_code
+where  mbmembmaster.coop_id = $P{coop_id}
+and insgroupmaster.inscost_blance <> 0
+and insgroupmaster.insmemb_status = 1
+and insgroupmaster.endsafe_date >= SYSDATE
+and (extract (month from insgroupmaster.endsafe_date)  = $P{as_month}
+and extract (year from insgroupmaster.endsafe_date)  = $P{as_year})order by mbmembmaster.member_no asc]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="ENDSAFE_DATE" class="java.sql.Timestamp"/>
+	<field name="INSCOST_BLANCE" class="java.math.BigDecimal"/>
+	<field name="SUM_INSCOST" class="java.math.BigDecimal"/>
+	<field name="SUM_DAY" class="java.math.BigDecimal"/>
+	<field name="INSPAYMENT_AMT" class="java.math.BigDecimal"/>
+	<field name="SHARESTK_AMT" class="java.math.BigDecimal"/>
+	<field name="COMPANY_ID" class="java.math.BigDecimal"/>
+	<field name="CREMATIONTHAI_FLAG" class="java.math.BigDecimal"/>
+	<field name="CREMATIONCSO_FLAG" class="java.math.BigDecimal"/>
+	<field name="SUBVENTION_FLAG" class="java.math.BigDecimal"/>
+	<field name="MEMBER_TYPE" class="java.math.BigDecimal"/>
+	<field name="AGES" class="java.math.BigDecimal"/>
+	<field name="INSTYPE_CODE" class="java.lang.String"/>
+	<field name="LEVEL_CODE" class="java.lang.String"/>
+	<field name="CHOOSEN" class="java.math.BigDecimal"/>
+	<field name="SUM_INSCOST_BLANCE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="7e513da4-65e9-4d1e-9e4c-49f0af9f19cc" x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานหลักประกันใกล้หมดอายุ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d45557bd-bf5e-40c3-92b0-b84619009946" x="0" y="50" width="36" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ลำดับ
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="25e86304-ec74-434f-acf4-de78acb29b33" x="36" y="50" width="51" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ทะเบียน
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="861a21e9-6dba-4a2a-9475-2b55633c662b" x="87" y="50" width="115" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - นามสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21701c29-4a3f-4f85-b4c6-19e4575c1230" x="202" y="30" width="193" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[หลักประกันทั้งหมด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a2e3e302-cfcf-4e2c-b922-512cca7b24fb" x="202" y="50" width="76" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ทุนเรือนหุ้น]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

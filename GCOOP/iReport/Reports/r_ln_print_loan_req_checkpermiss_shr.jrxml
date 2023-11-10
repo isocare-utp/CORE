@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_print_loan_req_checkpermiss_shr" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="30b4db9b-8cda-4f47-af20-865662eb988e">
+	<property name="ireport.zoom" value="2.3579476910000023"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="loanrequest_docno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+lnreqloanclr.loancontract_no ,
+lncontmaster.intestnow_amt + lncontmaster.principal_balance as total,(select count(adjslip_no) from slslipadjust
+where pmx_status = 1
+and member_no = lncontmaster.member_no) as coun
+
+from
+lnreqloan ,
+lnreqloanclr,
+lncontmaster
+
+where
+lnreqloan.coop_id = lnreqloanclr.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanclr.loanrequest_docno (+) and
+lnreqloanclr.loancontract_no = lncontmaster.loancontract_no (+) and
+lnreqloan.coop_id = $P{coop_id} and
+lnreqloan.loanrequest_docno = $P{loanrequest_docno} and
+lnreqloanclr.clear_status = '1'
+union
+select
+lnreqloanclrother.clrother_desc,
+lnreqloanclrother.clrother_amt,(select count(adjslip_no) from slslipadjust
+where pmx_status = 1
+and member_no = lnreqloan.member_no)
+
+from
+lnreqloan ,
+lnreqloanclrother
+
+where
+lnreqloan.coop_id = lnreqloanclrother.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanclrother.loanrequest_docno (+) and
+lnreqloan.coop_id = $P{coop_id} and
+lnreqloan.loanrequest_docno = $P{loanrequest_docno} and
+lnreqloanclrother.clear_status = '1'
+union
+select
+lnreqloanmthexp.mthexp_desc,
+lnreqloanmthexp.mthexp_amt,(select count(adjslip_no) from slslipadjust
+where pmx_status = 1
+and member_no = lnreqloan.member_no)
+
+from
+lnreqloan ,
+lnreqloanmthexp
+
+where
+lnreqloan.coop_id = lnreqloanmthexp.coop_id (+) and
+lnreqloan.loanrequest_docno = lnreqloanmthexp.loanrequest_docno (+) and
+lnreqloan.coop_id = $P{coop_id} and
+lnreqloan.loanrequest_docno = $P{loanrequest_docno} and
+lnreqloanmthexp.clear_status = '1']]>
+	</queryString>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="TOTAL" class="java.math.BigDecimal"/>
+	<field name="COUN" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="378784d3-56f8-49e8-b7d4-beddf50c6840" x="0" y="0" width="56" height="20">
+					<printWhenExpression><![CDATA[( $F{LOANCONTRACT_NO}!="" && $F{LOANCONTRACT_NO}!= null ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<text><![CDATA[ชำระ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6b401417-9136-4dab-87a2-0b832bf5ca33" x="35" y="0" width="65" height="20">
+					<printWhenExpression><![CDATA[( $F{LOANCONTRACT_NO}!="" && $F{LOANCONTRACT_NO}!= null ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6ac45920-6d58-4093-b5ad-f43903551a1f" x="101" y="0" width="33" height="20">
+					<printWhenExpression><![CDATA[( $F{LOANCONTRACT_NO}!="" && $F{LOANCONTRACT_NO}!= null ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<text><![CDATA[เป็นเงิน]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="bff09e2b-3720-4847-891f-17d81d17a76f" x="130" y="0" width="52" height="20">
+					<printWhenExpression><![CDATA[( $F{LOANCONTRACT_NO}!="" && $F{LOANCONTRACT_NO}!= null ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="af24142e-9100-4eee-9685-4f3e77b08c67" x="185" y="0" width="37" height="20">
+					<printWhenExpression><![CDATA[( $F{LOANCONTRACT_NO}!="" && $F{LOANCONTRACT_NO}!= null ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField>
+				<reportElement uuid="7b848af2-52b3-4cf1-8e28-988e6d290a54" x="0" y="0" width="222" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{COUN} == 0 ? "" :( $F{COUN} == null ? "" : "มีรายการหักไม่ได้" ) )]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

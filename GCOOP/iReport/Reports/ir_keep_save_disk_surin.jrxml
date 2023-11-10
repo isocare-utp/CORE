@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_keep_save_disk_surin" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cfc7c441-79af-40b1-abe6-79e1603b74a0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_start_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_end_membgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     b.prename_desc||a.memb_name||' '||a.memb_surname AS full_name,
+     a."CARD_PERSON" AS CARD_PERSON,
+     e."MEMBGROUP_DESC" AS MEMBGROUP_DESC,
+     d."MEMBGROUP_DESC" AS GROUP_DESC,
+     a."MEMBGROUP_CODE" AS MEMBGROUP_CODE,
+     d."MEMBGROUP_CONTROL" AS MEMBGROUP_CONTROL,
+     a."MEMBER_NO" AS MEMBER_NO,
+
+a.salary_id,
+     SUM(c."ITEM_PAYMENT") AS RECEIVE_AMT
+FROM
+     "MBMEMBMASTER" a INNER JOIN "KPTEMPRECEIVEDET" c ON a."MEMBER_NO" = c."MEMBER_NO"
+     INNER JOIN "MBUCFPRENAME" b ON a."PRENAME_CODE" = b."PRENAME_CODE"
+     INNER JOIN "MBUCFMEMBGROUP" d ON a."MEMBGROUP_CODE" = d."MEMBGROUP_CODE"
+     INNER JOIN "MBUCFMEMBGROUP" e ON d."MEMBGROUP_CONTROL" = e."MEMBGROUP_CODE"
+WHERE
+     c.recv_period = $P{as_period}
+     and trim(a.membgroup_code) >= $P{as_start_membgroup}
+     and trim(a.membgroup_code) <= $P{as_end_membgroup}
+group by
+b.prename_desc,a.memb_name,a.memb_surname,
+ a."CARD_PERSON"  ,
+     e."MEMBGROUP_DESC"  ,
+     d."MEMBGROUP_DESC"  ,
+     a."MEMBGROUP_CODE"  ,
+     d."MEMBGROUP_CONTROL" ,
+     a."MEMBER_NO"  ,
+	a.salary_id
+
+ORDER BY
+     a.membgroup_code ASC,
+     a.member_no ASC]]>
+	</queryString>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="GROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_CONTROL" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="RECEIVE_AMT" class="java.math.BigDecimal"/>
+	<variable name="seq_no" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<variable name="count_memall" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<variable name="RECEIVE_AMT" class="java.math.BigDecimal" calculation="First">
+		<variableExpression><![CDATA[$F{RECEIVE_AMT}]]></variableExpression>
+	</variable>
+	<variable name="RECEIVE_AMT_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECEIVE_AMT}]]></variableExpression>
+	</variable>
+	<variable name="RECEIVE_AMT_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECEIVE_AMT}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bb38a993-3a2d-48df-81f2-ceae806bbdb6" x="0" y="40" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a015643b-9aa9-498e-bb1e-c6ca18ec2cf4" x="135" y="40" width="144" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="385ce464-e7e6-495c-9bfd-7acb3e6db9b1" x="279" y="40" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ยอดเรียกเก็บ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="328bd13b-4366-47e3-b568-d9aadceb7e9e" x="39" y="0" width="291" height="20"/>
+				<textElement/>
+				<text><![CDATA[รายงานการรับเงินสมาชิกต่อสหกรณ์ ประจำเดือน  พฤศจิกายน]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="38e5cc32-8051-4b81-a32d-d58e1d7704de" x="366" y="0" width="77" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{as_period}.substring( 0, 4 )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9ad43ea9-40be-4abf-99dc-4f75cc620c70" x="55" y="40" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[รหัสพนักงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="529dce23-edad-44cb-b11c-14b424170f76" x="330" y="0" width="36" height="20"/>
+				<textElement/>
+				<text><![CDATA[ปี พ.ศ.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField pattern="###0">
+				<reportElement uuid="2b307e68-1306-4bd6-b0d0-0779ecd368d9" x="0" y="2" width="55" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="97b91c3a-d955-4ae5-a45f-6a904987da33" x="135" y="2" width="144" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="####" isBlankWhenNull="false">
+				<reportElement uuid="2f145c06-c027-4744-aff9-6659d873390d" x="55" y="2" width="80" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c88198c4-5bfb-4070-8cd5-0a25ecb9a850" x="279" y="2" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{RECEIVE_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d3521d39-10cb-4256-a463-eb106563bcbe" x="0" y="0" width="55" height="20"/>
+				<textElement/>
+				<text><![CDATA[รวมทั้งหมด]]></text>
+			</staticText>
+			<textField pattern="###0">
+				<reportElement uuid="4171e034-4ebf-4153-a569-739c1f8ef339" x="55" y="0" width="80" height="20"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$V{count_memall}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="22d1b6af-69ed-4433-8697-8f31b1133744" x="135" y="0" width="66" height="20"/>
+				<textElement/>
+				<text><![CDATA[ราย]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="82e7292d-d53d-418f-b76a-f1b356c14d65" x="279" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{RECEIVE_AMT_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

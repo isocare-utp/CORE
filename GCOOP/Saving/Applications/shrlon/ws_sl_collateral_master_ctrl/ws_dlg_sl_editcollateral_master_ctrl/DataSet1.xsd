@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DT_LISTTableAdapter" GeneratorDataComponentClassName="DT_LISTTableAdapter" Name="DT_LIST" UserDataComponentName="DT_LISTTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select 
+lncollmaster.collmast_no,
+mbmembmaster.member_no,
+mbmembmaster.salary_id, 
+mbucfprename.prename_desc,
+mbmembmaster.memb_name,
+mbmembmaster.memb_surname,
+lnucfcollmasttypegrp.collmasttype_desc,
+lnucfcollmasttype.collmasttype_desc,
+lncollmaster.est_price
+
+from lncollmaster , mbmembmaster,mbucfprename,lnucfcollmasttypegrp,lnucfcollmasttype
+where
+lncollmaster.member_no = mbmembmaster.member_no and
+mbucfprename.prename_code = mbmembmaster.prename_code and 
+lnucfcollmasttypegrp.collmasttype_grp = lncollmaster.collmasttype_grp and
+lnucfcollmasttype.collmasttype_code = lncollmaster.collmasttype_code
+order by lncollmaster.collmast_no</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="COLLMAST_NO" DataSetColumn="COLLMAST_NO" />
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="SALARY_ID" DataSetColumn="SALARY_ID" />
+              <Mapping SourceColumn="PRENAME_DESC" DataSetColumn="PRENAME_DESC" />
+              <Mapping SourceColumn="COLLMASTTYPE_DESC" DataSetColumn="COLLMASTTYPE_DESC" />
+              <Mapping SourceColumn="COLLMASTTYPE_DESC1" DataSetColumn="COLLMASTTYPE_DESC1" />
+              <Mapping SourceColumn="EST_PRICE" DataSetColumn="EST_PRICE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DT_LIST" msprop:Generator_TableClassName="DT_LISTDataTable" msprop:Generator_TableVarName="tableDT_LIST" msprop:Generator_TablePropName="DT_LIST" msprop:Generator_RowDeletingName="DT_LISTRowDeleting" msprop:Generator_RowChangingName="DT_LISTRowChanging" msprop:Generator_RowEvHandlerName="DT_LISTRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_LISTRowDeleted" msprop:Generator_UserTableName="DT_LIST" msprop:Generator_RowChangedName="DT_LISTRowChanged" msprop:Generator_RowEvArgName="DT_LISTRowChangeEvent" msprop:Generator_RowClassName="DT_LISTRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COLLMAST_NO" msprop:Generator_ColumnVarNameInTable="columnCOLLMAST_NO" msprop:Generator_ColumnPropNameInRow="COLLMAST_NO" msprop:Generator_ColumnPropNameInTable="COLLMAST_NOColumn" msprop:Generator_UserColumnName="COLLMAST_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SALARY_ID" msprop:Generator_ColumnVarNameInTable="columnSALARY_ID" msprop:Generator_ColumnPropNameInRow="SALARY_ID" msprop:Generator_ColumnPropNameInTable="SALARY_IDColumn" msprop:Generator_UserColumnName="SALARY_ID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cp_memdetail" msdata:ReadOnly="true" msdata:Expression="member_no+' - '+prename_desc+memb_name+' '+memb_surname+' ('+salary_id+')'" msprop:Generator_ColumnVarNameInTable="columncp_memdetail" msprop:Generator_ColumnPropNameInRow="cp_memdetail" msprop:Generator_ColumnPropNameInTable="cp_memdetailColumn" msprop:Generator_UserColumnName="cp_memdetail" type="xs:string" minOccurs="0" />
+              <xs:element name="PRENAME_DESC" msprop:Generator_ColumnVarNameInTable="columnPRENAME_DESC" msprop:Generator_ColumnPropNameInRow="PRENAME_DESC" msprop:Generator_ColumnPropNameInTable="PRENAME_DESCColumn" msprop:Generator_UserColumnName="PRENAME_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COLLMASTTYPE_DESC" msprop:Generator_ColumnVarNameInTable="columnCOLLMASTTYPE_DESC" msprop:Generator_ColumnPropNameInRow="COLLMASTTYPE_DESC" msprop:Generator_ColumnPropNameInTable="COLLMASTTYPE_DESCColumn" msprop:Generator_UserColumnName="COLLMASTTYPE_DESC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COLLMASTTYPE_DESC1" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCOLLMASTTYPE_DESC1" msprop:Generator_ColumnPropNameInRow="COLLMASTTYPE_DESC1" msprop:Generator_ColumnPropNameInTable="COLLMASTTYPE_DESC1Column" msprop:Generator_UserColumnName="COLLMASTTYPE_DESC1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="cp_colltype" msdata:ReadOnly="true" msdata:Expression="iif(COLLMASTTYPE_DESC1 = '',COLLMASTTYPE_DESC,COLLMASTTYPE_DESC+' ('+COLLMASTTYPE_DESC1+')')" msprop:Generator_ColumnVarNameInTable="columncp_colltype" msprop:Generator_ColumnPropNameInRow="cp_colltype" msprop:Generator_ColumnPropNameInTable="cp_colltypeColumn" msprop:Generator_UserColumnName="cp_colltype" type="xs:string" minOccurs="0" />
+              <xs:element name="EST_PRICE" msprop:Generator_ColumnVarNameInTable="columnEST_PRICE" msprop:Generator_ColumnPropNameInRow="EST_PRICE" msprop:Generator_ColumnPropNameInTable="EST_PRICEColumn" msprop:Generator_UserColumnName="EST_PRICE" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DT_MAIN" msprop:Generator_TableClassName="DT_MAINDataTable" msprop:Generator_TableVarName="tableDT_MAIN" msprop:Generator_TablePropName="DT_MAIN" msprop:Generator_RowDeletingName="DT_MAINRowDeleting" msprop:Generator_RowChangingName="DT_MAINRowChanging" msprop:Generator_RowEvHandlerName="DT_MAINRowChangeEventHandler" msprop:Generator_RowDeletedName="DT_MAINRowDeleted" msprop:Generator_UserTableName="DT_MAIN" msprop:Generator_RowChangedName="DT_MAINRowChanged" msprop:Generator_RowEvArgName="DT_MAINRowChangeEvent" msprop:Generator_RowClassName="DT_MAINRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="member_no" msprop:Generator_ColumnVarNameInTable="columnmember_no" msprop:Generator_ColumnPropNameInRow="member_no" msprop:Generator_ColumnPropNameInTable="member_noColumn" msprop:Generator_UserColumnName="member_no" type="xs:string" minOccurs="0" />
+              <xs:element name="cp_name" msprop:Generator_ColumnVarNameInTable="columncp_name" msprop:Generator_ColumnPropNameInRow="cp_name" msprop:Generator_ColumnPropNameInTable="cp_nameColumn" msprop:Generator_UserColumnName="cp_name" type="xs:string" minOccurs="0" />
+              <xs:element name="salary_id" msprop:Generator_ColumnVarNameInTable="columnsalary_id" msprop:Generator_ColumnPropNameInRow="salary_id" msprop:Generator_ColumnPropNameInTable="salary_idColumn" msprop:Generator_UserColumnName="salary_id" type="xs:string" minOccurs="0" />
+              <xs:element name="collmast_no" msprop:Generator_ColumnVarNameInTable="columncollmast_no" msprop:Generator_ColumnPropNameInRow="collmast_no" msprop:Generator_ColumnPropNameInTable="collmast_noColumn" msprop:Generator_UserColumnName="collmast_no" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loanverify_sub6" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="35b62926-2202-4ccf-9b66-8d9bc3e8d34f">
+	<property name="ireport.zoom" value="1.3310000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="member_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select dpdeptmaster.deptaccount_no ,dpdeptmaster.deptaccount_name,dpdeptmaster.prncbal
+from dpdeptmaster ,dpdepttype
+where dpdeptmaster.coop_id =dpdepttype.coop_id
+		 and dpdeptmaster.depttype_code =dpdepttype.depttype_code
+		 and dpdeptmaster.coop_id = $P{coop_id}
+		 and dpdeptmaster.member_no = $P{member_no}
+		 and dpdeptmaster.prncbal>0]]>
+	</queryString>
+	<field name="DEPTACCOUNT_NO" class="java.lang.String"/>
+	<field name="DEPTACCOUNT_NAME" class="java.lang.String"/>
+	<field name="PRNCBAL" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="cd7237e0-e414-483f-a82d-548e0eaa0fd6" x="2" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[รายการเงินฝาก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b0d9df5f-6eeb-4d33-9453-a763a8ba4fb3" x="2" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="843929dc-f404-4350-85b9-3fb9a4578841" x="120" y="20" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อบัญชี]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="34b817a9-b94e-4e6b-837f-03b10e539908" x="449" y="20" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ยอดคงเหลือ]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="2b65425a-0aa3-4b41-a6b5-a8719346095c" x="556" y="0" width="1" height="40"/>
+			</line>
+			<line>
+				<reportElement uuid="625e828c-7c40-49a9-9304-d51d7ce12424" x="-1" y="0" width="1" height="40"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="075d6886-3210-4ead-abcb-530e8536675f" x="2" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEPTACCOUNT_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8df70ef9-2a6d-4c99-b415-6b15a7742e10" x="120" y="0" width="312" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEPTACCOUNT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3b12e3cf-a049-412d-b18d-86cd118b55a6" x="449" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRNCBAL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="d86f44f6-69f7-4081-8e10-51afd6e608ee" x="556" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="c241aad3-5bdc-40f8-ae02-35ab1ab5bb84" x="-1" y="0" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1">
+			<line>
+				<reportElement uuid="ec6fe203-5161-462f-be00-8d86da4b02fd" x="-1" y="0" width="558" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

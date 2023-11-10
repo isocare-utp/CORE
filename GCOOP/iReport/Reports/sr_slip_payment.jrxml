@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sr_slip_payment" language="groovy" pageWidth="540" pageHeight="396" columnWidth="540" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1160ca90-b539-4409-8017-960bcd17a06b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_PAYOUTSLIP_NO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+		  "SLSLIPPAYOUT"."DOCUMENT_NO",
+		   "SLSLIPPAYOUT"."SLIP_DATE",
+		 "SLSLIPPAYOUT"."MEMBER_NO",
+		 "MBUCFPRENAME"."PRENAME_DESC" || "MBMEMBMASTER"."MEMB_NAME"||'  '||"MBMEMBMASTER"."MEMB_SURNAME" as memb_name ,
+        	  "MBMEMBMASTER"."MEMBGROUP_CODE"||'  '||   "MBUCFMEMBGROUP"."MEMBGROUP_DESC" as membgroup,
+         "SLSLIPPAYOUT"."SLIPTYPE_CODE",
+		    "SLUCFSLIPTYPE"."SLIPTYPE_DESC",
+
+
+         "SLSLIPPAYOUT"."PAYOUT_AMT",
+         "SLSLIPPAYOUT"."PAYOUTCLR_AMT",
+         "SLSLIPPAYOUT"."PAYOUTNET_AMT",
+FTREADTBAHT("SLSLIPPAYOUT"."PAYOUTNET_AMT") as THAIBAHT_R,
+         "SLSLIPPAYOUT"."PAYOUTSLIP_NO",
+         "SLSLIPPAYOUT"."COOP_ID",
+
+
+        "SLSLIPPAYOUT"."MONEYTYPE_CODE",
+        "CMUCFMONEYTYPE"."MONEYTYPE_DESC"
+    FROM "MBMEMBMASTER",
+         "MBUCFMEMBGROUP",
+         "MBUCFPRENAME",
+         "SLSLIPPAYOUT",
+         "SLUCFSLIPTYPE",
+         "CMUCFMONEYTYPE"
+   WHERE ( "MBUCFMEMBGROUP"."COOP_ID" = "MBMEMBMASTER"."COOP_ID" ) and
+         ( "MBUCFMEMBGROUP"."MEMBGROUP_CODE" = "MBMEMBMASTER"."MEMBGROUP_CODE" ) and
+         ( "MBUCFPRENAME"."PRENAME_CODE" = "MBMEMBMASTER"."PRENAME_CODE" ) and
+         ( "MBMEMBMASTER"."MEMBER_NO" = "SLSLIPPAYOUT"."MEMBER_NO" ) and
+         ( "MBMEMBMASTER"."COOP_ID" = "SLSLIPPAYOUT"."COOP_ID" ) and
+         ( "SLSLIPPAYOUT"."SLIPTYPE_CODE" = "SLUCFSLIPTYPE"."SLIPTYPE_CODE" ) and
+         ( "SLSLIPPAYOUT"."MONEYTYPE_CODE" = "CMUCFMONEYTYPE"."MONEYTYPE_CODE" ) and
+         ( ( "SLSLIPPAYOUT"."PAYOUTSLIP_NO" = $P{as_PAYOUTSLIP_NO}) AND
+         ( "SLUCFSLIPTYPE"."SLIPTYPESIGN_FLAG" = -1 ) )]]>
+	</queryString>
+	<field name="DOCUMENT_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP" class="java.lang.String"/>
+	<field name="SLIPTYPE_CODE" class="java.lang.String"/>
+	<field name="SLIPTYPE_DESC" class="java.lang.String"/>
+	<field name="PAYOUT_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTCLR_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<field name="THAIBAHT_R" class="java.lang.String"/>
+	<field name="PAYOUTSLIP_NO" class="java.lang.String"/>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="MONEYTYPE_DESC" class="java.lang.String"/>
+	<detail>
+		<band height="396" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2c1c0bae-62ee-4885-9d2b-4c04349ecce3" x="58" y="76" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MEMBER_NO]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c1c67cc8-f6f1-4199-8f15-c4ad6accf622" x="158" y="76" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="32059e95-8400-4446-9b2a-0a41462cfaf8" x="117" y="35" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[DOCUMENT_NO]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="35680a14-cab6-4bb0-a176-de1b4f0534c6" x="217" y="35" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{DOCUMENT_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a87fa070-9f33-44df-99f9-f7c34a2e5f17" x="317" y="65" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[SLIP_DATE]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="32f9b43f-cdc0-41be-b8d9-ab0061eacc4e" x="440" y="65" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SLIP_DATE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

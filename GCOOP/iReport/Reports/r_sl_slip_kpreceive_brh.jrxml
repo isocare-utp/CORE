@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_slip_kpreceive_brh" language="groovy" pageWidth="342" pageHeight="396" columnWidth="342" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="03bf7f59-ea0b-415b-9368-0cbddd295c63">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select kd.kpslip_no,
+        kd.member_no,
+        mp.prename_desc||' '||mb.memb_name||' '||mb.memb_surname as name,
+        kp.receipt_date,
+        case when(kd.keepitemtype_code = 'S01') then
+        kd.description else kd.loancontract_no end as list,
+        kp.interest_accum,
+        kd.period,
+        kd.principal_payment,
+        kd.interest_payment,
+        kd.item_payment,
+        kd.item_balance,
+        kp.money_text,
+        kp.receive_amt,
+        md.department_desc,
+        mg.membgroup_desc
+from kptempreceive kp, kptempreceivedet kd,mbucfdepartment md,mbmembmaster mb,mbucfprename mp,mbucfmembgroup mg
+where     kp.member_no = mb.member_no
+and        kp.member_no = kd.member_no
+and        kp.department_code = md.department_code
+and        mb.department_code = kp.department_code
+and        mb.prename_code = mp.prename_code
+and        kp.membgroup_code = mg.membgroup_code
+and        mb.membgroup_code = kp.membgroup_code
+and        kp.recv_period = '255711']]>
+	</queryString>
+	<field name="KPSLIP_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="RECEIPT_DATE" class="java.sql.Timestamp"/>
+	<field name="LIST" class="java.lang.String"/>
+	<field name="INTEREST_ACCUM" class="java.math.BigDecimal"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="ITEM_BALANCE" class="java.math.BigDecimal"/>
+	<field name="MONEY_TEXT" class="java.lang.String"/>
+	<field name="RECEIVE_AMT" class="java.math.BigDecimal"/>
+	<field name="DEPARTMENT_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<group name="slipno" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{KPSLIP_NO}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="128">
+			<textField>
+				<reportElement uuid="c0e7c234-6f44-4c4f-ac76-44dead1e0dd4" x="241" y="86" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4fe494b1-e402-4f97-b50d-8dc4add716f9" x="66" y="66" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{KPSLIP_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2f57637c-1b6c-46b2-b7fa-eab76459f1c8" x="66" y="86" width="152" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c5e222da-6781-4e91-97c3-582e1d296345" x="66" y="106" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e774d174-d6d4-49d4-a91c-d634ca4bae2a" x="241" y="66" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("d MMMM yyyy",new Locale("th","TH")).format($F{RECEIPT_DATE})]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<textField>
+				<reportElement uuid="646aae68-2e96-492c-b2d7-4b72269d9ed1" x="100" y="1" width="23" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="197c4054-9234-4480-b10e-4a9e06681498" x="302" y="1" width="39" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_BALANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f4f265e7-4451-4dd1-b362-f0047d23c4e9" x="0" y="3" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LIST}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ff6be634-112a-449a-9074-f260d6a0ca1f" x="123" y="3" width="43" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="efba7c79-6f41-4186-ad33-8de3de88b9ab" x="166" y="3" width="52" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="126571bd-394f-4c57-adc1-1578a5193ed2" x="218" y="3" width="64" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYMENT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50">
+			<textField>
+				<reportElement uuid="88040321-66b7-425e-9fee-149f1e6b985d" x="192" y="0" width="149" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{RECEIVE_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="409a6fa1-374f-4d5f-a42c-31f7a3e86e5a" x="0" y="0" width="192" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MONEY_TEXT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

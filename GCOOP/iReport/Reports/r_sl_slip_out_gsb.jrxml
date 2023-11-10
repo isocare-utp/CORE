@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_slip_in_out_gsb" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="828" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="604b8eb1-4d52-47da-a1c9-2121d92f3880">
+	<property name="ireport.zoom" value="1.1269722013523682"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_payoutslip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select so.member_no,
+mp.prename_desc,
+mb.memb_name,
+mb.memb_surname,
+mb.membgroup_code,mg.membgroup_desc,
+so.slip_date ,
+so.payoutslip_no,nvl(so.slipclear_no,'null') as slipclear_no,
+sum(nvl(sid.principal_payamt,0)) as sumprn,
+sum(nvl(sid.interest_payamt,0)) as sumint,
+so.payout_amt,so.payoutclr_amt,so.payoutnet_amt
+from slslippayout so,mbmembmaster mb,mbucfprename mp,mbucfmembgroup mg,slslippayindet sid
+where so.payoutslip_no=$P{as_payoutslip_no}
+and so.coop_id=$P{as_coop_id}
+and so.slipclear_no = sid.payinslip_no(+)
+and so.coop_id = sid.coop_id(+)
+and so.member_no=mb.member_no
+and so.coop_id =mb.coop_id
+and mb.prename_code=mp.prename_code
+and mb.membgroup_code = mg.membgroup_code
+and mb.coop_id = mg.coop_id
+group by so.member_no,
+mp.prename_desc,
+mb.memb_name,
+mb.memb_surname,
+mb.membgroup_code,mg.membgroup_desc,
+so.slip_date ,
+so.payoutslip_no,so.slipclear_no,
+so.payout_amt,so.payoutclr_amt,so.payoutnet_amt]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="PAYOUTSLIP_NO" class="java.lang.String"/>
+	<field name="SLIPCLEAR_NO" class="java.lang.String"/>
+	<field name="SUMPRN" class="java.math.BigDecimal"/>
+	<field name="SUMINT" class="java.math.BigDecimal"/>
+	<field name="PAYOUT_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTCLR_AMT" class="java.math.BigDecimal"/>
+	<field name="PAYOUTNET_AMT" class="java.math.BigDecimal"/>
+	<variable name="rtSumLon" class="java.lang.Double">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rtShr" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[( $V{rtShr} ? $V{rtShr} : 0 )]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rtPayLon" class="java.lang.Double">
+		<variableExpression><![CDATA[( $V{rtPayLon}>0 ? $V{rtPayLon} : 0 )]]></variableExpression>
+	</variable>
+	<variable name="rtSumPncLon" class="java.lang.Double">
+		<variableExpression><![CDATA[( $V{rtSumPncLon} ? $V{rtSumPncLon} : 0 )]]></variableExpression>
+	</variable>
+	<variable name="rtSumIntLon" class="java.lang.Double">
+		<variableExpression><![CDATA[( $V{rtSumIntLon} ? $V{rtSumIntLon} : 0 )]]></variableExpression>
+	</variable>
+	<variable name="SumShrLon" class="java.lang.Double" calculation="System">
+		<variableExpression><![CDATA[$V{rtSumLon}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="78" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bbe5ac17-1551-428f-a236-8cc874aaa356" x="1" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{SLIP_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ff0dfe09-09d6-4a8d-be3f-2ea3603d7ddf" x="1" y="21" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRENAME_DESC}+$F{MEMB_NAME}+' '+$F{MEMB_SURNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a3fdeccd-7c33-471d-9b66-f88069bc1380" x="201" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ab7c83ad-b30c-46ad-82c8-f975197cc6b3" x="353" y="0" width="169" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9ae1a114-2ba8-4422-816e-78d010c5964f" x="221" y="21" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="202" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="82f0b828-9da8-4aa3-aa31-1aaa97d1f2ba" x="200" y="0" width="289" height="82"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$P{as_coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_payinslip_no">
+					<subreportParameterExpression><![CDATA[$F{SLIPCLEAR_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="SumLon" toVariable="rtSumLon"/>
+				<returnValue subreportVariable="SumPnc" toVariable="rtSumPncLon"/>
+				<returnValue subreportVariable="SumInt" toVariable="rtSumIntLon"/>
+				<subreportExpression><![CDATA["r_sl_slipin_lon_gsb.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="21c80203-2fff-45e9-88a1-394831c0526a" x="243" y="109" width="287" height="44"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$P{as_coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_payinslip_no">
+					<subreportParameterExpression><![CDATA[$F{SLIPCLEAR_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="SumShr" toVariable="rtShr"/>
+				<subreportExpression><![CDATA["r_sl_slipin_shr_gsb.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="fc23c42c-8a38-4e57-93d2-5558f817c25a" x="0" y="0" width="184" height="82"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$P{as_coop_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_payoutslip_no">
+					<subreportParameterExpression><![CDATA[$P{as_payoutslip_no}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="PayLon" toVariable="rtPayLon"/>
+				<subreportExpression><![CDATA["r_sl_slipout_gsb.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="120" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="495b4094-ae1f-4efa-8f29-b9ebc6e7e64c" x="8" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUT_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="0dedee95-4a4e-433d-8842-498f47c6a14f" x="357" y="0" width="100" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTCLR_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="0da2309c-3fd7-4231-804b-683ad0ddc306" x="252" y="0" width="62" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMPRN}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="1d9fbb87-f25a-4437-929d-7c0b2e859d16" x="315" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMINT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="50d209b6-d7b7-4697-8a21-00fd3443595d" x="362" y="20" width="95" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYOUTNET_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

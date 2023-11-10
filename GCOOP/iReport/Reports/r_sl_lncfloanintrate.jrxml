@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_lncfloanintrate" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5d48da2d-799e-498d-bda5-f49ad7f2c5fd">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="loadintrate_code" class="java.lang.String">
+		<defaultValueExpression><![CDATA['SPE01']]></defaultValueExpression>
+	</parameter>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select lncfloanintrate.loanintrate_desc,
+	lncfloanintratedet.loanintrate_code,
+	lncfloanintratedet.effective_date,
+	lncfloanintratedet.expire_date,
+	lncfloanintratedet.lower_amt,
+	lncfloanintratedet.upper_amt,
+	lncfloanintratedet.interest_rate,
+	lncfloanintratedet.entry_id
+from lncfloanintrate , lncfloanintratedet
+where lncfloanintratedet.coop_id = lncfloanintrate.coop_id
+	and lncfloanintratedet.loanintrate_code = lncfloanintrate.loanintrate_code
+	and lncfloanintrate.coop_id = $P{coop_id}
+	and lncfloanintrate.loanintrate_code = $P{loadintrate_code}
+order by  lncfloanintratedet.effective_date, lncfloanintratedet.lower_amt]]>
+	</queryString>
+	<field name="LOANINTRATE_DESC" class="java.lang.String"/>
+	<field name="LOANINTRATE_CODE" class="java.lang.String"/>
+	<field name="EFFECTIVE_DATE" class="java.sql.Timestamp"/>
+	<field name="EXPIRE_DATE" class="java.sql.Timestamp"/>
+	<field name="LOWER_AMT" class="java.math.BigDecimal"/>
+	<field name="UPPER_AMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_RATE" class="java.math.BigDecimal"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="17cb4e61-9d8a-41d1-baba-43c77ff776a9" x="0" y="15" width="76" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA['รหัส:' + $F{LOANINTRATE_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9dc4fed3-0560-43c5-b6b1-aac5e05ab674" x="194" y="15" width="277" height="20"/>
+				<textElement>
+					<font fontName="Browallia New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA['รายละเอียด: '+$F{LOANINTRATE_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8ee03e31-b08a-41b4-a4e2-09ded458d5bd" x="0" y="0" width="160" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[ช่วงเวลา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c2d1e8cc-62d7-4174-801d-4af9b2481a1f" x="160" y="0" width="245" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[วงเงินอนุมัติ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6c28f1d2-c331-4308-be83-714aad5b2a53" x="405" y="0" width="66" height="40"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[อัตราดอกเบี้ย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ca1c107f-1f00-4028-86a8-fb44a2865e02" x="0" y="20" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[วันที่เริ่มต้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aa8d3546-4d82-4856-a7ad-7273b2fa56c5" x="80" y="20" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[วันที่สิ้นสุด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="731fce71-a096-467e-9650-8248044b50c8" x="160" y="20" width="123" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[ตั้งแต่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0f788b0-bc0b-49da-9831-19c9560dc623" x="283" y="20" width="122" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[ถึง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d517c994-9c6d-44a3-afdd-030049e6cc77" x="471" y="0" width="66" height="40"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<text><![CDATA[ผู้บันทึก]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="03d2939a-3dce-4727-82c4-f2cb3d38c47e" x="0" y="0" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{EFFECTIVE_DATE})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="204f25da-521d-4fff-916c-f6536820ae21" x="80" y="0" width="80" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{EXPIRE_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="ac3df4d9-7819-4df5-86d8-a3ac1f7b7374" x="160" y="0" width="123" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOWER_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="05443f51-43f6-4edb-935d-2c6c90fd6c37" x="283" y="0" width="122" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UPPER_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="80edd137-0819-48ea-8e09-70c0d3b24d2a" x="405" y="0" width="66" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_RATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="2703da7a-22e0-47d0-8a40-a82d08bb7ad6" x="471" y="0" width="66" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ENTRY_ID}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

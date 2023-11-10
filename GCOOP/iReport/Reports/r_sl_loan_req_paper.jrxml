@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44f9e6d3-22b0-4f36-a424-23fa2312c2d9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_loanreq_docno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct
+lnreqloan.coop_id,
+lnucfloanobjective.loanobjective_desc,
+lnreqloan.loanrequest_docno,
+lnreqloan.loanreqregis_amt,
+lnreqloan.period_payment,
+lnreqloan.period_payamt,
+lnreqloan.identifycont_intrate,
+lnreqloan.member_no,
+lnreqloan.remark,
+mbmembmaster.salary_id,
+mbmembmaster.salary_amount,
+mbmembmaster.mariage_status,
+mbucfposition.position_desc,
+mbmembmaster.addr_mobilephone,
+ft_memname(mbmembmaster.coop_id,mbmembmaster.member_no) as memname,
+ft_memgrp(mbmembmaster.coop_id,mbmembmaster.membgroup_code) as memgrp,
+ftcm_calagemth(mbmembmaster.birth_date,sysdate ) as age,
+shsharemaster.periodshare_amt * shsharetype.unitshare_value as periodshare,
+shsharemaster.sharestk_amt *  shsharetype.unitshare_value as sharestk,
+mbmembmaster.mate_name
+from lnreqloan ,
+lnucfloanobjective,
+mbmembmaster,
+shsharemaster,
+shsharetype,mbucfposition
+where
+lnreqloan.coop_id = $P{as_coop_id} and
+lnreqloan.loanrequest_docno = $P{as_loanreq_docno} and
+lnreqloan.loanobjective_code = lnucfloanobjective.loanobjective_code and
+mbmembmaster.member_no = lnreqloan.member_no and
+mbmembmaster.position_code = mbucfposition.position_code(+) and
+shsharemaster.member_no = lnreqloan.member_no and
+shsharemaster.sharetype_code = shsharetype.sharetype_code]]>
+	</queryString>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<field name="LOANREQUEST_DOCNO" class="java.lang.String"/>
+	<field name="LOANREQREGIS_AMT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="IDENTIFYCONT_INTRATE" class="java.math.BigDecimal"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="REMARK" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="SALARY_AMOUNT" class="java.math.BigDecimal"/>
+	<field name="MARIAGE_STATUS" class="java.math.BigDecimal"/>
+	<field name="POSITION_DESC" class="java.lang.String"/>
+	<field name="ADDR_MOBILEPHONE" class="java.lang.String"/>
+	<field name="MEMNAME" class="java.lang.String"/>
+	<field name="MEMGRP" class="java.lang.String"/>
+	<field name="AGE" class="java.lang.String"/>
+	<field name="PERIODSHARE" class="java.math.BigDecimal"/>
+	<field name="SHARESTK" class="java.math.BigDecimal"/>
+	<field name="MATE_NAME" class="java.lang.String"/>
+	<title>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5acb69ac-7ed4-439e-a5af-81a022d2e582" x="116" y="60" width="323" height="59"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="15"/>
+				</textElement>
+				<text><![CDATA[เสนอคณะกรรมการการดำเนินการพิจารณา สถานะโดยสรุปของสมาชิกผู้กู้เงินพิเศษ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c7ede183-6c31-4228-8180-0bbb52ec51ad" x="0" y="121" width="291" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ข้อมูลตามเอกสารหลักฐานของผู้กู้ จากผลการตรวจสอบสรุปได้ ดังนี้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5eef7f84-b8a3-4af4-9a7d-2d2deba1d041" x="0" y="0" width="111" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตรวจสอบ ....................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4d4efa98-87e3-4015-87b7-9ba9a9276718" x="0" y="20" width="111" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตรวจทาน ....................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47dd2ae7-f389-4fbb-a4e6-b6d2f7f968f4" x="0" y="40" width="121" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[พิมพ์สัญญา ....................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="60848eef-027c-4ae2-a699-7621b806f23e" x="455" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[รับเรื่อง ....................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0c8d2d7e-6e32-4f18-b9dd-68f88e989fe2" x="419" y="20" width="63" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลงรับคำขอกู้ที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a1df838b-38c8-44fa-9c0b-cd7221aff828" x="0" y="140" width="86" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[1. วัตถุประสงค์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dcd63b31-9449-44c2-ad04-2dcd5aa1e09e" x="0" y="159" width="121" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[2. วงเงินกู้-ระยะ วงเงินกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47ac872e-b918-4056-bcd3-0e50eb1b959d" x="213" y="159" width="118" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท                  ระยะเวลา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1c91966a-9b6c-4fc0-82c0-ff01c178d675" x="389" y="159" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[งวด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f841c52b-46c5-49d9-af3e-c5a5e86287ac" x="0" y="178" width="148" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[3. อัตราดอกเบี้ย-เงินผ่อนชำระ อัตราดอกเบี้ยร้อยละ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5d17be1d-42a8-4ab0-ba61-5222cf15d1ee" x="191" y="178" width="105" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ต่อปี ผ่อนชำระงวดละ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a0a12d25-2710-4de0-95ae-5c91b86e8581" x="389" y="178" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4df36b1d-971a-4ab7-b11a-f668fb17c890" x="0" y="197" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[4. ผู้ขอกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="56f95248-7403-4f0c-8d46-f0ca4a937236" x="242" y="197" width="29" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[อายุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bd38a84b-2d0c-4d86-b91e-d2e96ca878ee" x="314" y="197" width="113" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ปี รหัสประจำตัวพนักงาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47204aac-86e2-41ba-9c09-dbffebee0bdf" x="16" y="216" width="60" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[สมาชิกเลขที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3b77d290-5d0d-44c7-b278-c479c332956b" x="137" y="216" width="47" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่ง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4fce61b2-6b75-4fb7-a613-4a628501d084" x="275" y="216" width="32" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[สังกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ade34972-a54b-4450-8458-3e3bce375fc0" x="16" y="235" width="75" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[มีรายได้เดือนละ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="83f9ce8b-9660-490e-a477-96d3d002f3be" x="163" y="235" width="75" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท สถานภาพ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="360ffac7-186e-4b91-84be-38fc9e32a6a1" x="329" y="235" width="53" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[โทรศัพท์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1a18707b-3a29-4541-8ca0-47bfffc9cb9a" x="16" y="254" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ค่าหุ้นรายเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7a32334d-f5cb-43e1-bf28-279ac65fee9c" x="146" y="254" width="129" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท รวมหุ้นที่มีอยู่ทั้งหมด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c8377a53-9ed8-4e7a-8d14-1404c0e93235" x="357" y="254" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a7893990-c955-4057-b3af-8d948b8d5136" x="16" y="273" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[คู่สมรส]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="58d50e28-6e8a-4142-b937-facb501bc9f0" x="262" y="273" width="24" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[อายุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9c35212d-e323-4714-8aa8-5f965246ec0b" x="314" y="273" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ปี ประกอบอาชีพ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc973b60-6081-4ff3-9553-8601178c0096" x="16" y="292" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ตำแหน่ง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="53c1e84e-a207-4c34-a3c7-464e8870ded0" x="186" y="292" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[สถานที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6c4aba01-8c11-4d19-80f1-c624a1a21d2b" x="352" y="292" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[มีรายได้ต่อเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="204cbc17-d91b-4e6d-ade2-d50003e66fcb" x="500" y="292" width="32" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="71a6966f-22f6-490b-a8eb-e8ab981b7416" x="0" y="311" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[5. หลักประกัน]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="326bb6cb-b303-4701-9073-851021b24f6c" positionType="Float" mode="Transparent" x="16" y="333" width="539" height="24"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_reqno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="87486a9e-9d88-4ef7-90f6-b29878394eba" positionType="Float" mode="Transparent" x="16" y="359" width="539" height="24"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_reqno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement uuid="36eaa170-2530-457a-8233-c9ac309c6d6e" positionType="Float" x="0" y="460" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[7. สถานะการเงินของผู้กู้ (รายเดือน) ต้องคงเหลือร้อยละ 40]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5a7d74da-60a5-41db-9a61-fa4cbd2b3022" positionType="Float" x="445" y="460" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1893082c-c354-4ea7-8af2-fb390742e912" positionType="Float" x="0" y="493" width="465" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[8. ความเห็นของเจ้าหน้าที่ ได้วิเคราะห์และพิจารณาแล้ว เห็นสมควรเสนอคณะกรรมการเงินกู้พิเศษ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="db15bf35-f086-44ce-94c5-8401ec621bf9" positionType="Float" x="16" y="512" width="267" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[- อนุมัติวงเงิน .................................................. บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb5a0742-a36c-437d-9acf-8369e495924d" positionType="Float" x="16" y="531" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[- ไม่อนุมัติ]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="95808cbd-7b5a-45f6-a3df-fe6ef1b05552" positionType="Float" x="16" y="385" width="539" height="23"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_reqno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4a842733-066f-47ad-ab10-2097e7f61db7" x="488" y="20" width="67" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3ecbcf9c-0d85-4001-846f-922d2bb3ebe5" x="86" y="140" width="469" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANOBJECTIVE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="378dbcaa-0add-4d93-95cb-b1a45eafcca4" x="123" y="159" width="77" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANREQREGIS_AMT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="7e1e00d4-8ee6-4df7-84d1-24e215c50e9d" x="341" y="159" width="41" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="60467bc0-4bf7-4230-be56-bde0ecb72ec9" x="150" y="178" width="36" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDENTIFYCONT_INTRATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="32da934b-2999-404a-b8ea-b80884b0c31e" x="300" y="178" width="82" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e937c432-33fa-4b92-924c-9343b2ad77db" x="48" y="197" width="202" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="456af6f5-31f1-4e99-9dcf-3609e9fa7cfb" x="275" y="197" width="37" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4800b453-c5d3-4f79-a8f9-292eea156a16" x="427" y="197" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_ID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a61b2eed-71f3-4f5b-b6f7-fba89c5da3a9" x="76" y="216" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d465e4ca-a4a4-496c-acf1-0708b2304f7f" x="185" y="216" width="188" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POSITION_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="06a286f8-2642-4e92-b030-44027f84a00f" x="308" y="216" width="247" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMGRP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4a27f2b4-e571-49a1-af5c-71fde8769369" x="91" y="235" width="69" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0fa30a2a-832f-424a-b192-911c217a676c" x="238" y="235" width="86" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{MARIAGE_STATUS} == 1  ? "โสด" :
+    ( $F{MARIAGE_STATUS} == 2  ? "สมรส" :
+        ( $F{MARIAGE_STATUS} == 3  ? "หย่า" :
+            ( $F{MARIAGE_STATUS} == 4  ? "หม้าย" : "" ) ) ) )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2d197149-9271-4ff1-ac32-307ac0b8ab03" x="373" y="235" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADDR_MOBILEPHONE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="c2595b9e-b101-4835-a871-9987138f3d56" x="271" y="254" width="81" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHARESTK}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4a584d96-20c9-44ba-a7d9-fc74c721b48d" x="91" y="254" width="50" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIODSHARE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="609e1509-d3dd-4c3d-9204-d75db89039ca" x="66" y="273" width="196" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MATE_NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9aa47dfb-5067-4208-8d67-dc806184118a" positionType="Float" x="0" y="550" width="555" height="21"/>
+				<textElement>
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[ความเห็น .......................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e52f611-7100-464a-86ef-1c93f8ee34fd" positionType="Float" x="0" y="570" width="555" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[........................................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="98e20a89-443a-404a-bf54-911407de5c87" positionType="Float" x="0" y="589" width="555" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[........................................................................................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8838fc5b-ea3c-49bc-98b8-2b26ad8de89c" positionType="Float" x="405" y="610" width="149" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[...............................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4ffbbefe-2b02-495b-b6c7-6465455eea6e" positionType="Float" x="405" y="620" width="149" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[(                                  )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e29a61fc-527f-442e-99ac-9c40ba710a46" positionType="Float" x="405" y="635" width="149" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[เจ้าหน้าที่วิเคราะห์]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="45b6c945-6748-4b4b-b7d1-751d0d7627ab" positionType="Float" x="0" y="666" width="555" height="5"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_loanreq_docno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport4.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="95ab07c6-99dd-4c89-aaf1-64ee587cc3b5" positionType="Float" x="16" y="410" width="539" height="20"/>
+				<subreportParameter name="as_loanreq_no">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport5.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="a67118b3-adfd-4cb5-825a-d06eb2114a91" positionType="Float" x="0" y="432" width="555" height="26"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_reqno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport6.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="5d12bed7-ebf0-4d31-913c-13da606304b7" positionType="Float" x="0" y="480" width="555" height="12"/>
+				<subreportParameter name="as_coop_id">
+					<subreportParameterExpression><![CDATA[$F{COOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_loanreq_docno">
+					<subreportParameterExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_sl_loan_req_paper_subreport7.jasper"]]></subreportExpression>
+			</subreport>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="d94cc089-f67f-4b97-8a76-25efd8e022de" positionType="Float" x="334" y="460" width="100" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SALARY_AMOUNT}-(($F{SALARY_AMOUNT} *40)/100)]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement uuid="8505c2d7-84eb-4cab-835a-6e3aa40938fa" x="0" y="663" width="554" height="1"/>
+			</break>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="cb2ce04a-f9ae-4474-ade5-23144b900213" x="50" y="546" width="504" height="63"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REMARK}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

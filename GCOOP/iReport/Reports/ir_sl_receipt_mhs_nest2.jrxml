@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_sl_receipt_mhs" language="groovy" pageWidth="576" pageHeight="360" columnWidth="576" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="20" uuid="94d4fced-e77f-4142-bc1a-f3ce4e70c26a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="div_year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="stat_membno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+yrucfmethpay.methpaytype_desc ,
+yrslippayoutdet.prin_payment ,
+yrslippayoutdet.int_payment ,
+yrslippayoutdet.item_payment ,
+ftreadtbaht ( yrou.sum ) as readthai
+from yrslippayout
+left join yrslippayoutdet on trim( yrslippayout.payoutslip_no ) = trim( yrslippayoutdet.payoutslip_no )
+left join yrucfmethpay on yrslippayoutdet.methpaytype_code = yrucfmethpay.methpaytype_code
+left join (select yrout.member_no , yrout.div_year , sum(det.item_payment) as sum from yrslippayout yrout left join yrslippayoutdet det on trim( yrout.payoutslip_no ) = trim( det.payoutslip_no )where det.methpaytype_code not in ('CSH' ,'CBT','DEP' ) group by  yrout.member_no , yrout.div_year  )  yrou  on yrou.member_no = yrslippayout.member_no and  yrou.div_year = yrslippayout.div_year
+
+where yrslippayout.coop_id = $P{coop_id}
+and trim( yrslippayout.member_no) = $P{stat_membno}
+and trim( yrslippayout.div_year) = $P{div_year}
+and yrucfmethpay.methpaytype_code not in ('CSH' ,'CBT','DEP' )
+order by  (
+case  yrucfmethpay.methpaytype_code when 'LON' then 31
+else yrucfmethpay.methpaytype_sort end
+)]]>
+	</queryString>
+	<field name="METHPAYTYPE_DESC" class="java.lang.String"/>
+	<field name="PRIN_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="INT_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="READTHAI" class="java.lang.String"/>
+	<variable name="variable1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{ITEM_PAYMENT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="54fc0202-82a8-4df8-a940-8646d84356a5" x="455" y="0" width="85" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8329e351-2314-4916-9e61-b02997e0b676" x="363" y="0" width="92" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="6614a3d7-ecc2-4eed-8b4b-a0792d54bd3a" x="271" y="0" width="92" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="d5a25451-498b-409c-bdd9-f737433b78e6" x="179" y="0" width="92" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f310641f-88f2-4b7e-96f6-c435d0d491fb" x="150" y="0" width="29" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f54486d1-4f74-4b3a-8b1b-d686d807cfba" x="0" y="0" width="150" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="bec901b6-3506-4dc9-9422-bf4ed6b907fd" mode="Transparent" x="0" y="0" width="150" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4e0f2947-7f0d-4b92-94b4-7251b7d510a6" mode="Transparent" x="150" y="0" width="29" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[งวดที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="097c22d4-c18c-4222-85de-79ce4e7a987d" mode="Transparent" x="179" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="false" isUnderline="false" isStrikeThrough="false" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[เงินต้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bf991045-517a-4a8e-9d10-53a5b89bdea4" mode="Transparent" x="271" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4bf1cebb-ac23-4bd2-89ea-9ab18eb0a0ea" mode="Transparent" x="363" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="28fe2421-3490-4f9c-b4e2-bce2cc598dbc" mode="Transparent" x="455" y="0" width="84" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[เงินต้นคงเหลือ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement uuid="aadd32e8-ba62-4485-90c4-57fc7cdf344f" x="18" y="0" width="132" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{METHPAYTYPE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="3e2a8055-28a8-4a1a-92ff-eee636ec917e" x="179" y="0" width="82" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRIN_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7d026262-49cc-4326-b8c3-36e32f2edff7" x="271" y="0" width="82" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INT_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="67ffa37b-ecdc-49c7-aa02-90b781fcc419" x="363" y="0" width="81" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ITEM_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="cf87f24b-9db2-4824-a0c8-422c4ee81745" x="0" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="54d49d36-783f-4244-b818-a0653b863efe" x="150" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="2a16cb81-47d5-4e3a-9477-268d9102bd32" x="179" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="8db9369e-67b0-40ca-be1d-8139538013cc" x="271" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="b4883d56-fa4e-468b-bf71-775a5eff0783" x="363" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="658ed947-c8cc-4a70-99c4-ec9aa21e10ad" x="455" y="0" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="149b8240-0a88-4b18-a840-847991ce7339" x="540" y="0" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="21">
+			<rectangle>
+				<reportElement uuid="870c7c31-b19f-410a-855f-78c5574a894c" x="1" y="1" width="270" height="20" forecolor="#FFFFFF" backcolor="#FFCC66"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="62351d43-1f83-4d57-acae-8475091441ae" x="363" y="0" width="92" height="20"/>
+			</rectangle>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="35a445ae-a263-4f9b-9c81-ec0f55810e41" x="364" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e97e7720-37d3-4e53-8dd9-4d9a8f123e79" x="271" y="0" width="92" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รวมเงิน]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="e0679160-c570-4230-9f4d-da6b5df5d886" x="1" y="0" width="539" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="cc32ab0d-dccf-45fb-8ddd-f28a2c68a626" x="1" y="1" width="271" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{READTHAI}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

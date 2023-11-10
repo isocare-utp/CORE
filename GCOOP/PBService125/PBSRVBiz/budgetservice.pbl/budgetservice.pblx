@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project MSBuildVersion="2.0" ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ResolveAssemblyReferences" />
+  <PropertyGroup>
+    <Name>budgetservice</Name>
+    <SchemaVersion>2</SchemaVersion>
+    <ProjectGuid>{0f19b9ba-460b-4feb-9b02-1df5589c3404}</ProjectGuid>
+    <Comment>
+    </Comment>
+    <CreateNewFolder>true</CreateNewFolder>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Platform>AnyCPU</Platform>
+    <AssemblyName>budgetservice</AssemblyName>
+    <RootNamespace>budgetservice</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <ProjectTypeGuids>{1e00f043-675d-11d2-bca5-000086095dda};{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{1e00f043-675a-11d2-bca5-000086095dda}</ProjectTypeGuids>
+    <PBOriginalVersion>12.5.2</PBOriginalVersion>
+    <ReferencePath>$(DevEnvDir)\DotNET\bin</ReferencePath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>.\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>.\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="app.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ItemType>ApplicationDefinition</ItemType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="b_bg_rpt_budget_month.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetclosemont_det.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetcut_detail.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetdetailreq_list.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetgroup.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetgroup_year.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetpaydetail_detail.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetsetamt_list_new.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetslip.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetslip_det.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgettype_list.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgettype_noaccid.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgettype_year.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_budgetyear.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_constant.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_for_insert_slipbudget.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_movement_detail.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_movement_detail_nogroup.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_bg_movement_detail_nogroup_month.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="d_budget_year.srd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="rpt_budget_month.srd">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="n_cst_budget_service.sru">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Sybase\PowerBuilder\12.5\PowerBuilder.targets" />
+</Project>

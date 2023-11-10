@@ -1,0 +1,69 @@
+$PBExportHeader$d_dpdeptstatement_09_14.srd
+release 12.5;
+datawindow(units=0 color=1073741824 processing=1 selected.mouse=yes print.canusedefaultprinter=yes print.margin.left=110 print.margin.right=110 print.margin.top=96 print.margin.bottom=96 )
+header(height=84 )
+detail(height=96 )
+summary(height=0 )
+footer(height=0 )
+table(column=(name=deptaccount_no dbname="deptaccount_no" type=char(10) updatewhereclause=yes )
+column=(name=seq_no dbname="seq_no" type=decimal(0) updatewhereclause=yes )
+column=(name=deptitemtype_code dbname="deptitemtype_code" type=char(3) updatewhereclause=yes )
+column=(name=operate_date dbname="operate_date" type=char(46) updatewhereclause=yes )
+column=(name=deptitem_amt dbname="deptitem_amt" type=decimal(5) updatewhereclause=yes )
+column=(name=balance_forward dbname="balance_forward" type=number updatewhereclause=yes )
+column=(name=prncbal dbname="prncbal" type=decimal(5) updatewhereclause=yes )
+column=(name=calint_from dbname="calint_from" type=datetime updatewhereclause=yes )
+column=(name=calint_to dbname="calint_to" type=datetime updatewhereclause=yes )
+column=(name=datediff dbname="datediff" type=number updatewhereclause=yes )
+retrieve="select 
+	deptaccount_no
+	, seq_no
+	, deptitemtype_code
+	, day || '/' || month || '/' || year operate_date
+	, deptitem_amt
+	, balance_forward
+	, prncbal
+	, calint_from
+	, calint_to
+	, datediff   
+from
+(
+	select 
+		deptaccount_no
+		, seq_no
+		, deptitemtype_code
+		, operate_date
+		, case when length(EXTRACT(day from operate_date )) = 1 then cast( '0' || EXTRACT(day from operate_date ) as varchar(2)) else cast(EXTRACT(day from operate_date ) as varchar(2)) end day
+		, case when length(EXTRACT(month from operate_date )) = 1 then cast( '0' || EXTRACT(month from operate_date ) as varchar(2)) else cast(EXTRACT(month from operate_date ) as varchar(2)) end month
+		, EXTRACT(year from operate_date ) year
+		, deptitem_amt
+		, prncbal-deptitem_amt as balance_forward
+		, prncbal
+		, calint_from
+		, calint_to
+		, calint_to -calint_from datediff   
+	from dpdeptstatement 
+	where deptaccount_no = :str_accno  and seq_no >= :str_seqno order by seq_no
+)
+" arguments=(("str_accno",string), ("str_seqno",string))
+)
+text(name=datediff_t band=header x="14" y="4" height="64" width="2130" tooltip.backcolor="0" tooltip.delay.visible="0" tooltip.textcolor="0" alignment="0" border="0" text="Datediff" enabled="0" font.face="Tahoma" font.height="-10" background.color="1073741824" background.mode="2" background.gradient.color="0" background.gradient.repetition.length="0" background.gradient.scale="0" background.gradient.spread="0" )
+text(name=balance_forward_t band=header x="2149" y="4" height="80" width="448" border="0" text="Balance Forward" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=deptaccount_no_t band=header x="2606" y="4" height="80" width="434" border="0" text="Deptaccount No" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=seq_no_t band=header x="3049" y="4" height="80" width="447" border="0" text="Seq No" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=deptitemtype_code_t band=header x="3505" y="4" height="80" width="517" border="0" text="Deptitemtype Code" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=operate_date_t band=header x="4031" y="4" height="80" width="1690" border="0" text="Operate Date" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=deptitem_amt_t band=header x="5730" y="4" height="80" width="447" border="0" text="Deptitem Amt" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=prncbal_t band=header x="6186" y="4" height="80" width="447" border="0" text="Prncbal" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=calint_from_t band=header x="6642" y="4" height="80" width="813" border="0" text="Calint From" font.face="Tahoma" font.height="-10" background.color="536870912" )
+text(name=calint_to_t band=header x="7464" y="4" height="80" width="813" border="0" text="Calint To" font.face="Tahoma" font.height="-10" background.color="536870912" )
+column(name=datediff band=detail x="14" y="0" height="64" width="2126" id=10 border="0" alignment="0" format="[general]" tabsequence=290 font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autoselect=no edit.focusrectangle=no )
+column(name=balance_forward band=detail x="2149" y="8" height="80" width="448" id=6 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=deptaccount_no band=detail x="2606" y="8" height="80" width="434" id=1 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=seq_no band=detail x="3049" y="8" height="80" width="447" id=2 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=deptitemtype_code band=detail x="3505" y="8" height="80" width="517" id=3 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=operate_date band=detail x="4031" y="8" height="80" width="1690" id=4 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=deptitem_amt band=detail x="5730" y="8" height="80" width="447" id=5 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=prncbal band=detail x="6186" y="8" height="80" width="447" id=7 border="0" alignment="1" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=calint_from band=detail x="6642" y="8" height="80" width="813" id=8 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )
+column(name=calint_to band=detail x="7464" y="8" height="80" width="813" id=9 border="0" alignment="0" font.face="Tahoma" font.height="-10" background.color="536870912" background.mode="1" edit.autohscroll=yes edit.focusrectangle=no )

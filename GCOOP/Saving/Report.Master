@@ -1,0 +1,242 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Report.master.cs" Inherits="Saving.Report" %>
+
+<%@ Register Src="CustomControl/DatePicker.ascx" TagName="DatePicker" TagPrefix="uc1" %>
+<% Page_LoadComplete(); %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <%=PostRunReportOption%>
+    <title>
+        <%=TitlePage%>
+    </title>
+    <asp:Literal ID="LtJsCss" runat="server">    
+        <link rel="stylesheet" type="text/css" media="screen,projection,print" href="./Css/layout_page.css" />
+        <link rel="stylesheet" type="text/css" media="screen,projection,print" href="./Css/layout_text.css" />
+        <script type="text/javascript" src="JsCss/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="JsCss/DatePicker.js"></script>
+        <script src="./Js/DetectBrowser.js" type="text/javascript"></script>
+        <script src="./Js/WebState.js" type="text/javascript"></script>
+        <script src="./Js/Js.js" type="text/javascript"></script>
+        <script src="./Js/Gcoop.js" type="text/javascript"></script>
+    </asp:Literal>
+    <script type="text/javascript">
+        var isMenuGroupOpen = true;
+        var msForm1 = document.forms['<%=form1.ClientID%>'];
+        Gcoop.Url = '<%=state.SsUrl%>';
+        Gcoop.Application = '<%=state.SsApplication%>';
+        var hdReportOptionId = '<%=HdReportOption.ClientID%>';
+        var hdReportPrinterId = '<%=HdReportPrinter.ClientID%>';
+        var hdReportPrinter = '<%=DpPrinter.ClientID%>';
+        var datePicker = null;
+        var urlSaving = "<%=urlSaving%>";
+        var urlSavingCurrent = "<%=urlSavingCurrent%>";
+        var urlSavingExtend = "<%=urlSavingExtend%>";
+        var winParameter = "<%=winParameter%>";
+
+        try {
+            datePicker = new DatePicker();
+        } catch (err) {
+            datePicker = null;
+        }
+
+        function OnLoadComplete() {
+            if (datePicker == null) {
+                datePicker = new DatePicker();
+            }
+            Page_LoadComplete();
+            try {
+                if (iReportProgress == true) {
+                    document.getElementById("linkOpenReportProcessing").style.visibility = "visible";
+                }
+            } catch (err) {
+            }
+            datePicker.Gcoop = Gcoop;
+        }
+
+        function OpenReportProcessing(retry) {
+            var isRetry = false;
+            try {
+                if (retry != undefined && retry != null) {
+                    isRetry = retry;
+                }
+            } catch (err) { }
+            try {
+                var textRetry = "";
+                if (isRetry) {
+                    textRetry = "&retry=true";
+                }
+                var fullUrl = Gcoop.GetUrl() + "CriteriaIReport/iframe_ireport/w_dlg_ireport_processing.aspx?pid=" + iReportPid + "&cid=" + iReportCid + textRetry;
+                Gcoop.OpenIFrame(700, 180, "", "", fullUrl);
+            } catch (err) { }
+        }
+
+        function OpenReportSuccessful() {
+            try {
+                Gcoop.RemoveIFrame();
+                document.getElementById("linkOpenReportProcessing").innerHTML = iReportSuccessfulDownload;
+                if (iReportAutoOpenPdf != "") {
+                    window.open(iReportAutoOpenPdf, "_blank");
+                }
+            } catch (err) {
+            }
+        }
+
+        function OnClickReportOption(option) {
+            document.getElementById(hdReportOptionId).value = option;
+            document.getElementById(hdReportPrinterId).value = document.getElementById(hdReportPrinter).value;            
+            PostRunReportOption();
+        }
+    </script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body onload="OnLoadComplete()">
+    <div class="page-container">
+        <!-- A. HEADER -->
+        <form id="form1" runat="server">
+        <asp:HiddenField ID="HApplication" runat="server" />
+        <asp:HiddenField ID="HCurrentPage" runat="server" />
+        <asp:HiddenField ID="HUrl" runat="server" />
+        <br />
+        <div class="header">
+            <div class="header-top">
+                <a class="sitelogo" href="#" title="Go to Start page">
+                    <asp:Image ID="ImgSiteLogo" runat="server" ImageUrl="~/Image/band_black.jpg" />
+                </a>
+                <div class="sitename">
+                    <h1>
+                        <a href="<%=siteLinkName%>" title="Go to Start page" target="_blank">
+                            <%=siteTName%>
+                        </a>
+                    </h1>
+                    <h2>
+                        <%=siteEName%>
+                    </h2>
+                </div>
+                <div class="appDetail">
+                    <asp:Label ID="LbAppName" runat="server" Text=""></asp:Label>
+                    <br />
+                    <asp:Label ID="LbWorkDateLoginBy" runat="server" Text="" CssClass="appDetailContent1"></asp:Label>
+                    <br />
+                    <asp:Label ID="LbDatabase" runat="server" Text="" CssClass="appDetailContent2"></asp:Label>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="main-content">
+                <div class="searchform">
+                    <asp:Panel ID="pnl_search" runat="server" Visible="false">
+                        <input id="txt_search" type="text" value="type to search..." onclick="clearTXT('txt_search')"
+                            onkeyup="searchPage('txt_search',event)" style="width: 220px;" />
+                        <div class="div_dropdown" id="div_list">
+                        </div>
+                        <asp:HiddenField ID="hidden_WIN_OBJECT" runat="server" />
+                        <asp:HiddenField ID="hidden_WIN_DESCRIPTION" runat="server" />
+                    </asp:Panel>
+                </div>
+                <h1 class="pagetitle">
+                    <!-- รายงานระบบ... ( บน เส้นสีเทา set จาก code behind)-->
+                    <asp:Literal ID="ltr_headmainpage" runat="server" Text=""></asp:Literal>
+                </h1>
+                <asp:HiddenField ID="hidden_headmainpage" runat="server" />
+                <div class="rpt_content_left">
+                    <asp:Panel ID="rpt_content_left" runat="server">
+                        <h1 class="first">
+                            <asp:Label ID="lbl_submenu" runat="server" Text="กลุ่มรายงาน"></asp:Label>
+                        </h1>
+                        <dl class="rpt_nav3-grid">
+                            <asp:Repeater ID="RepeaterMenuReport" runat="server">
+                                <ItemTemplate>
+                                    <dt>
+                                        <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl='<%#Eval("PageLink")%>'>
+                                            <asp:Label ID="Label2" runat="server" Text='<%#Eval("GroupName")%>' />
+                                        </asp:HyperLink></dt></ItemTemplate>
+                            </asp:Repeater>
+                        </dl>
+                        <div class="rpt_endsubmenu">
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+                    </asp:Panel>
+                </div>
+                <div class="rpt_content_right">
+                    <table style="padding-bottom: 20px" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td height="600" valign="top">
+                                <div align="center">
+                                    <asp:Literal ID="LtServerMessageFrame" runat="server"></asp:Literal><asp:ContentPlaceHolder
+                                        ID="ContentPlace" runat="server">
+                                    </asp:ContentPlaceHolder>
+                                    <uc1:DatePicker ID="datePicker" runat="server" />
+                                    <asp:Panel ID="PnRetrieveReport" runat="server">
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <div align="center" id="linkOpenReportProcessing" style="visibility: hidden;">
+                                            <div style="cursor: pointer; text-decoration: underline; color: #0099FF; font-size: 15px;
+                                                font-family: Tahoma; font-weight: bold;" onclick="OpenReportProcessing(true)">
+                                                หน้าประมวลการออกรายงาน
+                                            </div>
+                                        </div>
+                                        <div align="right">
+                                            <span style="margin-left: 55px; font-family: Tahoma; font-size: 14px; font-weight: bold;
+                                                color: #00BAEF;">เลือกชนิดออกรายงาน</span>
+                                            <hr style="margin-left: 55px; color: #33BAEF;" width="88%" align="left" />
+                                            <br />
+                                            <style>
+                                                .labelSelectReportExtension
+                                                {
+                                                    width: 50px;
+                                                    text-align: center;
+                                                    border: 1px solid #000000;
+                                                    cursor: pointer;
+                                                    margin-left: 5px;
+                                                }
+                                            </style>
+                                            <table width="88%">
+                                                <tr>
+                                                    <td align="left">
+                                                        <a href="<%=backUrl%>" style="color: rgb(70, 122, 167); font-weight: bold; font-size: 12px;
+                                                            font-family: Tahoma;">&lt;&lt; ย้อนกลับ</a>
+                                                    </td>
+                                                    <td align="right">
+                                                        <asp:DropDownList ID="DpPrinter" runat="server"  ></asp:DropDownList>
+                                                        <span class="labelSelectReportExtension" style="color: Red;" onclick="OnClickReportOption('direct')">
+                                                            &nbsp; Printer &nbsp;</span> 
+                                                        <span class="labelSelectReportExtension" style="color: Red;" onclick="OnClickReportOption('pdf')">
+                                                            &nbsp; PDF &nbsp;</span> <span class="labelSelectReportExtension" style="color: #0033FF;"
+                                                                onclick="OnClickReportOption('rtf')">&nbsp; RTF &nbsp;</span> <span class="labelSelectReportExtension"
+                                                                    style="color: green;" onclick="OnClickReportOption('xlsx_data')">&nbsp; Exel &nbsp;</span>
+                                                        <span class="labelSelectReportExtension" style="color: #0077DD;" onclick="OnClickReportOption('csv')">
+                                                            &nbsp; CSV &nbsp;</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </asp:Panel>
+                                    <asp:HiddenField ID="HdReportOption" Value="" runat="server" />
+                                    <asp:HiddenField ID="HdReportPrinter" Value="" runat="server" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="iFrameMaster">
+        </div>
+        <asp:Image ID="Image6" runat="server" ImageUrl="~/Image/tranparent.png" />
+        <asp:Literal ID="LtDwThDateJavaScript" runat="server"></asp:Literal></form>
+        <div class="footer">
+        </div>
+    </div>
+    <script language="javascript">
+        var img = document.getElementById("ctl00_ImgSiteLogo");
+        //img.onload = good;
+        img.onerror = function () { img.src = "/CORE/GCOOP/SingleSignOn/Image/band_black.jpg" };
+        img.src = "/<%=logoURL%>";       
+    </script> 
+</body>
+</html>

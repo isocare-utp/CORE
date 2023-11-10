@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="neted_ir_printcoll_pbn" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b84787e-e89d-4b90-b69b-4e041b4fce90">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_reqloandocno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.loancontract_no,a.approve_date,a.member_no ,FT_MEMNAME(a.coop_id,a.member_no) from lnreqloan a where a.loanrequest_docno =  $P{as_reqloandocno}]]>
+	</queryString>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="APPROVE_DATE" class="java.sql.Timestamp"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FT_MEMNAME(A.COOP_ID,A.MEMBER_NO)" class="java.lang.String"/>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3e64a739-77d1-4122-acd1-1d5465011a50" x="14" y="12" width="131" height="20"/>
+				<textElement/>
+				<text><![CDATA[หนังสือสัญญากู้ยืมเงินเลขที่:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="bcc507e7-deb1-45ed-96bb-ddd67a317edf" x="156" y="12" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f7dc8650-6f70-4f1c-b025-6a05ad5bbb2e" x="14" y="36" width="77" height="20"/>
+				<textElement/>
+				<text><![CDATA[ออกสัญญาวันที่:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="b42c3add-1309-493b-a45c-459802e57cb3" x="107" y="36" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{APPROVE_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fd497145-3249-4b62-bceb-0d2706629f4e" x="15" y="60" width="64" height="20"/>
+				<textElement/>
+				<text><![CDATA[เลขสมาชิกผู้กู้:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="9f9c1659-881b-45d9-8434-826ddc22a895" x="87" y="61" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d0d93451-89da-46de-9678-7418f4f53f8a" x="15" y="84" width="37" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อผู้กู้:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="72fa10cb-adcc-4adb-9dc9-feebcd41c095" x="56" y="84" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FT_MEMNAME(A.COOP_ID,A.MEMBER_NO)}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

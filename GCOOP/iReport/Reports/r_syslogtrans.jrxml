@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_syslogtrans" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="42804911-aed9-4a45-b473-76c0f6897d0d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="9"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="table" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="stmp_user" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT "SYSLOGTRANS"."TABNM",
+         "SYSLOGTRANS"."KEY1",
+         "SYSLOGTRANS"."ACTION",
+         "SYSLOGTRANS"."TABDSC",
+         "SYSLOGTRANS"."FIELDNM",
+         "SYSLOGTRANS"."FIELDDSC",
+         "SYSLOGTRANS"."OLDVALUE",
+         "SYSLOGTRANS"."NEWVALUE",
+         "SYSLOGTRANS"."STAMPDTE",
+         "SYSLOGTRANS"."STAMPUSR"
+    FROM "SYSLOGTRANS"
+where tabnm = $P{table}
+and stampdte between $P{start_date} and $P{end_date}
+and stampusr = $P{stmp_user}]]>
+	</queryString>
+	<field name="TABNM" class="java.lang.String"/>
+	<field name="KEY1" class="java.lang.String"/>
+	<field name="ACTION" class="java.lang.String"/>
+	<field name="TABDSC" class="java.lang.String"/>
+	<field name="FIELDNM" class="java.lang.String"/>
+	<field name="FIELDDSC" class="java.lang.String"/>
+	<field name="OLDVALUE" class="java.lang.String"/>
+	<field name="NEWVALUE" class="java.lang.String"/>
+	<field name="STAMPDTE" class="java.sql.Timestamp"/>
+	<field name="STAMPUSR" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="101" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ffd69123-7ed5-4073-be81-82bd90b200b4" x="123" y="44" width="498" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ตั้งแต่วันที่ "+new SimpleDateFormat("dd MMMM yyyy",new Locale("th","TH")).format($P{start_date})+" ถึงวันที่ "+new SimpleDateFormat("dd MMMM yyyy",new Locale("th","TH")).format($P{end_date})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6ff04fe7-0333-46e7-99f9-b04e96d7927e" x="665" y="32" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่พิมพ์ "+new SimpleDateFormat("dd MMMM yyyy",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="f5b8f8e4-38ac-46e6-b54b-b1bf43b6e35f" x="749" y="11" width="43" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="285c1f2b-6427-46f5-9f13-4c19e497086e" x="665" y="52" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เวลาที่พิมพ์ "+new SimpleDateFormat("HH:mm:ss",new Locale("th","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="45a4f908-b2fa-472f-b0c3-cff877875d1f" x="740" y="11" width="9" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1387bf17-4dce-4cda-bc57-cb269237a5c6" x="123" y="24" width="498" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการตรวจสอบการเปลี่ยนแปลงข้อมูลของระบบ (Audit Trail)]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4ec50a3e-e26a-4dbf-8fd3-8700ae326b62" x="692" y="11" width="48" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="505bf394-5245-4f2e-999e-b0c19a384747" x="0" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ตาราง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7a216d0c-3365-4d37-a868-287c9f464e52" x="100" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[KEY1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7d20b07-6baa-4cbe-b557-5532d0047f5f" x="200" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ACTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="80c5a10f-006d-4cd7-bb6e-85c7d066bc23" x="300" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[คอลัมน์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b672eab-7fce-4aeb-a4aa-7f41c46f9828" x="400" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ค่าเก่า]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce94f1cc-b0c0-48e7-83bf-13a61f4494e2" x="500" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ค่าใหม่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="af08c5bc-1f2a-4ccf-930c-f0eaef389706" x="600" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fa3b8cc2-ec9a-4f9d-bc65-52a43f96cb49" x="700" y="81" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อผู้ใช้งาน]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bf124adc-bcfc-4a0b-a107-798f07f28823" x="100" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{KEY1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f46f1a09-8a75-48ba-8639-d95fa6f1f392" x="200" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ACTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2808ace9-0dc3-45d5-9545-08819ccaf317" x="400" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{OLDVALUE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5fb7d9ed-cd4d-4baa-a53b-11f3d595eaac" x="500" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{NEWVALUE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0fe539da-dfae-4400-a61d-d41f8d6dadb5" x="600" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{STAMPDTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b27175b2-a618-4d5b-954a-6e8c1e59cc04" x="700" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{STAMPUSR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="593bddfa-b6d5-416e-9560-1dcd74b5f2af" x="0" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[( $F{TABDSC} ? $F{TABDSC} : $F{TABNM} )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6ea1d5ea-51a4-4e2c-a01b-61854bb8c137" x="300" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[( $F{FIELDDSC} ? $F{FIELDDSC} : $F{FIELDNM} )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_netloan_receive_rdate_2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5781c7da-20e1-4339-8d5f-20276f4d3f17">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_slipclearno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT "SLSLIPPAYINDET"."LOANCONTRACT_NO",
+         "SLSLIPPAYINDET"."PRINCIPAL_PAYAMT",
+         "SLSLIPPAYINDET"."INTEREST_PAYAMT",
+         "SLSLIPPAYIN"."DOCUMENT_NO",
+         "LNCONTMASTER"."PERIOD_PAYMENT"
+    FROM "SLSLIPPAYIN",
+         "SLSLIPPAYINDET",
+         "LNCONTMASTER"
+   WHERE ( "SLSLIPPAYINDET"."COOP_ID" = "SLSLIPPAYIN"."COOP_ID" ) and
+         ( "SLSLIPPAYINDET"."PAYINSLIP_NO" = "SLSLIPPAYIN"."PAYINSLIP_NO" ) and
+         ( "SLSLIPPAYINDET"."COOP_ID" = "LNCONTMASTER"."COOP_ID" ) and
+         ( "SLSLIPPAYINDET"."LOANCONTRACT_NO" = "LNCONTMASTER"."LOANCONTRACT_NO" ) and
+         ( ( "SLSLIPPAYIN"."PAYINSLIP_NO" = $P{as_slipclearno}  ) )]]>
+	</queryString>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="DOCUMENT_NO" class="java.lang.String"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="09c2d651-d198-40a2-9e52-b517bd8aeb03" x="65" y="-1" width="79" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2aae4d1e-fb5a-412e-8524-519f1515e8bf" x="212" y="-1" width="68" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYAMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="646c3768-34d4-400a-9013-433d33cdb461" x="0" y="-1" width="65" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PERIOD_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1d9a933d-6f83-4c01-98b5-6ca5a8ed8080" x="144" y="-1" width="68" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_PAYAMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

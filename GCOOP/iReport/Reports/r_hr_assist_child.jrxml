@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_hr_assist_child" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cc612529-b7eb-41ee-8a39-dde2ab894719">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_empno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_posfan" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_empgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_page" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_total" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_apptotal" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_halftotal" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_school" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_monlearn" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_monuse" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_drawmon" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_asdate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select hr.emp_no as emp_no,mp.prename_desc||' '||hr.emp_name||' '||hr.emp_surname as fullname,
+       hp.pos_desc as position_emp,
+       hf.f_name as f_name,hf.occupation as occupation,
+       FTREADTBAHT($P{as_apptotal}) as apptotal,
+       FTREADTBAHT($P{as_halftotal}) as halftotal,
+       FTREADTBAHT($P{as_total}) as total,
+       hf2.f_name as child_name,hf2.occupation as occupation2,
+       trunc(Ft_Calage( hf2.birth_date , sysdate , 4 )) as age,
+       aa.ASSIST_AMT,aa.ASSIST_DRAW,aa.ASSIST_DRAW,aa.ASSIST_LEARN,aa.ASSIST_USE,aa.ASSIST_POSIT,aa.ASSIST_CODE
+from(
+      SELECT hs.EMP_NO as EMP_NO,
+	hs.ASSIST_DATE as ASSIST_DATE,
+	hs.ASSIST_AMT as ASSIST_AMT,
+       	hs.ASSIST_DRAW as ASSIST_DRAW,
+	hs.ASSIST_LEARN as ASSIST_LEARN,
+       	hs.ASSIST_USE as ASSIST_USE,
+	hs.ASSIST_POSIT as ASSIST_POSIT,
+	hs.ASSIST_CODE
+FROM hremployee hr,hremployeeassist hs
+where hr.emp_no = hs.emp_no
+      and hr.coop_id = $P{as_coopid}
+      and hr.emp_no = $P{as_empno} ) aa,hremployee hr,
+                            hremployeefamily hf,
+                            mbucfprename mp,
+                            hrucfposition hp,
+                            hremployeefamily hf2
+                            where hr.emp_no = hf.emp_no(+)
+                            and hr.emp_no = hf2.emp_no(+)
+                            and hr.prename_code = mp.prename_code
+                            and hr.pos_code = hp.pos_code
+                            and hf.f_relation(+) = 'คู่สมรส'
+                            and hf2.f_relation(+) = 'บุตร'
+     	  			       and aa.ASSIST_CODE = '02'
+                            and hr.coop_id = $P{as_coopid}
+                            and hr.emp_no = $P{as_empno}
+		        and aa.ASSIST_DATE = $P{as_asdate}
+     order by aa.emp_no asc]]>
+	</queryString>
+	<field name="EMP_NO" class="java.lang.String"/>
+	<field name="FULLNAME" class="java.lang.String"/>
+	<field name="POSITION_EMP" class="java.lang.String"/>
+	<field name="F_NAME" class="java.lang.String"/>
+	<field name="OCCUPATION" class="java.lang.String"/>
+	<field name="APPTOTAL" class="java.lang.String"/>
+	<field name="HALFTOTAL" class="java.lang.String"/>
+	<field name="TOTAL" class="java.lang.String"/>
+	<field name="CHILD_NAME" class="java.lang.String"/>
+	<field name="OCCUPATION2" class="java.lang.String"/>
+	<field name="AGE" class="java.math.BigDecimal"/>
+	<field name="ASSIST_AMT" class="java.math.BigDecimal"/>
+	<field name="ASSIST_DRAW" class="java.math.BigDecimal"/>
+	<field name="ASSIST_LEARN" class="java.math.BigDecimal"/>
+	<field name="ASSIST_USE" class="java.math.BigDecimal"/>
+	<field name="ASSIST_POSIT" class="java.lang.String"/>
+	<field name="ASSIST_CODE" class="java.lang.String"/>
+	<variable name="sum_mond" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$P{as_drawmon}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="802">
+			<staticText>
+				<reportElement x="126" y="2" width="317" height="20" uuid="35b2b049-4e72-4020-a045-33289e7e4174"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ธนาคารออมสิน จำกัด ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="22" width="317" height="20" uuid="1102eae6-fbed-48b5-a701-9c1ecc2ebdfa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ใบเบิกเงินช่วยเหลือเกี่ยวกับการศึกษาของบุตร]]></text>
+			</staticText>
+			<image>
+				<reportElement x="34" y="6" width="71" height="69" uuid="5aa2c721-f203-4b94-ae8d-03f8d9e79a8a"/>
+				<imageExpression><![CDATA["C:\\GCOOP_ALL\\CORE\\GCOOP\\Saving\\Image\\ReportHead\\logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="27" y="97" width="161" height="20" uuid="78a7570b-a162-40b0-8b5a-476e4b3d5ba1"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[เรียน ประธานกรรมการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="196" width="501" height="82" uuid="d6c24566-d9d4-4979-89f4-8c72b7652199"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[                       (  ) ข้าพเจ้ามีสิทธิได้รับการช่วยเหลือเกี่ยวกับการศึกษาของบุตรจากทางราชการหรือสำนักงานอื่น แต่ขอยืนยันว่าจะไม่ใช้สิทธิรับการช่วยเหลือเกี่ยวกับการศึกษาจากทางราชการหรือสำนักงานอื่น
+                       (  ) ข้าพเจ้าไม่มีสิทธิได้รับการช่วยเหลือเกี่ยวกับการศึกษาของบุตรจากทางราชการหรือสำนักงานอื่น ข้าพเจ้าได้จ่ายเงินเกี่ยวกับการศึกษาของบุตร ดังนี้]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="28" y="151" width="501" height="20" uuid="48c8b796-80f4-49c0-bae2-73589c080395"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["คู่สมรสชื่อ................................................................อาชีพ..........................................ตำแหน่ง.........................................."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="171" width="501" height="20" uuid="b1beff66-1da5-4f63-ad34-f661a17c2d33"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สำนักงาน...........................................คู่สมรส ("+"*"+") มีสิทธิ  (  ) ไม่มีสิทธิ เบิกเงินช่วยเหลือเกี่ยวกับการศึกษาของบุตร"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="82" y="432" width="447" height="20" uuid="29291d44-f92c-4061-84e8-41f1c4366237"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ตามนัยแห่งข้อ 2 ของระเบียบฉบับที่ 8 ข้าพเจ้ามีสิทธิได้รับการช่วยเหลือเกี่ยวกับการศึกษาของบุตร]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="28" y="452" width="501" height="20" uuid="7789ab1a-5632-4e2c-9c44-7277effa19bf"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( ) ข้อ (1) เต็มจำนวนที่จ่ายจริง รวมเป็นเงิน...............................บาท (.........................................................................)"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="28" y="472" width="501" height="40" uuid="0fbb2321-d33e-48c6-aa59-576457d66196"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( ) ข้อ (2) เต็มจำนวนที่จ่ายจริงแต่ไม่เกินอัตราที่ได้รับอนุมัติจากกระทรวงศึกษาธิการ รวมเป็นเงิน............................บาท (....................................................................)"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="28" y="512" width="501" height="40" uuid="e76285f8-7466-4ce1-aba0-c4d2edbf1662"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( ) ข้อ (3) ครึ่งหนึ่งของจำนวนที่จ่ายจริง แต่ไม่เกินครึ่งหนึ่งของอัตราที่ได้รับอนุมัติจากกระทรวงศึกษาธิการ หรือ ทบวงมหาวิทยาลัยรวมเป็นเงิน..................................บาท (........................................................................)"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="207" y="449" width="100" height="20" uuid="7cd769a3-2040-4d7c-9aa0-57802f2482d9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="419" y="470" width="100" height="20" uuid="738f9aef-eef7-4061-85fe-3ff6d400cb3b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_apptotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="156" y="528" width="100" height="20" uuid="b5a6e2e8-123b-41a7-bef3-b552ba4456c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_halftotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="610" width="243" height="20" uuid="1230033c-0258-4445-80b5-882f36ae15c4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ..............................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="552" width="447" height="40" uuid="806f10a5-7d31-4614-a3d7-e5e0c8d45e4f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นความจริงทุกประการ จึงขอกเบิกเงินตามจำนวนที่พึงมีสิทธืได้รับ
+จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="354" y="645" width="175" height="100" uuid="29559e62-9447-44bc-86fb-ad58a661a60f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="354" y="745" width="175" height="40" uuid="5a43ee1e-4069-4bbb-8aec-e9c219ad29be"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="28" y="645" width="151" height="48" uuid="e406bfdd-8ffa-48e9-b269-b5af1c729112"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ความเห็นของผู้บังคับบัญชา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="645" width="175" height="48" uuid="4ebf58bb-66d2-496a-92ab-798e7a262703"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[คำสั่งประธานกรรมการหรือผู้ได้รับ
+มอบหมายจากคณะกรรมการดำเนินการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="745" width="171" height="40" uuid="5a6caf59-10d9-46f5-8a2b-4ba812f90c8f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[จ่ายเงินถูกต้องแล้ววันที่.......................
+พนักงานการเงิน.................................]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="358" y="645" width="171" height="20" uuid="645bb1a8-d10e-4634-a703-980b653d038c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่.................................................."]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="358" y="665" width="171" height="20" uuid="1a2794fd-ad2e-46eb-9509-dd469f58c3b6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ได้รับเงินจำนวน.....................บาท"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="685" width="171" height="20" uuid="b602d681-6ff6-4464-9d68-33351caa0be5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["(.............................................................)"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="358" y="725" width="169" height="20" uuid="cad5a3e0-d031-4988-845e-a3ffc736ef12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[..........................................ผู้รับเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="705" width="169" height="20" uuid="a590a9ff-973c-4906-91be-436d61df1af6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ไปถูกต้องแล้ว]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="412" y="662" width="100" height="20" uuid="68f4e759-5be2-4569-9560-cd5b4bd58c2e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_total}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="131" width="447" height="20" uuid="c965c9f2-6d18-4fb7-addf-ed59c746072e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ข้าพเจ้า............................................................................ตำแหน่ง.................................................................."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="129" width="206" height="20" uuid="fd08f74a-2b5c-4e7c-98c3-2e2431708156"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULLNAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="332" y="129" width="194" height="20" uuid="9a9f9e1a-0309-4f47-8580-2f7e4244aa4b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{POSITION_EMP}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="389" y="148" width="140" height="20" uuid="43329579-c204-462e-8ed2-9a222f37c970"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_posfan}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="50" y="148" width="200" height="20" uuid="8eaf21a6-42e4-4990-b5e0-973e3ea2448b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="221" y="148" width="200" height="20" uuid="424ec8fa-a78d-4f6e-aef5-2ecbdc87aca3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OCCUPATION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="27" y="168" width="200" height="20" uuid="bf2a7af5-4622-486a-994b-0407cbaacc61"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{as_empgroup}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="302" y="449" width="217" height="20" uuid="b0babae4-e326-46a4-9f7d-b59dddc68610"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="358" y="683" width="169" height="20" uuid="0717ce19-1434-486f-bd96-b230d07ec7ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="20" y="490" width="218" height="20" uuid="c8b3cf45-df99-419a-a2ba-eaaa7df26d8d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APPTOTAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="254" y="529" width="233" height="20" uuid="0014ce98-f81d-48d7-bea7-53daa1c06fb5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HALFTOTAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="28" y="733" width="151" height="20" uuid="5b9cce2e-8040-48f5-8c7a-7c4299c49e3b"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="713" width="151" height="20" uuid="d70fe1ee-9202-42aa-acb4-7cdfcb2bc40a"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="693" width="151" height="20" uuid="741b1b22-b6f4-4694-8950-1c19e3549628"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="713" width="151" height="20" uuid="d2d79b73-0614-4978-adfe-4ef0f588c128"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="733" width="151" height="20" uuid="e7fd842e-7c9d-4926-9eb8-2158010c9480"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="753" width="151" height="20" uuid="39adef9a-dfbf-44d0-ac09-c0fe7b6f1d89"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="773" width="151" height="20" uuid="3f9cdea0-13fc-4275-9671-dc386246af26"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="753" width="151" height="20" uuid="32008a7c-1870-43ec-bf5d-779ce8b4f884"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="693" width="151" height="20" uuid="efe69ed8-aaba-4598-80b3-156ecf2caa4b"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="773" width="151" height="20" uuid="ae69141d-2c74-4169-ac6c-379f3882b2a0"/>
+				<text><![CDATA[....................................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="49" width="243" height="20" uuid="a8b171e6-a61b-43c8-a932-fc46b745d429"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ....................................................................]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="309" y="46" width="216" height="20" uuid="c49b5379-76ca-4aca-b8ac-523f8d18dd5d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd MMMM yyyy",new Locale ( "th", "TH" )).format($P{as_asdate})]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="21" y="280" width="505" height="150" uuid="19d92989-db6b-4e3d-bdbc-052f6ed965ba"/>
+				<subreportParameter name="as_coopid">
+					<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_empno">
+					<subreportParameterExpression><![CDATA[$F{EMP_NO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_page">
+					<subreportParameterExpression><![CDATA[$P{as_page}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="as_asdate">
+					<subreportParameterExpression><![CDATA[$P{as_asdate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "r_hr_assist_child_sub.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+</jasperReport>

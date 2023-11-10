@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="slip_Receipt" language="groovy" pageWidth="450" pageHeight="550" columnWidth="410" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="pkg1.ConvertToWord" uuid="6fbf61de-b1f4-4a28-a40a-aab78d116c3f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_payinslip_no" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+                    a.payinslip_no,
+                    a.member_no,
+                    a.sliptype_code,
+                    a.moneytype_code,
+                    a.document_no,
+                    a.slip_date,
+                    a.operate_date,
+                    a.sharestk_value,
+                    a.intaccum_amt,
+                    a.sharestkbf_value,
+                    a.slip_amt,
+                    a.slip_status,
+                    a.entry_id,
+                    a.entry_bycoopid,
+                    b.slipitemtype_code,
+                    b.shrlontype_code,
+                    b.loancontract_no,
+                    b.slipitem_desc,
+                    b.period,
+                    b.principal_payamt,
+                    b.interest_payamt,
+                    b.item_payamt,
+                    b.item_balance,
+                    b.calint_to,
+                    d.prename_desc||c.memb_name||'   '||c.memb_surname as member_name,
+                    a.membgroup_code,
+                    e.membgroup_desc,
+                    c.membtype_code,
+                    f.membtype_desc,
+                    g.receipt_remark1 as remark_line1,
+                    g.receipt_remark2 as remark_line2,
+                    ftreadtbaht( a.slip_amt ) AS  money_thaibaht
+                    from slslippayin a, slslippayindet b, mbmembmaster c, mbucfprename d, mbucfmembgroup e, mbucfmembtype f, cmcoopmaster g
+                    where			a.coop_id				= b.coop_id
+                    and		a.payinslip_no			= b.payinslip_no
+                    and		a.memcoop_id			= c.coop_id
+                    and		a.member_no			= c.member_no
+                    and		c.prename_code		= d.prename_code
+                    and		a.memcoop_id			= e.coop_id
+                    and		a.membgroup_code	= e.membgroup_code
+                    and		c.coop_id				= f.coop_id
+                    and		c.membtype_code		= f.membtype_code
+                    and		a.coop_id				= g.coop_id]]>
+	</queryString>
+	<field name="PAYINSLIP_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="SLIPTYPE_CODE" class="java.lang.String"/>
+	<field name="MONEYTYPE_CODE" class="java.lang.String"/>
+	<field name="DOCUMENT_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="OPERATE_DATE" class="java.sql.Timestamp"/>
+	<field name="SHARESTK_VALUE" class="java.math.BigDecimal"/>
+	<field name="INTACCUM_AMT" class="java.math.BigDecimal"/>
+	<field name="SHARESTKBF_VALUE" class="java.math.BigDecimal"/>
+	<field name="SLIP_AMT" class="java.math.BigDecimal"/>
+	<field name="SLIP_STATUS" class="java.math.BigDecimal"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="ENTRY_BYCOOPID" class="java.lang.String"/>
+	<field name="SLIPITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="SLIPITEM_DESC" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="ITEM_BALANCE" class="java.math.BigDecimal"/>
+	<field name="CALINT_TO" class="java.sql.Timestamp"/>
+	<field name="MEMBER_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBTYPE_DESC" class="java.lang.String"/>
+	<field name="REMARK_LINE1" class="java.lang.String"/>
+	<field name="REMARK_LINE2" class="java.lang.String"/>
+	<field name="MONEY_THAIBAHT" class="java.lang.String"/>
+	<group name="PS_NO_GROUP">
+		<groupExpression><![CDATA[$F{PAYINSLIP_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="159"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="101"/>
+		</groupFooter>
+	</group>
+	<detail>
+		<band height="153" splitType="Stretch"/>
+	</detail>
+</jasperReport>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString1" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString1 (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString1.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DPDEPTMASTERTableAdapter" GeneratorDataComponentClassName="DPDEPTMASTERTableAdapter" Name="DPDEPTMASTER" UserDataComponentName="DPDEPTMASTERTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString1 (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT    DPDEPTSLIP.DEPTSLIP_NO,      	DPDEPTSLIP.DEPTSLIP_DATE ,              DPDEPTSLIP.RECPPAYTYPE_CODE ,       
+            DPDEPTSLIP.ENTRY_ID ,           DPDEPTMASTER.DEPTACCOUNT_NO ,           DPDEPTSLIP.ENTRY_DATE ,
+            DPDEPTMASTER.MEMBER_NO ,        DPDEPTMASTER.DEPTACCOUNT_NAME ,         DPDEPTMASTER.DEPTTYPE_CODE ,          
+            MBMEMBMASTER.MEMB_NAME ,        MBMEMBMASTER.MEMB_SURNAME ,           	MBMEMBMASTER.MEMBGROUP_CODE ,        
+            DPDEPTSLIP.DEPTSLIP_NETAMT,     DPDEPTSLIP.TOFROM_ACCID,                DPDEPTSLIP.CASH_TYPE     , DPDEPTMASTER.COOP_ID FROM MBMEMBMASTER, DPDEPTMASTER, DPDEPTSLIP WHERE MBMEMBMASTER.MEMBER_NO = DPDEPTMASTER.MEMBER_NO AND MBMEMBMASTER.COOP_ID = DPDEPTMASTER.COOP_ID AND DPDEPTMASTER.DEPTACCOUNT_NO = DPDEPTSLIP.DEPTACCOUNT_NO AND DPDEPTMASTER.COOP_ID = DPDEPTSLIP.DEPTCOOP_ID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="DEPTACCOUNT_NO" DataSetColumn="DEPTACCOUNT_NO" />
+              <Mapping SourceColumn="DEPTACCOUNT_NAME" DataSetColumn="DEPTACCOUNT_NAME" />
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="DEPTSLIP_NO" DataSetColumn="DEPTSLIP_NO" />
+              <Mapping SourceColumn="DEPTSLIP_DATE" DataSetColumn="DEPTSLIP_DATE" />
+              <Mapping SourceColumn="RECPPAYTYPE_CODE" DataSetColumn="RECPPAYTYPE_CODE" />
+              <Mapping SourceColumn="ENTRY_ID" DataSetColumn="ENTRY_ID" />
+              <Mapping SourceColumn="ENTRY_DATE" DataSetColumn="ENTRY_DATE" />
+              <Mapping SourceColumn="MEMBER_NO" DataSetColumn="MEMBER_NO" />
+              <Mapping SourceColumn="DEPTTYPE_CODE" DataSetColumn="DEPTTYPE_CODE" />
+              <Mapping SourceColumn="MEMB_NAME" DataSetColumn="MEMB_NAME" />
+              <Mapping SourceColumn="MEMB_SURNAME" DataSetColumn="MEMB_SURNAME" />
+              <Mapping SourceColumn="MEMBGROUP_CODE" DataSetColumn="MEMBGROUP_CODE" />
+              <Mapping SourceColumn="DEPTSLIP_NETAMT" DataSetColumn="DEPTSLIP_NETAMT" />
+              <Mapping SourceColumn="TOFROM_ACCID" DataSetColumn="TOFROM_ACCID" />
+              <Mapping SourceColumn="CASH_TYPE" DataSetColumn="CASH_TYPE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DPDEPTMASTER" msprop:Generator_TableClassName="DPDEPTMASTERDataTable" msprop:Generator_TableVarName="tableDPDEPTMASTER" msprop:Generator_TablePropName="DPDEPTMASTER" msprop:Generator_RowDeletingName="DPDEPTMASTERRowDeleting" msprop:Generator_RowChangingName="DPDEPTMASTERRowChanging" msprop:Generator_RowEvHandlerName="DPDEPTMASTERRowChangeEventHandler" msprop:Generator_RowDeletedName="DPDEPTMASTERRowDeleted" msprop:Generator_UserTableName="DPDEPTMASTER" msprop:Generator_RowChangedName="DPDEPTMASTERRowChanged" msprop:Generator_RowEvArgName="DPDEPTMASTERRowChangeEvent" msprop:Generator_RowClassName="DPDEPTMASTERRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DEPTACCOUNT_NO" msprop:Generator_ColumnVarNameInTable="columnDEPTACCOUNT_NO" msprop:Generator_ColumnPropNameInRow="DEPTACCOUNT_NO" msprop:Generator_ColumnPropNameInTable="DEPTACCOUNT_NOColumn" msprop:Generator_UserColumnName="DEPTACCOUNT_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTACCOUNT_NAME" msprop:Generator_ColumnVarNameInTable="columnDEPTACCOUNT_NAME" msprop:Generator_ColumnPropNameInRow="DEPTACCOUNT_NAME" msprop:Generator_ColumnPropNameInTable="DEPTACCOUNT_NAMEColumn" msprop:Generator_UserColumnName="DEPTACCOUNT_NAME">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTSLIP_NO" msprop:Generator_ColumnVarNameInTable="columnDEPTSLIP_NO" msprop:Generator_ColumnPropNameInRow="DEPTSLIP_NO" msprop:Generator_ColumnPropNameInTable="DEPTSLIP_NOColumn" msprop:Generator_UserColumnName="DEPTSLIP_NO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="13" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTSLIP_DATE" msprop:Generator_ColumnVarNameInTable="columnDEPTSLIP_DATE" msprop:Generator_ColumnPropNameInRow="DEPTSLIP_DATE" msprop:Generator_ColumnPropNameInTable="DEPTSLIP_DATEColumn" msprop:Generator_UserColumnName="DEPTSLIP_DATE" type="xs:dateTime" />
+              <xs:element name="RECPPAYTYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnRECPPAYTYPE_CODE" msprop:Generator_ColumnPropNameInRow="RECPPAYTYPE_CODE" msprop:Generator_ColumnPropNameInTable="RECPPAYTYPE_CODEColumn" msprop:Generator_UserColumnName="RECPPAYTYPE_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ENTRY_ID" msprop:Generator_ColumnVarNameInTable="columnENTRY_ID" msprop:Generator_ColumnPropNameInRow="ENTRY_ID" msprop:Generator_ColumnPropNameInTable="ENTRY_IDColumn" msprop:Generator_UserColumnName="ENTRY_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="32" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ENTRY_DATE" msprop:Generator_ColumnVarNameInTable="columnENTRY_DATE" msprop:Generator_ColumnPropNameInRow="ENTRY_DATE" msprop:Generator_ColumnPropNameInTable="ENTRY_DATEColumn" msprop:Generator_UserColumnName="ENTRY_DATE" type="xs:dateTime" />
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTTYPE_CODE" msprop:Generator_ColumnVarNameInTable="columnDEPTTYPE_CODE" msprop:Generator_ColumnPropNameInRow="DEPTTYPE_CODE" msprop:Generator_ColumnPropNameInTable="DEPTTYPE_CODEColumn" msprop:Generator_UserColumnName="DEPTTYPE_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MEMBGROUP_CODE" msprop:Generator_ColumnVarNameInTable="columnMEMBGROUP_CODE" msprop:Generator_ColumnPropNameInRow="MEMBGROUP_CODE" msprop:Generator_ColumnPropNameInTable="MEMBGROUP_CODEColumn" msprop:Generator_UserColumnName="MEMBGROUP_CODE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DEPTSLIP_NETAMT" msprop:Generator_ColumnVarNameInTable="columnDEPTSLIP_NETAMT" msprop:Generator_ColumnPropNameInRow="DEPTSLIP_NETAMT" msprop:Generator_ColumnPropNameInTable="DEPTSLIP_NETAMTColumn" msprop:Generator_UserColumnName="DEPTSLIP_NETAMT" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TOFROM_ACCID" msprop:Generator_ColumnVarNameInTable="columnTOFROM_ACCID" msprop:Generator_ColumnPropNameInRow="TOFROM_ACCID" msprop:Generator_ColumnPropNameInTable="TOFROM_ACCIDColumn" msprop:Generator_UserColumnName="TOFROM_ACCID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CASH_TYPE" msprop:Generator_ColumnVarNameInTable="columnCASH_TYPE" msprop:Generator_ColumnPropNameInRow="CASH_TYPE" msprop:Generator_ColumnPropNameInTable="CASH_TYPEColumn" msprop:Generator_UserColumnName="CASH_TYPE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CHOOSE_FLAG" msprop:Generator_ColumnVarNameInTable="columnCHOOSE_FLAG" msprop:Generator_ColumnPropNameInRow="CHOOSE_FLAG" msprop:Generator_ColumnPropNameInTable="CHOOSE_FLAGColumn" msprop:Generator_UserColumnName="CHOOSE_FLAG" type="xs:short" default="0" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DEPTACCOUNT_NO" msprop:Generator_ColumnVarNameInTable="columnDEPTACCOUNT_NO" msprop:Generator_ColumnPropNameInRow="DEPTACCOUNT_NO" msprop:Generator_ColumnPropNameInTable="DEPTACCOUNT_NOColumn" msprop:Generator_UserColumnName="DEPTACCOUNT_NO" type="xs:string" minOccurs="0" />
+              <xs:element name="DEPTACCOUNT_NAME" msprop:Generator_ColumnVarNameInTable="columnDEPTACCOUNT_NAME" msprop:Generator_ColumnPropNameInRow="DEPTACCOUNT_NAME" msprop:Generator_ColumnPropNameInTable="DEPTACCOUNT_NAMEColumn" msprop:Generator_UserColumnName="DEPTACCOUNT_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="MEMBER_NO" msprop:Generator_ColumnVarNameInTable="columnMEMBER_NO" msprop:Generator_ColumnPropNameInRow="MEMBER_NO" msprop:Generator_ColumnPropNameInTable="MEMBER_NOColumn" msprop:Generator_UserColumnName="MEMBER_NO" type="xs:string" minOccurs="0" />
+              <xs:element name="START_DATE" msprop:Generator_ColumnVarNameInTable="columnSTART_DATE" msprop:Generator_ColumnPropNameInRow="START_DATE" msprop:Generator_ColumnPropNameInTable="START_DATEColumn" msprop:Generator_UserColumnName="START_DATE" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="MEMB_NAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_NAME" msprop:Generator_ColumnPropNameInRow="MEMB_NAME" msprop:Generator_ColumnPropNameInTable="MEMB_NAMEColumn" msprop:Generator_UserColumnName="MEMB_NAME" type="xs:string" minOccurs="0" />
+              <xs:element name="MEMB_SURNAME" msprop:Generator_ColumnVarNameInTable="columnMEMB_SURNAME" msprop:Generator_ColumnPropNameInRow="MEMB_SURNAME" msprop:Generator_ColumnPropNameInTable="MEMB_SURNAMEColumn" msprop:Generator_UserColumnName="MEMB_SURNAME" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:DPDEPTMASTER" />
+      <xs:field xpath="mstns:DEPTACCOUNT_NO" />
+      <xs:field xpath="mstns:COOP_ID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

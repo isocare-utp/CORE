@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_kp_mth_excel_lap" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e23d1883-f48a-48a3-a698-465ec37e1650">
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="692"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[027001]]></defaultValueExpression>
+	</parameter>
+	<parameter name="recv_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mbgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="embgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from
+(
+ select
+  dept.kpslip_no
+  , dept.member_no
+  , names
+  , case when dept > 0 then 'D' else
+   case when shares > 0 then 'S' else
+    case when principal_payment > 0 then 'L' else
+     case when special_principal > 0 then 'SL' end end end end chk_dept
+  , dept.shrlontype_code
+  , nvl(dept, 0) dept
+  , nvl(etc, 0) etc
+  , nvl(mut, 0) mut
+  , nvl(mf, 0) mf
+  , nvl(w01, 0) w01
+  , nvl(wfa, 0) wfa
+  , nvl(fee, 0) fee
+  , nvl(shares, 0) shares
+  , loancontract_no
+  , period
+  , nvl(principal_payment, 0) principal_payment
+  , nvl(interest_payment, 0) interest_payment
+  , special_contract
+  , special_period
+  , nvl(special_principal, 0) special_principal
+  , nvl(special_interest, 0) special_interest
+ from
+ (
+  select
+   kp.kpslip_no
+   , kp.member_no
+   , FT_GETMBNAME ( kp.coop_id , kp.member_no) names
+   , shrlontype_code
+   , case when keepitemtype_code like 'D%' then item_payment else 0 end dept
+  from kptempreceive kp
+  inner join kptempreceivedet kpdet on kp.coop_id = kpdet.coop_id and kp.kpslip_no = kpdet.kpslip_no
+  where  kp.coop_id = $P{coop_id} and kp.recv_period = $P{recv_period}
+  and kp.membgroup_code between $P{mbgroup} and $P{embgroup}
+
+ ) dept
+ left join
+ (
+  select
+   kp.kpslip_no
+   , kp.member_no
+   , kpdet.shrlontype_code
+   , case when keepitemtype_code = 'OTH' and shrlontype_code = 'I6'  then item_payment else 0 end etc
+   , case when keepitemtype_code = 'OTH' and shrlontype_code = 'MU'  then item_payment else 0 end mut
+   , case when keepitemtype_code = 'OTH' and shrlontype_code = 'MF'  then item_payment else 0 end mf
+   , case when keepitemtype_code = 'OTH' and shrlontype_code = 'W0'  then item_payment else 0 end w01
+   , case when keepitemtype_code = 'OTH' and shrlontype_code = 'WF'  then item_payment else 0 end wfa
+   , case when keepitemtype_code = 'FEE'  then item_payment else 0 end fee
+   , case when keepitemtype_code like 'S%'  then item_payment else 0 end shares
+  from kptempreceive kp
+  inner join kptempreceivedet kpdet on kp.coop_id = kpdet.coop_id and kp.kpslip_no = kpdet.kpslip_no
+  where kpdet.keepitemtype_code not like 'D%' and  kpdet.keepitemtype_code not like 'L%'
+  and kp.coop_id = $P{coop_id} and kp.recv_period = $P{recv_period}
+  and kp.membgroup_code between $P{mbgroup} and $P{embgroup}
+
+ ) etc on dept.member_no = etc.member_no and dept.kpslip_no = etc.kpslip_no and dept.shrlontype_code = etc.shrlontype_code
+ left join
+ (
+  select
+   kp.kpslip_no
+   , kp.member_no
+   , kpdet.shrlontype_code
+   , kpdet.loancontract_no
+   , kpdet.period
+   , kpdet.principal_payment
+   , kpdet.interest_payment
+  from kptempreceive kp
+  inner join kptempreceivedet kpdet on kp.coop_id = kpdet.coop_id and kp.kpslip_no = kpdet.kpslip_no
+  where kpdet.keepitemtype_code like 'L%' and kpdet.shrlontype_code <> '31'
+  and kp.coop_id = $P{coop_id} and kp.recv_period = $P{recv_period}
+  and kp.membgroup_code between $P{mbgroup} and $P{embgroup}
+
+ )loan on dept.member_no = loan.member_no and dept.kpslip_no = loan.kpslip_no and dept.shrlontype_code = loan.shrlontype_code
+ left join
+ (
+  select
+   kp.kpslip_no
+   , kp.member_no
+   , kpdet.shrlontype_code
+   , kpdet.loancontract_no special_contract
+   , kpdet.period special_period
+   , kpdet.principal_payment special_principal
+   , kpdet.interest_payment special_interest
+  from kptempreceive kp
+  inner join kptempreceivedet kpdet on kp.coop_id = kpdet.coop_id and kp.kpslip_no = kpdet.kpslip_no
+  where kpdet.keepitemtype_code like 'L%' and kpdet.shrlontype_code = '31'
+  and kp.coop_id = $P{coop_id} and kp.recv_period = $P{recv_period}
+  and kp.membgroup_code between $P{mbgroup} and $P{embgroup}
+
+ )loan31 on dept.member_no = loan31.member_no and dept.kpslip_no = loan31.kpslip_no and dept.shrlontype_code = loan31.shrlontype_code
+) order by kpslip_no]]>
+	</queryString>
+	<field name="KPSLIP_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="NAMES" class="java.lang.String"/>
+	<field name="CHK_DEPT" class="java.lang.String"/>
+	<field name="SHRLONTYPE_CODE" class="java.lang.String"/>
+	<field name="DEPT" class="java.math.BigDecimal"/>
+	<field name="ETC" class="java.math.BigDecimal"/>
+	<field name="MUT" class="java.math.BigDecimal"/>
+	<field name="MF" class="java.math.BigDecimal"/>
+	<field name="W01" class="java.math.BigDecimal"/>
+	<field name="WFA" class="java.math.BigDecimal"/>
+	<field name="FEE" class="java.math.BigDecimal"/>
+	<field name="SHARES" class="java.math.BigDecimal"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PERIOD" class="java.math.BigDecimal"/>
+	<field name="PRINCIPAL_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="INTEREST_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="SPECIAL_CONTRACT" class="java.lang.String"/>
+	<field name="SPECIAL_PERIOD" class="java.math.BigDecimal"/>
+	<field name="SPECIAL_PRINCIPAL" class="java.math.BigDecimal"/>
+	<field name="SPECIAL_INTEREST" class="java.math.BigDecimal"/>
+	<variable name="SHRLONTYPE_CODE_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{SHRLONTYPE_CODE}]]></variableExpression>
+	</variable>
+	<variable name="SHARES_1" class="java.math.BigDecimal" calculation="Variance">
+		<variableExpression><![CDATA[$F{SHARES}]]></variableExpression>
+	</variable>
+	<variable name="sumshr" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{SHARES}]]></variableExpression>
+	</variable>
+	<variable name="sumdp" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{DEPT}]]></variableExpression>
+	</variable>
+	<variable name="sumetc" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{ETC}]]></variableExpression>
+	</variable>
+	<variable name="summut" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{MUT}]]></variableExpression>
+	</variable>
+	<variable name="summf" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{MF}]]></variableExpression>
+	</variable>
+	<variable name="sumw01" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{W01}]]></variableExpression>
+	</variable>
+	<variable name="sumwfa" class="java.lang.String" calculation="Sum">
+		<variableExpression><![CDATA[$F{WFA}]]></variableExpression>
+	</variable>
+	<variable name="sumprnc" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{PRINCIPAL_PAYMENT}]]></variableExpression>
+	</variable>
+	<variable name="sumint" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{INTEREST_PAYMENT}]]></variableExpression>
+	</variable>
+	<variable name="sumspc" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{SPECIAL_CONTRACT}]]></variableExpression>
+	</variable>
+	<variable name="sumspcpv" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{SPECIAL_PERIOD}]]></variableExpression>
+	</variable>
+	<variable name="spcprin" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{SPECIAL_PRINCIPAL}]]></variableExpression>
+	</variable>
+	<variable name="sumspcint" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{SPECIAL_INTEREST}]]></variableExpression>
+	</variable>
+	<group name="KPSLIP_NO">
+		<groupExpression><![CDATA[$F{KPSLIP_NO}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3e177da0-9d9a-4635-a859-32b14189ec87" x="0" y="0" width="40" height="20"/>
+				<textElement>
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2ec14479-67a4-4f35-8c26-bf96bd20d082" x="207" y="0" width="47" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEPT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="512f1ede-3579-48f8-83ad-dc96234dfa31" x="169" y="0" width="37" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ETC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7755b85e-397a-40d9-83b5-d7e8cbcfcf2a" x="254" y="0" width="37" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MUT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="384afa06-49df-41bf-ad57-fc266868ae15" x="291" y="0" width="41" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="106dfd5a-ba0a-4944-95de-8b8b645031fb" x="332" y="0" width="40" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{W01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="74f56aff-c3a0-474b-86b7-069fd439aec8" x="372" y="0" width="40" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WFA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fb8e8bf5-86d8-4106-8467-e18a7264ac1e" x="515" y="0" width="56" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{CHK_DEPT}=='L'?$F{PRINCIPAL_PAYMENT}:"")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3d942486-04ad-44fa-a9d6-d5c70e65a355" x="571" y="0" width="59" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTEREST_PAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="68e58c83-7f6f-4647-9994-eaa282518a15" x="463" y="0" width="52" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="64d1cfb6-7223-4c9a-a69a-365f536a50fc" x="114" y="0" width="55" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHRLONTYPE_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f93a6d80-9c9b-481d-a8e6-9b7f238428f0" x="412" y="0" width="51" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHARES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5f3dbd70-6b11-4c7a-a377-c32321d1697d" x="40" y="0" width="74" height="20"/>
+				<textElement>
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAMES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="be8fa50e-5938-440c-89f5-22fb6c964642" x="630" y="0" width="43" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPECIAL_CONTRACT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5d5a321d-c565-4a6a-a5e7-56dd5e67b7ed" x="673" y="0" width="41" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPECIAL_PERIOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bd2e9993-d88f-4825-887e-fe4f43e2e313" x="714" y="0" width="23" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPECIAL_PRINCIPAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d4bd7b3e-9887-4c13-8b38-9caee8f8e479" x="737" y="0" width="47" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPECIAL_INTEREST}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement uuid="34ffdb89-11d2-40b5-8337-bbd8f20e8329" x="412" y="0" width="52" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumshr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="50c44ada-efec-4090-84c3-3246f5fa90bf" x="207" y="0" width="47" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumdp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="58d139d5-6272-4fd1-a28a-ee7c5dcc470a" x="170" y="0" width="37" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumetc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9e0c10e-eec2-4365-9cd0-f01dbe5427f5" x="254" y="0" width="37" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{summut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="da21e4dc-cd37-4e06-a9d1-00a6c8731184" x="332" y="0" width="40" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumw01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4c4e8891-4069-49a6-b481-3ca449885ad0" x="372" y="0" width="40" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumwfa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e0cab95f-99cc-4ed0-bb45-8dd4b64ab48d" x="515" y="0" width="56" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumprnc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3a42cbd8-eefc-4a16-accb-d36653661697" x="573" y="0" width="57" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumint}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5e3b5b4a-1e85-45c8-b482-ab28a63a7f27" x="630" y="0" width="43" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumspc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7cd4994f-145f-4aae-9f5a-813e56a73a90" x="673" y="0" width="41" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumspcpv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6d40a712-578b-4f40-bc94-9b670d53b1e0" x="714" y="0" width="23" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{spcprin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8eb29af8-fdd1-4501-9176-827e5b03783b" x="737" y="0" width="47" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumspcint}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aa60dc1d-d8bd-4cc6-ad26-89374ec0c74c" x="291" y="0" width="41" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{summf}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

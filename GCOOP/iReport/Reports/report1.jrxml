@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="10f90176-c917-438a-8fe9-13945a46d10e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
+	<parameter name="as_application" class="java.lang.String">
+		<defaultValueExpression><![CDATA["admin"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coop_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA["010001"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     *
+FROM
+     AMSECWINS INNER JOIN AMSECWINSGROUP ON AMSECWINS.coop_control = AMSECWINSGROUP.coop_control
+     AND AMSECWINS.group_code = AMSECWINSGROUP.group_code
+     AND AMSECWINS.application = AMSECWINSGROUP.application
+WHERE
+     AMSECWINS.COOP_CONTROL = $P{as_coop_id} and
+     AMSECWINS.APPLICATION = $P{as_application}
+ORDER BY
+     amsecwins.application ASC,
+     amsecwinsgroup.group_order ASC,
+     amsecwins.win_order ASC]]>
+	</queryString>
+	<field name="APPLICATION" class="java.lang.String"/>
+	<field name="WINDOW_ID" class="java.lang.String"/>
+	<field name="WIN_OBJECT" class="java.lang.String"/>
+	<field name="WIN_DESCRIPTION" class="java.lang.String"/>
+	<field name="WIN_PARAMETER" class="java.lang.String"/>
+	<field name="WIN_TITLE" class="java.lang.String"/>
+	<field name="WIN_TOOLBAR" class="java.lang.String"/>
+	<field name="OPEN_TYPE" class="java.math.BigDecimal"/>
+	<field name="ICON_LABEL" class="java.lang.String"/>
+	<field name="ICON_PICTURE" class="java.lang.String"/>
+	<field name="USED_FLAG" class="java.math.BigDecimal"/>
+	<field name="GROUP_CODE" class="java.lang.String"/>
+	<field name="WIN_ORDER" class="java.math.BigDecimal"/>
+	<field name="WEB_REDIRECT" class="java.lang.String"/>
+	<field name="WEBWINWORK_CODE" class="java.lang.String"/>
+	<field name="COOP_CONTROL" class="java.lang.String"/>
+	<field name="GROUP_DESC" class="java.lang.String"/>
+	<field name="GROUP_ORDER" class="java.math.BigDecimal"/>
+	<group name="group1">
+		<groupExpression><![CDATA[$F{GROUP_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="10"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="23"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4e3e0275-645a-4975-b124-fc586f1a779d" x="170" y="4" width="463" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="16" isBold="true" isUnderline="true" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[รายงานผู้ดูแลระบบ AMSECWINS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="20570b68-4e90-4938-9810-30a108a8ab3f" x="6" y="0" width="100" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[APPLICATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1c8bdba3-96b1-42ce-b9af-6e0eebb53716" x="111" y="0" width="77" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[WINDOW_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eef75c7b-c64e-44ed-8bc4-978b0b97bdf5" x="195" y="0" width="162" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[WIN_OBJECT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="20f49e3e-f4a2-40de-9f09-2b8822bbb568" x="362" y="0" width="207" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[WIN_DESCRIPTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6986d170-5be8-4938-919d-65293560f484" x="579" y="0" width="68" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[PARAMETER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="85de5d08-fbe6-4fb5-a978-3fa475dadf76" x="652" y="0" width="39" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[GROUP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fedcc37f-892d-41b8-bf0b-e8038f751d47" x="696" y="0" width="100" height="15"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[GROUP_DESC]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="dee7dfa9-f6c4-44ba-a0bd-e9fa4d364180" x="6" y="3" width="100" height="16"/>
+				<textElement>
+					<font fontName="Tahoma" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{APPLICATION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8e0f221c-8912-44be-9f00-58855cc13022" x="111" y="3" width="77" height="16"/>
+				<textElement>
+					<font fontName="Tahoma" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WINDOW_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5936f1ed-3f4e-49ff-a995-f7d44c19e488" x="195" y="3" width="162" height="16"/>
+				<textElement>
+					<font fontName="Browallia New" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WIN_OBJECT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e2de5da2-473c-4f0b-bacb-ebf9a8567bd5" x="362" y="3" width="85" height="16"/>
+				<textElement>
+					<font fontName="Browallia New" size="14" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WIN_DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="d6e63525-f682-44a9-befa-dd1c7e496cc3" x="579" y="3" width="68" height="16"/>
+				<textElement>
+					<font fontName="Tahoma" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WIN_PARAMETER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="25a3de27-3236-4d4f-9fa3-5a638522d280" x="652" y="3" width="39" height="16"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Tahoma" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eb185ccf-c047-42ea-abdb-72851b4a70b1" x="696" y="3" width="100" height="16"/>
+				<textElement>
+					<font fontName="Tahoma" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="b77c7fe4-3557-4bac-9ea1-f4cad4c11b95" stretchType="RelativeToBandHeight" x="106" y="0" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement uuid="84bffeb1-3649-42b6-bc8b-447077ae7f35" x="486" y="29" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ln_print_loan_req_clrnet" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="abc16812-96e6-4151-91a9-9cbd22a7409f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="membno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+         "LCM"."LOANCONTRACT_NO",
+         "LCM"."PRINCIPAL_BALANCE",
+         "LCM"."LOANAPPROVE_AMT",
+         "LCM"."STARTCONT_DATE",
+ "LCM"."INTESTNOW_AMT"
+    FROM  "LNCONTMASTER" "LCM"
+   WHERE ( ( lcm.coop_id = $P{coopid} ) AND
+         ( lcm.principal_balance <> 0 ) AND
+         ( lcm.member_no = $P{membno} ) )]]>
+	</queryString>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PRINCIPAL_BALANCE" class="java.math.BigDecimal"/>
+	<field name="LOANAPPROVE_AMT" class="java.math.BigDecimal"/>
+	<field name="STARTCONT_DATE" class="java.sql.Timestamp"/>
+	<field name="INTESTNOW_AMT" class="java.math.BigDecimal"/>
+	<variable name="sum1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANAPPROVE_AMT}]]></variableExpression>
+	</variable>
+	<variable name="sum2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{PRINCIPAL_BALANCE}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1a9c31b4-0f1a-4a7a-9c89-cec381b41e69" x="0" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่สัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="587fbff1-7d39-42f8-b9c2-f9e8ef79afe3" x="55" y="0" width="56" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วงเงินกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="32a45a89-1aa6-47b5-9138-09a2fb2708fd" x="111" y="0" width="60" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หนี้คงเหลือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ad89f6da-2eec-4da0-a5aa-6e1824b2c096" x="171" y="0" width="48" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ดอกเบี้ย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a0522461-54f1-4bac-8242-8dd08f2025da" x="219" y="0" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วันที่กู้]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ed4214bd-3a57-436f-80d0-e9c308b70823" x="0" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANCONTRACT_NO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a33c984f-fece-4ecd-880c-5c295c2ab6ec" x="55" y="0" width="56" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LOANAPPROVE_AMT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="2cdd47c4-bbf9-414b-aac8-a2081e3d83fa" x="111" y="0" width="60" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRINCIPAL_BALANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="460bf25d-7193-4b8b-9129-c04e384132bc" x="219" y="0" width="52" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format($F{STARTCONT_DATE})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="545efed2-8182-43bd-8e30-bee528d2fab4" x="171" y="0" width="48" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INTESTNOW_AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="20">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="9cd599c0-48bb-4990-9be4-3fff9467a00e" x="36" y="0" width="75" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="fc08bfef-b610-41c9-bde9-c50d343d03f5" x="111" y="0" width="60" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="288919c5-b454-4be9-adcc-0d93f2f5a763" x="0" y="0" width="36" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Browallia New" size="13"/>
+				</textElement>
+				<text><![CDATA[รวม]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

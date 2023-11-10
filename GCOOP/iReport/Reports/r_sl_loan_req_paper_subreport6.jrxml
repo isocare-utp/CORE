@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_sl_loan_req_paper_subreport6" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b2223e2f-a37c-4f8d-a94a-e31eea6c40b3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_reqno" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+ sum(case collmasttype_grp when '01' then est_price else 0 end) as sum01,
+ sum(case collmasttype_grp when '02' then est_price else 0 end) as sum02,
+ sum(case collmasttype_grp when '03' then est_price else 0 end) as sum03,
+ sum(case loancolltype_code when '02' then collbalance_amt else 0 end) as sumshr,
+ sum(case loancolltype_code when '02' then collactive_amt else 0 end) as sumshr2
+from lnreqloancoll,lncollmaster
+where
+lnreqloancoll.coop_id = $P{as_coopid} and
+lnreqloancoll.loanrequest_docno = $P{as_reqno} and
+lnreqloancoll.ref_collno = lncollmaster.collmast_no(+)
+group by lnreqloancoll.loanrequest_docno]]>
+	</queryString>
+	<field name="SUM01" class="java.math.BigDecimal"/>
+	<field name="SUM02" class="java.math.BigDecimal"/>
+	<field name="SUM03" class="java.math.BigDecimal"/>
+	<field name="SUMSHR" class="java.math.BigDecimal"/>
+	<field name="SUMSHR2" class="java.math.BigDecimal"/>
+	<title>
+		<band height="106">
+			<staticText>
+				<reportElement uuid="41979278-7d51-4237-896f-24f5f848c643" positionType="Float" x="445" y="66" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="91dec575-808a-4497-a969-fa328d97c1b6" positionType="Float" x="445" y="26" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4d3dc95c-c87c-4b34-9063-7bb1d0ab3020" positionType="Float" x="240" y="26" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="017509f9-4e40-4ed7-ac2f-6939a292ab67" positionType="Float" x="16" y="44" width="202" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[6.2 ราคาประเมินสิ่งปลูกสร้าง/อาคารชุด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="48ff1c42-51a2-4b99-bbef-78436eb4beb9" positionType="Float" x="445" y="86" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a339fd81-bd3e-4a9c-b586-c5c3ece5acf9" positionType="Float" x="445" y="46" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[บาท]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e91e2208-c068-4d5f-aa3d-6ccd73b1bd75" positionType="Float" x="16" y="24" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[6.1 ราคาประเมินที่ดิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9d7df7da-4aaa-4ff9-9fed-8017435e65a0" positionType="Float" x="240" y="66" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="16338443-54cd-4edb-8480-63d04bcbf904" positionType="Float" x="11" y="84" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[รวมทั้งสิ้น]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="58e81df6-c753-4124-85a0-c514404574b8" positionType="Float" x="240" y="46" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3a8ef4f7-6f8f-4448-8d0d-abfc67b2ad8c" positionType="Float" x="16" y="64" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[6.3 ทุนเรือนหุ้น]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="4e5b1c8c-b5e6-4234-b6a6-f7677b628ee1" x="343" y="86" width="91" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM01}+$F{SUM02}+$F{SUM03}+$F{SUMSHR2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="d9a07c74-9bad-4e48-b83f-0f037efc06a2" x="343" y="26" width="91" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM01}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3cd112ef-2638-45b5-8ec3-83daacd01245" x="343" y="46" width="91" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM02}+$F{SUM03}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="ca7bb2cc-b51d-4359-a4d4-b3389405733a" x="343" y="66" width="91" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUMSHR2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="e8ef4166-c268-46c9-8a76-4579c6a41be5" positionType="Float" x="0" y="2" width="203" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Browallia New" size="14"/>
+				</textElement>
+				<text><![CDATA[6. รวมหลักทรัพย์ค้ำประกัน]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

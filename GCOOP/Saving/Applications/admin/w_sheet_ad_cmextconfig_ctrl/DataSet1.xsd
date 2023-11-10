@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Web.config)" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.ConnectionString.ConnectionString" Provider="System.Data.OracleClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="CMEXTCONFIGTableAdapter" GeneratorDataComponentClassName="CMEXTCONFIGTableAdapter" Name="CMEXTCONFIG" UserDataComponentName="CMEXTCONFIGTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (Web.config)" DbObjectName="ISCOMHS.CMEXTCONFIG" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select coop_id,ext_key,ext_value,description from cmextconfig</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="COOP_ID" DataSetColumn="COOP_ID" />
+              <Mapping SourceColumn="EXT_KEY" DataSetColumn="EXT_KEY" />
+              <Mapping SourceColumn="EXT_VALUE" DataSetColumn="EXT_VALUE" />
+              <Mapping SourceColumn="DESCRIPTION" DataSetColumn="DESCRIPTION" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CMEXTCONFIG" msprop:Generator_TableClassName="CMEXTCONFIGDataTable" msprop:Generator_TableVarName="tableCMEXTCONFIG" msprop:Generator_TablePropName="CMEXTCONFIG" msprop:Generator_RowDeletingName="CMEXTCONFIGRowDeleting" msprop:Generator_RowChangingName="CMEXTCONFIGRowChanging" msprop:Generator_RowEvHandlerName="CMEXTCONFIGRowChangeEventHandler" msprop:Generator_RowDeletedName="CMEXTCONFIGRowDeleted" msprop:Generator_UserTableName="CMEXTCONFIG" msprop:Generator_RowChangedName="CMEXTCONFIGRowChanged" msprop:Generator_RowEvArgName="CMEXTCONFIGRowChangeEvent" msprop:Generator_RowClassName="CMEXTCONFIGRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COOP_ID" msprop:Generator_ColumnVarNameInTable="columnCOOP_ID" msprop:Generator_ColumnPropNameInRow="COOP_ID" msprop:Generator_ColumnPropNameInTable="COOP_IDColumn" msprop:Generator_UserColumnName="COOP_ID">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DESCRIPTION" msprop:Generator_ColumnVarNameInTable="columnDESCRIPTION" msprop:Generator_ColumnPropNameInRow="DESCRIPTION" msprop:Generator_ColumnPropNameInTable="DESCRIPTIONColumn" msprop:Generator_UserColumnName="DESCRIPTION" type="xs:string" minOccurs="0" />
+              <xs:element name="EXT_KEY" msprop:Generator_ColumnVarNameInTable="columnEXT_KEY" msprop:Generator_ColumnPropNameInRow="EXT_KEY" msprop:Generator_ColumnPropNameInTable="EXT_KEYColumn" msprop:Generator_UserColumnName="EXT_KEY">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EXT_VALUE" msprop:Generator_ColumnVarNameInTable="columnEXT_VALUE" msprop:Generator_ColumnPropNameInRow="EXT_VALUE" msprop:Generator_ColumnPropNameInTable="EXT_VALUEColumn" msprop:Generator_UserColumnName="EXT_VALUE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="500" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:CMEXTCONFIG" />
+      <xs:field xpath="mstns:COOP_ID" />
+      <xs:field xpath="mstns:EXT_KEY" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

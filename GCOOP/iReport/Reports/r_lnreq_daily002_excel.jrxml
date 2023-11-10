@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_lnreq_daily002_excel" language="groovy" pageWidth="1080" pageHeight="792" columnWidth="1040" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b6275cf-f5b1-4e3d-8800-9889c21a6f78">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[005001]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_startdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="adtm_enddate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sloantype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_eloantype" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sentry" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_eentry" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+DISTINCT "LNREQLOAN"."MEMBER_NO",    "LNREQLOAN"."COOP_ID",
+  "LNREQLOAN"."LOANREQUEST_DATE",
+        DECODE(  "LNREQLOAN"."EXPENSE_CODE",'CHQ','เช็ค','CSH','เงินสด','TRN','โอนธนาคาร','')as EXPENSE_CODE ,
+DECODE( LNLOANTYPE.LOANGROUP_CODE,'01','ฉุกเฉิน','02','สามัญ','03','พิเศษ','')as LOANGROUP_DESC,
+         "MBUCFPRENAME"."PRENAME_DESC" ||
+         trim("MBMEMBMASTER"."MEMB_NAME") ||' ' ||
+         trim("MBMEMBMASTER"."MEMB_SURNAME") as full_name,
+		"MBUCFMEMBGROUP"."MEMBGROUP_CODE",
+         "MBUCFMEMBGROUP"."MEMBGROUP_DESC",
+         "LNLOANTYPE"."LOANTYPE_DESC",
+         "LNREQLOAN"."LOANREQUEST_AMT",
+         "LNREQLOAN"."ENTRY_DATE",
+         "LNLOANTYPE"."LOANTYPE_CODE",
+         "LNREQLOAN"."LOANAPPROVE_AMT",
+         "LNREQLOAN"."PERIOD_PAYAMT",
+         "LNREQLOAN"."LOANREQUEST_DOCNO",
+         "LNREQLOAN"."LOANREQUEST_STATUS",
+         "LNREQLOAN"."SHARESTK_VALUE"  ,
+		(select sum(principal_balance) from lnreqloanclr where loanrequest_docno ="LNREQLOAN"."LOANREQUEST_DOCNO" and clear_status =1)as loanclr_sum_clear,
+        (select sum(intestimate_amt) from lnreqloanclr where loanrequest_docno ="LNREQLOAN"."LOANREQUEST_DOCNO" and clear_status =1)as loanclr_sum_intclear,
+		"LNREQLOAN"."PERIOD_PAYMENT",
+		"LNREQLOAN"."SUM_CLEAR",
+
+		 "LNREQLOAN"."ENTRY_ID"	,
+		 LNREQLOAN.LOANTYPE_CODE,LNLOANTYPE.LOANGROUP_CODE,  LNREQLOAN.LOANCREDIT_AMT, LNREQLOAN.INTESTIMATE_AMT,
+	lnucfloanobjective.loanobjective_desc
+    FROM "LNREQLOAN",   lnucfloanobjective,
+         "LNLOANTYPE",
+         "MBMEMBMASTER",
+         "MBUCFMEMBGROUP",
+         "MBUCFPRENAME"
+   WHERE ( "LNREQLOAN"."LOANTYPE_CODE" = "LNLOANTYPE"."LOANTYPE_CODE" ) and
+         ( "MBMEMBMASTER"."MEMBER_NO" = "LNREQLOAN"."MEMBER_NO" ) and
+         ( "MBUCFMEMBGROUP"."MEMBGROUP_CODE" = "MBMEMBMASTER"."MEMBGROUP_CODE" ) and
+   LNREQLOAN.loanobjective_code = lnucfloanobjective.loanobjective_code (+) and LNREQLOAN.loantype_code = lnucfloanobjective.loantype_code (+) and
+         ( "MBMEMBMASTER"."PRENAME_CODE" = "MBUCFPRENAME"."PRENAME_CODE" ) and
+
+         ("LNREQLOAN"."LOANREQUEST_DATE" between $P{adtm_startdate}  and $P{adtm_enddate})  and
+		("LNREQLOAN"."LOANREQUEST_STATUS" <> -9) and
+		lnreqloan.loantype_code between  $P{as_sloantype} and  $P{as_eloantype} and
+		lnreqloan.coop_id = $P{as_coopid} and "LNREQLOAN"."ENTRY_ID" between  $P{as_sentry} and  $P{as_eentry}]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="LOANREQUEST_DATE" class="java.sql.Timestamp"/>
+	<field name="EXPENSE_CODE" class="java.lang.String"/>
+	<field name="LOANGROUP_DESC" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="LOANTYPE_DESC" class="java.lang.String"/>
+	<field name="LOANREQUEST_AMT" class="java.math.BigDecimal"/>
+	<field name="ENTRY_DATE" class="java.sql.Timestamp"/>
+	<field name="LOANTYPE_CODE" class="java.lang.String"/>
+	<field name="LOANAPPROVE_AMT" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYAMT" class="java.math.BigDecimal"/>
+	<field name="LOANREQUEST_DOCNO" class="java.lang.String"/>
+	<field name="LOANREQUEST_STATUS" class="java.math.BigDecimal"/>
+	<field name="SHARESTK_VALUE" class="java.math.BigDecimal"/>
+	<field name="LOANCLR_SUM_CLEAR" class="java.math.BigDecimal"/>
+	<field name="LOANCLR_SUM_INTCLEAR" class="java.math.BigDecimal"/>
+	<field name="PERIOD_PAYMENT" class="java.math.BigDecimal"/>
+	<field name="SUM_CLEAR" class="java.math.BigDecimal"/>
+	<field name="ENTRY_ID" class="java.lang.String"/>
+	<field name="LOANGROUP_CODE" class="java.lang.String"/>
+	<field name="LOANCREDIT_AMT" class="java.math.BigDecimal"/>
+	<field name="INTESTIMATE_AMT" class="java.math.BigDecimal"/>
+	<field name="LOANOBJECTIVE_DESC" class="java.lang.String"/>
+	<variable name="LOANREQUEST_AMT_1" class="java.math.BigDecimal" resetType="Group" resetGroup="loantype_code" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANREQUEST_AMT}]]></variableExpression>
+	</variable>
+	<variable name="LOANREQUEST_AMT_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANREQUEST_AMT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f0e353bd-7f67-415e-a50b-f0f57c29fff2" x="0" y="59" width="29" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0fa5593f-fe7f-40f2-ad1e-aa0c673238b3" x="29" y="59" width="80" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="838b3681-dd69-4cf6-b0b0-bb0c2e3243d5" x="190" y="59" width="119" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5466114c-4353-4dd3-88ec-1f43db99480d" x="371" y="59" width="76" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วัตถุประสงค์]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="437957ac-908e-4c75-bb58-a7408b9c3224" x="447" y="59" width="65" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ผู้บันทึก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6165794a-3a74-4b71-a9e9-0999f734934f" x="309" y="59" width="62" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[อนุมัติ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f5d93455-9a49-4e12-ab6e-63640dc9b755" x="109" y="59" width="81" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่คำขอกู้]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7ae4b710-27a8-420f-828e-1c4f9ef2ccc0" x="20" y="0" width="492" height="20"/>
+				<textElement>
+					<font fontName="Angsana New"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูสุรินทร์ จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b8e2f286-c803-4c59-8c3e-c6269a3ba3b5" x="512" y="59" width="74" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement uuid="818b04f9-5923-4342-8562-612e29fe4ecd" x="9" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="72ab673e-4f3d-491e-a056-356053042520" x="109" y="0" width="81" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANREQUEST_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="10b52582-db29-4ed7-9ac5-d9152c096d25" x="190" y="0" width="119" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="66ec95ce-68fc-4664-a8af-d41eef0e3447" x="309" y="0" width="62" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANREQUEST_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="172fbf88-5f2f-46e1-94d0-00d9e90f6c62" x="375" y="3" width="72" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOANOBJECTIVE_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7dfe3abb-b1b1-4d07-8533-0bad8ccf53ed" x="447" y="3" width="65" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ENTRY_ID}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="25">
+			<staticText>
+				<reportElement uuid="baef4f44-b6e9-45b5-a40f-c1369c9ecd06" x="209" y="0" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[รวมทั้งสิน]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

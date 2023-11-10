@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report555" language="groovy" pageWidth="576" pageHeight="396" orientation="Landscape" columnWidth="536" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df5f70f9-b6f5-464d-8ab0-c0f301d87c7a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT  vcvoucher.voucher_no ,
+vcvoucher.voucher_date ,
+ vcvoucherdet.account_id ,
+vcvoucher.voucher_desc ,
+ vcvoucherdet.dr_amt ,
+ vcvoucherdet.cr_amt ,
+vcvoucher.voucher_amt ,
+ accmaster.account_name ,
+vcvoucherdet.seq_no ,
+ vcvoucher.entry_id ,
+vcvoucher.voucher_type ,
+ vcvoucherdet.item_desc ,
+ acccntcoop.coop_desc ,
+vcvoucher.branch_id ,
+ vcvoucherdet.account_side ,
+ vcvoucher.cash_type ,           '    ' as FIX_COOPNAME
+FROM vcvoucher ,
+vcvoucherdet ,
+     accmaster ,
+    acccntcoop
+WHERE  vcvoucherdet.account_id = accmaster.account_id
+and    vcvoucher.voucher_no = vcvoucherdet.voucher_no
+and     accmaster.coop_id = acccntcoop.coop_id
+and     vcvoucher.coop_id = vcvoucherdet.coop_id
+and      vcvoucher.voucher_date between '10/03/2018' and '10/03/2018'
+and           VCVOUCHERDET.ACCOUNT_ID ='53300000'
+and          VCVOUCHERDET.ACCOUNT_SIDE = 'DR'
+and           VCVOUCHER.CASH_TYPE = 1
+and VCVOUCHER.VOUCHER_STATUS = 1]]>
+	</queryString>
+	<field name="voucher_no" class="java.lang.String"/>
+	<field name="voucher_date" class="java.sql.Timestamp"/>
+	<field name="account_id" class="java.lang.String"/>
+	<field name="voucher_desc" class="java.lang.String"/>
+	<field name="dr_amt" class="java.math.BigDecimal"/>
+	<field name="cr_amt" class="java.math.BigDecimal"/>
+	<field name="voucher_amt" class="java.math.BigDecimal"/>
+	<field name="account_name" class="java.lang.String"/>
+	<field name="seq_no" class="java.math.BigDecimal"/>
+	<field name="entry_id" class="java.lang.String"/>
+	<field name="voucher_type" class="java.lang.String"/>
+	<field name="item_desc" class="java.lang.String"/>
+	<field name="coop_desc" class="java.lang.String"/>
+	<field name="branch_id" class="java.lang.String"/>
+	<field name="account_side" class="java.lang.String"/>
+	<field name="cash_type" class="java.math.BigDecimal"/>
+	<field name="FIX_COOPNAME" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="6bb200b6-e0bf-4d42-b598-84b45760706a" mode="Opaque" x="70" y="15" width="218" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_id}  +   $F{account_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="15cccdf3-d183-4038-9ea1-7a946bd6fae6" x="405" y="15" width="100" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd  MMMM  yyyy", new Locale("th", "TH")).format($F{voucher_date})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement uuid="4f808aef-af58-47ae-a33c-e05bbcda6a7e" x="431" y="105" width="100" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cr_amt}+$F{dr_amt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2aa77832-c91b-4bab-bfdd-46e8e411fcff" mode="Opaque" x="37" y="15" width="355" height="73"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8f8759f1-c5a9-4762-a2ed-5d7dfc9c55e3" mode="Opaque" x="37" y="100" width="181" height="20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{dr_amt} + $F{cr_amt})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

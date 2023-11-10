@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_mbshr_share_notpay" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2973c988-6b91-4b7a-9bca-ec0889a90699">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_sgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_egroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+shsharemaster.coop_id ,
+shsharemaster.member_no   ,
+dbo.ft_getmemname(shsharemaster.coop_id,shsharemaster.member_no) as fullname,
+rtrim(mbmembmaster.membgroup_code) as membgroup_code    ,
+dbo.ft_memgrp(mbmembmaster.coop_id , mbmembmaster.membgroup_code ) as memgrp_desc  ,
+cmcoopmaster.coop_name
+ from shsharemaster  ,  mbmembmaster,cmcoopmaster
+where shsharemaster.coop_id =mbmembmaster.coop_id
+and shsharemaster.member_no =mbmembmaster.member_no
+and shsharemaster.payment_status <> 1
+and mbmembmaster.resign_status <> 1
+and shsharemaster.coop_id = $P{as_coopid}
+and ltrim(rtrim(mbmembmaster.membgroup_code)) between  $P{as_sgroup} and $P{as_egroup}
+order by mbmembmaster.membgroup_code ,shsharemaster.member_no]]>
+	</queryString>
+	<field name="coop_id" class="java.lang.String"/>
+	<field name="member_no" class="java.lang.String"/>
+	<field name="fullname" class="java.lang.String"/>
+	<field name="membgroup_code" class="java.lang.String"/>
+	<field name="memgrp_desc" class="java.lang.String"/>
+	<field name="coop_name" class="java.lang.String"/>
+	<variable name="num_count" class="java.math.BigDecimal" calculation="Count">
+		<variableExpression><![CDATA[$F{member_no}]]></variableExpression>
+	</variable>
+	<group name="shr">
+		<groupExpression><![CDATA[$F{membgroup_code}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="9bd3039e-aad9-4d94-872f-fd4cc3820891" x="0" y="0" width="555" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font fontName="Angsana New" size="16" isBold="true" isUnderline="true"/>
+						<paragraph leftIndent="15"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{membgroup_code} +" - "+  $F{memgrp_desc}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="62">
+			<staticText>
+				<reportElement uuid="39607bbe-56f8-4039-9c08-43957d1dd66a" x="46" y="42" width="78" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ทะเบียน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb1550f9-73e7-4a75-9787-611269e31598" x="124" y="42" width="431" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ชือ-สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f97e2393-c002-4178-bea1-4553f7996390" x="0" y="42" width="46" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="e07a712c-292d-4523-9dc7-4c24a667e19f" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coop_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="713ba240-c5b2-4e44-b609-a91d1cf22b5c" x="0" y="20" width="555" height="22"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานงดส่งหุ้น ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ddce1959-fe08-4e12-bcea-77fbdd0bc97b" x="46" y="0" width="78" height="21"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{member_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1eb1f501-8a8e-4d94-ac3c-fd8541e88989" x="124" y="0" width="431" height="21"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fullname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4f6d4da2-e98d-4e5d-9b16-31787b4ceda3" x="0" y="0" width="46" height="21"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{num_count}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

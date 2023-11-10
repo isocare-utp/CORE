@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mbshr_mbreqappl_mbnew_meeting_surin" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1080ac7e-f7e1-4cdc-86f0-1386ded76985">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="adtm_start" class="java.util.Date"/>
+	<parameter name="adtm_end" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+         "MBUCFPRENAME"."PRENAME_DESC" ||
+         "MBREQAPPL"."MEMB_NAME" || ' ' ||
+         "MBREQAPPL"."MEMB_SURNAME" as full_name,
+         "MBREQAPPL"."SEX",
+         "MBREQAPPL"."CARD_PERSON",
+         "MBREQAPPL"."APPLY_DATE",
+         "MBREQAPPL"."SALARY_AMOUNT",
+         "MBREQAPPL"."MEMBER_TYPE",
+         "MBREQAPPL"."MEMBER_NO",
+         "MBUCFAPPLTYPE"."FIRST_FEE",
+         "MBREQAPPL"."MARIAGE",
+         "MBREQAPPL"."SALARY_ID",
+         "MBUCFAPPLTYPE"."APPLTYPE_DESC",
+         "MBREQAPPL"."COOP_ID",
+         "MBREQAPPL"."APPLTYPE_CODE",
+         "MBREQAPPL"."MEMBTYPE_CODE",
+         "MBUCFMEMBGROUP"."MEMBGROUP_CODE",
+         "MBUCFMEMBGROUP"."MEMBGROUP_DESC",
+         "MBREQAPPL"."PERIODSHARE_VALUE",
+         "MBREQAPPL"."PERIODBASE_VALUE",
+         "MBMEMBMASTER"."MEMBER_DATE"  ,
+trunc ( (to_number (to_char ("MBMEMBMASTER"."MEMBER_DATE" , 'yyyymmdd'))
+                - to_number (to_char("MBMEMBMASTER"."BIRTH_DATE" ,'yyyymmdd')))/10000)AS MEMB_AGE
+    FROM "MBUCFPRENAME",
+         "MBREQAPPL",
+         "MBUCFAPPLTYPE",
+         "MBUCFMEMBGROUP",
+         "MBMEMBMASTER"
+   WHERE ( MBMEMBMASTER.membgroup_code = mbucfmembgroup.membgroup_code ) and
+         ( MBMEMBMASTER.coop_id = mbucfmembgroup.coop_id  ) and
+         ( mbreqappl.coop_id = mbucfappltype.coop_id  ) and
+         ( mbreqappl.appltype_code = mbucfappltype.appltype_code (+)) and
+         ( "MBUCFPRENAME"."PRENAME_CODE" = "MBREQAPPL"."PRENAME_CODE" ) and
+         ( "MBREQAPPL"."MEMBER_NO" = "MBMEMBMASTER"."MEMBER_NO" ) and
+         ( "MBREQAPPL"."COOP_ID" = "MBMEMBMASTER"."COOP_ID" ) and
+         ( ( "MBMEMBMASTER"."MEMBER_DATE" between $P{adtm_start}   and  $P{adtm_end}  ) AND
+         (  "MBREQAPPL"."APPL_STATUS" = 1  )  )
+order by  "MBREQAPPL"."APPLTYPE_CODE",  "MBREQAPPL"."MEMBER_NO"]]>
+	</queryString>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="SEX" class="java.lang.String"/>
+	<field name="CARD_PERSON" class="java.lang.String"/>
+	<field name="APPLY_DATE" class="java.sql.Timestamp"/>
+	<field name="SALARY_AMOUNT" class="java.math.BigDecimal"/>
+	<field name="MEMBER_TYPE" class="java.math.BigDecimal"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FIRST_FEE" class="java.math.BigDecimal"/>
+	<field name="MARIAGE" class="java.math.BigDecimal"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="APPLTYPE_DESC" class="java.lang.String"/>
+	<field name="COOP_ID" class="java.lang.String"/>
+	<field name="APPLTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBTYPE_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="PERIODSHARE_VALUE" class="java.math.BigDecimal"/>
+	<field name="PERIODBASE_VALUE" class="java.math.BigDecimal"/>
+	<field name="MEMBER_DATE" class="java.sql.Timestamp"/>
+	<field name="MEMB_AGE" class="java.math.BigDecimal"/>
+	<variable name="seq_no" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<variable name="MEMBER_NO_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{MEMBER_NO}]]></variableExpression>
+	</variable>
+	<variable name="FIRST_FEE_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{FIRST_FEE}]]></variableExpression>
+	</variable>
+	<group name="appltype_code">
+		<groupExpression><![CDATA[$F{APPLTYPE_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<staticText>
+					<reportElement uuid="d25f31e0-dabe-481c-a629-38bfde2ca641" x="26" y="2" width="63" height="20"/>
+					<textElement/>
+					<text><![CDATA[ประเภทสมาชิก]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="9cb55e60-e593-4afb-995b-e3760fb31765" x="92" y="2" width="138" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{APPLTYPE_DESC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4b3fab3c-1806-4ce0-9e6e-e4a77df7acf7" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูสุรินทร์ จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4982d7e0-5752-4c27-9bf0-e608250b8095" x="0" y="20" width="555" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[รายงานทะเบียนสมัครสมาชิกใหม่]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="44e2c3b3-e1ae-4c3b-b414-87eb0944e92f" x="0" y="0" width="26" height="20"/>
+				<textElement/>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9278891d-66ae-4323-a914-196e6da4edc5" x="26" y="0" width="63" height="20"/>
+				<textElement/>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7711c327-378f-4265-9bc8-980207ea52d6" x="89" y="0" width="141" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อ - นามสกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a094d7f8-9517-45ac-ab76-633b4d2c2008" x="230" y="0" width="44" height="20"/>
+				<textElement/>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="70d3d2ed-961e-46e9-a8d7-3573b3873da7" x="274" y="0" width="90" height="20"/>
+				<textElement/>
+				<text><![CDATA[ชื่อหน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6f356f71-454e-48d8-aaa4-861047e59d45" x="364" y="0" width="45" height="20"/>
+				<textElement/>
+				<text><![CDATA[ธรน.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="baceaff1-cc78-47b5-b9d2-208f96f80356" x="438" y="0" width="50" height="20"/>
+				<textElement/>
+				<text><![CDATA[เงินเดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e3daaf16-9393-4ed2-bc2d-d1da96733e0f" x="488" y="0" width="48" height="20"/>
+				<textElement/>
+				<text><![CDATA[หุ้น/เดือน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4dc9d4cd-9009-439e-9149-8b83cca3bc39" x="409" y="0" width="29" height="20"/>
+				<textElement/>
+				<text><![CDATA[อายุ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement uuid="be6766be-cb48-4722-89b1-6573740f1961" x="26" y="2" width="63" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8179fc83-8625-410a-b9f8-17ee786042df" x="89" y="2" width="141" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9a912b69-ee1c-4d19-9e03-dca1854c94bd" x="230" y="2" width="44" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2cd5c691-8f6c-483e-a70c-a42978d62dc2" x="274" y="2" width="90" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="070ca5d9-95ba-4d3e-b002-b69cc012fba5" x="364" y="2" width="45" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FIRST_FEE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="27d595c8-3f22-457d-a1f7-3fae86af0b04" x="0" y="2" width="26" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="515f7691-d683-4aec-867a-cbf59a4e1c4a" x="438" y="2" width="50" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{SALARY_AMOUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6139ac7e-6817-48b4-b00c-e4ca61215d0c" x="488" y="2" width="48" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PERIODSHARE_VALUE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="82a44aa2-de8f-40f8-a997-7282e29b8f10" x="409" y="2" width="29" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMB_AGE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="bd9215d7-a83c-48f6-93df-e9cbfc5cd3ab" x="26" y="0" width="63" height="20"/>
+				<textElement/>
+				<text><![CDATA[สรุปรวม]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="817a7015-ce5b-4dc8-b50f-03dc3a15b6eb" x="94" y="0" width="136" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{MEMBER_NO_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="07541505-deba-4235-bd5f-abd9706de0ac" x="364" y="0" width="45" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{FIRST_FEE_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

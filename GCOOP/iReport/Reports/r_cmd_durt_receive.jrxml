@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_cmd_durt_receive" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9ba431f8-4719-48cc-b3da-c01f5b7e6470">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String"/>
+	<parameter name="date1" class="java.util.Date"/>
+	<parameter name="date2" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT "PTDURTSLIPIN"."SLIPIN_NO",
+"PTDURTSLIPIN"."SLIP_DATE",
+"PTDURTSLIPIN"."REF_DOCNO",
+"PTDURTSLIPIN"."DURT_NAME",
+"PTDURTSLIPIN"."DURT_QTY",
+"PTDURTSLIPIN"."UNIT_PRICE",
+"CMCOOPCONSTANT"."COOP_NAME" as FIX_COOPNAME
+FROM "PTDURTSLIPIN",
+"CMCOOPCONSTANT"
+WHERE ( "PTDURTSLIPIN"."SLIP_STATUS" = 1 )
+and ( "PTDURTSLIPIN"."SLIP_DATE" between $P{date1} and $P{date2})
+order by "PTDURTSLIPIN"."SLIP_DATE","PTDURTSLIPIN"."SLIPIN_NO"]]>
+	</queryString>
+	<field name="SLIPIN_NO" class="java.lang.String"/>
+	<field name="SLIP_DATE" class="java.sql.Timestamp"/>
+	<field name="REF_DOCNO" class="java.lang.String"/>
+	<field name="DURT_NAME" class="java.lang.String"/>
+	<field name="DURT_QTY" class="java.math.BigDecimal"/>
+	<field name="UNIT_PRICE" class="java.math.BigDecimal"/>
+	<field name="FIX_COOPNAME" class="java.lang.String"/>
+	<variable name="sum_price" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{UNIT_PRICE}*$F{DURT_QTY}]]></variableExpression>
+	</variable>
+	<variable name="sum_price_all" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_price}]]></variableExpression>
+	</variable>
+	<variable name="count_list" class="java.math.BigDecimal" calculation="Count">
+		<variableExpression><![CDATA[$F{SLIPIN_NO}]]></variableExpression>
+	</variable>
+	<variable name="countdrutgrp" class="java.math.BigDecimal" resetType="Group" resetGroup="SLIPDATE" calculation="Sum">
+		<variableExpression><![CDATA[$F{DURT_QTY}]]></variableExpression>
+	</variable>
+	<variable name="sumprintgrp" class="java.math.BigDecimal" resetType="Group" resetGroup="SLIPDATE" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_price}]]></variableExpression>
+	</variable>
+	<group name="SLIPDATE">
+		<groupExpression><![CDATA[$F{SLIP_DATE}]]></groupExpression>
+		<groupHeader>
+			<band height="43">
+				<line>
+					<reportElement uuid="c51525eb-c3a8-4933-8911-7b7e9147fad7" x="51" y="42" width="699" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="67d5bf77-5c85-4d71-9725-89be9966c313" x="51" y="21" width="699" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="db65aac9-57d3-4b53-88f2-b67ad2f0c59d" x="52" y="22" width="34" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ลำดับ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b2ca479b-9942-430a-b97c-b28b1f1ea498" x="176" y="22" width="84" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[เลขที่เอกสารอ้างอิง]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7ee6f90f-d015-45d3-996d-f8723bf54205" x="261" y="22" width="269" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ชื่อครุภัณฑ์]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="72d441d0-3e90-4a1a-8a30-d73ecfe71910" x="578" y="22" width="85" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[ราคาต่อหน่วย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="fe044aed-4f94-4918-85ea-ebbad4f6d593" x="531" y="22" width="46" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[จำนวน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e48eb9b6-410e-4e1d-acfe-2c24b87142fa" x="87" y="22" width="88" height="20"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[เลขที่ทำรายการ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="69df9ee7-d2e1-4a9b-ade8-93c1b3d54261" x="664" y="22" width="86" height="20"/>
+					<textElement textAlignment="Center">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<text><![CDATA[เป็นเงิน]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="7a33dcb4-0bd7-43ef-b837-44b80a584aba" x="51" y="0" width="1" height="43"/>
+				</line>
+				<line>
+					<reportElement uuid="ef685f5f-b8c6-4a1e-a9d5-672a1f0cb7b7" x="86" y="21" width="1" height="22"/>
+				</line>
+				<line>
+					<reportElement uuid="b3380ee3-2240-4631-96c4-54d9ed01f9dc" x="52" y="0" width="699" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="6da91e23-e688-4c2e-8146-b151b2814052" x="175" y="22" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="788a90a6-7b7d-4195-9557-4d072fc03c28" x="260" y="22" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="5faf4fb6-aa6f-411c-8959-c47bba732190" x="530" y="22" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="4522f4f8-9b55-461d-96d5-02527cac9296" x="577" y="22" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="13b9a2a0-5e38-4cac-a621-d6990727f554" x="663" y="22" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="8a1d3c30-caa7-4a20-aefd-5392abf8060b" x="750" y="0" width="1" height="43"/>
+				</line>
+				<textField>
+					<reportElement uuid="31a5b65f-a69c-46b5-bb9a-491499886a13" x="63" y="1" width="687" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ประจำวันที่ " +' '+new SimpleDateFormat("d MMMM yyyy",new Locale ( "th", "TH" )).format($F{SLIP_DATE})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement uuid="d8e8e71a-c809-495d-84b8-c8bb65ea3006" x="63" y="0" width="461" height="19"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["สรุปรวมประจำวันที่ " +' '+new SimpleDateFormat("d MMMM yyyy",new Locale ( "th", "TH" )).format($F{SLIP_DATE}) + " : "]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="e5555547-2a7f-4d9b-afd0-fe486a445fd3" x="51" y="-1" width="1" height="21"/>
+				</line>
+				<line>
+					<reportElement uuid="2a219cb2-6f14-4459-9f20-9f2287622ca2" x="52" y="19" width="699" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="d5e73e38-1c93-40ec-889a-0231a197c1f1" x="530" y="-1" width="1" height="20"/>
+				</line>
+				<line>
+					<reportElement uuid="d8719f48-69ea-4d38-8817-9829ab214e0c" x="750" y="-1" width="1" height="21"/>
+				</line>
+				<textField>
+					<reportElement uuid="96b2533e-2888-45b6-bda0-8289830d37d3" x="531" y="0" width="46" height="19"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{countdrutgrp}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="744f2334-f03a-4a2c-a756-b7c41178f5b1" x="578" y="0" width="85" height="19"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ยอดรวมประจำวัน :]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="046dea2e-e9f0-4e5e-b409-6570407d6680" x="664" y="0" width="80" height="19"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Angsana New" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumprintgrp}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b70d055a-cadf-443e-ae25-0ad03416a063" x="1" y="24" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายงานรับครุภัณฑ์ ระหว่างวันที่ " +' '+new SimpleDateFormat("d MMMM yyyy",new Locale ( "th", "TH" )).format($P{date1}) +" ถึง " +' '+new SimpleDateFormat("d MMMM yyyy",new Locale ( "th", "TH" )).format($P{date2})]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="f78268db-0884-45f9-baef-bd4121746d07" x="793" y="2" width="10" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a6784fe6-8075-452d-bbc3-38fbadcf16ad" x="1" y="4" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIX_COOPNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="38445625-eb74-45de-9d3f-8d40e78eb07e" x="734" y="2" width="58" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}+" / "]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField>
+				<reportElement uuid="9964ef19-a4ec-448f-8c16-69969eabc28b" x="52" y="0" width="34" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="02cd52cc-2f7a-4afa-9152-099e5db2a1b4" x="176" y="0" width="84" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REF_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="97d52d3b-65b8-4eaf-99ac-603fc9523a2b" x="264" y="0" width="260" height="18"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DURT_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="49c29e6b-5a8e-4839-b6c0-da1217fc9d03" x="578" y="0" width="85" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIT_PRICE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="da2cf50b-07b1-4b08-804e-2799776e273b" x="531" y="0" width="46" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DURT_QTY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8640c8a2-204d-4cd1-a113-bd10e1175521" x="87" y="0" width="88" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SLIPIN_NO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="7ba6f987-90b3-4a0a-a2ee-6367dfe24cb8" x="664" y="0" width="80" height="18"/>
+				<textElement textAlignment="Right">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_price}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="ddb46d4b-1ebb-40dd-a7fd-4666eb3da85b" x="51" y="18" width="699" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="4035ece9-7506-4181-bd91-8d2ffefbc962" x="51" y="-1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="cdc63cf9-e012-4f35-b071-830526805ea3" x="86" y="-1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="6e8297e9-a736-452c-9372-0eb9e9169185" x="175" y="-1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="07ec7327-e591-49fc-99fb-57d197439b9f" x="260" y="-1" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="975f240c-6a6e-4e55-b3ca-3db4bdb70d40" x="530" y="-2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="8defdbac-da73-481b-8722-4c6a98a609b3" x="577" y="-2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="295b1ad9-d0a2-44d3-95a4-df4b3fdb9981" x="663" y="-2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement uuid="d48b39f2-beb1-439a-9a67-cd1da5e6540f" x="750" y="-2" width="1" height="20"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="22" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="193aa154-dd48-42d2-8f09-7aa0bf1d646e" x="227" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{count_list}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="9f34dec8-8033-474b-b40f-26153aa9f93e" x="51" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement uuid="5985ddba-ab9d-4e54-8ee7-9897cc543066" x="51" y="20" width="699" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="da242a88-1633-446c-87d4-0cd50a0c7b69" x="750" y="0" width="1" height="21"/>
+			</line>
+			<staticText>
+				<reportElement uuid="17ff09f0-6728-4f42-9cc3-a9643c00f618" x="175" y="1" width="183" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รวมทั้งหมด                                รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6c558c7c-d482-442b-a792-cd38c4a02c2a" x="578" y="0" width="85" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รวมยอดทั้งหมด :]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3124fdb4-ebfd-44f5-9c72-ff79d4a38509" x="664" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sum_price_all}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

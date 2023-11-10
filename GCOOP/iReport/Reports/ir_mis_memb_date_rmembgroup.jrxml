@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mis_memb_date_rmembgroup" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6c3c1fd3-060c-4008-97a5-16dc898af7a9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="start_group" class="java.lang.String"/>
+	<parameter name="end_group" class="java.lang.String"/>
+	<parameter name="close_date" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT count( "MBMEMBMASTER"."MEMBER_NO") as count_memno,
+"MBMEMBMASTER"."MEMBGROUP_CODE",
+"MBUCFMEMBGROUP_A"."MEMBGROUP_DESC" AS MEMBGROUP_DESC,
+         "MBUCFMEMBGROUP_A"."MEMBGROUP_CONTROL",
+ "MBUCFMEMBGROUP_B"."MEMBGROUP_DESC" AS GROUPCONTROL_DESC,
+         "MBUCFDISTRICT"."DISTRICT_DESC"
+    FROM "MBMEMBMASTER",
+         "MBUCFMEMBGROUP" "MBUCFMEMBGROUP_A",
+         "MBUCFMEMBGROUP" "MBUCFMEMBGROUP_B",
+         "MBUCFDISTRICT"
+   WHERE ( "MBUCFMEMBGROUP_A"."MEMBGROUP_CODE" = "MBMEMBMASTER"."MEMBGROUP_CODE" ) and
+         ( "MBUCFMEMBGROUP_A"."COOP_ID" = "MBUCFMEMBGROUP_B"."COOP_ID" ) and
+         ( "MBUCFMEMBGROUP_A"."MEMBGROUP_CONTROL" = "MBUCFMEMBGROUP_B"."MEMBGROUP_CODE" ) and
+         ( "MBUCFMEMBGROUP_A"."ADDR_AMPHUR" = "MBUCFDISTRICT"."DISTRICT_CODE" ) and
+         ( "MBUCFMEMBGROUP_A"."ADDR_PROVINCE" = "MBUCFDISTRICT"."PROVINCE_CODE" ) and
+         ( (( "MBMEMBMASTER"."MEMBER_DATE" <= $P{close_date}  ) AND
+         ( "MBUCFMEMBGROUP_A"."MEMBGROUP_CODE" between $P{start_group}   and  $P{end_group} )  AND
+         "MBMEMBMASTER"."RESIGN_STATUS" = 0 AND
+         "MBMEMBMASTER"."MEMBER_STATUS" = 1) OR
+          ( "MBMEMBMASTER"."MEMBER_DATE" <= $P{close_date}  AND
+         "MBUCFMEMBGROUP_A"."MEMBGROUP_CODE" between $P{start_group}  and  $P{end_group} AND
+         "MBMEMBMASTER"."RESIGN_STATUS" = 1 AND
+           "MBMEMBMASTER"."RESIGN_DATE" > $P{close_date}  ))
+group by  "MBMEMBMASTER"."MEMBGROUP_CODE",
+"MBUCFMEMBGROUP_A"."MEMBGROUP_DESC"  ,
+         "MBUCFMEMBGROUP_A"."MEMBGROUP_CONTROL",
+ "MBUCFMEMBGROUP_B"."MEMBGROUP_DESC" ,
+         "MBUCFDISTRICT"."DISTRICT_DESC"]]>
+	</queryString>
+	<field name="COUNT_MEMNO" class="java.math.BigDecimal"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="MEMBGROUP_CONTROL" class="java.lang.String"/>
+	<field name="GROUPCONTROL_DESC" class="java.lang.String"/>
+	<field name="DISTRICT_DESC" class="java.lang.String"/>
+	<variable name="seq_no" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="cf2c71cd-9fba-4bcb-a847-25c799231b04" x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูสุรินทร์ จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb5651a3-c27f-40fc-bba1-b7b7af8a1ae9" x="0" y="20" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รายงานจำนวนสมาชิกสรุปตามหน่วย]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="74ccd8b9-cc50-4801-8ec9-4fac6df7b49d" x="59" y="2" width="64" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[รหัสหน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9874b47f-1f64-4d19-88f9-56dfb9b570aa" x="123" y="2" width="129" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ชื่อ หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="605a6b84-11d8-4a26-886c-cec5619455fa" x="252" y="2" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[อำเภอ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f30c82ae-5cad-4042-a1ca-55ed53fe4e1d" x="426" y="2" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[จำนวนสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5a5a67cd-c9cd-41e4-ae11-c18051f21540" x="0" y="2" width="59" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="0a64f1a4-536d-443d-93b9-413abfc5ddae" x="59" y="0" width="64" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="281a2b90-2591-44c0-9362-7ef00dbcaa96" x="123" y="0" width="129" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ae08ed4e-2cbf-45b1-bd2c-edbe3ff805eb" x="252" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DISTRICT_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e22e58f9-f942-4d00-8321-18936eb2d66e" x="426" y="0" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COUNT_MEMNO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement uuid="9136ee09-6066-4fb2-bddf-e0990d7ead24" x="0" y="0" width="59" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

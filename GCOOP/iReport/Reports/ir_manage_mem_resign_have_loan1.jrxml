@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_manage_mem_resign_have_loan1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="93770422-f758-4f22-bec4-19b73d0e9b56">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="start_group" class="java.lang.String"/>
+	<parameter name="end_group" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select a.member_no,a.membgroup_code,c.prename_desc|| a.memb_name|| ' ' || a.memb_surname as full_name,  b.membgroup_desc, e.sharestk_amt * 10, a.salary_amount, e.periodshare_amt, v.membtype_desc, a.salary_id, sum(x.principal_balance) as loan_balance
+from mbmembmaster a, mbucfprename c, mbucfmembgroup b , shsharemaster e, lncontmaster x, mbucfmembtype v
+where a.member_no = e.member_no and a.prename_code = c.prename_code and a.membgroup_code = b.membgroup_code and ( a.resign_status = 1 or a.member_status = -1 ) and  a.membtype_code = v.membtype_code
+and e.sharestk_amt = 0 and x.principal_balance > 0 and a.member_no = x.member_no  and a.membgroup_code between  $P{start_group}   and $P{end_group}
+group by a.member_no,a.membgroup_code, a.memb_name, a.memb_surname, c.prename_desc, b.membgroup_desc, e.sharestk_amt * 10, a.salary_amount, e.periodshare_amt, a.salary_id, v.membtype_desc]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="E.SHARESTK_AMT*10" class="java.math.BigDecimal"/>
+	<field name="SALARY_AMOUNT" class="java.math.BigDecimal"/>
+	<field name="PERIODSHARE_AMT" class="java.math.BigDecimal"/>
+	<field name="MEMBTYPE_DESC" class="java.lang.String"/>
+	<field name="SALARY_ID" class="java.lang.String"/>
+	<field name="LOAN_BALANCE" class="java.math.BigDecimal"/>
+	<variable name="seq_no" class="java.lang.String" calculation="Sum">
+		<variableExpression><![CDATA[1]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="57" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="335a7a17-948a-4f4a-9b63-7a51d388e7dd" x="6" y="10" width="530" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สหกรณ์ออมทรัพย์ครูสุรินทร์ จำกัด]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="c90504c6-3182-4c46-9aba-20735d682243" x="106" y="10" width="134" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3df24d97-832b-4900-8a39-e70774e2fc76" x="40" y="10" width="66" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="75e48afa-9af5-42f2-becb-2baa8cc1aea1" x="310" y="10" width="96" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fe50acfd-0587-4894-ae35-7d4c85ca6d9a" x="6" y="10" width="34" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="60e2f62f-3750-490b-981f-fc262368b371" x="406" y="10" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หนี้คงเหลือ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a96b47b0-f67a-4023-be55-38076b01ba61" x="240" y="10" width="70" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement uuid="2292042e-a2f7-4032-abac-eb1a8c98e0bf" x="40" y="0" width="66" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e9e03d50-8853-4b9c-b27e-93976f782f32" x="106" y="0" width="134" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8ed5e9dd-1ef4-45ce-a164-b533f45ed0e5" x="240" y="0" width="70" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f8f552a2-4190-4e4e-8fb5-5cbad0ceed53" x="310" y="0" width="96" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7d068e79-fdfd-4f7c-9f63-3fcdaff652ca" x="406" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{LOAN_BALANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a9a70e4a-70da-4966-85f0-ab9a89769421" x="6" y="0" width="34" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{seq_no}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

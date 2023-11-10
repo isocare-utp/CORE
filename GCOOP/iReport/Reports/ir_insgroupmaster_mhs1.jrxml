@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_mb_shr_loancont" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f8cd6c1-076e-4bb7-944c-1713fe78bddb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_smembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_emembgroup" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT INSGROUPMASTER.INSGROUPDOC_NO AS INSURANCE_NO,
+         INSGROUPMASTER.MEMBER_NO,
+         INSGROUPMASTER.LOANCONTRACT_NO,
+         INSGROUPMASTER.INSCOST_BLANCE AS PRINCIPAL_BALANCE,
+         INSGROUPMASTER.STARTSAFE_DATE AS STARTINSURE_DATE,
+         INSGROUPMASTER.ENDSAFE_DATE AS EXPIREINSURE_DATE,
+         INSGROUPMASTER.PERIODPAY_AMT AS INSURANCE_AMT,
+         INSGROUPMASTER.INSCOST_BLANCE AS INSURENET_AMT,
+         INSGROUPMASTER.INSPAYMENT_STATUS AS INSUREPAY_STATUS,
+mbucfprename.prename_desc,
+mbmembmaster.memb_name,
+mbmembmaster.memb_surname,
+mbucfmembgroup.membgroup_code,
+mbucfmembgroup.membgroup_desc
+
+    FROM INSGROUPMASTER
+
+left outer join mbmembmaster on INSGROUPMASTER.member_no = mbmembmaster.member_no
+left outer join mbucfmembgroup on mbmembmaster.membgroup_code = mbucfmembgroup.membgroup_code
+left outer join mbucfprename on mbmembmaster.prename_code = mbucfprename.prename_code
+
+
+   WHERE
+ SYSDATE between startsafe_date and endsafe_date
+and insgroupmaster.insmemb_status = 1
+and mbmembmaster.membgroup_code between  $P{as_smembgroup}   and $P{as_emembgroup}]]>
+	</queryString>
+	<field name="INSURANCE_NO" class="java.lang.String"/>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="LOANCONTRACT_NO" class="java.lang.String"/>
+	<field name="PRINCIPAL_BALANCE" class="java.math.BigDecimal"/>
+	<field name="STARTINSURE_DATE" class="java.sql.Timestamp"/>
+	<field name="EXPIREINSURE_DATE" class="java.sql.Timestamp"/>
+	<field name="INSURANCE_AMT" class="java.math.BigDecimal"/>
+	<field name="INSURENET_AMT" class="java.math.BigDecimal"/>
+	<field name="INSUREPAY_STATUS" class="java.math.BigDecimal"/>
+	<field name="PRENAME_DESC" class="java.lang.String"/>
+	<field name="MEMB_NAME" class="java.lang.String"/>
+	<field name="MEMB_SURNAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<sortField name="MEMBGROUP_CODE"/>
+	<variable name="sumsh" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[( $F{MEMBGROUP_CODE} == "30101" ? 0 :
+( $F{MEMBGROUP_CODE} == "30201" ? 0 :
+( $F{MEMBGROUP_CODE} == "30301" ? 0 :
+( $F{MEMBGROUP_CODE} == "30401" ? 0 :
+( $F{MEMBGROUP_CODE} == "30501" ? 0 :
+( $F{MEMBGROUP_CODE} == "30601" ? 0 :
+( $F{MEMBGROUP_CODE} == "30701" ? 0 : $F{SUM_SHRPE} ) ) ) ) ) ) )]]></variableExpression>
+	</variable>
+	<variable name="sumshstk" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_SHRSTK}]]></variableExpression>
+	</variable>
+	<variable name="sum12" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL12}]]></variableExpression>
+	</variable>
+	<variable name="sum11" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL11}+$F{LOANBAL13}]]></variableExpression>
+	</variable>
+	<variable name="sum2122" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL2122}]]></variableExpression>
+	</variable>
+	<variable name="sum1417" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL17}]]></variableExpression>
+	</variable>
+	<variable name="sum31" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL31}]]></variableExpression>
+	</variable>
+	<variable name="sum3237" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL3237}]]></variableExpression>
+	</variable>
+	<variable name="sum3339" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL3339}]]></variableExpression>
+	</variable>
+	<variable name="sum1819" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL1819}]]></variableExpression>
+	</variable>
+	<variable name="sum3536" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL3536}]]></variableExpression>
+	</variable>
+	<variable name="sum3438" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{LOANBAL34}+$F{LOANBAL38}]]></variableExpression>
+	</variable>
+	<group name="membgroup_code">
+		<groupExpression><![CDATA[$F{MEMBGROUP_CODE}]]></groupExpression>
+		<groupHeader>
+			<band height="22"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="29"/>
+		</groupFooter>
+	</group>
+	<group name="member_no">
+		<groupExpression><![CDATA[$F{MEMBER_NO}]]></groupExpression>
+		<groupHeader>
+			<band height="28"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="23"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="0ce20313-8c00-4a34-b7f4-017bd2608cad" x="0" y="3" width="672" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานประกันสินเชื่อ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e1394da3-4275-4dee-8abf-0111ac8b85b7" x="28" y="54" width="73" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รหัสสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79b61c25-4423-4fb4-9d1b-a4d3dba5a961" x="559" y="54" width="100" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เริ่มคุ้มครอง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1848ea60-4386-43fb-b01b-30cbc72eb38a" x="100" y="54" width="185" height="22"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ - สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c828c752-219c-47c3-b40c-39f2e215269a" x="285" y="54" width="65" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3ea4201a-237d-45e2-ad92-03e802792806" x="350" y="54" width="70" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[อ้างอิงสัญญา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0c202bf1-bb16-4870-a76c-387b548bd024" x="420" y="54" width="64" height="22"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f1810148-8cce-480c-b91b-3077b6a06ed8" x="484" y="54" width="75" height="22"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[วงเงินคุ้มครอง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9fe0a706-13f8-4c80-9fa0-5d1ed38533ac" x="659" y="54" width="93" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สิ้นสุดคุ้มครอง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="486afd50-a824-496c-ab57-547bdacca2b6" x="0" y="54" width="28" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch"/>
+	</detail>
+	<summary>
+		<band height="20">
+			<staticText>
+				<reportElement uuid="b843528b-b796-48ed-9218-318653222619" x="0" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Angsana New" size="12"/>
+				</textElement>
+				<text><![CDATA[ทั้งสิ้น]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_overdue debtor_main_utp" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="515a7578-ec6e-418b-ac2f-5164ff578d0a">
+	<property name="ireport.zoom" value="1.2100000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="176"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\GCOOP_ALL\\UTP\\GCOOP\\iReport\\Reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="as_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select coop_name from CMCOOPCONSTANT where coop_no = $P{as_coopid}]]>
+	</queryString>
+	<field name="coop_name" class="java.lang.String"/>
+	<group name="0">
+		<groupExpression><![CDATA[$F{coop_name}]]></groupExpression>
+		<groupHeader>
+			<band height="199">
+				<subreport>
+					<reportElement uuid="ccfc1f14-d35b-426f-82dd-b8f44e99cfef" x="0" y="0" width="431" height="165"/>
+					<subreportParameter name="as_period">
+						<subreportParameterExpression><![CDATA[$P{as_period}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["r_overdue debtor_utp_ole.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement uuid="090a2380-6860-4b9f-902a-2ca7c1037c39" x="509" y="0" width="269" height="165"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Angsana New" size="16"/>
+					</textElement>
+					<text><![CDATA[ความหมายประเภทลูกหนี้
+ชำระได้ตามกำหนด และ ไม่มียอดค้างชำระ
+ค้างชำระเกินกว่า 1 เดือน  แต่ไม่เกิน 3 เดือน
+ค้างชำระเกินกว่า 3 เดือน  แต่ไม่เกิน 6 เดือน
+ค้างชำระเกินกว่า 6 เดือน  แต่ไม่เกิน 12 เดือน
+ค้างชำระเกินกว่า 12 เดือน  แต่ยังไม่ส่งฟ้อง
+ลูกหนี้ตาย สาบสูญ เจ้าหนี้รายอื่นฟ้องล้มละลาย
+ตามหมายเหตุประกอบงบการเงิน ข้อลูกหนี้อื่น]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="1" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{coop_name}]]></groupExpression>
+		<groupHeader>
+			<band height="157">
+				<subreport>
+					<reportElement uuid="57b5add1-0d9e-4dab-bde9-b5fe25589729" x="0" y="0" width="802" height="100"/>
+					<subreportParameter name="as_coopid">
+						<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="as_period">
+						<subreportParameterExpression><![CDATA[$P{as_period}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["r_overdue debtor_utp_1-3month_ole.jasper"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement uuid="741c773c-f191-4fb7-bc99-85d0f31b2059" x="0" y="129" width="100" height="1"/>
+				</break>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="2" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{coop_name}]]></groupExpression>
+		<groupHeader>
+			<band height="190">
+				<subreport>
+					<reportElement uuid="b60cab2f-02ed-4bc1-8c33-ed70f63c25ea" x="0" y="0" width="802" height="100"/>
+					<subreportParameter name="as_coopid">
+						<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="as_period">
+						<subreportParameterExpression><![CDATA[$P{as_period}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["r_overdue debtor_utp_3-6month_ole.jasper"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement uuid="f404113b-2355-4c85-a91d-04a502ad91e4" x="0" y="147" width="100" height="1"/>
+				</break>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="3" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{coop_name}]]></groupExpression>
+		<groupHeader>
+			<band height="179">
+				<subreport>
+					<reportElement uuid="1c46e715-a747-4299-bbe2-020e2ade0715" x="0" y="0" width="802" height="100"/>
+					<subreportParameter name="as_coopid">
+						<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="as_period">
+						<subreportParameterExpression><![CDATA[$P{as_period}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["r_overdue debtor_utp_6-12month_ole.jasper"]]></subreportExpression>
+				</subreport>
+				<break>
+					<reportElement uuid="5eaa557f-ba55-441c-af93-51d52702274e" x="0" y="145" width="100" height="1"/>
+				</break>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="4" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{coop_name}]]></groupExpression>
+		<groupHeader>
+			<band height="146">
+				<subreport>
+					<reportElement uuid="a3068ddc-9962-4575-98be-316afa4ad3cb" x="0" y="0" width="802" height="100"/>
+					<subreportParameter name="as_coopid">
+						<subreportParameterExpression><![CDATA[$P{as_coopid}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="as_period">
+						<subreportParameterExpression><![CDATA[$P{as_period}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA["r_overdue debtor_utp_12month_ole.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+</jasperReport>

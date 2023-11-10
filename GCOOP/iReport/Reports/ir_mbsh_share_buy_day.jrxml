@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ir_mbsh_share_buy_day" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1065ede4-a0a3-4a99-b8c0-e1133cdf4712">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_coopid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select mb.member_no, mp.prename_desc || mb.memb_name || ' ' || mb.memb_surname as full_name , mb.membgroup_code , mcb.membgroup_desc ,
+	 stm.ref_docno, stm.share_amount * 10  , stm.shritemtype_code, su.sign_flag  from mbmembmaster mb, shsharestatement stm, mbucfprename mp, shucfshritemtype su, mbucfmembgroup mcb
+where mb.member_no = stm.member_no and mb.prename_code = mp.prename_code and  su.shritemtype_code =  stm.shritemtype_code and mb.membgroup_code = mcb.membgroup_code and stm.shritemtype_code in ( 'SPX','RPX','SPM','RPM') and stm.slip_date >= $P{date1}  and stm.slip_date <= $P{date2} order by mb.member_no, stm.slip_date, stm.seq_no]]>
+	</queryString>
+	<field name="MEMBER_NO" class="java.lang.String"/>
+	<field name="FULL_NAME" class="java.lang.String"/>
+	<field name="MEMBGROUP_CODE" class="java.lang.String"/>
+	<field name="MEMBGROUP_DESC" class="java.lang.String"/>
+	<field name="REF_DOCNO" class="java.lang.String"/>
+	<field name="STM.SHARE_AMOUNT*10" class="java.math.BigDecimal"/>
+	<field name="SHRITEMTYPE_CODE" class="java.lang.String"/>
+	<field name="SIGN_FLAG" class="java.math.BigDecimal"/>
+	<title>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="786161a4-0812-4601-bc5a-7528f2ac3c72" x="44" y="0" width="137" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รายงานการเคลือนไหวหุ้น ตั้งแต่วันที่ ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c80f7b5e-3f4e-4528-b018-77110e315753" x="181" y="0" width="75" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format( $P{date1} )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="599b5348-c625-48b7-a327-35b7ed08ade5" x="281" y="0" width="81" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy",new Locale("th","TH")).format( $P{date2} )]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="70269894-3904-42f5-b41e-8e76fa5ff5bb" x="2" y="1" width="59" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6863c335-8eca-4ae6-bafb-efe3bee40190" x="61" y="1" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อ สกุล]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b1810547-2102-480a-96ae-d8a74380f160" x="161" y="0" width="75" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[หน่วย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="31a22c5c-1523-4414-bc52-2ac8acf59e1a" x="236" y="1" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[สังกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="60814951-b3f7-4c55-be6d-40a87b4fa15d" x="336" y="1" width="50" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่ใบเสร็จ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b9c3d489-4319-4f8f-ba8b-5a6a6deddfe4" x="386" y="1" width="70" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[่จำนวนเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="36cf82cc-eef4-4bd4-b9c8-85026ddb35f6" x="456" y="1" width="38" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[รหัสรายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6de8e1a5-4bce-46fb-8c5d-8e8b2ac67398" x="494" y="1" width="45" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[Flag]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement uuid="10e712d1-8185-45f7-8a03-97c4d62a1d63" x="2" y="3" width="59" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBER_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7755a364-01fa-4031-9ced-580d4de5f7aa" x="61" y="3" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FULL_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="471a238e-dc2f-4e04-b03a-70d4d62c6cef" x="161" y="3" width="75" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="21af0d38-0414-4ab9-8695-0aae9f4bc3d5" x="236" y="3" width="100" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MEMBGROUP_DESC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f2c68d4b-73d5-49f4-afe1-fc64ecef87c9" x="336" y="3" width="50" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REF_DOCNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9f4e67c4-0fff-4327-903b-6e26736ebacc" x="386" y="3" width="70" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STM.SHARE_AMOUNT*10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7b2ff038-6df6-4227-ae6a-a35aa76a8bf9" x="456" y="3" width="38" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SHRITEMTYPE_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f48abbec-cd5a-4c03-bbc4-00d8fb9de5df" x="494" y="3" width="45" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SIGN_FLAG}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="neted_ir_loan_print_cont" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13d07c9f-9607-411b-8c30-3c5ec768c8bf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="as_reqloandocno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select ref_collno, description from lnreqloancoll where loanrequest_docno =  $P{as_reqloandocno}]]>
+	</queryString>
+	<field name="REF_COLLNO" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e922de84-7a52-44af-a429-56ee9871fbac" x="0" y="0" width="79" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ผู้ค้ำประกันลำดับที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="715b35ca-8ab6-4b15-9715-308e17583a7b" x="106" y="0" width="177" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REF_COLLNO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="53193fd6-d3eb-4122-9462-e0b11b275752" x="284" y="0" width="61" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อผู้ค้ำประกัน]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="037f9b15-3c6b-49b0-8073-c9b5ac144448" x="345" y="0" width="210" height="20"/>
+				<textElement>
+					<font fontName="Angsana New" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="361f8665-bb5b-4625-868f-90c122ece286" x="83" y="0" width="19" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
